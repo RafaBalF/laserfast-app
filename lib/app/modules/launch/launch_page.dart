@@ -3,6 +3,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:laserfast_app/app/modules/launch/launch_store.dart';
 import 'package:laserfast_app/app/shared/colors.dart';
+import 'package:laserfast_app/app/shared/enums/button_sizes.enum.dart';
 import 'package:laserfast_app/app/shared/text.dart';
 import 'package:laserfast_app/app/shared/text_styles.dart';
 import 'package:laserfast_app/app/shared/widgets/button_widget.dart';
@@ -69,15 +70,14 @@ class LaunchPageState extends State<LaunchPage> with TickerProviderStateMixin {
     return [
       _firstPage(),
       _secondPage(),
-      _thirdPage(),
     ];
   }
 
   Widget _firstPage() {
     return _presentationTemplate(
         'assets/images/app_presentation/first.png',
-        'Negocie os melhores gados do mercado',
-        'Negocie gados de forma segura e fácil',
+        'Descontos Exclusivos',
+        'Inúmeros cupons e promoções para você se dar bem',
         Padding(
           padding: EdgeInsets.only(top: 10.h),
           child: ButtonWidget.filledIcon(
@@ -86,33 +86,14 @@ class LaunchPageState extends State<LaunchPage> with TickerProviderStateMixin {
             },
             backgroundColor: accent,
             iconData: Icons.arrow_forward_ios,
-            iconSize: 24.sp,
-            iconColor: primaryDark,
+            iconSize: 20.sp,
+            iconColor: white,
+            buttonSize: ButtonSize.large,
           ),
         ));
   }
 
   Widget _secondPage() {
-    return _presentationTemplate(
-        'assets/images/app_presentation/second.png',
-        'Ache os melhores\nmaquinários da\nsua região',
-        'Ache as melhores ofertas e\nnegócios perto de você',
-        Padding(
-          padding: EdgeInsets.only(top: 10.h),
-          child: ButtonWidget.filledIcon(
-            onPressed: () {
-              _changePage();
-              _store.setHasSeenAppPresentationBefore();
-            },
-            backgroundColor: accent,
-            iconData: Icons.arrow_forward_ios,
-            iconSize: 24.sp,
-            iconColor: primaryDark,
-          ),
-        ));
-  }
-
-  Widget _thirdPage() {
     return _presentationTemplate(
         'assets/images/app_presentation/third.png',
         'Login',
@@ -169,44 +150,33 @@ class LaunchPageState extends State<LaunchPage> with TickerProviderStateMixin {
     Widget widget,
   ) {
     return Container(
-      decoration: BoxDecoration(
-        color: primary,
-        image: DecorationImage(
-          image: AssetImage(imgPath),
-          fit: BoxFit.fitWidth,
-          alignment: Alignment.topCenter,
-        ),
-      ),
-      child: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              Colors.transparent,
-              primary,
-            ],
-            stops: [0.10, 0.45],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-          ),
-        ),
-        child: Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              textWidget(header,
-                  textAlign: TextAlign.center,
-                  style: onboardingTitle(color: white),
-                  maxLines: 3),
-              DividerWidget(height: 2.h),
-              textWidget(
+      decoration: const BoxDecoration(color: primary),
+      child: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Image.asset(
+              imgPath,
+              height: 50.h,
+            ),
+            textWidget(
+              header,
+              textAlign: TextAlign.center,
+              style: onboardingTitle(color: white),
+              maxLines: 3,
+            ),
+            DividerWidget(height: 2.h),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 15.w),
+              child: textWidget(
                 subHeader,
                 textAlign: TextAlign.center,
-                style: text(color: white),
+                style: headTitle(color: white),
               ),
-              widget,
-              DividerWidget(height: 20.h),
-            ]),
-      ),
+            ),
+            widget,
+            DividerWidget(height: 5.h),
+          ]),
     );
   }
 }

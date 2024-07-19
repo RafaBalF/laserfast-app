@@ -19,6 +19,7 @@ class ButtonWidget extends StatefulWidget {
   final IconData? iconData;
   final double? iconSize;
   final Color? iconColor;
+
   const ButtonWidget({
     super.key,
     required this.onPressed,
@@ -124,6 +125,19 @@ class ButtonWidget extends StatefulWidget {
 }
 
 class _ButtonWidgetState extends State<ButtonWidget> {
+  late double height;
+  late double width;
+  late double radius;
+
+  @override
+  void initState() {
+    height = 6.h;
+    width = 90.w;
+    radius = 10;
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     if (widget.loading) {
@@ -206,7 +220,7 @@ class _ButtonWidgetState extends State<ButtonWidget> {
       decoration: BoxDecoration(
           color: backgroundColor,
           border: Border.all(color: backgroundColor!),
-          borderRadius: BorderRadius.circular(25)),
+          borderRadius: BorderRadius.circular(radius)),
       child: IconButton(
         onPressed: _getFunction(),
         icon: Icon(
@@ -249,10 +263,6 @@ class _ButtonWidgetState extends State<ButtonWidget> {
     WidgetStateProperty<Color?> backgroundColor,
     BorderSide borderSide,
   ) {
-    double height = 6.h;
-    double width = 90.w;
-    double radius = 25;
-
     switch (widget.buttonSize) {
       case ButtonSize.large:
         break;
