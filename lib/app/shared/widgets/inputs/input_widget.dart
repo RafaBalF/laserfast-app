@@ -6,7 +6,7 @@ import 'package:laserfast_app/app/shared/text_styles.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 class InputWidget extends StatefulWidget {
-  final String text;
+  final String label;
   final Color? textColor;
   final double? width;
   final TextEditingController? controller;
@@ -29,31 +29,35 @@ class InputWidget extends StatefulWidget {
   final double? fontSize;
   final double contentPaddingBot;
   final double contentPaddingTop;
-  const InputWidget(
-      {super.key,
-      required this.text,
-      this.textColor,
-      this.controller,
-      this.height,
-      this.width,
-      this.keyboardType,
-      this.maxLines = 1,
-      this.maxLength,
-      this.enabled = true,
-      this.obscureText = false,
-      this.prefixIcon,
-      this.suffixIcon,
-      this.onChanged,
-      this.value,
-      this.inputFormatters,
-      this.textInputAction,
-      this.margin,
-      this.placeholder,
-      this.error,
-      this.textAlignVertical,
-      this.fontSize = 16,
-      this.contentPaddingBot = 16,
-      this.contentPaddingTop = 16});
+  final String? Function(String?)? validator;
+
+  const InputWidget({
+    super.key,
+    required this.label,
+    this.textColor,
+    this.controller,
+    this.height,
+    this.width,
+    this.keyboardType,
+    this.maxLines = 1,
+    this.maxLength,
+    this.enabled = true,
+    this.obscureText = false,
+    this.prefixIcon,
+    this.suffixIcon,
+    this.onChanged,
+    this.value,
+    this.inputFormatters,
+    this.textInputAction,
+    this.margin,
+    this.placeholder,
+    this.error,
+    this.textAlignVertical,
+    this.fontSize = 16,
+    this.contentPaddingBot = 16,
+    this.contentPaddingTop = 16,
+    this.validator,
+  });
 
   @override
   State<InputWidget> createState() => _InputWidgetState();
@@ -61,6 +65,7 @@ class InputWidget extends StatefulWidget {
 
 class _InputWidgetState extends State<InputWidget> {
   late final TextEditingController _textEditingController;
+
   @override
   void initState() {
     super.initState();
@@ -90,13 +95,15 @@ class _InputWidgetState extends State<InputWidget> {
         children: [
           Container(
             alignment: Alignment.centerLeft,
-            child: textWidget(widget.text,
-                style: label(color: widget.textColor ?? white)),
+            child: textWidget(
+              widget.label,
+              style: label(color: widget.textColor ?? white),
+            ),
           ),
           SizedBox(height: 1.h),
           SizedBox(
             height: widget.height,
-            child: TextField(
+            child: TextFormField(
               style: TextStyle(
                 fontSize: widget.fontSize?.sp,
                 color: darkerGrey,
@@ -113,6 +120,7 @@ class _InputWidgetState extends State<InputWidget> {
               keyboardType: widget.keyboardType ?? TextInputType.text,
               textInputAction: widget.textInputAction ?? TextInputAction.next,
               decoration: _decoration(),
+              validator: widget.validator,
             ),
           )
         ],
@@ -147,8 +155,9 @@ class _InputWidgetState extends State<InputWidget> {
   OutlineInputBorder _border({Color? color}) {
     double borderWidth = 1;
     double gapPadding = 10;
+
     return OutlineInputBorder(
-      borderRadius: const BorderRadius.all(Radius.circular(25)),
+      borderRadius: const BorderRadius.all(Radius.circular(5)),
       borderSide: BorderSide(
         style: BorderStyle.solid,
         width: borderWidth,

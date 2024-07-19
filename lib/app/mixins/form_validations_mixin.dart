@@ -1,0 +1,35 @@
+mixin FormValidationsMixin {
+  String? notEmpty(String? value, [String? message]) {
+    if (value!.isEmpty) return message ?? "Este campo é obrigatório";
+
+    return null;
+  }
+
+  String? atLeastNChars(int charNumber, String? value, [String? message]) {
+    if (value!.length < charNumber) {
+      return message ?? "Este campo deve ter pelo menos $charNumber caracteres";
+    }
+
+    return null;
+  }
+
+  String? validEmail(String? value, [String? message]) {
+    bool matches = RegExp(
+            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+        .hasMatch(value ?? "");
+
+    if (!matches) return message ?? "Este campo deve ser um email válido";
+
+    return null;
+  }
+
+  String? combine(List<String? Function()> validators) {
+    for (var v in validators) {
+      final String? validation = v();
+
+      if (validation != null) return validation;
+    }
+
+    return null;
+  }
+}

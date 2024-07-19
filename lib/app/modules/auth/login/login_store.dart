@@ -1,4 +1,3 @@
-import 'package:laserfast_app/app/shared/validators.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mobx/mobx.dart';
 import 'package:laserfast_app/app/apis/auth.api.dart';
@@ -29,19 +28,7 @@ abstract class LoginStoreBase with Store {
   @observable
   String? password;
 
-  @observable
-  bool passwordVisibility = false;
-
   // COMPUTED
-  @computed
-  bool get validEmail => (email != null) ? validateEmail(email ?? "") : true;
-
-  @computed
-  bool get validForm => validEmail && notEmpty(password);
-
-  bool notEmpty(String? value) {
-    return value != "" && value != null;
-  }
 
   //ACTION
   @action
@@ -50,8 +37,6 @@ abstract class LoginStoreBase with Store {
   void setEmail(String? value) => email = value;
   @action
   void setPassword(String? value) => password = value;
-  @action
-  void setpasswordVisibility() => passwordVisibility = !passwordVisibility;
 
   @action
   Future logout() async {
@@ -72,9 +57,7 @@ abstract class LoginStoreBase with Store {
   Future<BaseModel<AuthModel>> login() async {
     loadingStore.show();
     BaseModel<AuthModel> r = BaseModel<AuthModel>();
-    if (validForm) {
-      r = await authApi.login(email!, password!);
-    }
+    r = await authApi.login(email!, password!);
     loadingStore.hide();
     return r;
   }

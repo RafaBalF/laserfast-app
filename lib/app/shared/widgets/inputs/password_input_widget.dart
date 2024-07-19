@@ -1,20 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:laserfast_app/app/shared/colors.dart';
-import 'package:laserfast_app/app/shared/widgets/input_widget.dart';
+import 'package:laserfast_app/app/shared/widgets/inputs/input_widget.dart';
 
 class PasswordInputWidget extends StatefulWidget {
   final String? label;
   final Function(String)? onChanged;
-  final bool passwordVisibility;
-  final void Function()? onTap;
   final String? error;
+  final String? Function(String?)? validator;
+
   const PasswordInputWidget({
     super.key,
     this.label,
     required this.onChanged,
-    required this.passwordVisibility,
-    required this.onTap,
     this.error,
+    this.validator,
   });
 
   @override
@@ -22,16 +21,22 @@ class PasswordInputWidget extends StatefulWidget {
 }
 
 class _PasswordInputWidgetState extends State<PasswordInputWidget> {
+  bool visiblePassword = false;
+
   @override
   Widget build(BuildContext context) {
     return InputWidget(
-      text: widget.label ?? 'Senha',
+      label: widget.label ?? 'Senha',
       onChanged: widget.onChanged,
-      obscureText: !widget.passwordVisibility,
+      obscureText: !visiblePassword,
       suffixIcon: GestureDetector(
-        onTap: widget.onTap,
+        onTap: () => {
+          setState(() {
+            visiblePassword = !visiblePassword;
+          })
+        },
         child: Icon(
-          widget.passwordVisibility
+          visiblePassword
               ? Icons.visibility_outlined
               : Icons.visibility_off_outlined,
           color: darkGrey,
@@ -39,6 +44,7 @@ class _PasswordInputWidgetState extends State<PasswordInputWidget> {
         ),
       ),
       error: widget.error,
+      validator: widget.validator,
     );
   }
 }

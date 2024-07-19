@@ -8,17 +8,17 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_verification_code/flutter_verification_code.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:laserfast_app/app/shared/widgets/inputs/password_input_widget.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:laserfast_app/app/models/base.model.dart';
 import 'package:laserfast_app/app/modules/auth/register/register_store.dart';
-import 'package:laserfast_app/app/modules/auth/widgets/password_input_widget.dart';
 import 'package:laserfast_app/app/shared/colors.dart';
 import 'package:laserfast_app/app/shared/modal_bottom_sheet.dart';
 import 'package:laserfast_app/app/shared/text.dart';
 import 'package:laserfast_app/app/shared/text_styles.dart';
 import 'package:laserfast_app/app/shared/widgets/button_widget.dart';
 import 'package:laserfast_app/app/shared/widgets/divider_widget.dart';
-import 'package:laserfast_app/app/shared/widgets/input_widget.dart';
+import 'package:laserfast_app/app/shared/widgets/inputs/input_widget.dart';
 import 'package:laserfast_app/app/shared/widgets/simple_scaffold_widget.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
@@ -186,13 +186,13 @@ class RegisterPageState extends State<RegisterPage> {
         children: [
           DividerWidget(height: 2.h),
           InputWidget(
-            text: 'Nome completo',
+            label: 'Nome completo',
             onChanged: _store.setName,
           ),
           DividerWidget(height: 2.h),
           Observer(builder: (_) {
             return InputWidget(
-              text: 'E-mail',
+              label: 'E-mail',
               onChanged: _store.setEmail,
               keyboardType: TextInputType.emailAddress,
               error: !_store.validEmail ? "E-mail inválido" : null,
@@ -200,7 +200,7 @@ class RegisterPageState extends State<RegisterPage> {
           }),
           DividerWidget(height: 2.h),
           InputWidget(
-            text: 'Celular',
+            label: 'Celular',
             keyboardType: TextInputType.phone,
             inputFormatters: [phoneMask],
             onChanged: (p0) {
@@ -208,28 +208,12 @@ class RegisterPageState extends State<RegisterPage> {
             },
           ),
           DividerWidget(height: 2.h),
-          Observer(builder: (_) {
-            return PasswordInputWidget(
-              onChanged: _store.setPassword,
-              passwordVisibility: _store.passwordVisibility,
-              onTap: () => _store.setpasswordVisibility(),
-              error: !_store.validPassword
-                  ? 'A senha deve ter pelo menos 6 dígitos'
-                  : null,
-            );
-          }),
+          PasswordInputWidget(onChanged: _store.setPassword),
           DividerWidget(height: 2.h),
-          Observer(builder: (_) {
-            return PasswordInputWidget(
-              label: 'Confirmar senha',
-              onChanged: _store.setConfirmPassword,
-              passwordVisibility: _store.confirmPasswordVisibility,
-              onTap: () => _store.setConfirmPasswordVisibility(),
-              error: !_store.validconfirmPassword
-                  ? 'As senhas não são iguais'
-                  : null,
-            );
-          }),
+          PasswordInputWidget(
+            label: 'Confirmar senha',
+            onChanged: _store.setPassword,
+          ),
           DividerWidget(height: 5.h),
           SizedBox(
             width: 65.w,

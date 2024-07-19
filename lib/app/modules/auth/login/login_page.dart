@@ -1,16 +1,16 @@
+import 'package:laserfast_app/app/mixins/form_validations_mixin.dart';
 import 'package:laserfast_app/app/shared/colors.dart';
-import 'package:laserfast_app/app/shared/text.dart';
 import 'package:laserfast_app/app/shared/widgets/create_account_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:laserfast_app/app/modules/auth/login/login_store.dart';
-import 'package:laserfast_app/app/modules/auth/widgets/password_input_widget.dart';
 import 'package:laserfast_app/app/shared/modal_bottom_sheet.dart';
 import 'package:laserfast_app/app/shared/text_styles.dart';
 import 'package:laserfast_app/app/shared/widgets/button_widget.dart';
 import 'package:laserfast_app/app/shared/widgets/divider_widget.dart';
-import 'package:laserfast_app/app/shared/widgets/input_widget.dart';
+import 'package:laserfast_app/app/shared/widgets/inputs/input_widget.dart';
+import 'package:laserfast_app/app/shared/widgets/inputs/password_input_widget.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 class LoginPage extends StatefulWidget {
@@ -20,7 +20,7 @@ class LoginPage extends StatefulWidget {
   LoginPageState createState() => LoginPageState();
 }
 
-class LoginPageState extends State<LoginPage> {
+class LoginPageState extends State<LoginPage> with FormValidationsMixin {
   final LoginStore _store = Modular.get<LoginStore>();
 
   @override
@@ -46,33 +46,20 @@ class LoginPageState extends State<LoginPage> {
       Modular.to.navigate('/home/initial');
     }
     return Scaffold(
-      body: Container(
-        decoration: const BoxDecoration(
-          color: primary,
-          image: DecorationImage(
-            image: AssetImage('assets/images/login.png'),
-            fit: BoxFit.fitWidth,
-            alignment: Alignment.topCenter,
-          ),
-        ),
-        child: Center(
-          child: Container(
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  Colors.transparent,
-                  primary,
-                ],
-                stops: [0.01, 0.35],
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-              ),
-            ),
+      body: SingleChildScrollView(
+        child: Container(
+          height: 100.h,
+          padding: EdgeInsets.symmetric(horizontal: 5.w),
+          decoration: const BoxDecoration(color: primary),
+          child: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                _header(),
+                Image.asset(
+                  'assets/icons/laserfast-logo.png',
+                  height: 25.h,
+                ),
                 DividerWidget(height: 2.h),
                 _form(),
               ],
@@ -83,69 +70,29 @@ class LoginPageState extends State<LoginPage> {
     );
   }
 
-  Widget _header() {
-    return Row(
-      children: [
-        Padding(
-          padding: EdgeInsets.only(left: 4.w),
-          child: IconButton(
-            icon: const Icon(
-              Icons.arrow_back_ios,
-              color: white,
-            ),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          ),
-        ),
-        Expanded(
-          child: Padding(
-            padding: EdgeInsets.only(right: 5.w),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                textWidget(widget.title, style: categoryTitle(color: white)),
-              ],
-            ),
-          ),
-        ),
-        //precisa existir pra alinhar o título no centro
-        IconButton(
-          icon: const Icon(
-            Icons.arrow_back_ios,
-            color: Colors.transparent,
-          ),
-          onPressed: () {},
-          focusColor: Colors.transparent,
-          hoverColor: Colors.transparent,
-          color: Colors.transparent,
-        ),
-      ],
-    );
-  }
-
   Widget _form() {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 7.w),
+    final formKey = GlobalKey<FormState>();
+
+    return Form(
+      key: formKey,
       child: Column(
         children: [
           Observer(builder: (_) {
             return InputWidget(
-              text: 'E-mail',
+              label: 'E-mail',
               onChanged: _store.setEmail,
               keyboardType: TextInputType.emailAddress,
-              error: !_store.validEmail ? "E-mail inválido" : null,
+              validator: (v) => combine([
+                () => notEmpty(v),
+                () => validEmail(v),
+              ]),
             );
           }),
           DividerWidget(height: 2.h),
-          Observer(builder: (_) {
-            return PasswordInputWidget(
-              onChanged: _store.setPassword,
-              passwordVisibility: _store.passwordVisibility,
-              onTap: () => _store.setpasswordVisibility(),
-            );
-          }),
+          PasswordInputWidget(
+            onChanged: _store.setPassword,
+            validator: notEmpty,
+          ),
           DividerWidget(height: 1.h),
           Container(
             width: 100.w,
@@ -166,6 +113,8 @@ class LoginPageState extends State<LoginPage> {
             return ButtonWidget.filled(
               title: 'ENTRAR',
               onPressed: () async {
+                if (!formKey.currentState!.validate()) return;
+
                 var r = await _store.login();
                 if (r.status) {
                   Modular.to.navigate('/home/initial');
@@ -176,8 +125,7 @@ class LoginPageState extends State<LoginPage> {
                 }
               },
               backgroundColor: accent,
-              textColor: primaryDark,
-              disabled: !_store.validForm,
+              textColor: white,
               loading: _store.loadingStore.isLoading,
             );
           }),
