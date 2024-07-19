@@ -6,7 +6,6 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_verification_code/flutter_verification_code.dart';
 import 'package:laserfast_app/app/mixins/form_validations_mixin.dart';
 import 'package:laserfast_app/app/shared/widgets/inputs/password_input_widget.dart';
-import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:laserfast_app/app/models/base.model.dart';
 import 'package:laserfast_app/app/modules/auth/register/register_store.dart';
 import 'package:laserfast_app/app/shared/colors.dart';
@@ -21,18 +20,13 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 
 class RegisterPage extends StatefulWidget {
   final String title;
-  const RegisterPage({super.key, this.title = 'RegisterPage'});
+  const RegisterPage({super.key, this.title = 'NOVA CONTA'});
   @override
   RegisterPageState createState() => RegisterPageState();
 }
 
 class RegisterPageState extends State<RegisterPage> with FormValidationsMixin {
   final RegisterStore _store = Modular.get<RegisterStore>();
-  var phoneMask = MaskTextInputFormatter(
-    mask: '(##) #####-####',
-    filter: {"#": RegExp(r'[0-9]')},
-    type: MaskAutoCompletionType.lazy,
-  );
   Timer? _verificationCodeTimeout;
   final int timeout = 600;
 
@@ -60,11 +54,10 @@ class RegisterPageState extends State<RegisterPage> with FormValidationsMixin {
   @override
   Widget build(BuildContext context) {
     return SimpleScaffoldWidget(
-      title: 'Crie sua conta',
+      title: widget.title,
       body: SingleChildScrollView(
         child: Container(
           alignment: Alignment.center,
-          color: primary,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -85,7 +78,6 @@ class RegisterPageState extends State<RegisterPage> with FormValidationsMixin {
     return Form(
       key: formKey,
       child: Container(
-        color: primary,
         padding: EdgeInsets.symmetric(horizontal: 7.w),
         child: Column(
           children: [

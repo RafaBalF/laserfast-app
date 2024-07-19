@@ -3,6 +3,8 @@ import 'package:laserfast_app/app/modules/auth/auth_page.dart';
 import 'package:laserfast_app/app/modules/auth/auth_store.dart';
 import 'package:laserfast_app/app/modules/auth/login/login_page.dart';
 import 'package:laserfast_app/app/modules/auth/login/login_store.dart';
+import 'package:laserfast_app/app/modules/auth/recover_password/recover_password_page.dart';
+import 'package:laserfast_app/app/modules/auth/recover_password/recover_password_store.dart';
 import 'package:laserfast_app/app/modules/auth/register/register_page.dart';
 import 'package:laserfast_app/app/modules/auth/register/register_store.dart';
 
@@ -12,7 +14,7 @@ class AuthModule extends Module {
     i.addLazySingleton(AuthStore.new);
     i.addLazySingleton(LoginStore.new);
     i.addLazySingleton(RegisterStore.new);
-    // i.addLazySingleton(RecoverPasswordStore.new);
+    i.addLazySingleton(RecoverPasswordStore.new);
   }
 
   @override
@@ -32,10 +34,10 @@ class AuthModule extends Module {
       child: (context) => const RegisterPage(),
       transition: TransitionType.rightToLeft,
     );
-    // r.child(
-    //   '/recover-password',
-    //   child: (context) => const RecoverPasswordPage(),
-    //   transition: TransitionType.rightToLeft,
-    // );
+    r.child(
+      '/recover-password',
+      child: (context) => const RecoverPasswordPage(),
+      transition: TransitionType.rightToLeft,
+    );
   }
 }

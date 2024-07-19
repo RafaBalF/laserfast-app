@@ -79,6 +79,7 @@ class LoginPageState extends State<LoginPage> with FormValidationsMixin {
           Observer(builder: (_) {
             return InputWidget(
               label: 'E-mail',
+              labelColor: white,
               onChanged: _store.setEmail,
               keyboardType: TextInputType.emailAddress,
               validator: (v) => combine([
@@ -89,6 +90,7 @@ class LoginPageState extends State<LoginPage> with FormValidationsMixin {
           }),
           DividerWidget(height: 2.h),
           PasswordInputWidget(
+            labelColor: white,
             onChanged: _store.setPassword,
             validator: notEmpty,
           ),
@@ -104,7 +106,9 @@ class LoginPageState extends State<LoginPage> with FormValidationsMixin {
                   color: white,
                 ),
               ),
-              onTap: () {},
+              onTap: () {
+                Modular.to.pushNamed('/auth/recover-password');
+              },
             ),
           ),
           DividerWidget(height: 5.h),

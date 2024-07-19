@@ -4,6 +4,7 @@ import 'package:laserfast_app/app/shared/widgets/inputs/input_widget.dart';
 
 class PasswordInputWidget extends StatefulWidget {
   final String? label;
+  final Color? labelColor;
   final Function(String)? onChanged;
   final String? error;
   final String? Function(String?)? validator;
@@ -11,6 +12,7 @@ class PasswordInputWidget extends StatefulWidget {
   const PasswordInputWidget({
     super.key,
     this.label,
+    this.labelColor,
     required this.onChanged,
     this.error,
     this.validator,
@@ -27,6 +29,7 @@ class _PasswordInputWidgetState extends State<PasswordInputWidget> {
   Widget build(BuildContext context) {
     return InputWidget(
       label: widget.label ?? 'Senha',
+      labelColor: widget.labelColor,
       onChanged: widget.onChanged,
       obscureText: !visiblePassword,
       suffixIcon: GestureDetector(

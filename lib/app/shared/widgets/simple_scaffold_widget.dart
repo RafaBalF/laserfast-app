@@ -33,14 +33,14 @@ class _SimpleScaffoldWidgetState extends State<SimpleScaffoldWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: primary,
+      backgroundColor: white,
       appBar: AppBar(
         leading: Padding(
           padding: EdgeInsets.only(left: 5.w),
           child: IconButton(
             icon: const Icon(
               Icons.arrow_back_ios,
-              color: white,
+              color: accent,
             ),
             onPressed: () {
               if (Modular.to.canPop()) {
@@ -50,10 +50,10 @@ class _SimpleScaffoldWidgetState extends State<SimpleScaffoldWidget> {
           ),
         ),
         centerTitle: true,
-        backgroundColor: primary,
+        backgroundColor: white,
         title: Text(
           widget.title,
-          style: headTitle(color: white),
+          style: headTitle(color: black),
         ),
         elevation: 0,
         // toolbarHeight: 6.1.h,
@@ -63,7 +63,7 @@ class _SimpleScaffoldWidgetState extends State<SimpleScaffoldWidget> {
         height: 100.h,
         width: 100.w,
         alignment: Alignment.topLeft,
-        color: primary,
+        color: white,
         padding: const EdgeInsets.only(top: 0),
         child: widget.body,
       ),

@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:laserfast_app/app/shared/colors.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 TextStyle defaultStyle({
   double? fontSize,
   FontWeight? fontWeight = FontWeight.w500,
-  Color? color = const Color(0xFF000000),
+  Color? color = black,
   TextAlign? textAlign,
   int maxLines = 2,
   overflow = TextOverflow.ellipsis,
@@ -107,6 +108,24 @@ TextStyle homeBottomBarItem({Color? color, TextDecoration? textDecoration}) {
     fontWeight: FontWeight.bold,
     color: color,
     height: 1.1,
+    textDecoration: textDecoration,
+  );
+}
+
+TextStyle modalHeader({Color? color, TextDecoration? textDecoration}) {
+  return defaultStyle(
+    fontSize: 16.sp,
+    fontWeight: FontWeight.w900,
+    color: color,
+    textDecoration: textDecoration,
+  );
+}
+
+TextStyle modalDetails({Color? color, TextDecoration? textDecoration}) {
+  return defaultStyle(
+    fontSize: 15.sp,
+    fontWeight: FontWeight.w900,
+    color: color,
     textDecoration: textDecoration,
   );
 }

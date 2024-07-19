@@ -22,8 +22,6 @@ abstract class RegisterStoreBase with Store {
   final LoadingStore loadingStore = LoadingStore();
 
   //CONSTS
-  final int minPasswordLength = 6;
-
   final int defaultCounterValue = 60;
 
   //VARIABLES

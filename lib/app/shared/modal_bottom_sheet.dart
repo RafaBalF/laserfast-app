@@ -26,25 +26,18 @@ Future showCustomBottomSheet(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(header, style: h2(color: primaryDark)),
+                  Text(header, style: modalHeader(color: black)),
                   IconButton(
                       onPressed: () {
                         Modular.to.pop();
                       },
                       icon: const Icon(
                         Icons.close,
-                        color: primary,
+                        color: accent,
                         size: 32,
                       ))
                 ],
               ),
-            ),
-            Divider(
-              color: primary,
-              height: 1.h,
-              thickness: 1,
-              indent: 3.w,
-              endIndent: 3.w,
             ),
             Center(
               child: widget,
@@ -57,6 +50,7 @@ Future showCustomBottomSheet(
 Future showErrorBottomSheet(
   BuildContext context, {
   String message = 'Ocorreu um erro ao executar a ação',
+  String details = '',
   String btnTitle = 'OK',
   Function()? onPressed,
 }) {
@@ -67,9 +61,20 @@ Future showErrorBottomSheet(
       DividerWidget(height: 5.h),
       Image.asset('assets/icons/error.png'),
       DividerWidget(height: 5.h),
-      textWidget(message, style: h2()),
+      textWidget(message, style: modalHeader()),
+      DividerWidget(height: 5.h),
       Padding(
-        padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 10.w),
+        padding: EdgeInsets.symmetric(horizontal: 20.w),
+        child: textWidget(
+          details,
+          style: modalDetails(color: darkerGrey),
+          textAlign: TextAlign.center,
+          maxLines: 3,
+        ),
+      ),
+      DividerWidget(height: 5.h),
+      Padding(
+        padding: EdgeInsets.symmetric(horizontal: 15.w),
         child: ButtonWidget.filled(
           title: btnTitle,
           onPressed: onPressed ??
@@ -77,18 +82,19 @@ Future showErrorBottomSheet(
                 Modular.to.pop();
               },
           backgroundColor: accent,
-          textColor: primaryDark,
+          textColor: white,
         ),
       )
     ],
   );
 
-  return showCustomBottomSheet(context, 'Erro', widget);
+  return showCustomBottomSheet(context, 'ERRO', widget);
 }
 
 Future showSuccessBottomSheet(
   BuildContext context, {
   String message = 'Ação realizada com sucesso',
+  String details = '',
   String btnTitle = 'OK',
   Function()? onPressed,
 }) {
@@ -99,9 +105,20 @@ Future showSuccessBottomSheet(
       DividerWidget(height: 5.h),
       Image.asset('assets/icons/success.png'),
       DividerWidget(height: 5.h),
-      textWidget(message, style: h2()),
+      textWidget(message, style: modalHeader()),
+      DividerWidget(height: 5.h),
       Padding(
-        padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 10.w),
+        padding: EdgeInsets.symmetric(horizontal: 20.w),
+        child: textWidget(
+          details,
+          style: modalDetails(color: darkerGrey),
+          textAlign: TextAlign.center,
+          maxLines: 3,
+        ),
+      ),
+      DividerWidget(height: 5.h),
+      Padding(
+        padding: EdgeInsets.symmetric(horizontal: 15.w),
         child: ButtonWidget.filled(
           title: btnTitle,
           onPressed: onPressed ??
@@ -109,13 +126,13 @@ Future showSuccessBottomSheet(
                 Modular.to.pop();
               },
           backgroundColor: accent,
-          textColor: primaryDark,
+          textColor: white,
         ),
       )
     ],
   );
 
-  return showCustomBottomSheet(context, 'Sucesso', widget);
+  return showCustomBottomSheet(context, 'SUCESSO', widget);
 }
 
 Future showBaseModalBottomSheet(

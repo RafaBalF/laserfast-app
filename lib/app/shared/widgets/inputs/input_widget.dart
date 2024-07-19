@@ -7,7 +7,7 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 
 class InputWidget extends StatefulWidget {
   final String label;
-  final Color? textColor;
+  final Color? labelColor;
   final double? width;
   final TextEditingController? controller;
   final Function(String)? onChanged;
@@ -34,7 +34,7 @@ class InputWidget extends StatefulWidget {
   const InputWidget({
     super.key,
     required this.label,
-    this.textColor,
+    this.labelColor,
     this.controller,
     this.height,
     this.width,
@@ -97,7 +97,7 @@ class _InputWidgetState extends State<InputWidget> {
             alignment: Alignment.centerLeft,
             child: textWidget(
               widget.label,
-              style: label(color: widget.textColor ?? white),
+              style: label(color: widget.labelColor ?? black),
             ),
           ),
           SizedBox(height: 1.h),
@@ -153,7 +153,7 @@ class _InputWidgetState extends State<InputWidget> {
   }
 
   OutlineInputBorder _border({Color? color}) {
-    double borderWidth = 1;
+    double borderWidth = 1.5;
     double gapPadding = 10;
 
     return OutlineInputBorder(
@@ -161,7 +161,7 @@ class _InputWidgetState extends State<InputWidget> {
       borderSide: BorderSide(
         style: BorderStyle.solid,
         width: borderWidth,
-        color: (color != null) ? color : white,
+        color: (color != null) ? color : grey,
       ),
       gapPadding: gapPadding,
     );

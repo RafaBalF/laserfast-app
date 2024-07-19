@@ -91,4 +91,24 @@ class AuthApi extends BaseApi {
 
     return b;
   }
+
+  Future<BaseModel<StringResponseModel>> forgetPassword(String? email) async {
+    BaseModel<StringResponseModel> b = BaseModel<StringResponseModel>();
+    try {
+      var connectivityResult = await (Connectivity().checkConnectivity());
+      if (connectivityResult.contains(ConnectivityResult.none)) {
+        return BaseModel.networkError();
+      }
+      var result = (await (await dio).get('/auth/forget-password/$email')).data;
+
+      b = BaseModel<StringResponseModel>.fromJson(result,
+          tipo: StringResponseModel());
+    } on DioException catch (e) {
+      b.message = handleError(e);
+    } catch (e) {
+      b = BaseModel();
+    }
+
+    return b;
+  }
 }
