@@ -1,13 +1,10 @@
 import 'dart:async';
-import 'dart:io';
 
-import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_verification_code/flutter_verification_code.dart';
-import 'package:image_cropper/image_cropper.dart';
-import 'package:image_picker/image_picker.dart';
+import 'package:laserfast_app/app/mixins/form_validations_mixin.dart';
 import 'package:laserfast_app/app/shared/widgets/inputs/password_input_widget.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:laserfast_app/app/models/base.model.dart';
@@ -29,7 +26,7 @@ class RegisterPage extends StatefulWidget {
   RegisterPageState createState() => RegisterPageState();
 }
 
-class RegisterPageState extends State<RegisterPage> {
+class RegisterPageState extends State<RegisterPage> with FormValidationsMixin {
   final RegisterStore _store = Modular.get<RegisterStore>();
   var phoneMask = MaskTextInputFormatter(
     mask: '(##) #####-####',
@@ -73,7 +70,6 @@ class RegisterPageState extends State<RegisterPage> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               DividerWidget(height: 2.h),
-              _photoPicker(),
               _form(),
               DividerWidget(height: 5.h),
             ],
@@ -83,147 +79,67 @@ class RegisterPageState extends State<RegisterPage> {
     );
   }
 
-  Widget _photoPicker() {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 7.w),
-      child: Observer(builder: (_) {
-        return GestureDetector(
-          onTap: () async {
-            await _pickPhoto();
-          },
-          child: _photoContainer(),
-        );
-      }),
-    );
-  }
-
-  Widget _photoContainer() {
-    return Column(
-      children: [
-        DottedBorder(
-            color: white,
-            strokeWidth: 2,
-            dashPattern: const [8, 8],
-            child: Container(
-                margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                alignment: Alignment.center,
-                child: _store.photoCrop != null
-                    ? SizedBox(
-                        height: 25.h,
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(8.0),
-                          child: Image.file(
-                            _store.photoCrop!,
-                            fit: BoxFit.fitWidth,
-                          ),
-                        ),
-                      )
-                    : _photoEmpty())),
-      ],
-    );
-  }
-
-  Widget _photoEmpty() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Icon(
-          Icons.camera_alt_outlined,
-          color: white,
-          size: 35.sp,
-        ),
-        textWidget('Tire uma selfie segurando um documento com foto.',
-            style: label(color: white), textAlign: TextAlign.center),
-      ],
-    );
-  }
-
-  Future _cropImage(XFile imageFile) async {
-    CroppedFile? croppedFile = await ImageCropper().cropImage(
-      sourcePath: imageFile.path,
-      uiSettings: [
-        AndroidUiSettings(
-          toolbarTitle: 'Cropper',
-          toolbarColor: Colors.black,
-          toolbarWidgetColor: Colors.white,
-          initAspectRatio: CropAspectRatioPreset.original,
-          lockAspectRatio: true,
-        ),
-        IOSUiSettings(
-          title: 'Cropper',
-          aspectRatioLockEnabled: true,
-        )
-      ],
-    );
-    if (croppedFile != null) {
-      _store.setPhotoCrop(File(croppedFile.path));
-    }
-  }
-
-  _pickPhoto() async {
-    final ImagePicker picker = ImagePicker();
-    // Pick an image.
-    final XFile? image = await picker.pickImage(
-      source: ImageSource.camera,
-      preferredCameraDevice: CameraDevice.front,
-      maxHeight: 480,
-      maxWidth: 480,
-    );
-    if (image != null) {
-      _store.setPhoto(image);
-
-      await _cropImage(image);
-    }
-    setState(() {});
-  }
-
   Widget _form() {
-    return Container(
-      color: primary,
-      padding: EdgeInsets.symmetric(horizontal: 7.w),
-      child: Column(
-        children: [
-          DividerWidget(height: 2.h),
-          InputWidget(
-            label: 'Nome completo',
-            onChanged: _store.setName,
-          ),
-          DividerWidget(height: 2.h),
-          Observer(builder: (_) {
-            return InputWidget(
-              label: 'E-mail',
-              onChanged: _store.setEmail,
-              keyboardType: TextInputType.emailAddress,
-              error: !_store.validEmail ? "E-mail inválido" : null,
-            );
-          }),
-          DividerWidget(height: 2.h),
-          InputWidget(
-            label: 'Celular',
-            keyboardType: TextInputType.phone,
-            inputFormatters: [phoneMask],
-            onChanged: (p0) {
-              _store.setPhone(phoneMask.getUnmaskedText());
-            },
-          ),
-          DividerWidget(height: 2.h),
-          PasswordInputWidget(onChanged: _store.setPassword),
-          DividerWidget(height: 2.h),
-          PasswordInputWidget(
-            label: 'Confirmar senha',
-            onChanged: _store.setPassword,
-          ),
-          DividerWidget(height: 5.h),
-          SizedBox(
-            width: 65.w,
-            child: Observer(builder: (_) {
-              return ButtonWidget.filled(
-                title: 'Cadastre-se',
-                onPressed: () async {
-                  _store.setCode(null);
-                  BaseModel b = await _store.register();
-                  if (mounted) {
+    final formKey = GlobalKey<FormState>();
+
+    return Form(
+      key: formKey,
+      child: Container(
+        color: primary,
+        padding: EdgeInsets.symmetric(horizontal: 7.w),
+        child: Column(
+          children: [
+            DividerWidget(height: 2.h),
+            InputWidget(
+              label: 'Nome completo',
+              onChanged: _store.setName,
+              validator: notEmpty,
+            ),
+            DividerWidget(height: 2.h),
+            Observer(builder: (_) {
+              return InputWidget(
+                label: 'E-mail',
+                onChanged: _store.setEmail,
+                keyboardType: TextInputType.emailAddress,
+                validator: (v) => combine([
+                  () => notEmpty(v),
+                  () => validEmail(v),
+                ]),
+              );
+            }),
+            DividerWidget(height: 2.h),
+            PasswordInputWidget(
+              onChanged: _store.setPassword,
+              validator: (v) => combine([
+                () => notEmpty(v),
+                () => atLeastNChars(6, v),
+              ]),
+            ),
+            DividerWidget(height: 2.h),
+            PasswordInputWidget(
+              label: 'Confirmar senha',
+              onChanged: _store.setConfirmPassword,
+              validator: (v) => combine([
+                () => notEmpty(v),
+                () => atLeastNChars(6, v),
+                () => matchValue(v, _store.password, "Senhas não são iguais"),
+              ]),
+            ),
+            DividerWidget(height: 5.h),
+            SizedBox(
+              width: 65.w,
+              child: Observer(builder: (_) {
+                return ButtonWidget.filled(
+                  title: 'Cadastre-se',
+                  onPressed: () async {
+                    if (!formKey.currentState!.validate()) return;
+
+                    _store.setCode(null);
+
+                    BaseModel b = await _store.register();
+
+                    if (!mounted) return;
+
                     if (b.status) {
                       _startTimer();
                       showCustomBottomSheet(
@@ -234,16 +150,15 @@ class RegisterPageState extends State<RegisterPage> {
                     } else {
                       showErrorBottomSheet(context, message: b.message);
                     }
-                  }
-                },
-                loading: _store.loadingStore.isLoading,
-                disabled: !_store.validForm,
-                backgroundColor: accent,
-                textColor: primaryDark,
-              );
-            }),
-          ),
-        ],
+                  },
+                  loading: _store.loadingStore.isLoading,
+                  backgroundColor: accent,
+                  textColor: white,
+                );
+              }),
+            ),
+          ],
+        ),
       ),
     );
   }

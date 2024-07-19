@@ -6,14 +6,13 @@ import 'package:laserfast_app/app/models/user.model.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'base.api.dart';
 
 class UserApi extends BaseApi {
   get _option => BaseOptions(baseUrl: API_URL);
 
-  Future<BaseModel<AuthModel>> create(UserModel userModel, XFile? file) async {
+  Future<BaseModel<AuthModel>> create(UserModel userModel) async {
     BaseModel<AuthModel> b = BaseModel<AuthModel>();
     try {
       var connectivityResult = await (Connectivity().checkConnectivity());
@@ -34,13 +33,6 @@ class UserApi extends BaseApi {
       }
 
       final formData = FormData.fromMap(userModel.toJson());
-
-      if (file != null) {
-        formData.files.add(MapEntry(
-          'file',
-          MultipartFile.fromFileSync(file.path, filename: file.name),
-        ));
-      }
 
       var result = (await d.post('user', data: formData)).data;
 

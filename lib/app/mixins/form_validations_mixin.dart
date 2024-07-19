@@ -1,4 +1,14 @@
 mixin FormValidationsMixin {
+  String? combine(List<String? Function()> validators) {
+    for (var v in validators) {
+      final String? validation = v();
+
+      if (validation != null) return validation;
+    }
+
+    return null;
+  }
+
   String? notEmpty(String? value, [String? message]) {
     if (value!.isEmpty) return message ?? "Este campo é obrigatório";
 
@@ -23,12 +33,8 @@ mixin FormValidationsMixin {
     return null;
   }
 
-  String? combine(List<String? Function()> validators) {
-    for (var v in validators) {
-      final String? validation = v();
-
-      if (validation != null) return validation;
-    }
+  String? matchValue(String? value, String? match, [String? message]) {
+    if (value != match) return message ?? "Campo inválido";
 
     return null;
   }

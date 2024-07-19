@@ -1,6 +1,5 @@
 import 'package:laserfast_app/app/mixins/form_validations_mixin.dart';
 import 'package:laserfast_app/app/shared/colors.dart';
-import 'package:laserfast_app/app/shared/widgets/create_account_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
@@ -116,6 +115,7 @@ class LoginPageState extends State<LoginPage> with FormValidationsMixin {
                 if (!formKey.currentState!.validate()) return;
 
                 var r = await _store.login();
+
                 if (r.status) {
                   Modular.to.navigate('/home/initial');
                 } else {
@@ -130,7 +130,31 @@ class LoginPageState extends State<LoginPage> with FormValidationsMixin {
             );
           }),
           DividerWidget(height: 5.h),
-          const CreateAccountWidget(textColor: white),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(
+                'Ainda não tem uma conta? ',
+                style: text(color: white),
+              ),
+              GestureDetector(
+                onTap: () {
+                  Modular.to.pushNamed('/auth/register');
+                },
+                child: Container(
+                  decoration: const BoxDecoration(
+                      border: BorderDirectional(
+                    bottom: BorderSide(color: white),
+                  )),
+                  child: Text(
+                    'Crie uma conta',
+                    style: label(color: white),
+                  ),
+                ),
+              )
+            ],
+          ),
         ],
       ),
     );

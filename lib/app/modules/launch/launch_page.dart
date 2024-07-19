@@ -58,12 +58,14 @@ class LaunchPageState extends State<LaunchPage> with TickerProviderStateMixin {
   Widget mainBody() {
     List<Widget> presentationPages = _presentation();
     return Scaffold(
-        body: SizedBox(
-      height: 100.h,
-      width: 100.w,
-      child: Observer(builder: (_) {
-        return presentationPages[_store.presentationIndex];
-      }),
+        body: SingleChildScrollView(
+      child: SizedBox(
+        height: 100.h,
+        width: 100.w,
+        child: Observer(builder: (_) {
+          return presentationPages[_store.presentationIndex];
+        }),
+      ),
     ));
   }
 

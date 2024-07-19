@@ -1,8 +1,4 @@
-import 'dart:io';
-
 import 'package:laserfast_app/app/apis/user.api.dart';
-import 'package:laserfast_app/app/shared/validators.dart';
-import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mobx/mobx.dart';
 import 'package:laserfast_app/app/apis/auth.api.dart';
 import 'package:laserfast_app/app/models/auth.model.dart';
@@ -11,7 +7,6 @@ import 'package:laserfast_app/app/models/hives/login.hive.dart';
 import 'package:laserfast_app/app/models/string_response.model.dart';
 import 'package:laserfast_app/app/models/user.model.dart';
 import 'package:laserfast_app/loading_store.dart';
-import 'package:image_picker/image_picker.dart';
 
 part 'register_store.g.dart';
 
@@ -24,7 +19,7 @@ abstract class RegisterStoreBase with Store {
   final LoginHive _loginHive = LoginHive();
 
   //STORES
-  final LoadingStore loadingStore = Modular.get<LoadingStore>();
+  final LoadingStore loadingStore = LoadingStore();
 
   //CONSTS
   final int minPasswordLength = 6;
@@ -48,19 +43,10 @@ abstract class RegisterStoreBase with Store {
   String? email;
 
   @observable
-  String? phone;
-
-  @observable
   String? password;
 
   @observable
   String? confirmPassword;
-
-  @observable
-  bool passwordVisibility = false;
-
-  @observable
-  bool confirmPasswordVisibility = false;
 
   @observable
   String? code;
@@ -68,31 +54,7 @@ abstract class RegisterStoreBase with Store {
   @observable
   int counter = 60;
 
-  @observable
-  XFile? photo;
-
-  @observable
-  File? photoCrop;
-
   // COMPUTED
-  @computed
-  bool get validEmail => (email != null) ? validateEmail(email ?? "") : true;
-
-  @computed
-  bool get validPassword =>
-      (password != null) ? password!.length >= minPasswordLength : true;
-
-  @computed
-  bool get validconfirmPassword => confirmPassword == password;
-
-  @computed
-  bool get validForm =>
-      notEmpty(name) &&
-      notEmpty(password) &&
-      notEmpty(phone) &&
-      validEmail &&
-      validconfirmPassword;
-
   bool notEmpty(String? value) {
     return value != "" && value != null;
   }
@@ -108,34 +70,13 @@ abstract class RegisterStoreBase with Store {
   @action
   void setEmail(String? value) => email = value;
   @action
-  void setPhone(String? value) => phone = value;
-  @action
   void setPassword(String? value) => password = value;
   @action
   void setConfirmPassword(String? value) => confirmPassword = value;
   @action
-  void setpasswordVisibility() => passwordVisibility = !passwordVisibility;
-  @action
-  void setConfirmPasswordVisibility() =>
-      confirmPasswordVisibility = !confirmPasswordVisibility;
-  @action
   void setCode(String? value) => code = value;
   @action
   void setCounter(int value) => counter = value;
-
-  @action
-  void setPhoto(XFile? xFile) {
-    if (xFile != null) {
-      photo = xFile;
-    }
-  }
-
-  @action
-  void setPhotoCrop(File? file) {
-    if (file != null) {
-      photoCrop = file;
-    }
-  }
 
   @action
   Future logout() async {
@@ -160,10 +101,9 @@ abstract class RegisterStoreBase with Store {
       name: name,
       email: email,
       password: password,
-      phone: phone,
     );
 
-    var result = await userApi.create(user!, photo);
+    var result = await userApi.create(user!);
 
     if (result.status) {
       _userUuid = result.result!.uuid;
