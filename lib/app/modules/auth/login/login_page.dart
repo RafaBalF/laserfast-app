@@ -116,17 +116,21 @@ class LoginPageState extends State<LoginPage> with FormValidationsMixin {
             return ButtonWidget.filled(
               title: 'ENTRAR',
               onPressed: () async {
-                if (!formKey.currentState!.validate()) return;
+                // TODO: FAZER LOGIN FUNCIONAR
 
-                var r = await _store.login();
+                Modular.to.navigate('/home/initial');
 
-                if (r.status) {
-                  Modular.to.navigate('/home/initial');
-                } else {
-                  if (mounted) {
-                    showErrorBottomSheet(context, message: r.message);
-                  }
-                }
+                // if (!formKey.currentState!.validate()) return;
+
+                // var r = await _store.login();
+
+                // if (r.status) {
+                //   Modular.to.navigate('/home/initial');
+                // } else {
+                //   if (mounted) {
+                //     showErrorBottomSheet(context, message: r.message);
+                //   }
+                // }
               },
               backgroundColor: accent,
               textColor: white,
