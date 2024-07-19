@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:compregados_app_v2/app/modules/auth/auth_store.dart';
-import 'package:compregados_app_v2/app/shared/widgets/custom_future_builder_widget.dart';
+import 'package:laserfast_app/app/modules/auth/auth_store.dart';
+import 'package:laserfast_app/app/shared/widgets/custom_future_builder_widget.dart';
 
 class AuthPage extends StatefulWidget {
   final String title;

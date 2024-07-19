@@ -1,9 +1,9 @@
-import 'package:compregados_app_v2/app/models/abstract/from_json.abstract.dart';
-import 'package:compregados_app_v2/app/models/animal.model.dart';
-import 'package:compregados_app_v2/app/models/file.model.dart';
-import 'package:compregados_app_v2/app/models/grain.model.dart';
-import 'package:compregados_app_v2/app/models/property.model.dart';
-import 'package:compregados_app_v2/app/shared/convert.dart';
+import 'package:laserfast_app/app/models/abstract/from_json.abstract.dart';
+import 'package:laserfast_app/app/models/animal.model.dart';
+import 'package:laserfast_app/app/models/file.model.dart';
+import 'package:laserfast_app/app/models/grain.model.dart';
+import 'package:laserfast_app/app/models/property.model.dart';
+import 'package:laserfast_app/app/shared/convert.dart';
 
 class AdModel extends FromJsonModel {
   int? adId;

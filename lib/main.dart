@@ -3,9 +3,9 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
-import 'package:compregados_app_v2/app/models/auth.model.dart';
-import 'package:compregados_app_v2/app_module.dart';
-import 'package:compregados_app_v2/app_widget.dart';
+import 'package:laserfast_app/app/models/auth.model.dart';
+import 'package:laserfast_app/app_module.dart';
+import 'package:laserfast_app/app_widget.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

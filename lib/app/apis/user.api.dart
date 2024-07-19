@@ -1,8 +1,8 @@
-import 'package:compregados_app_v2/app/constants/constants.dart';
-import 'package:compregados_app_v2/app/models/auth.model.dart';
-import 'package:compregados_app_v2/app/models/base.model.dart';
-import 'package:compregados_app_v2/app/models/dtos/can_create_ad.dto.dart';
-import 'package:compregados_app_v2/app/models/user.model.dart';
+import 'package:laserfast_app/app/constants/constants.dart';
+import 'package:laserfast_app/app/models/auth.model.dart';
+import 'package:laserfast_app/app/models/base.model.dart';
+import 'package:laserfast_app/app/models/dtos/can_create_ad.dto.dart';
+import 'package:laserfast_app/app/models/user.model.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';

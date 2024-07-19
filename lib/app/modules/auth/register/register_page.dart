@@ -9,17 +9,17 @@ import 'package:flutter_verification_code/flutter_verification_code.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
-import 'package:compregados_app_v2/app/models/base.model.dart';
-import 'package:compregados_app_v2/app/modules/auth/register/register_store.dart';
-import 'package:compregados_app_v2/app/modules/auth/widgets/password_input_widget.dart';
-import 'package:compregados_app_v2/app/shared/colors.dart';
-import 'package:compregados_app_v2/app/shared/modal_bottom_sheet.dart';
-import 'package:compregados_app_v2/app/shared/text.dart';
-import 'package:compregados_app_v2/app/shared/text_styles.dart';
-import 'package:compregados_app_v2/app/shared/widgets/button_widget.dart';
-import 'package:compregados_app_v2/app/shared/widgets/divider_widget.dart';
-import 'package:compregados_app_v2/app/shared/widgets/input_widget.dart';
-import 'package:compregados_app_v2/app/shared/widgets/simple_scaffold_widget.dart';
+import 'package:laserfast_app/app/models/base.model.dart';
+import 'package:laserfast_app/app/modules/auth/register/register_store.dart';
+import 'package:laserfast_app/app/modules/auth/widgets/password_input_widget.dart';
+import 'package:laserfast_app/app/shared/colors.dart';
+import 'package:laserfast_app/app/shared/modal_bottom_sheet.dart';
+import 'package:laserfast_app/app/shared/text.dart';
+import 'package:laserfast_app/app/shared/text_styles.dart';
+import 'package:laserfast_app/app/shared/widgets/button_widget.dart';
+import 'package:laserfast_app/app/shared/widgets/divider_widget.dart';
+import 'package:laserfast_app/app/shared/widgets/input_widget.dart';
+import 'package:laserfast_app/app/shared/widgets/simple_scaffold_widget.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -142,7 +142,6 @@ class RegisterPageState extends State<RegisterPage> {
   Future _cropImage(XFile imageFile) async {
     CroppedFile? croppedFile = await ImageCropper().cropImage(
       sourcePath: imageFile.path,
-      aspectRatioPresets: [CropAspectRatioPreset.square],
       uiSettings: [
         AndroidUiSettings(
           toolbarTitle: 'Cropper',

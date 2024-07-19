@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:compregados_app_v2/app/shared/colors.dart';
+import 'package:laserfast_app/app/shared/colors.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 class AppWidget extends StatelessWidget {

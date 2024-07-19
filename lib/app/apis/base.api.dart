@@ -1,8 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
-import 'package:compregados_app_v2/app/apis/intercepetors/app.interceptor.dart';
-import 'package:compregados_app_v2/app/constants/constants.dart';
-import 'package:compregados_app_v2/app/models/hives/login.hive.dart';
+import 'package:laserfast_app/app/apis/intercepetors/app.interceptor.dart';
+import 'package:laserfast_app/app/constants/constants.dart';
+import 'package:laserfast_app/app/models/hives/login.hive.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 class BaseApi {

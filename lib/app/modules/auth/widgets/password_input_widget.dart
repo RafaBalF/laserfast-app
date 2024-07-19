@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:compregados_app_v2/app/shared/colors.dart';
-import 'package:compregados_app_v2/app/shared/widgets/input_widget.dart';
+import 'package:laserfast_app/app/shared/colors.dart';
+import 'package:laserfast_app/app/shared/widgets/input_widget.dart';
 
 class PasswordInputWidget extends StatefulWidget {
   final String? label;

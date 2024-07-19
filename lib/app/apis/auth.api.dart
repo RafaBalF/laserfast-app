@@ -1,10 +1,10 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dio/dio.dart';
-import 'package:compregados_app_v2/app/constants/constants.dart';
-import 'package:compregados_app_v2/app/models/auth.model.dart';
-import 'package:compregados_app_v2/app/models/base.model.dart';
-import 'package:compregados_app_v2/app/models/hives/login.hive.dart';
-import 'package:compregados_app_v2/app/models/string_response.model.dart';
+import 'package:laserfast_app/app/constants/constants.dart';
+import 'package:laserfast_app/app/models/auth.model.dart';
+import 'package:laserfast_app/app/models/base.model.dart';
+import 'package:laserfast_app/app/models/hives/login.hive.dart';
+import 'package:laserfast_app/app/models/string_response.model.dart';
 import 'base.api.dart';
 
 class AuthApi extends BaseApi {

@@ -1,4 +1,4 @@
-import 'package:compregados_app_v2/app/shared/validators.dart';
+import 'package:laserfast_app/app/shared/validators.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

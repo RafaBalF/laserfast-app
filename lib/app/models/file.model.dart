@@ -1,5 +1,5 @@
-import 'package:compregados_app_v2/app/models/abstract/from_json.abstract.dart';
-import 'package:compregados_app_v2/app/shared/convert.dart';
+import 'package:laserfast_app/app/models/abstract/from_json.abstract.dart';
+import 'package:laserfast_app/app/shared/convert.dart';
 
 class FileModel extends FromJsonModel {
   int? fileId;

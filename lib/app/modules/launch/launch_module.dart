@@ -1,6 +1,6 @@
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:compregados_app_v2/app/modules/launch/launch_page.dart';
-import 'package:compregados_app_v2/app/modules/launch/launch_store.dart';
+import 'package:laserfast_app/app/modules/launch/launch_page.dart';
+import 'package:laserfast_app/app/modules/launch/launch_store.dart';
 
 class LaunchModule extends Module {
   @override

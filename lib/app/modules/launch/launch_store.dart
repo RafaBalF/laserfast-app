@@ -1,6 +1,6 @@
 import 'package:mobx/mobx.dart';
-import 'package:compregados_app_v2/app/models/hives/app_presentation.hive.dart';
-import 'package:compregados_app_v2/app/models/hives/login.hive.dart';
+import 'package:laserfast_app/app/models/hives/app_presentation.hive.dart';
+import 'package:laserfast_app/app/models/hives/login.hive.dart';
 
 part 'launch_store.g.dart';
 

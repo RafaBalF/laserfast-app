@@ -1,9 +1,9 @@
-import 'package:compregados_app_v2/app/shared/text.dart';
+import 'package:laserfast_app/app/shared/text.dart';
 import 'package:flutter/material.dart';
-import 'package:compregados_app_v2/app/shared/colors.dart';
-import 'package:compregados_app_v2/app/shared/enums/button_sizes.enum.dart';
-import 'package:compregados_app_v2/app/shared/enums/button_types.enum.dart';
-import 'package:compregados_app_v2/app/shared/text_styles.dart';
+import 'package:laserfast_app/app/shared/colors.dart';
+import 'package:laserfast_app/app/shared/enums/button_sizes.enum.dart';
+import 'package:laserfast_app/app/shared/enums/button_types.enum.dart';
+import 'package:laserfast_app/app/shared/text_styles.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 class ButtonWidget extends StatefulWidget {
@@ -167,7 +167,7 @@ class _ButtonWidgetState extends State<ButtonWidget> {
     return ElevatedButton(
       onPressed: _getFunction(),
       style: _getStyle(
-        MaterialStateProperty.all(backgroundColor),
+        WidgetStateProperty.all(backgroundColor),
         BorderSide.none,
       ),
       child: _getText(textColor),
@@ -186,7 +186,7 @@ class _ButtonWidgetState extends State<ButtonWidget> {
     return ElevatedButton(
       onPressed: _getFunction(),
       style: _getStyle(
-        MaterialStateProperty.all(Colors.transparent),
+        WidgetStateProperty.all(Colors.transparent),
         BorderSide(width: 2, color: borderColor!),
       ),
       child: _getText(textColor),
@@ -246,7 +246,7 @@ class _ButtonWidgetState extends State<ButtonWidget> {
   }
 
   ButtonStyle _getStyle(
-    MaterialStateProperty<Color?> backgroundColor,
+    WidgetStateProperty<Color?> backgroundColor,
     BorderSide borderSide,
   ) {
     double height = 6.h;
@@ -267,10 +267,10 @@ class _ButtonWidgetState extends State<ButtonWidget> {
     }
 
     return ButtonStyle(
-      elevation: MaterialStateProperty.all(0),
-      minimumSize: MaterialStateProperty.all(Size(width, height)),
-      maximumSize: MaterialStateProperty.all(Size(width, height)),
-      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+      elevation: WidgetStateProperty.all(0),
+      minimumSize: WidgetStateProperty.all(Size(width, height)),
+      maximumSize: WidgetStateProperty.all(Size(width, height)),
+      shape: WidgetStateProperty.all<RoundedRectangleBorder>(
           RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(radius),
         side: borderSide,

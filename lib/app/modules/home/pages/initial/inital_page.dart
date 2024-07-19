@@ -1,12 +1,12 @@
-import 'package:compregados_app_v2/app/shared/colors.dart';
-import 'package:compregados_app_v2/app/shared/text.dart';
-import 'package:compregados_app_v2/app/shared/text_styles.dart';
-import 'package:compregados_app_v2/app/shared/widgets/shimmer_widget.dart';
+import 'package:laserfast_app/app/shared/colors.dart';
+import 'package:laserfast_app/app/shared/text.dart';
+import 'package:laserfast_app/app/shared/text_styles.dart';
+import 'package:laserfast_app/app/shared/widgets/shimmer_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:compregados_app_v2/app/modules/home/pages/initial/inital_store.dart';
-import 'package:compregados_app_v2/app/shared/widgets/custom_future_builder_widget.dart';
-import 'package:compregados_app_v2/app/shared/widgets/divider_widget.dart';
+import 'package:laserfast_app/app/modules/home/pages/initial/inital_store.dart';
+import 'package:laserfast_app/app/shared/widgets/custom_future_builder_widget.dart';
+import 'package:laserfast_app/app/shared/widgets/divider_widget.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 class InitialPage extends StatefulWidget {

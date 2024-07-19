@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:compregados_app_v2/app/models/hives/login.hive.dart';
+import 'package:laserfast_app/app/models/hives/login.hive.dart';
 
 class AppInterceptors extends InterceptorsWrapper {
   @override

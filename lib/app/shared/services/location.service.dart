@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter/services.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:compregados_app_v2/app/models/dtos/state_and_cities.dto.dart';
+import 'package:laserfast_app/app/models/dtos/state_and_cities.dto.dart';
 
 class LocationService {
   StatesAndCitiesModel statesAndCitiesModel = StatesAndCitiesModel();

@@ -1,16 +1,16 @@
 import 'dart:io';
 
-import 'package:compregados_app_v2/app/apis/user.api.dart';
-import 'package:compregados_app_v2/app/shared/validators.dart';
+import 'package:laserfast_app/app/apis/user.api.dart';
+import 'package:laserfast_app/app/shared/validators.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mobx/mobx.dart';
-import 'package:compregados_app_v2/app/apis/auth.api.dart';
-import 'package:compregados_app_v2/app/models/auth.model.dart';
-import 'package:compregados_app_v2/app/models/base.model.dart';
-import 'package:compregados_app_v2/app/models/hives/login.hive.dart';
-import 'package:compregados_app_v2/app/models/string_response.model.dart';
-import 'package:compregados_app_v2/app/models/user.model.dart';
-import 'package:compregados_app_v2/loading_store.dart';
+import 'package:laserfast_app/app/apis/auth.api.dart';
+import 'package:laserfast_app/app/models/auth.model.dart';
+import 'package:laserfast_app/app/models/base.model.dart';
+import 'package:laserfast_app/app/models/hives/login.hive.dart';
+import 'package:laserfast_app/app/models/string_response.model.dart';
+import 'package:laserfast_app/app/models/user.model.dart';
+import 'package:laserfast_app/loading_store.dart';
 import 'package:image_picker/image_picker.dart';
 
 part 'register_store.g.dart';

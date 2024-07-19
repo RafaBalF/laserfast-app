@@ -1,6 +1,6 @@
 {
-    "name": "compregados_app_v2",
-    "short_name": "compregados_app_v2",
+    "name": "laserfast_app",
+    "short_name": "laserfast_app",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#FF4910",

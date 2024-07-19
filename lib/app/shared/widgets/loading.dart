@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:compregados_app_v2/app/shared/colors.dart';
+import 'package:laserfast_app/app/shared/colors.dart';
 // import 'package:lottie/lottie.dart' as lottie;
 
 loadingCircular() {

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:compregados_app_v2/app/shared/colors.dart';
-import 'package:compregados_app_v2/app/shared/text_styles.dart';
+import 'package:laserfast_app/app/shared/colors.dart';
+import 'package:laserfast_app/app/shared/text_styles.dart';
 
 class CreateAccountWidget extends StatefulWidget {
   final Color? textColor;

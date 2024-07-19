@@ -1,10 +1,10 @@
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:compregados_app_v2/app/modules/home/home_page.dart';
-import 'package:compregados_app_v2/app/modules/home/home_store.dart';
-import 'package:compregados_app_v2/app/modules/home/pages/initial/inital_page.dart';
-import 'package:compregados_app_v2/app/modules/home/pages/initial/inital_store.dart';
-import 'package:compregados_app_v2/app/modules/home/pages/profile/profile_page.dart';
-import 'package:compregados_app_v2/app/modules/home/pages/profile/profile_store.dart';
+import 'package:laserfast_app/app/modules/home/home_page.dart';
+import 'package:laserfast_app/app/modules/home/home_store.dart';
+import 'package:laserfast_app/app/modules/home/pages/initial/inital_page.dart';
+import 'package:laserfast_app/app/modules/home/pages/initial/inital_store.dart';
+import 'package:laserfast_app/app/modules/home/pages/profile/profile_page.dart';
+import 'package:laserfast_app/app/modules/home/pages/profile/profile_store.dart';
 
 class HomeModule extends Module {
   @override

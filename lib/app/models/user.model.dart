@@ -1,4 +1,4 @@
-import 'package:compregados_app_v2/app/models/ad.model.dart';
+import 'package:laserfast_app/app/models/ad.model.dart';
 
 import 'abstract/from_json.abstract.dart';
 

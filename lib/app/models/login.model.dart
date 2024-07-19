@@ -1,5 +1,5 @@
-import 'package:compregados_app_v2/app/models/abstract/from_json.abstract.dart';
-import 'package:compregados_app_v2/app/models/user.model.dart';
+import 'package:laserfast_app/app/models/abstract/from_json.abstract.dart';
+import 'package:laserfast_app/app/models/user.model.dart';
 
 class LoginModel extends FromJsonModel {
   String? token;

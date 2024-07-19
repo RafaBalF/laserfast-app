@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:compregados_app_v2/app/modules/home/widgets/tab_header_widget.dart';
-import 'package:compregados_app_v2/app/shared/widgets/divider_widget.dart';
+import 'package:laserfast_app/app/modules/home/widgets/tab_header_widget.dart';
+import 'package:laserfast_app/app/shared/widgets/divider_widget.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 class TabBodyWidget extends StatefulWidget {

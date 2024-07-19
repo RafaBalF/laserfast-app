@@ -1,4 +1,4 @@
-import 'package:compregados_app_v2/app/shared/convert.dart';
+import 'package:laserfast_app/app/shared/convert.dart';
 
 import 'abstract/from_json.abstract.dart';
 

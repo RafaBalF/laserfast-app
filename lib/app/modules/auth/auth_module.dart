@@ -1,10 +1,10 @@
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:compregados_app_v2/app/modules/auth/auth_page.dart';
-import 'package:compregados_app_v2/app/modules/auth/auth_store.dart';
-import 'package:compregados_app_v2/app/modules/auth/login/login_page.dart';
-import 'package:compregados_app_v2/app/modules/auth/login/login_store.dart';
-import 'package:compregados_app_v2/app/modules/auth/register/register_page.dart';
-import 'package:compregados_app_v2/app/modules/auth/register/register_store.dart';
+import 'package:laserfast_app/app/modules/auth/auth_page.dart';
+import 'package:laserfast_app/app/modules/auth/auth_store.dart';
+import 'package:laserfast_app/app/modules/auth/login/login_page.dart';
+import 'package:laserfast_app/app/modules/auth/login/login_store.dart';
+import 'package:laserfast_app/app/modules/auth/register/register_page.dart';
+import 'package:laserfast_app/app/modules/auth/register/register_store.dart';
 
 class AuthModule extends Module {
   @override

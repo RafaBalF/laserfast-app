@@ -1,4 +1,4 @@
-package com.example.compregados_app_v2
+package com.example.laserfast_app
 
 import io.flutter.embedding.android.FlutterActivity
 

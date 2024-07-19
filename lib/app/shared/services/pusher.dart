@@ -1,8 +1,8 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
-import 'package:compregados_app_v2/app/constants/constants.dart';
-import 'package:compregados_app_v2/app/models/hives/login.hive.dart';
+import 'package:laserfast_app/app/constants/constants.dart';
+import 'package:laserfast_app/app/models/hives/login.hive.dart';
 import 'package:pusher_channels_flutter/pusher_channels_flutter.dart';
 
 class PusherService {

@@ -1,4 +1,4 @@
-# compregados_app_v2
+# laserfast_app
 
 A new Flutter project.
 

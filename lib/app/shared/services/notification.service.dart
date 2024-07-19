@@ -4,8 +4,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:compregados_app_v2/app/models/notification_payload.model.dart';
-import 'package:compregados_app_v2/app/shared/enums/notification_payload_types.enum.dart';
+import 'package:laserfast_app/app/models/notification_payload.model.dart';
+import 'package:laserfast_app/app/shared/enums/notification_payload_types.enum.dart';
 
 class NotificationService {
   NotificationService();
