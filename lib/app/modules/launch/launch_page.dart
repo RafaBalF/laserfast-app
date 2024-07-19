@@ -7,7 +7,6 @@ import 'package:laserfast_app/app/shared/enums/button_sizes.enum.dart';
 import 'package:laserfast_app/app/shared/text.dart';
 import 'package:laserfast_app/app/shared/text_styles.dart';
 import 'package:laserfast_app/app/shared/widgets/button_widget.dart';
-import 'package:laserfast_app/app/shared/widgets/create_account_widget.dart';
 import 'package:laserfast_app/app/shared/widgets/divider_widget.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
@@ -48,7 +47,9 @@ class LaunchPageState extends State<LaunchPage> with TickerProviderStateMixin {
     }
 
     if (!_store.usingAppForFirstTime) {
-      _store.incrementPresentationIndex(index: 2);
+      Modular.to.navigate('/auth/login');
+
+      return Container(color: primary);
     }
 
     return mainBody();
@@ -69,7 +70,6 @@ class LaunchPageState extends State<LaunchPage> with TickerProviderStateMixin {
   List<Widget> _presentation() {
     return [
       _firstPage(),
-      _secondPage(),
     ];
   }
 
@@ -82,7 +82,7 @@ class LaunchPageState extends State<LaunchPage> with TickerProviderStateMixin {
           padding: EdgeInsets.only(top: 10.h),
           child: ButtonWidget.filledIcon(
             onPressed: () {
-              _changePage();
+              Modular.to.navigate('/auth/login');
             },
             backgroundColor: accent,
             iconData: Icons.arrow_forward_ios,
@@ -91,56 +91,6 @@ class LaunchPageState extends State<LaunchPage> with TickerProviderStateMixin {
             buttonSize: ButtonSize.large,
           ),
         ));
-  }
-
-  Widget _secondPage() {
-    return _presentationTemplate(
-        'assets/images/app_presentation/third.png',
-        'Login',
-        'Ache as melhores ofertas e\nnegócios perto de você',
-        Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            DividerWidget(height: 3.h),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 15.w),
-              child: Column(
-                children: [
-                  ButtonWidget.filled(
-                    title: 'Entrar sem login',
-                    onPressed: () {
-                      Modular.to.navigate('/home/initial');
-                    },
-                    backgroundColor: accent,
-                    textColor: primaryDark,
-                  ),
-                  DividerWidget(height: 3.h),
-                  ButtonWidget.filled(
-                    title: 'Fazer login',
-                    onPressed: () {
-                      Modular.to.pushNamed('/auth/login');
-                    },
-                    backgroundColor: primaryDark,
-                    textColor: white,
-                  ),
-                ],
-              ),
-            ),
-            DividerWidget(height: 3.h),
-            const CreateAccountWidget(
-              textColor: white,
-            ),
-          ],
-        ));
-  }
-
-  void _changePage() {
-    _store.incrementPresentationIndex();
-    try {
-      _animationController.reset();
-      _animationController.forward();
-    } catch (_) {}
   }
 
   Widget _presentationTemplate(
@@ -159,6 +109,7 @@ class LaunchPageState extends State<LaunchPage> with TickerProviderStateMixin {
               imgPath,
               height: 50.h,
             ),
+            DividerWidget(height: 2.h),
             textWidget(
               header,
               textAlign: TextAlign.center,
