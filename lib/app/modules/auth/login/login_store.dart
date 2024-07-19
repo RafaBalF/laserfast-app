@@ -1,3 +1,4 @@
+import 'package:laserfast_app/app/models/hives/app_presentation.hive.dart';
 import 'package:mobx/mobx.dart';
 import 'package:laserfast_app/app/apis/auth.api.dart';
 import 'package:laserfast_app/app/models/auth.model.dart';
@@ -13,6 +14,7 @@ abstract class LoginStoreBase with Store {
   //APIS
   final AuthApi authApi = AuthApi();
   final LoginHive _loginHive = LoginHive();
+  final AppPresentationHive _appPresentationHive = AppPresentationHive();
 
   //STORES
   final LoadingStore loadingStore = LoadingStore();
@@ -58,6 +60,9 @@ abstract class LoginStoreBase with Store {
     BaseModel<AuthModel> r = BaseModel<AuthModel>();
     r = await authApi.login(email!, password!);
     loadingStore.hide();
+
+    if (r.status) _appPresentationHive.setHasSeenAppPresentationBefore(true);
+
     return r;
   }
 
