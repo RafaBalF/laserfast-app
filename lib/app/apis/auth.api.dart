@@ -19,11 +19,13 @@ class AuthApi extends BaseApi {
       if (connectivityResult.contains(ConnectivityResult.none)) {
         return BaseModel.networkError();
       }
-      var result = (await Dio(_option).post('/auth/login', data: {
+
+      var result =
+          (await Dio(_option).post('/Login/AutenticacaoTokenApi', data: {
         "login": login,
-        "password": password,
+        "senha": password,
       }))
-          .data;
+              .data;
 
       b = BaseModel<AuthModel>.fromJson(result, tipo: AuthModel());
 

@@ -20,19 +20,22 @@ class AuthModelAdapter extends TypeAdapter<AuthModel> {
       token: fields[1] as String?,
       name: fields[2] as String?,
       uuid: fields[0] as String?,
+      cpf: fields[3] as String?,
     );
   }
 
   @override
   void write(BinaryWriter writer, AuthModel obj) {
     writer
-      ..writeByte(3)
+      ..writeByte(4)
       ..writeByte(0)
       ..write(obj.uuid)
       ..writeByte(1)
       ..write(obj.token)
       ..writeByte(2)
-      ..write(obj.name);
+      ..write(obj.name)
+      ..writeByte(3)
+      ..write(obj.cpf);
   }
 
   @override

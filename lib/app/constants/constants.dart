@@ -1,8 +1,7 @@
 // ignore_for_file: constant_identifier_names
 
 // Dev
-const API_URL = "http://10.0.2.2:3000/api/";
-const SITE = "https://10.0.2.2:4200";
+const API_URL = "http://app.laserfast.com.br/v1";
 const PUSHER_API_KEY = "";
 const PUSHER_CLUSTER = "";
 
