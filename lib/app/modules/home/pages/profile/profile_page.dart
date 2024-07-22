@@ -57,7 +57,7 @@ class ProfilePageState extends State<ProfilePage> {
         '/home/profile/',
       ),
       _tileCard(
-        'assets/icons/svg/payment.svg',
+        'assets/icons/svg/payment-data.svg',
         'Dados de pagamento',
         '/home/profile/',
       ),
@@ -98,11 +98,9 @@ class ProfilePageState extends State<ProfilePage> {
         '/home/profile/',
       ),
       _tileCard(
-        '',
+        'assets/icons/svg/change-password.svg',
         'Redefinir senha',
         '/home/profile/',
-        isSvg: false,
-        icon: Icons.password,
       ),
       // _tileCard(
       //   'assets/icons/svg/franchise.svg',

@@ -1,6 +1,3 @@
-import 'package:laserfast_app/app/shared/colors.dart';
-import 'package:laserfast_app/app/shared/text.dart';
-import 'package:laserfast_app/app/shared/text_styles.dart';
 import 'package:laserfast_app/app/shared/widgets/shimmer_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
@@ -32,88 +29,8 @@ class InitialPageState extends State<InitialPage> {
   Widget build(BuildContext context) {
     return CustomFutureBuilderWidget(
       future: _myFuture,
-      finalWidget: _mainBody(),
+      finalWidget: Container(),
       loadingWidget: _loadingBody(),
-    );
-  }
-
-  Widget _mainBody() {
-    return SingleChildScrollView(
-      child: Stack(
-        alignment: Alignment.center,
-        children: [
-          ..._background(),
-          _mainContent(),
-        ],
-      ),
-    );
-  }
-
-  List<Widget> _background() {
-    return [
-      Positioned.fill(
-        child: Container(color: background),
-      ),
-      Positioned(
-        top: 0,
-        left: 0,
-        right: 0,
-        child: Opacity(
-          opacity: 0.9,
-          child: ClipRRect(
-            borderRadius: const BorderRadius.vertical(
-                bottom: Radius.elliptical(500, 100)),
-            child: Image.asset(
-              'assets/images/home_background.png',
-              fit: BoxFit.fitWidth,
-              alignment: Alignment.topCenter,
-            ),
-          ),
-        ),
-      )
-    ];
-  }
-
-  Widget _mainContent() {
-    return Padding(
-      padding: EdgeInsets.only(left: 5.w),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          DividerWidget(height: 10.h),
-          _header(),
-          DividerWidget(height: 2.h),
-          //@TODO: lista de categorias
-          DividerWidget(height: 100.h),
-        ],
-      ),
-    );
-  }
-
-  Widget _header() {
-    return Padding(
-      padding: EdgeInsets.only(right: 10.w),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          RichText(
-            text: TextSpan(
-              text: 'Bem vindo ao \n',
-              style: homeHeader(color: white),
-              children: <TextSpan>[
-                TextSpan(
-                    text: 'Compre gados', style: homeHeader(color: accent)),
-              ],
-            ),
-          ),
-          DividerWidget(height: 1.h),
-          textWidget(
-            'Anuncie ou busque o que quiser de forma fácil e rápida pelo compre gados!',
-            style: label(color: white),
-          ),
-        ],
-      ),
     );
   }
 

@@ -5,6 +5,7 @@ import 'package:laserfast_app/app/modules/home/pages/initial/inital_page.dart';
 import 'package:laserfast_app/app/modules/home/pages/initial/inital_store.dart';
 import 'package:laserfast_app/app/modules/home/pages/profile/profile_page.dart';
 import 'package:laserfast_app/app/modules/home/pages/profile/profile_store.dart';
+import 'package:laserfast_app/app/modules/home/widgets/bottom_navigation_bar/bottom_navigation_bar_store.dart';
 
 class HomeModule extends Module {
   @override
@@ -12,6 +13,7 @@ class HomeModule extends Module {
     i.addLazySingleton(HomeStore.new);
     i.addLazySingleton(InitialStore.new);
     i.addLazySingleton(ProfileStore.new);
+    i.addLazySingleton(BottomNavigationBarStore.new);
   }
 
   @override

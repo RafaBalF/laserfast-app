@@ -1,9 +1,8 @@
-import 'package:laserfast_app/app/shared/modal_bottom_sheet.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:laserfast_app/app/modules/home/widgets/bottom_navigation_bar/bottom_navigation_bar.dart';
 import 'package:laserfast_app/app/shared/text.dart';
 import 'package:laserfast_app/app/shared/text_styles.dart';
-import 'package:laserfast_app/app/shared/widgets/divider_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:laserfast_app/app/modules/home/home_store.dart';
 import 'package:laserfast_app/app/shared/colors.dart';
@@ -29,196 +28,73 @@ class HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: primary,
+      appBar: AppBar(
+        leading: Padding(
+          padding: EdgeInsets.only(left: 5.w),
+          child: Image.asset('assets/icons/ic_launcher.png'),
+        ),
+        centerTitle: true,
+        backgroundColor: white,
+        title: Center(child: _address()),
+        elevation: 0,
+        toolbarHeight: 10.h,
+        actions: [
+          _padding(
+            GestureDetector(
+              child: SvgPicture.asset('assets/icons/svg/user.svg'),
+              onTap: () => Modular.to.pushNamed('/home/profile'),
+            ),
+          )
+        ],
+        bottom: PreferredSize(
+            preferredSize: const Size(0, 0),
+            child: Container(
+              decoration: BoxDecoration(
+                  border: Border.all(
+                color: white,
+                width: 0,
+              )),
+            )),
+      ),
       body: Container(
         height: 100.h,
         width: 100.w,
         alignment: Alignment.topLeft,
         color: white,
         padding: const EdgeInsets.only(top: 0),
-        child: const RouterOutlet(),
+        child: Padding(
+          padding: EdgeInsets.only(left: 5.w),
+          child: const RouterOutlet(),
+        ),
       ),
-      bottomNavigationBar: _bottomNavigationBar(),
-      floatingActionButton: _floatingActionButton(),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      bottomNavigationBar: const BottomNavigationBarWidget(),
     );
   }
 
-  Widget _bottomNavigationBar() {
-    return Observer(builder: (_) {
-      return BottomAppBar(
-        color: primaryDark,
-        height: 10.h,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            _bottomNavigationBarItem(
-              Icons.home_outlined,
-              'Home',
-              _store.selectedIndex == 0,
-              onTap: () {
-                _store.setSelectedIndex(0);
-                Modular.to.navigate('/home/initial');
-              },
-            ),
-            _bottomNavigationBarItem(
-              Icons.search_outlined,
-              'Pesquisar',
-              _store.selectedIndex == 1,
-              onTap: () {
-                _store.setSelectedIndex(1);
-              },
-            ),
-            _bottomNavigationBarItem(
-              null,
-              'Anunciar',
-              false,
-              onTap: () {},
-            ),
-            _bottomNavigationBarItem(
-              Icons.show_chart_outlined,
-              'Cotação',
-              _store.selectedIndex == 3,
-              onTap: () {
-                _store.setSelectedIndex(3);
-              },
-            ),
-            _bottomNavigationBarItem(
-              Icons.menu,
-              'Menu',
-              _store.selectedIndex == 4,
-              onTap: () {
-                _store.setSelectedIndex(4);
-                _showMenu(context);
-              },
-            ),
-          ],
-        ),
-      );
-    });
-  }
-
-  Widget _bottomNavigationBarItem(IconData? icon, String label, bool selected,
-      {Function()? onTap}) {
-    return SizedBox(
-      width: 16.w,
-      child: InkWell(
-        onTap: onTap,
-        splashColor: Colors.transparent,
-        focusColor: Colors.transparent,
-        hoverColor: Colors.transparent,
-        highlightColor: Colors.transparent,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Icon(
-              icon,
-              size: 32,
-              color: selected ? accent : white,
-            ),
-            textWidget(
-              label,
-              style: text(color: white),
-              maxLines: 1,
-            )
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _floatingActionButton() {
-    return Padding(
-      padding: EdgeInsets.only(top: 3.h),
-      child: FloatingActionButton(
-        onPressed: () {},
-        backgroundColor: accent,
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(50)),
-        ),
-        elevation: 0,
-        child: const Icon(
-          Icons.add,
-          color: primary,
-          size: 48,
-        ),
-      ),
-    );
-  }
-
-  void _showMenu(BuildContext context) {
-    showCustomBottomSheet(
-      context,
-      'Menu',
-      SizedBox(
-        height: 45.h,
-        child: GridView.count(
-          physics: const NeverScrollableScrollPhysics(),
-          crossAxisCount: 3,
-          padding: EdgeInsets.symmetric(horizontal: 2.w),
-          children: [
-            _menuItem(
-              Icons.show_chart_outlined,
-              'Cotação',
-              () {},
-            ),
-            _menuItem(
-              Icons.person_outline,
-              'Perfil',
-              () {},
-            ),
-            _menuItem(
-              Icons.list_outlined,
-              'Categorias',
-              () {},
-            ),
-            _menuItem(
-              Icons.add,
-              'Anunciar',
-              () {},
-            ),
-            _menuItem(
-              Icons.chat_outlined,
-              'Notícias',
-              () {},
-            ),
-            _menuItem(
-              Icons.shopping_bag_outlined,
-              'Lojas oficiais',
-              () {},
-            ),
-            _menuItem(
-              Icons.list_alt_outlined,
-              'Meus anúncios',
-              () {},
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _menuItem(IconData? icon, String title, Function()? onTap) {
-    return InkWell(
-      onTap: onTap,
+  Widget _address() {
+    return GestureDetector(
+      onTap: () {},
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Icon(
-            icon,
-            size: 40,
-            color: primary,
-          ),
-          DividerWidget(height: 1.h),
           textWidget(
-            title,
-            style: label(color: primary),
-            maxLines: 1,
-          )
+            'Aviso',
+            style: label(color: darkGrey),
+          ),
+          textWidget(
+            'Você tem pendência',
+            style: headTitle(color: accent),
+          ),
         ],
       ),
+    );
+  }
+
+  Widget _padding(Widget child) {
+    return Padding(
+      padding: EdgeInsets.only(right: 5.w),
+      child: child,
     );
   }
 }

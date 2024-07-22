@@ -39,7 +39,7 @@ class AuthPageState extends State<AuthPage> {
 
   Widget _loadingBody() {
     return Image.asset(
-      'assets/images/papa_spash_screen.png',
+      'assets/images/spash_screen.png',
       fit: BoxFit.cover,
     );
   }

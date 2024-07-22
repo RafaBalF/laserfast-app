@@ -1,4 +1,3 @@
-import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mobx/mobx.dart';
 import 'package:laserfast_app/app/apis/auth.api.dart';
 import 'package:laserfast_app/app/models/auth.model.dart';
@@ -15,7 +14,7 @@ abstract class AuthStoreBase with Store {
   final LoginHive _loginHive = LoginHive();
 
   //STORES
-  final LoadingStore loadingStore = Modular.get<LoadingStore>();
+  final LoadingStore loadingStore = LoadingStore();
 
   //OBSERVABLE
 

@@ -1,4 +1,3 @@
-import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mobx/mobx.dart';
 import 'package:laserfast_app/loading_store.dart';
 
@@ -10,7 +9,7 @@ abstract class ProfileStoreBase with Store {
   //APIS
 
   //STORES
-  final LoadingStore loadingStore = Modular.get<LoadingStore>();
+  final LoadingStore loadingStore = LoadingStore();
 
   //SERVICES
 

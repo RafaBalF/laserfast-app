@@ -1,0 +1,205 @@
+URL base:  http://app.laserfast.com.br
+
+0. Endpoint de autenticação
+Endpoint: /v1/Login/AutenticacaoTokenApi
+Utilizar login e senha:
+
+{
+  "login": "L@serF@st2019$",
+  "senha": "uNFwQ%U1kQTCVzRC6eCQM0*Q@$!O@m4M"
+}
+
+
+1. Endpoint de consulta de um cliente por CPF (Buscar os dados básicos de um cliente por CPF: Nome, CEP, Unidade, e qualquer outra informação relevante para ser visualizada no bot dentro do Blip).
+
+Endpoint: /v1/Cliente/RecuperarPorCPF/{cpf}
+Tipo: GET
+Descrição:  Método responsável por retornar os dados básicos de um(a) cliente dado um CPF.
+Retorno: No campo DATA, retorna um objeto do tipo ClienteDadosConsolidadosViewModel serializado. Um cliente pode ter mais de um cadastro, pois o cadastro é vinculado à uma unidade. Sendo assim, se um cliente possui cadastro em mais de uma unidade, haverão 2 ou mais cadastros.
+Exemplo de retorno:
+{
+     "Nome": string
+     "CPF": string
+     "DataNascimento": "2022-10-20T13:50:48.676Z",
+     "CEP": string
+     [
+         "Codigo": 0
+         "CodigoUnidade": 0
+         "NomeUnidade": string
+         "StatusLead": string
+     ]
+}
+2. Endpoint de consulta de todas as comandas em aberto de um cliente, ou seja, comandas que ainda podem sofrer confirmação de agendamento e/ou reagendamento.
+
+Endpoint: /v1/Agendamento/ListarSessoesPorCpf48Horas/{cpf} 
+Tipo: GET
+Descrição: Método responsável por listar as sessões agendadas em até 48 horas de um(a) cliente dado um CPF.
+Retorno:  No campo DATA, retorna uma lista de objetos do tipo SessaoConfirmacaoViewModel serializado.
+Exemplo de retorno:  
+{
+     [
+         "CodigoComanda": 0
+         "DataHoraInicio": "2022-10-20T13:50:48.676Z",
+         "CodigoUnidade": 0
+         "NomeUnidade": string
+         "NomePessoa": string
+         "CPF": string
+         "TelefonePessoa": string
+         [
+             "CodigoComandaItem": 0
+             "CodigoEvento": 0
+             "CodigoItem": 0
+             "Assunto": string
+             "TempoSessao": 0
+             "Status": string
+         ]
+     ]
+}
+3.   Endpoint para excluir um agendamento de uma comanda.
+
+Endpoint: /v1/Agendamento/ExcluirAgendamentoComandaDia
+Tipo: POST
+Descrição: Método responsável por excluir todas as sessões agendadas de uma comanda em uma determinada data
+Exemplo de requisição:
+{
+  "cpf": "string",
+  "dataCancelamento": "2022-10-20T14:14:43.743Z",
+  "codigoComanda": 0
+}
+
+(O campo dataCancelamento se refere à data do primeiro agendamento, dado que iremos lhe enviar no dado DATAHORAINICIO no endpoint /v1/Agendamento/ListarSessoesPorCpf48Horas/, que você deverá retornar nessa requisição.)
+
+4. Endpoint para confirmar o agendamento de uma comanda em específico.
+
+Endpoint: /v1/Agendamento/ConfirmarAgendamentoComandaDia
+Tipo: POST
+Descrição: Método responsável por confirmar todas as sessões agendadas de uma comanda em uma determinada data
+Exemplo de requisição:
+{
+  "cpf": "string",
+  "dataConfirmacao": "2022-10-20T14:14:43.743Z",
+  "codigoComanda": 0
+}
+(O campo dataCancelamento se refere à data do primeiro agendamento, dado que iremos lhe enviar no dado DATAHORAINICIO no endpoint /v1/Agendamento/ListarSessoesPorCpf48Horas/, que você deverá retornar nessa requisição.)
+
+5. Endpoint de consulta para os próximos horários livres para a execução dos itens de uma comanda.
+
+Endpoint: /v1/Agendamento/ListarHorariosDisponiveisComOpcoes
+Tipo: GET
+Descrição: Método responsável por listar horários disponíveis para agendamento baseado em um conjunto de parâmetros
+Exemplo de requisição:
+{
+       "BuscaPorComanda": true
+       "CodigoUnidade": 0
+       "CodigoComanda": 0
+       "Periodo": ""
+       "DiaSemana": ""
+       "TempoSessaoTotal": 0
+       "DataInicial": "2022-10-20T14:14:43.743Z"
+       "DataFinal": "2022-10-20T14:14:43.743Z"
+       "LimiteHorarios": 3
+}
+
+Detalhamento da requisição:
+BuscaPorComanda: Enviar sempre TRUE.
+CodigoUnidade: Pode enviar NULL. Incluímos essa opção para que possamos no futuro oferecer a(o) cliente a possibilidade de escolher a unidade na qual deseja agendar os horários. Ao enviar o campo BuscaPorComanda = true, automaticamente irá selecionar a unidade onde a comanda foi adquirida para listar os horários disponíveis (importante informar isso no fluxo pois a unidade onde uma sessão está agendada pode ser diferente da unidade onde o(a) cliente adquiriu a comanda.
+CodigoComanda: Informar o código da comanda que o(a) cliente selecionou no fluxo (IMPORTANTE: são raros os casos, mas pode acontecer de, para 1 comanda com 2 ou mais itens, algum ou alguns desses itens estarem com o status "Confirmado" enquanto outros estão com o status "Agendado". Ao ser chamado este endpoint irá, unilateralmente considerar APENAS o tempo de sessão dos itens com status "Agendado" para encontrar os horários disponíveis).
+Periodo: valores podem ser "MANHÃ", "TARDE", "NOITE", ou qualquer outro valor, o que irá por padrão considerar os 3 períodos. No fluxo apresentado pelo Cláudio, ao realizar a primeira busca, não é necessário informar o período, uma vez que a API irá tentar encontrar horários no período da manhã, caso não haja, irá buscar horários no período da tarde e da noite. Na segunda vez dentro do mesmo fluxo, segundo o Cláudio, serão apresentadas as opções de período para o(a) cliente escolher. Dessa forma, passar então a string conforme a opção escolhida pelo(a) cliente.
+DiaSemana: enviar uma string vazia pois não iremos oferecer busca para um dia da semana específico pelo menos em primeiro momento.
+TempoSessaoTotal: Pode enviar NULL. Apenas é obrigatório caso opção BuscaPorComanda = false.
+DataInicial e DataFinal: Enviar o valor informado no campo DataHoraInicio retornado pelo endpoint ListarSessoesPorCpf48Horas. Utilizando a opção BuscaPorComanda = true, a API irá buscar horários disponíveis em datas a partir de DataHoraInicio + 1 até DataHoraInicio + 46 (45 dias). Esta opção fica destravada quando utilizamos BuscaPorComanda = false, porém não iremos utilizar esta opção.
+LimitHorarios: quantidade de horários a retornar. Caso informado, precisa ser um valor positivo unsigned ( > 0). Se não for informado, irá listar todos os horários disponíveis no período da busca. No nosso caso, seguindo o fluxo apresentado, enviar "3".
+Exemplo de retorno:
+
+{
+  "success": true,
+  "statusCode": "200",
+  "message": "Horários listados com sucesso",
+  "data": {
+   "codigoUnidade": 360,
+"tempoSessao": 45
+"horarios": [
+"2022-10-24T21:10:00",
+"2022-10-24T21:15:00",
+"2022-10-24T21:20:00"
+],
+}
+}
+
+Endpoint: /v1/Agendamento/ReagendarSessoesComanda48Horas
+Tipo: POST
+Descrição: Método responsável por reagendar sessões em aberto de uma comanda na data especificada na requisição
+Exemplo de requisição:
+{
+  "CodigoComanda": 0
+  "Data": "2022-10-20T14:14:43.743Z"
+  "CodigoUnidade": 0
+}
+ 
+Detalhamento da requisição:
+CodigoComanda: comanda selecionada pelo(a) cliente
+Data: data escolhida dentre as opções retornadas no array HORARIOS, na resposta do endpoint ListarHorariosDisponiveisComOpcoes
+CodigoUnidade: valor informado no campo CodigoUnidade na resposta do endpoint ListarHorariosDisponiveisComOpcoes.
+IMPORTANTE: a requisição a este endpoint irá, unilateralmente reagendar APENAS os itens da comanda informada que estejam com status "Agendado".
+
+6. Endpoint de consulta de débitos (inadimplência) por CPF
+
+Endpoint: /v1/Conta/ListarDebitosCPF/{cpf}
+Tipo: GET
+Descrição: Método responsável por listar as contas inadimplentes de um(a) cliente
+Retorno: No campo DATA, retorna um objeto do tipo ListarContasCompletoViewModel serializado.
+
+Apenas contas dos seguintes tipos retornam LINK para pagamento:
+          • GalaxPay - Recorrente
+          • GalaxPay - Crédito
+          • GalaxPay - Boleto / Pix
+          • Nubank (NuPay)
+IMPORTANTE:
+          Devido à renegociações feitas pelo departamento financeiro, algumas das contas citadas acima podem vir sem link, pois nessas negociações as baixas são feitas manualmente.
+Exemplo de retorno:
+{
+     "CodigoComanda": 0,
+     "Cliente": string,
+     "NomeUnidade": string,
+     [
+         "CodigoConta": 0,
+         "DataVencimento": "2022-10-20T13:50:48.676Z",
+         "ValorConta": 0,
+         "FormaPagamento": string,
+         "StatusConta": string,
+         "Link": string,
+         "DiasVencimento": 0
+     ]
+}
+
+7. Endpoint de consulta de todos os clientes com débitos (dada uma quantidade de dias - determinada pela equipe interna -  após o vencimento de uma conta (padrão: 15 dias)
+
+Endpoint: /v1/Conta/ListarClientesDebito
+Tipo: GET
+Descrição: Método responsável por listar as contas inadimplentes de todos os clientes dada uma quantidade de dias de vencimento estipulada pela equipe interna (padrão 15)
+Retorno:  No campo DATA, retorna uma lista de objetos do tipo ListarContasCompletoViewModel serializada.
+
+Apenas contas dos seguintes tipos retornam LINK para pagamento:
+          • GalaxPay - Recorrente
+          • GalaxPay - Crédito
+          • GalaxPay - Boleto / Pix
+          • Nubank (NuPay)
+IMPORTANTE:
+          Devido à renegociações feitas pelo departamento financeiro, algumas das contas citadas acima podem vir sem link, pois nessas negociações as baixas são feitas manualmente.
+
+[Exemplo de retorno:
+
+{
+]"CodigoComanda": 0,
+"Cliente": string,
+"NomeUnidade": string,
+[
+"CodigoConta": 0,
+"DataVencimento": "2022-10-20T13:50:48.676Z",
+"ValorConta": 0,
+"FormaPagamento": string,
+"StatusConta": string,
+"Link": string,
+"DiasVencimento": 0
+
+}
