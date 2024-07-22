@@ -21,6 +21,10 @@ class HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return MainScaffoldWidget(body: Container());
+    return const MainScaffoldWidget(
+        body: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [],
+    ));
   }
 }
