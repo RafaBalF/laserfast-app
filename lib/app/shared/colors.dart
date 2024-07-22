@@ -10,7 +10,7 @@ const Color darkGrey = Color(0xFF898989);
 const Color darkerGrey = Color(0xFF3A3A3A);
 const Color black = Color(0xFF1e1f24);
 const Color error = Color(0xFFFF2F2F);
-const Color background = Color(0xFFCECECE);
+const Color background = Color(0xFFFFFFFF);
 
 MaterialColor primaryMaterial = const MaterialColor(
   0xFF2C0A49,

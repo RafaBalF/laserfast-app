@@ -13,6 +13,12 @@ class SimpleScaffoldWidget extends StatefulWidget {
   final bool? drawer;
   final bool loading;
   final Widget? bottomNavigationBar;
+  final Color? headerColor;
+  final Color? bodyColor;
+  final EdgeInsetsGeometry? bodyPadding;
+  final bool showReturnArrow;
+  final Color? returnArrowColor;
+
   const SimpleScaffoldWidget({
     super.key,
     this.title = "",
@@ -23,6 +29,11 @@ class SimpleScaffoldWidget extends StatefulWidget {
     this.drawer = true,
     this.loading = false,
     this.bottomNavigationBar,
+    this.headerColor,
+    this.bodyColor,
+    this.bodyPadding,
+    this.showReturnArrow = true,
+    this.returnArrowColor,
   });
 
   @override
@@ -30,27 +41,42 @@ class SimpleScaffoldWidget extends StatefulWidget {
 }
 
 class _SimpleScaffoldWidgetState extends State<SimpleScaffoldWidget> {
+  late final Color bodyColor;
+  late final Color headerColor;
+  late final Color returnArrowColor;
+
+  @override
+  void initState() {
+    bodyColor = widget.bodyColor ?? background;
+    headerColor = widget.headerColor ?? bodyColor;
+    returnArrowColor = widget.returnArrowColor ?? accent;
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: white,
+      backgroundColor: headerColor,
       appBar: AppBar(
-        leading: Padding(
-          padding: EdgeInsets.only(left: 5.w),
-          child: IconButton(
-            icon: const Icon(
-              Icons.arrow_back_ios,
-              color: accent,
-            ),
-            onPressed: () {
-              if (Modular.to.canPop()) {
-                Modular.to.pop();
-              }
-            },
-          ),
-        ),
+        leading: widget.showReturnArrow
+            ? Padding(
+                padding: EdgeInsets.only(left: 5.w),
+                child: IconButton(
+                  icon: Icon(
+                    Icons.arrow_back_ios,
+                    color: returnArrowColor,
+                  ),
+                  onPressed: () {
+                    if (Modular.to.canPop()) {
+                      Modular.to.pop();
+                    }
+                  },
+                ),
+              )
+            : null,
         centerTitle: true,
-        backgroundColor: white,
+        backgroundColor: bodyColor,
         title: Text(
           widget.title,
           style: headTitle(color: black),
@@ -65,7 +91,15 @@ class _SimpleScaffoldWidgetState extends State<SimpleScaffoldWidget> {
         alignment: Alignment.topLeft,
         color: white,
         padding: const EdgeInsets.only(top: 0),
-        child: widget.body,
+        child: SingleChildScrollView(
+          child: Container(
+            width: 100.w,
+            height: 100.h,
+            color: bodyColor,
+            padding: widget.bodyPadding,
+            child: widget.body,
+          ),
+        ),
       ),
       floatingActionButton: widget.floatingActionButton,
       bottomNavigationBar: widget.bottomNavigationBar,

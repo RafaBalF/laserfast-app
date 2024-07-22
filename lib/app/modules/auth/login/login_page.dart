@@ -9,6 +9,7 @@ import 'package:laserfast_app/app/shared/widgets/button_widget.dart';
 import 'package:laserfast_app/app/shared/widgets/divider_widget.dart';
 import 'package:laserfast_app/app/shared/widgets/inputs/input_widget.dart';
 import 'package:laserfast_app/app/shared/widgets/inputs/password_input_widget.dart';
+import 'package:laserfast_app/app/shared/widgets/simple_scaffold_widget.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 class LoginPage extends StatefulWidget {
@@ -43,29 +44,22 @@ class LoginPageState extends State<LoginPage> with FormValidationsMixin {
     if (_store.authModel != null) {
       Modular.to.navigate('/home/initial');
     }
-    return Scaffold(
-      body: SingleChildScrollView(
-        child: Container(
-          height: 100.h,
-          padding: EdgeInsets.symmetric(horizontal: 5.w),
-          decoration: const BoxDecoration(color: primary),
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Image.asset(
-                  'assets/icons/laserfast-logo.png',
-                  height: 25.h,
-                ),
-                DividerWidget(height: 2.h),
-                _form(),
-              ],
+    return SimpleScaffoldWidget(
+        bodyColor: primary,
+        showReturnArrow: false,
+        bodyPadding: EdgeInsets.symmetric(horizontal: 5.w),
+        body: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            DividerWidget(height: 15.h),
+            Image.asset(
+              'assets/icons/laserfast-logo.png',
+              height: 10.h,
             ),
-          ),
-        ),
-      ),
-    );
+            DividerWidget(height: 10.h),
+            _form(),
+          ],
+        ));
   }
 
   Widget _form() {
