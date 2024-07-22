@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:laserfast_app/app/modules/home/widgets/bottom_navigation_bar/bottom_navigation_bar.dart';
 import 'package:laserfast_app/app/modules/home/widgets/main_scaffold/main_scaffold_store.dart';
 import 'package:laserfast_app/app/shared/colors.dart';
 import 'package:laserfast_app/app/shared/text.dart';
@@ -15,7 +16,7 @@ class MainScaffoldWidget extends StatefulWidget {
   final List<Widget>? actions;
   final bool? drawer;
   final bool loading;
-  final Widget? bottomNavigationBar;
+
   const MainScaffoldWidget({
     super.key,
     this.title = "",
@@ -25,7 +26,6 @@ class MainScaffoldWidget extends StatefulWidget {
     this.actions,
     this.drawer = true,
     this.loading = false,
-    this.bottomNavigationBar,
   });
 
   @override
@@ -68,7 +68,7 @@ class _MainScaffoldWidgetState extends State<MainScaffoldWidget> {
         ),
       ),
       floatingActionButton: widget.floatingActionButton,
-      bottomNavigationBar: widget.bottomNavigationBar,
+      bottomNavigationBar: const BottomNavigationBarWidget(),
     );
   }
 

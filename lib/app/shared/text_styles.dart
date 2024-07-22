@@ -104,10 +104,10 @@ TextStyle profileTile({Color? color, TextDecoration? textDecoration}) {
 
 TextStyle homeBottomBarItem({Color? color, TextDecoration? textDecoration}) {
   return defaultStyle(
-    fontSize: 13.sp,
+    fontSize: 14.sp,
     fontWeight: FontWeight.bold,
     color: color,
-    height: 1.1,
+    height: 2.5,
     textDecoration: textDecoration,
   );
 }

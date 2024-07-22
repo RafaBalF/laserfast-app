@@ -4,6 +4,7 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:laserfast_app/app/modules/home/widgets/bottom_navigation_bar/bottom_navigation_bar_store.dart';
 import 'package:laserfast_app/app/shared/colors.dart';
+import 'package:laserfast_app/app/shared/text_styles.dart';
 
 class BottomNavigationBarWidget extends StatefulWidget {
   const BottomNavigationBarWidget({super.key});
@@ -48,6 +49,9 @@ class _BottomNavigationBarWidgetState extends State<BottomNavigationBarWidget> {
         showSelectedLabels: true,
         showUnselectedLabels: true,
         unselectedItemColor: darkerGrey,
+        unselectedLabelStyle: homeBottomBarItem(),
+        selectedLabelStyle: homeBottomBarItem(),
+        type: BottomNavigationBarType.fixed,
         currentIndex: _store.selectedIndex,
         onTap: _store.setSelectedIndex,
       );
