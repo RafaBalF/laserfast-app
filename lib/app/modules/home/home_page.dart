@@ -219,10 +219,32 @@ class HomePageState extends State<HomePage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        textWidget(
-          'Mais desejados',
-          style: h2(),
-          textAlign: TextAlign.start,
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            textWidget(
+              'Mais desejados',
+              style: h2(),
+              textAlign: TextAlign.start,
+            ),
+            GestureDetector(
+              onTap: () {
+                // TODO: PERGUNTAR PRO POLO PRA ONDE VAI ESSE CARA
+              },
+              child: Row(
+                children: [
+                  textWidget(
+                    'Ver todos',
+                    style: text(color: accent),
+                  ),
+                  const Icon(
+                    Icons.chevron_right,
+                    color: accent,
+                  )
+                ],
+              ),
+            )
+          ],
         ),
         DividerWidget(height: 2.h),
         SingleChildScrollView(
