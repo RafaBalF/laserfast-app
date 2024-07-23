@@ -156,6 +156,7 @@ class LoginPageState extends State<LoginPage> with FormValidationsMixin {
               )
             ],
           ),
+          DividerWidget(height: 12.h),
         ],
       ),
     );

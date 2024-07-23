@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:laserfast_app/app/shared/colors.dart';
-import 'package:laserfast_app/app/shared/text.dart';
+import 'package:laserfast_app/app/shared/text_widget.dart';
 import 'package:laserfast_app/app/shared/text_styles.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 

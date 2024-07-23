@@ -5,7 +5,7 @@ import 'package:laserfast_app/app/mixins/form_validations_mixin.dart';
 import 'package:laserfast_app/app/modules/auth/recover_password/recover_password_store.dart';
 import 'package:laserfast_app/app/shared/colors.dart';
 import 'package:laserfast_app/app/shared/modal_bottom_sheet.dart';
-import 'package:laserfast_app/app/shared/text.dart';
+import 'package:laserfast_app/app/shared/text_widget.dart';
 import 'package:laserfast_app/app/shared/text_styles.dart';
 import 'package:laserfast_app/app/shared/widgets/button_widget.dart';
 import 'package:laserfast_app/app/shared/widgets/divider_widget.dart';

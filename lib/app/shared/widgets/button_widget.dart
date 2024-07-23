@@ -1,4 +1,4 @@
-import 'package:laserfast_app/app/shared/text.dart';
+import 'package:laserfast_app/app/shared/text_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:laserfast_app/app/shared/colors.dart';
 import 'package:laserfast_app/app/shared/enums/button_sizes.enum.dart';

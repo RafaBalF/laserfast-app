@@ -5,7 +5,7 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:laserfast_app/app/modules/home/home_store.dart';
 import 'package:laserfast_app/app/modules/home/widgets/redirect_card_widget.dart';
 import 'package:laserfast_app/app/shared/colors.dart';
-import 'package:laserfast_app/app/shared/text.dart';
+import 'package:laserfast_app/app/shared/text_widget.dart';
 import 'package:laserfast_app/app/shared/text_styles.dart';
 import 'package:laserfast_app/app/shared/widgets/divider_widget.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -21,6 +21,11 @@ class HomePage extends StatefulWidget {
 class HomePageState extends State<HomePage> {
   final HomeStore _store = Modular.get<HomeStore>();
   final NumberFormat currencyFormatter = NumberFormat("#,##0.00", "pt_BR");
+
+  final double mostWishedCardWidth = 50.w;
+  final double mostWishedCardRadius = 10;
+  final double mostWishedPhotoHeight = 20.h;
+  final double mostWishedDetailsHeight = 12.h;
 
   @override
   void initState() {
@@ -215,29 +220,36 @@ class HomePageState extends State<HomePage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         textWidget(
-          'Mais acessados',
-          style: h2(color: accent),
+          'Mais desejados',
+          style: h2(),
           textAlign: TextAlign.start,
         ),
         DividerWidget(height: 2.h),
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // TODO: COLOCAR ROTA CERTA
               _mostWishedCard(
                 'Pernas inteiras 12 vezes',
                 'assets/images/home/most-wished-1.png',
-                '',
-                2229.90,
-                oldPrice: 1349.85,
+                'https://www.loja.laserfast.com.br/Produto/Detalhe/pernas-inteiras-feminino',
+                1349.85,
+                oldPrice: 2229.90,
                 duration: '25 min',
                 review: 4.5,
               ),
+              _mostWishedCard(
+                'Desodorante L.F Care 50ML',
+                'assets/images/home/most-wished-2.png',
+                'https://lfcare.laserfast.com.br/Produto/Detalhe/desodorante-lf-Care',
+                9.90,
+                oldPrice: 19.90,
+              ),
             ],
           ),
-        )
+        ),
       ],
     );
   }
@@ -251,7 +263,6 @@ class HomePageState extends State<HomePage> {
     String? duration,
     double? review,
   }) {
-    double radius = 10;
     String formattedPrice = "R\$ ${currencyFormatter.format(price)}";
 
     Widget reviewBadge = (review != null)
@@ -280,17 +291,32 @@ class HomePageState extends State<HomePage> {
           )
         : const SizedBox();
 
-    Widget oldPriceWidget = (oldPrice != null) ? Container() : const SizedBox();
+    Widget oldPriceWidget = (oldPrice != null)
+        ? textWidget(
+            "R\$ ${currencyFormatter.format(oldPrice)}",
+            style: verySmall(textDecoration: TextDecoration.lineThrough),
+            textAlign: TextAlign.start,
+          )
+        : const SizedBox();
 
     Widget durationWidget = (duration != null)
-        ? Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              const Icon(Icons.schedule, color: darkGrey, size: 15),
-              SizedBox(width: 1.w),
-              textWidget(duration, style: small()),
-            ],
+        ? Container(
+            width: 20.w,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(50),
+              border: Border.all(color: grey),
+            ),
+            padding: EdgeInsets.symmetric(horizontal: 2.w),
+            // margin: EdgeInsets.only(bottom: 1.h),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const Icon(Icons.schedule, color: darkGrey, size: 15),
+                SizedBox(width: 1.w),
+                textWidget(duration, style: small()),
+              ],
+            ),
           )
         : const SizedBox();
 
@@ -299,7 +325,7 @@ class HomePageState extends State<HomePage> {
         launchUrlString(route);
       },
       child: Container(
-        width: 40.w,
+        width: mostWishedCardWidth,
         decoration: BoxDecoration(
           boxShadow: const <BoxShadow>[
             BoxShadow(
@@ -308,23 +334,23 @@ class HomePageState extends State<HomePage> {
             ),
           ],
           color: background,
-          borderRadius: BorderRadius.circular(radius),
+          borderRadius: BorderRadius.circular(mostWishedCardRadius),
         ),
-        margin: EdgeInsets.only(right: 5.w),
+        margin: EdgeInsets.only(right: 5.w, bottom: 1.h),
         child: Stack(
           children: [
             Column(
               children: [
                 Container(
-                  width: 40.w,
-                  height: 15.h,
+                  width: mostWishedCardWidth,
+                  height: mostWishedPhotoHeight,
                   decoration: const BoxDecoration(
                     color: background,
                   ),
                   child: ClipRRect(
                     borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(radius),
-                      topRight: Radius.circular(radius),
+                      topLeft: Radius.circular(mostWishedCardRadius),
+                      topRight: Radius.circular(mostWishedCardRadius),
                     ),
                     child: Image.asset(
                       photo,
@@ -333,30 +359,42 @@ class HomePageState extends State<HomePage> {
                   ),
                 ),
                 Container(
-                  width: 40.w,
+                  height: mostWishedDetailsHeight,
+                  width: mostWishedCardWidth,
                   padding: EdgeInsets.symmetric(
                     horizontal: 2.w,
-                    vertical: 0.5.h,
+                    vertical: 1.h,
                   ),
                   child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       textWidget(
                         title,
                         textAlign: TextAlign.start,
                         style: mostWished(color: darkerGrey),
                       ),
-                      DividerWidget(height: 1.h),
-                      Wrap(
-                        alignment: WrapAlignment.start,
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Column(
-                            children: [
-                              oldPriceWidget,
-                              textWidget(formattedPrice,
-                                  style: headTitle(color: success)),
-                            ],
+                          SizedBox(
+                            width: 25.w,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                oldPriceWidget,
+                                textWidget(
+                                  formattedPrice,
+                                  style: headTitle(
+                                    color: success,
+                                  ),
+                                  maxLines: 1,
+                                ),
+                              ],
+                            ),
                           ),
-                          durationWidget
+                          durationWidget,
                         ],
                       )
                     ],

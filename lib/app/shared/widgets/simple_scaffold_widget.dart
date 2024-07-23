@@ -94,10 +94,12 @@ class _SimpleScaffoldWidgetState extends State<SimpleScaffoldWidget> {
         child: SingleChildScrollView(
           child: Container(
             width: 100.w,
-            height: 100.h,
             color: bodyColor,
             padding: widget.bodyPadding,
-            child: widget.body,
+            child: Flex(
+              direction: Axis.vertical,
+              children: [widget.body],
+            ),
           ),
         ),
       ),

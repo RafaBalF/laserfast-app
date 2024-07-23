@@ -4,7 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:laserfast_app/app/modules/home/pages/profile/profile_store.dart';
 import 'package:laserfast_app/app/modules/home/widgets/tab_body_widget.dart';
 import 'package:laserfast_app/app/shared/colors.dart';
-import 'package:laserfast_app/app/shared/text.dart';
+import 'package:laserfast_app/app/shared/text_widget.dart';
 import 'package:laserfast_app/app/shared/text_styles.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 

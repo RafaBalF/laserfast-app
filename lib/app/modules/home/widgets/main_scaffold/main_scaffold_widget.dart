@@ -4,8 +4,9 @@ import 'package:flutter_svg/svg.dart';
 import 'package:laserfast_app/app/modules/home/widgets/bottom_navigation_bar/bottom_navigation_bar.dart';
 import 'package:laserfast_app/app/modules/home/widgets/main_scaffold/main_scaffold_store.dart';
 import 'package:laserfast_app/app/shared/colors.dart';
-import 'package:laserfast_app/app/shared/text.dart';
+import 'package:laserfast_app/app/shared/text_widget.dart';
 import 'package:laserfast_app/app/shared/text_styles.dart';
+import 'package:laserfast_app/app/shared/widgets/divider_widget.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 class MainScaffoldWidget extends StatefulWidget {
@@ -59,12 +60,14 @@ class _MainScaffoldWidgetState extends State<MainScaffoldWidget> {
       ),
       body: SingleChildScrollView(
         child: Container(
-          height: 130.h,
           width: 100.w,
           alignment: Alignment.topLeft,
           color: background,
           padding: EdgeInsets.only(left: 5.w),
-          child: widget.body,
+          child: Flex(
+            direction: Axis.vertical,
+            children: [widget.body, DividerWidget(height: 5.h)],
+          ),
         ),
       ),
       floatingActionButton: widget.floatingActionButton,

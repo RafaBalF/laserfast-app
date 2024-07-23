@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
-import '../text.dart';
+import '../text_widget.dart';
 import 'divider_widget.dart';
 import 'models/dropdown.model.dart';
 
