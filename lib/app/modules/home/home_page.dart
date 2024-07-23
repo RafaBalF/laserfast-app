@@ -1,3 +1,4 @@
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:intl/intl.dart';
 import 'package:laserfast_app/app/modules/home/widgets/main_scaffold/main_scaffold_widget.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +9,7 @@ import 'package:laserfast_app/app/shared/colors.dart';
 import 'package:laserfast_app/app/shared/text_widget.dart';
 import 'package:laserfast_app/app/shared/text_styles.dart';
 import 'package:laserfast_app/app/shared/widgets/divider_widget.dart';
+import 'package:laserfast_app/app/shared/widgets/shimmer_widget.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
@@ -35,10 +37,78 @@ class HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    return MainScaffoldWidget(body: Observer(
+      builder: (_) {
+        return (_store.loadingStore.isLoading) ? _loadingBody() : _body();
+      },
+    ));
+  }
+
+  Widget _loadingBody() {
+    return SingleChildScrollView(
+      physics: const NeverScrollableScrollPhysics(),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          DividerWidget(height: 3.h),
+          SizedBox(
+            height: 10.h,
+            width: 100.w,
+            child: ListView.builder(
+              physics: const NeverScrollableScrollPhysics(),
+              scrollDirection: Axis.horizontal,
+              itemCount: 5,
+              itemBuilder: (BuildContext context, int index) {
+                return Padding(
+                  padding: EdgeInsets.only(right: 3.w),
+                  child: ShimmerWidget(width: 20.w, height: 25.h),
+                );
+              },
+            ),
+          ),
+          DividerWidget(height: 3.h),
+          SizedBox(
+            height: 5.h,
+            width: 90.w,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                ShimmerWidget(width: 70.w, height: 4.h),
+                ShimmerWidget(width: 15.w, height: 4.h),
+              ],
+            ),
+          ),
+          DividerWidget(height: 3.h),
+          ShimmerWidget(width: 90.w, height: 12.h),
+          DividerWidget(height: 2.h),
+          ShimmerWidget(width: 90.w, height: 12.h),
+          DividerWidget(height: 3.h),
+          SizedBox(
+            height: 25.h,
+            width: 100.w,
+            child: ListView.builder(
+              physics: const NeverScrollableScrollPhysics(),
+              scrollDirection: Axis.horizontal,
+              itemCount: 3,
+              itemBuilder: (BuildContext context, int index) {
+                return Padding(
+                  padding: EdgeInsets.only(right: 5.w),
+                  child: ShimmerWidget(width: 43.w, height: 10.h),
+                );
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _body() {
     final double spacing = 3.h;
 
-    return MainScaffoldWidget(
-        body: Column(
+    return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         DividerWidget(height: spacing),
@@ -52,7 +122,7 @@ class HomePageState extends State<HomePage> {
         DividerWidget(height: spacing),
         _mostWished(),
       ],
-    ));
+    );
   }
 
   Widget _cards() {

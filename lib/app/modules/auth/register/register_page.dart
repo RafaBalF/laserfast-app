@@ -224,14 +224,14 @@ class RegisterPageState extends State<RegisterPage> with FormValidationsMixin {
                 if (mounted) {
                   if (r.status) {
                     Timer(const Duration(seconds: 2), () {
-                      Modular.to.navigate('/home/initial');
+                      Modular.to.navigate('/home/');
                     });
                   }
                   showBaseModalBottomSheet(
                     context,
                     r,
                     onSuccessPressed: () {
-                      Modular.to.navigate('/home/initial');
+                      Modular.to.navigate('/home/');
                     },
                   );
                 }

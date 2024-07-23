@@ -30,7 +30,7 @@ class AuthPageState extends State<AuthPage> {
 
   Widget _mainBody() {
     if (_store.authModel != null) {
-      Modular.to.navigate('/home/initial');
+      Modular.to.navigate('/home/');
     } else {
       Modular.to.navigate('/auth/login');
     }

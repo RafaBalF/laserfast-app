@@ -41,7 +41,7 @@ class LaunchPageState extends State<LaunchPage> with TickerProviderStateMixin {
     if (_store.isLogged()) {
       _animationController.dispose();
 
-      Modular.to.navigate('/home/initial');
+      Modular.to.navigate('/home/');
 
       return Container(color: primary);
     }

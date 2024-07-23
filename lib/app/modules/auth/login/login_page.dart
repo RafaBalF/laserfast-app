@@ -42,7 +42,7 @@ class LoginPageState extends State<LoginPage> with FormValidationsMixin {
   @override
   Widget build(BuildContext context) {
     if (_store.authModel != null) {
-      Modular.to.navigate('/home/initial');
+      Modular.to.navigate('/home/');
     }
     return SimpleScaffoldWidget(
         bodyColor: primary,
@@ -111,14 +111,14 @@ class LoginPageState extends State<LoginPage> with FormValidationsMixin {
               onPressed: () async {
                 // TODO: FAZER LOGIN FUNCIONAR
 
-                Modular.to.navigate('/home/initial');
+                Modular.to.navigate('/home/');
 
                 // if (!formKey.currentState!.validate()) return;
 
                 // var r = await _store.login();
 
                 // if (r.status) {
-                //   Modular.to.navigate('/home/initial');
+                //   Modular.to.navigate('/home/');
                 // } else {
                 //   if (mounted) {
                 //     showErrorBottomSheet(context, message: r.message);

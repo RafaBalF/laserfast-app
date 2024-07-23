@@ -42,7 +42,7 @@ class NotificationService {
 
       _handlePayload(payload);
     } else {
-      Modular.to.navigate('/home/initial');
+      Modular.to.navigate('/home/');
     }
   }
 
@@ -209,7 +209,7 @@ class NotificationService {
     String? body,
     String? payload,
   ) {
-    Modular.to.navigate('/home/initial');
+    Modular.to.navigate('/home/');
   }
 
   void selectNotification(String? payload) {
