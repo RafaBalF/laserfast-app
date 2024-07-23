@@ -94,7 +94,7 @@ TextStyle text({Color? color, TextDecoration? textDecoration}) {
 
 TextStyle profileTile({Color? color, TextDecoration? textDecoration}) {
   return defaultStyle(
-    fontSize: 15.sp,
+    fontSize: 14.sp,
     fontWeight: FontWeight.bold,
     color: color,
     height: 1.1,

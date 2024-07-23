@@ -51,7 +51,7 @@ class _MainScaffoldWidgetState extends State<MainScaffoldWidget> {
         actions: [
           _padding(
             GestureDetector(
-              child: SvgPicture.asset('assets/icons/svg/user.svg'),
+              child: SvgPicture.asset('assets/icons/svg/user_accent.svg'),
               onTap: () => Modular.to.pushNamed('/home/profile'),
             ),
           )
