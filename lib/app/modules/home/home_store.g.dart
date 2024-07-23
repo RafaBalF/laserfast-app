@@ -57,19 +57,16 @@ mixin _$HomeStore on HomeStoreBase, Store {
     });
   }
 
-  late final _$HomeStoreBaseActionController =
-      ActionController(name: 'HomeStoreBase', context: context);
+  late final _$initHomeAsyncAction =
+      AsyncAction('HomeStoreBase.initHome', context: context);
 
   @override
-  void initHome() {
-    final _$actionInfo = _$HomeStoreBaseActionController.startAction(
-        name: 'HomeStoreBase.initHome');
-    try {
-      return super.initHome();
-    } finally {
-      _$HomeStoreBaseActionController.endAction(_$actionInfo);
-    }
+  Future<void> initHome() {
+    return _$initHomeAsyncAction.run(() => super.initHome());
   }
+
+  late final _$HomeStoreBaseActionController =
+      ActionController(name: 'HomeStoreBase', context: context);
 
   @override
   void isLogged() {

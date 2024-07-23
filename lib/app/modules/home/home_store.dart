@@ -25,7 +25,7 @@ abstract class HomeStoreBase with Store {
 
   //ACTION
   @action
-  void initHome() {
+  Future<void> initHome() async {
     isLogged();
   }
 

@@ -22,6 +22,8 @@ class HomePage extends StatefulWidget {
 
 class HomePageState extends State<HomePage> {
   final HomeStore _store = Modular.get<HomeStore>();
+  late final Future<void> _future;
+
   final NumberFormat currencyFormatter = NumberFormat("#,##0.00", "pt_BR");
 
   final double mostWishedCardWidth = 50.w;
@@ -31,17 +33,30 @@ class HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    _store.initHome();
+    _future = Future.wait([_store.initHome()]);
+
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return MainScaffoldWidget(body: Observer(
-      builder: (_) {
-        return (_store.loadingStore.isLoading) ? _loadingBody() : _body();
+    return FutureBuilder(
+      future: _future,
+      builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+        return MainScaffoldWidget(body: Observer(
+          builder: (_) {
+            if (snapshot.connectionState == ConnectionState.done &&
+                snapshot.hasData) {
+              return Observer(builder: (_) {
+                return _body();
+              });
+            } else {
+              return _loadingBody();
+            }
+          },
+        ));
       },
-    ));
+    );
   }
 
   Widget _loadingBody() {
