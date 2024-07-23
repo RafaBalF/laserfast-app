@@ -111,9 +111,17 @@ class AgendaPageState extends State<AgendaPage> {
   Widget _body() {
     final double spacing = 3.h;
 
+    // showDatePicker(
+    //   context: context,
+    //   firstDate: DateTime.now(),
+    //   lastDate: DateTime.now(),
+    // );
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        // DatePickerDialog(firstDate: DateTime.now(), lastDate: DateTime.now()),
+
         DividerWidget(height: spacing),
       ],
     );
