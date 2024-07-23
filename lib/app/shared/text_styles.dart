@@ -129,3 +129,21 @@ TextStyle modalDetails({Color? color, TextDecoration? textDecoration}) {
     textDecoration: textDecoration,
   );
 }
+
+TextStyle small({Color? color, TextDecoration? textDecoration}) {
+  return defaultStyle(
+    fontSize: 14.sp,
+    fontWeight: FontWeight.bold,
+    color: color,
+    textDecoration: textDecoration,
+  );
+}
+
+TextStyle mostWished({Color? color, TextDecoration? textDecoration}) {
+  return defaultStyle(
+    fontSize: 15.sp,
+    fontWeight: FontWeight.bold,
+    color: color,
+    textDecoration: textDecoration,
+  );
+}

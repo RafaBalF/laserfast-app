@@ -107,6 +107,8 @@ flutter:
     - assets/icons/svg/
     - assets/images/
     - assets/images/app_presentation/
+    - assets/images/banners/
+    - assets/images/home/
     - assets/json/
 
   # An image asset can refer to one or more resolution-specific "variants", see

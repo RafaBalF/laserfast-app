@@ -42,7 +42,7 @@ class _BottomNavigationBarWidgetState extends State<BottomNavigationBarWidget> {
               'Agenda',
             ),
             _bottomNavigationBarItem(
-              'assets/icons/svg/payment.svg',
+              'assets/icons/svg/ticket.svg',
               'Pagamento',
             ),
             _bottomNavigationBarItem(

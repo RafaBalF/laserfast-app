@@ -59,10 +59,10 @@ class _MainScaffoldWidgetState extends State<MainScaffoldWidget> {
       ),
       body: SingleChildScrollView(
         child: Container(
-          height: 100.h,
+          height: 130.h,
           width: 100.w,
           alignment: Alignment.topLeft,
-          color: white,
+          color: background,
           padding: EdgeInsets.only(left: 5.w),
           child: widget.body,
         ),
