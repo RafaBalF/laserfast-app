@@ -134,7 +134,7 @@ class HomePageState extends State<HomePage> {
           RedirectCardWidget(
             imgPath: 'assets/icons/svg/calendar_accent.svg',
             label: 'Agenda',
-            route: '', // TODO: COLOCAR ROTA CERTA
+            route: '/home/agenda',
             labelColor: accent,
             margin: EdgeInsets.only(right: 2.w),
           ),
