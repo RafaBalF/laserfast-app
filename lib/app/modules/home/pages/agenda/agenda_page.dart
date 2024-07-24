@@ -4,12 +4,11 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:intl/intl.dart';
 import 'package:laserfast_app/app/modules/home/pages/agenda/agenda_store.dart';
+import 'package:laserfast_app/app/modules/home/pages/agenda/widgets/available_schedules_widget.dart';
 import 'package:laserfast_app/app/shared/colors.dart';
-import 'package:laserfast_app/app/shared/interfaces/selectable_card.interface.dart';
 import 'package:laserfast_app/app/shared/modal_bottom_sheet.dart';
 import 'package:laserfast_app/app/shared/text_styles.dart';
 import 'package:laserfast_app/app/shared/text_widget.dart';
-import 'package:laserfast_app/app/shared/widgets/accordion_widget.dart';
 import 'package:laserfast_app/app/shared/widgets/button_widget.dart';
 import 'package:laserfast_app/app/shared/widgets/divider_widget.dart';
 import 'package:laserfast_app/app/shared/widgets/selectable_cards_widget.dart';
@@ -32,7 +31,6 @@ class AgendaPageState extends State<AgendaPage> {
 
   final DateFormat ddmmmyyyyFormatter = DateFormat('dd MMM yyyy');
   final DateFormat ddmmFormatter = DateFormat('dd/MM');
-  final DateFormat hhmmFormatter = DateFormat('HH:mm');
 
   @override
   void initState() {
@@ -136,6 +134,8 @@ class AgendaPageState extends State<AgendaPage> {
         _datePickerSection(),
         DividerWidget(height: spacing),
         _areaPickerSection(),
+        DividerWidget(height: spacing),
+        _sessionDurationSection(),
         DividerWidget(height: spacing),
       ],
     );
@@ -325,7 +325,7 @@ class AgendaPageState extends State<AgendaPage> {
                 height: 20.h,
                 items: _store.sessionAreas.toList(),
               )
-            : Container();
+            : const SizedBox();
       }),
       DividerWidget(height: 2.h),
       Observer(builder: (_) {
@@ -341,35 +341,23 @@ class AgendaPageState extends State<AgendaPage> {
         );
       }),
       DividerWidget(height: 2.h),
-      Observer(builder: (_) {
-        return (_store.availableSchedules.isNotEmpty)
-            ? Column(
-                children: _store.availableSchedules
-                    .map((s) => AccordionWidget(
-                          label:
-                              "Horários disponíveis - ${ddmmFormatter.format(s.day!)}",
-                          content: SelectableCardsWidget(
-                            height: 20.h,
-                            multiple: false,
-                            items: s.schedules!
-                                .map((schedule) => SelectableCard(
-                                      label: hhmmFormatter.format(schedule),
-                                      value: s,
-                                      onSelect: () {
-                                        _store.selectSchedule(s, schedule);
-                                      },
-                                      onUnselect: () {
-                                        _store.selectSchedule(null, null);
-                                      },
-                                    ))
-                                .toList(),
-                          ),
-                        ))
-                    .toList(),
-              )
-            : Container();
-      }),
+      const AvailableSchedulesWidget(),
     ]);
+  }
+
+  Widget _sessionDurationSection() {
+    return Observer(builder: (_) {
+      return (_store.selectedSchedule != null)
+          ? Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              textWidget(
+                'Tempo sessão',
+                style: h2(),
+                textAlign: TextAlign.start,
+              ),
+              DividerWidget(height: 2.h),
+            ])
+          : SizedBox(height: 3.h);
+    });
   }
 
   @override

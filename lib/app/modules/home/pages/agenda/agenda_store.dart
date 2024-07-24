@@ -130,10 +130,9 @@ abstract class AgendaStoreBase with Store {
 
     List<AvailableSchedulesModel> schedules = [];
 
+    final now = DateTime.now();
     for (var i = 0; i < 3; i++) {
-      final now = DateTime.now();
-
-      final count = Random().nextInt(10);
+      final count = Random(1).nextInt(10);
 
       final sc = List<DateTime>.empty(growable: true);
 
@@ -142,7 +141,7 @@ abstract class AgendaStoreBase with Store {
       }
 
       schedules.add(AvailableSchedulesModel(
-        day: now,
+        day: DateTime(now.year, now.month, now.day + i),
         schedules: sc,
         sessionCode: i,
         duration: count * 3,
