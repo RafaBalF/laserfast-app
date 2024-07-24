@@ -44,6 +44,7 @@ class RecoverPasswordPageState extends State<RecoverPasswordPage>
   Widget build(BuildContext context) {
     return SimpleScaffoldWidget(
       title: widget.title,
+      useDefaultPadding: false,
       body: SingleChildScrollView(
         child: Container(
           padding: EdgeInsets.symmetric(horizontal: 5.w),

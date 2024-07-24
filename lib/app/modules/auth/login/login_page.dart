@@ -47,6 +47,7 @@ class LoginPageState extends State<LoginPage> with FormValidationsMixin {
     return SimpleScaffoldWidget(
         bodyColor: primary,
         showReturnArrow: false,
+        useDefaultPadding: false,
         bodyPadding: EdgeInsets.symmetric(horizontal: 5.w),
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.center,

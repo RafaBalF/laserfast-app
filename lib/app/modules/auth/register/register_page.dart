@@ -55,6 +55,7 @@ class RegisterPageState extends State<RegisterPage> with FormValidationsMixin {
   Widget build(BuildContext context) {
     return SimpleScaffoldWidget(
       title: widget.title,
+      useDefaultPadding: false,
       body: SingleChildScrollView(
         child: Container(
           alignment: Alignment.center,

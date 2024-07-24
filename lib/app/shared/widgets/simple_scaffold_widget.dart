@@ -4,7 +4,7 @@ import 'package:laserfast_app/app/shared/colors.dart';
 import 'package:laserfast_app/app/shared/text_styles.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
-class SimpleScaffoldWidget extends StatefulWidget {
+class SimpleScaffoldWidget extends StatelessWidget {
   final String title;
   final Widget body;
   final Widget? progress;
@@ -18,6 +18,7 @@ class SimpleScaffoldWidget extends StatefulWidget {
   final EdgeInsetsGeometry? bodyPadding;
   final bool showReturnArrow;
   final Color? returnArrowColor;
+  final bool useDefaultPadding;
 
   const SimpleScaffoldWidget({
     super.key,
@@ -34,38 +35,25 @@ class SimpleScaffoldWidget extends StatefulWidget {
     this.bodyPadding,
     this.showReturnArrow = true,
     this.returnArrowColor,
+    this.useDefaultPadding = true,
   });
 
   @override
-  State<SimpleScaffoldWidget> createState() => _SimpleScaffoldWidgetState();
-}
-
-class _SimpleScaffoldWidgetState extends State<SimpleScaffoldWidget> {
-  late final Color bodyColor;
-  late final Color headerColor;
-  late final Color returnArrowColor;
-
-  @override
-  void initState() {
-    bodyColor = widget.bodyColor ?? background;
-    headerColor = widget.headerColor ?? bodyColor;
-    returnArrowColor = widget.returnArrowColor ?? accent;
-
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    final Color finalBodyColor = bodyColor ?? background;
+    final Color finalHeaderColor = headerColor ?? finalBodyColor;
+    final Color finalReturnArrowColor = returnArrowColor ?? accent;
+
     return Scaffold(
-      backgroundColor: headerColor,
+      backgroundColor: finalHeaderColor,
       appBar: AppBar(
-        leading: widget.showReturnArrow
+        leading: showReturnArrow
             ? Padding(
                 padding: EdgeInsets.only(left: 5.w),
                 child: IconButton(
                   icon: Icon(
                     Icons.arrow_back_ios,
-                    color: returnArrowColor,
+                    color: finalReturnArrowColor,
                   ),
                   onPressed: () {
                     if (Modular.to.canPop()) {
@@ -76,35 +64,29 @@ class _SimpleScaffoldWidgetState extends State<SimpleScaffoldWidget> {
               )
             : null,
         centerTitle: true,
-        backgroundColor: bodyColor,
+        backgroundColor: finalBodyColor,
         title: Text(
-          widget.title,
+          title,
           style: headTitle(color: black),
         ),
         elevation: 0,
         // toolbarHeight: 6.1.h,
-        actions: widget.actions,
+        actions: actions,
       ),
-      body: Container(
-        height: 100.h,
-        width: 100.w,
-        alignment: Alignment.topLeft,
-        color: white,
-        padding: const EdgeInsets.only(top: 0),
-        child: SingleChildScrollView(
-          child: Container(
-            width: 100.w,
-            color: bodyColor,
-            padding: widget.bodyPadding,
-            child: Flex(
-              direction: Axis.vertical,
-              children: [widget.body],
-            ),
+      body: SingleChildScrollView(
+        child: Container(
+          width: 100.w,
+          color: finalBodyColor,
+          padding:
+              (useDefaultPadding) ? EdgeInsets.only(left: 5.w) : bodyPadding,
+          child: Flex(
+            direction: Axis.vertical,
+            children: [body],
           ),
         ),
       ),
-      floatingActionButton: widget.floatingActionButton,
-      bottomNavigationBar: widget.bottomNavigationBar,
+      floatingActionButton: floatingActionButton,
+      bottomNavigationBar: bottomNavigationBar,
     );
   }
 }
