@@ -14,6 +14,13 @@ abstract class AgendaStoreBase with Store {
   //SERVICES
 
   //OBSERVABLES
+  @observable
+  DateTime? startDate;
+  @observable
+  DateTime? endDate;
+
+  @observable
+  int sessionDuration = 0;
 
   //VARIABLES
 
@@ -22,6 +29,13 @@ abstract class AgendaStoreBase with Store {
   //ACTIONS
   @action
   Future<void> init() async {}
+
+  @action
+  void setStartDate(DateTime date) => startDate = date;
+  @action
+  void setEndDate(DateTime date) => endDate = date;
+  @action
+  void resetDates() => startDate = endDate = null;
 
   //METHODS
 }

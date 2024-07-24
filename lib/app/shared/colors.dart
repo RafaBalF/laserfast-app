@@ -12,6 +12,7 @@ const Color black = Color(0xFF1e1f24);
 const Color error = Color(0xFFFF2F2F);
 const Color background = Color(0xFFFFFFFF);
 const Color success = Color(0XFF00C5A9);
+const Color violet = Color(0XFF8572FF);
 
 MaterialColor primaryMaterial = const MaterialColor(
   0xFF2C0A49,

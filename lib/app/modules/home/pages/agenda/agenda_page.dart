@@ -1,11 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:intl/intl.dart';
 import 'package:laserfast_app/app/modules/home/pages/agenda/agenda_store.dart';
+import 'package:laserfast_app/app/shared/colors.dart';
+import 'package:laserfast_app/app/shared/modal_bottom_sheet.dart';
+import 'package:laserfast_app/app/shared/text_styles.dart';
+import 'package:laserfast_app/app/shared/text_widget.dart';
 import 'package:laserfast_app/app/shared/widgets/divider_widget.dart';
 import 'package:laserfast_app/app/shared/widgets/shimmer_widget.dart';
 import 'package:laserfast_app/app/shared/widgets/simple_scaffold_widget.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 class AgendaPage extends StatefulWidget {
   const AgendaPage({super.key});
@@ -16,6 +23,9 @@ class AgendaPage extends StatefulWidget {
 class AgendaPageState extends State<AgendaPage> {
   final AgendaStore _store = Modular.get<AgendaStore>();
   late final Future<void> _future;
+
+  final DateRangePickerController _controller = DateRangePickerController();
+  final DateFormat _dateFormat = DateFormat('dd MMM yyyy');
 
   @override
   void initState() {
@@ -31,6 +41,8 @@ class AgendaPageState extends State<AgendaPage> {
       builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
         return SimpleScaffoldWidget(
             title: 'AGENDAMENTO',
+            useDefaultPadding: false,
+            bodyPadding: EdgeInsets.symmetric(horizontal: 5.w),
             body: Observer(
               builder: (_) {
                 if (snapshot.connectionState == ConnectionState.done &&
@@ -111,19 +123,201 @@ class AgendaPageState extends State<AgendaPage> {
   Widget _body() {
     final double spacing = 3.h;
 
-    // showDatePicker(
-    //   context: context,
-    //   firstDate: DateTime.now(),
-    //   lastDate: DateTime.now(),
-    // );
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        _datePickerSection(),
+        DividerWidget(height: spacing),
+        _areaPickerSection(),
+        DividerWidget(height: spacing),
+      ],
+    );
+  }
+
+  Widget _datePickerSection() {
+    final double cardsWidth = 30.w;
+    final BorderRadius cardsBorderRadius = BorderRadius.circular(10);
+    final EdgeInsets cardsPadding = EdgeInsets.symmetric(
+      horizontal: 2.w,
+      vertical: 1.h,
+    );
+    final EdgeInsets cardsMargin = EdgeInsets.symmetric(horizontal: 2.w);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // DatePickerDialog(firstDate: DateTime.now(), lastDate: DateTime.now()),
+        textWidget(
+          'Data',
+          style: h2(),
+          textAlign: TextAlign.start,
+        ),
+        DividerWidget(height: 2.h),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              width: cardsWidth,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(2),
+                border: Border.all(color: grey),
+              ),
+              padding: cardsPadding,
+              margin: cardsMargin,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  textWidget(
+                    'De',
+                    textAlign: TextAlign.start,
+                    style: profileTile(color: darkGrey),
+                  ),
+                  DividerWidget(height: 0.5.h),
+                  Observer(builder: (_) {
+                    String startDate = (_store.startDate != null)
+                        ? _dateFormat.format(_store.startDate!)
+                        : 'Data início';
 
-        DividerWidget(height: spacing),
+                    return textWidget(
+                      startDate,
+                      textAlign: TextAlign.center,
+                      style: label(color: accent),
+                    );
+                  }),
+                ],
+              ),
+            ),
+            Container(
+              width: cardsWidth,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(2),
+                border: Border.all(color: grey),
+              ),
+              padding: cardsPadding,
+              margin: cardsMargin,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  textWidget(
+                    'Até',
+                    textAlign: TextAlign.start,
+                    style: profileTile(color: darkGrey),
+                  ),
+                  DividerWidget(height: 0.5.h),
+                  Observer(builder: (_) {
+                    String endDate = (_store.endDate != null)
+                        ? _dateFormat.format(_store.endDate!)
+                        : 'Data fim';
+
+                    return textWidget(
+                      endDate,
+                      textAlign: TextAlign.center,
+                      style: label(color: accent),
+                    );
+                  }),
+                ],
+              ),
+            ),
+          ],
+        ),
+        DividerWidget(height: 2.h),
+        Center(
+          child: GestureDetector(
+            onTap: () {
+              final DateTime today = DateTime.now();
+              final DateTime aMonthFromNow =
+                  DateTime(today.year, today.month + 1, today.day);
+
+              final rangeDatePicker = SfDateRangePicker(
+                controller: _controller,
+                backgroundColor: background,
+                headerStyle: const DateRangePickerHeaderStyle(
+                  backgroundColor: background,
+                ),
+                minDate: today,
+                maxDate: aMonthFromNow,
+                selectionMode: DateRangePickerSelectionMode.range,
+                showActionButtons: true,
+                onCancel: () {
+                  Modular.to.pop();
+                },
+                onSubmit: (v) {
+                  // print(v);
+                  if (_controller.selectedRange == null) {
+                    return showErrorBottomSheet(
+                      context,
+                      message: 'Selecione um período de tempo',
+                    );
+                  }
+
+                  DateTime startDate = _controller.selectedRange!.startDate!;
+                  DateTime endDate =
+                      _controller.selectedRange!.endDate ?? startDate;
+
+                  _store.setStartDate(startDate);
+                  _store.setEndDate(endDate);
+
+                  Modular.to.pop();
+                },
+              );
+
+              showCustomBottomSheet(
+                  context, 'Selecione um período', rangeDatePicker);
+            },
+            child: Container(
+              width: 70.w,
+              height: 10.h,
+              decoration: BoxDecoration(
+                color: grey,
+                borderRadius: cardsBorderRadius,
+              ),
+              padding: cardsPadding,
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    textWidget(
+                      'Escolher um período',
+                      style: h2(color: black),
+                    ),
+                    textWidget(
+                      'Clique aqui',
+                      style: text(color: black),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
       ],
     );
+  }
+
+  Widget _areaPickerSection() {
+    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+      textWidget(
+        'Selecione as áreas',
+        style: h2(),
+        textAlign: TextAlign.start,
+      ),
+      DividerWidget(height: 2.h),
+      Observer(builder: (_) {
+        return textWidget(
+          'Tempo de sessão: ${_store.sessionDuration} minutos',
+          style: label(),
+          textAlign: TextAlign.start,
+        );
+      }),
+    ]);
+  }
+
+  @override
+  void dispose() {
+    _store.resetDates();
+
+    _controller.dispose();
+
+    super.dispose();
   }
 }
