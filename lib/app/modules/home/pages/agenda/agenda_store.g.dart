@@ -57,6 +57,39 @@ mixin _$AgendaStore on AgendaStoreBase, Store {
     });
   }
 
+  late final _$sessionAreasAtom =
+      Atom(name: 'AgendaStoreBase.sessionAreas', context: context);
+
+  @override
+  ObservableList<SelectableCard<SessionAreaModel>> get sessionAreas {
+    _$sessionAreasAtom.reportRead();
+    return super.sessionAreas;
+  }
+
+  @override
+  set sessionAreas(ObservableList<SelectableCard<SessionAreaModel>> value) {
+    _$sessionAreasAtom.reportWrite(value, super.sessionAreas, () {
+      super.sessionAreas = value;
+    });
+  }
+
+  late final _$selectedSessionAreasAtom =
+      Atom(name: 'AgendaStoreBase.selectedSessionAreas', context: context);
+
+  @override
+  ObservableList<SessionAreaModel> get selectedSessionAreas {
+    _$selectedSessionAreasAtom.reportRead();
+    return super.selectedSessionAreas;
+  }
+
+  @override
+  set selectedSessionAreas(ObservableList<SessionAreaModel> value) {
+    _$selectedSessionAreasAtom.reportWrite(value, super.selectedSessionAreas,
+        () {
+      super.selectedSessionAreas = value;
+    });
+  }
+
   late final _$initAsyncAction =
       AsyncAction('AgendaStoreBase.init', context: context);
 
@@ -102,11 +135,101 @@ mixin _$AgendaStore on AgendaStoreBase, Store {
   }
 
   @override
+  void getSessionAreas() {
+    final _$actionInfo = _$AgendaStoreBaseActionController.startAction(
+        name: 'AgendaStoreBase.getSessionAreas');
+    try {
+      return super.getSessionAreas();
+    } finally {
+      _$AgendaStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void incrementSessionDuration(int d) {
+    final _$actionInfo = _$AgendaStoreBaseActionController.startAction(
+        name: 'AgendaStoreBase.incrementSessionDuration');
+    try {
+      return super.incrementSessionDuration(d);
+    } finally {
+      _$AgendaStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void decrementSessionDuration(int d) {
+    final _$actionInfo = _$AgendaStoreBaseActionController.startAction(
+        name: 'AgendaStoreBase.decrementSessionDuration');
+    try {
+      return super.decrementSessionDuration(d);
+    } finally {
+      _$AgendaStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void selectSessionArea(SessionAreaModel s) {
+    final _$actionInfo = _$AgendaStoreBaseActionController.startAction(
+        name: 'AgendaStoreBase.selectSessionArea');
+    try {
+      return super.selectSessionArea(s);
+    } finally {
+      _$AgendaStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void unselectSessionArea(SessionAreaModel s) {
+    final _$actionInfo = _$AgendaStoreBaseActionController.startAction(
+        name: 'AgendaStoreBase.unselectSessionArea');
+    try {
+      return super.unselectSessionArea(s);
+    } finally {
+      _$AgendaStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void searchAvailableSchedules() {
+    final _$actionInfo = _$AgendaStoreBaseActionController.startAction(
+        name: 'AgendaStoreBase.searchAvailableSchedules');
+    try {
+      return super.searchAvailableSchedules();
+    } finally {
+      _$AgendaStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void resetSessionArea() {
+    final _$actionInfo = _$AgendaStoreBaseActionController.startAction(
+        name: 'AgendaStoreBase.resetSessionArea');
+    try {
+      return super.resetSessionArea();
+    } finally {
+      _$AgendaStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void reset() {
+    final _$actionInfo = _$AgendaStoreBaseActionController.startAction(
+        name: 'AgendaStoreBase.reset');
+    try {
+      return super.reset();
+    } finally {
+      _$AgendaStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 startDate: ${startDate},
 endDate: ${endDate},
-sessionDuration: ${sessionDuration}
+sessionDuration: ${sessionDuration},
+sessionAreas: ${sessionAreas},
+selectedSessionAreas: ${selectedSessionAreas}
     ''';
   }
 }

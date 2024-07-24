@@ -8,7 +8,9 @@ import 'package:laserfast_app/app/shared/colors.dart';
 import 'package:laserfast_app/app/shared/modal_bottom_sheet.dart';
 import 'package:laserfast_app/app/shared/text_styles.dart';
 import 'package:laserfast_app/app/shared/text_widget.dart';
+import 'package:laserfast_app/app/shared/widgets/button_widget.dart';
 import 'package:laserfast_app/app/shared/widgets/divider_widget.dart';
+import 'package:laserfast_app/app/shared/widgets/selectable_cards_widget.dart';
 import 'package:laserfast_app/app/shared/widgets/shimmer_widget.dart';
 import 'package:laserfast_app/app/shared/widgets/simple_scaffold_widget.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -256,6 +258,8 @@ class AgendaPageState extends State<AgendaPage> {
                   _store.setStartDate(startDate);
                   _store.setEndDate(endDate);
 
+                  _store.getSessionAreas();
+
                   Modular.to.pop();
                 },
               );
@@ -309,12 +313,35 @@ class AgendaPageState extends State<AgendaPage> {
           textAlign: TextAlign.start,
         );
       }),
+      DividerWidget(height: 2.h),
+      Observer(builder: (_) {
+        return (_store.sessionAreas.isNotEmpty)
+            ? SelectableCardsWidget(
+                height: 20.h,
+                items: _store.sessionAreas.toList(),
+              )
+            : Container();
+      }),
+      DividerWidget(height: 2.h),
+      Observer(builder: (_) {
+        return ButtonWidget.filled(
+          onPressed: () {
+            print(_store.selectedSessionAreas);
+          },
+          backgroundColor: accent,
+          title: 'BUSCAR HORÁRIOS',
+          textColor: white,
+          disabled: _store.selectedSessionAreas.isEmpty,
+          loading: _store.loadingStore.isLoading,
+        );
+      }),
+      DividerWidget(height: 2.h),
     ]);
   }
 
   @override
   void dispose() {
-    _store.resetDates();
+    _store.reset();
 
     _controller.dispose();
 
