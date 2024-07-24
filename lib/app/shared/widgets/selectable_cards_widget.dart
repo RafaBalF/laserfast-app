@@ -7,11 +7,13 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 class SelectableCardsWidget<T> extends StatefulWidget {
   final double height;
   final List<SelectableCard<T>> items;
+  final bool multiple;
 
   const SelectableCardsWidget({
     super.key,
     required this.height,
     required this.items,
+    this.multiple = true,
   });
 
   @override
@@ -20,10 +22,12 @@ class SelectableCardsWidget<T> extends StatefulWidget {
 }
 
 class _SelectableCardsWidgetState<T> extends State<SelectableCardsWidget<T>> {
+  final ScrollController scrollController = ScrollController();
+
+  bool canSelectAnother = true;
+
   @override
   Widget build(BuildContext context) {
-    final ScrollController scrollController = ScrollController();
-
     return Container(
       height: widget.height,
       width: 100.w,
@@ -90,6 +94,10 @@ class _SelectableCardsWidgetState<T> extends State<SelectableCardsWidget<T>> {
           v.onSelect!();
         } else if (v.selected && v.onUnselect != null) {
           v.onUnselect!();
+        }
+
+        if (!widget.multiple) {
+          widget.items.where((i) => i != v).forEach((j) => j.selected = false);
         }
 
         setState(() {

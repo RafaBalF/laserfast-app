@@ -90,6 +90,38 @@ mixin _$AgendaStore on AgendaStoreBase, Store {
     });
   }
 
+  late final _$availableSchedulesAtom =
+      Atom(name: 'AgendaStoreBase.availableSchedules', context: context);
+
+  @override
+  ObservableList<AvailableSchedulesModel> get availableSchedules {
+    _$availableSchedulesAtom.reportRead();
+    return super.availableSchedules;
+  }
+
+  @override
+  set availableSchedules(ObservableList<AvailableSchedulesModel> value) {
+    _$availableSchedulesAtom.reportWrite(value, super.availableSchedules, () {
+      super.availableSchedules = value;
+    });
+  }
+
+  late final _$selectedScheduleAtom =
+      Atom(name: 'AgendaStoreBase.selectedSchedule', context: context);
+
+  @override
+  AvailableSchedulesModel? get selectedSchedule {
+    _$selectedScheduleAtom.reportRead();
+    return super.selectedSchedule;
+  }
+
+  @override
+  set selectedSchedule(AvailableSchedulesModel? value) {
+    _$selectedScheduleAtom.reportWrite(value, super.selectedSchedule, () {
+      super.selectedSchedule = value;
+    });
+  }
+
   late final _$initAsyncAction =
       AsyncAction('AgendaStoreBase.init', context: context);
 
@@ -190,11 +222,22 @@ mixin _$AgendaStore on AgendaStoreBase, Store {
   }
 
   @override
-  void searchAvailableSchedules() {
+  void getAvailableSchedules() {
     final _$actionInfo = _$AgendaStoreBaseActionController.startAction(
-        name: 'AgendaStoreBase.searchAvailableSchedules');
+        name: 'AgendaStoreBase.getAvailableSchedules');
     try {
-      return super.searchAvailableSchedules();
+      return super.getAvailableSchedules();
+    } finally {
+      _$AgendaStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void selectSchedule(AvailableSchedulesModel? s, DateTime? schedule) {
+    final _$actionInfo = _$AgendaStoreBaseActionController.startAction(
+        name: 'AgendaStoreBase.selectSchedule');
+    try {
+      return super.selectSchedule(s, schedule);
     } finally {
       _$AgendaStoreBaseActionController.endAction(_$actionInfo);
     }
@@ -229,7 +272,9 @@ startDate: ${startDate},
 endDate: ${endDate},
 sessionDuration: ${sessionDuration},
 sessionAreas: ${sessionAreas},
-selectedSessionAreas: ${selectedSessionAreas}
+selectedSessionAreas: ${selectedSessionAreas},
+availableSchedules: ${availableSchedules},
+selectedSchedule: ${selectedSchedule}
     ''';
   }
 }

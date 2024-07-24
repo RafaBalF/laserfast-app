@@ -5,9 +5,11 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:intl/intl.dart';
 import 'package:laserfast_app/app/modules/home/pages/agenda/agenda_store.dart';
 import 'package:laserfast_app/app/shared/colors.dart';
+import 'package:laserfast_app/app/shared/interfaces/selectable_card.interface.dart';
 import 'package:laserfast_app/app/shared/modal_bottom_sheet.dart';
 import 'package:laserfast_app/app/shared/text_styles.dart';
 import 'package:laserfast_app/app/shared/text_widget.dart';
+import 'package:laserfast_app/app/shared/widgets/accordion_widget.dart';
 import 'package:laserfast_app/app/shared/widgets/button_widget.dart';
 import 'package:laserfast_app/app/shared/widgets/divider_widget.dart';
 import 'package:laserfast_app/app/shared/widgets/selectable_cards_widget.dart';
@@ -27,7 +29,10 @@ class AgendaPageState extends State<AgendaPage> {
   late final Future<void> _future;
 
   final DateRangePickerController _controller = DateRangePickerController();
-  final DateFormat _dateFormat = DateFormat('dd MMM yyyy');
+
+  final DateFormat ddmmmyyyyFormatter = DateFormat('dd MMM yyyy');
+  final DateFormat ddmmFormatter = DateFormat('dd/MM');
+  final DateFormat hhmmFormatter = DateFormat('HH:mm');
 
   @override
   void initState() {
@@ -176,7 +181,7 @@ class AgendaPageState extends State<AgendaPage> {
                   DividerWidget(height: 0.5.h),
                   Observer(builder: (_) {
                     String startDate = (_store.startDate != null)
-                        ? _dateFormat.format(_store.startDate!)
+                        ? ddmmmyyyyFormatter.format(_store.startDate!)
                         : 'Data início';
 
                     return textWidget(
@@ -207,7 +212,7 @@ class AgendaPageState extends State<AgendaPage> {
                   DividerWidget(height: 0.5.h),
                   Observer(builder: (_) {
                     String endDate = (_store.endDate != null)
-                        ? _dateFormat.format(_store.endDate!)
+                        ? ddmmmyyyyFormatter.format(_store.endDate!)
                         : 'Data fim';
 
                     return textWidget(
@@ -326,7 +331,7 @@ class AgendaPageState extends State<AgendaPage> {
       Observer(builder: (_) {
         return ButtonWidget.filled(
           onPressed: () {
-            print(_store.selectedSessionAreas);
+            _store.getAvailableSchedules();
           },
           backgroundColor: accent,
           title: 'BUSCAR HORÁRIOS',
@@ -336,6 +341,34 @@ class AgendaPageState extends State<AgendaPage> {
         );
       }),
       DividerWidget(height: 2.h),
+      Observer(builder: (_) {
+        return (_store.availableSchedules.isNotEmpty)
+            ? Column(
+                children: _store.availableSchedules
+                    .map((s) => AccordionWidget(
+                          label:
+                              "Horários disponíveis - ${ddmmFormatter.format(s.day!)}",
+                          content: SelectableCardsWidget(
+                            height: 20.h,
+                            multiple: false,
+                            items: s.schedules!
+                                .map((schedule) => SelectableCard(
+                                      label: hhmmFormatter.format(schedule),
+                                      value: s,
+                                      onSelect: () {
+                                        _store.selectSchedule(s, schedule);
+                                      },
+                                      onUnselect: () {
+                                        _store.selectSchedule(null, null);
+                                      },
+                                    ))
+                                .toList(),
+                          ),
+                        ))
+                    .toList(),
+              )
+            : Container();
+      }),
     ]);
   }
 

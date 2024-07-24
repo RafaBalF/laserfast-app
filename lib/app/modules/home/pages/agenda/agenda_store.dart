@@ -1,3 +1,6 @@
+import 'dart:math';
+
+import 'package:laserfast_app/app/models/available_schedule.model.dart';
 import 'package:laserfast_app/app/models/session_area.model.dart';
 import 'package:laserfast_app/app/shared/interfaces/selectable_card.interface.dart';
 import 'package:mobx/mobx.dart';
@@ -28,6 +31,13 @@ abstract class AgendaStoreBase with Store {
       ObservableList.of([]);
   @observable
   ObservableList<SessionAreaModel> selectedSessionAreas = ObservableList.of([]);
+
+  @observable
+  ObservableList<AvailableSchedulesModel> availableSchedules =
+      ObservableList.of([]);
+
+  @observable
+  AvailableSchedulesModel? selectedSchedule;
 
   //VARIABLES
 
@@ -115,7 +125,41 @@ abstract class AgendaStoreBase with Store {
   }
 
   @action
-  void searchAvailableSchedules() {}
+  void getAvailableSchedules() {
+    availableSchedules.clear();
+
+    List<AvailableSchedulesModel> schedules = [];
+
+    for (var i = 0; i < 3; i++) {
+      final now = DateTime.now();
+
+      final count = Random().nextInt(10);
+
+      final sc = List<DateTime>.empty(growable: true);
+
+      for (var j = 0; j < count; j++) {
+        sc.add(DateTime(now.year, now.month, now.day, now.hour + j));
+      }
+
+      schedules.add(AvailableSchedulesModel(
+        day: now,
+        schedules: sc,
+        sessionCode: i,
+        duration: count * 3,
+      ));
+    }
+
+    availableSchedules.addAll(schedules);
+  }
+
+  @action
+  void selectSchedule(AvailableSchedulesModel? s, DateTime? schedule) {
+    selectedSchedule = s;
+
+    if (selectedSchedule == null) return;
+
+    selectedSchedule!.selectedDate = schedule;
+  }
 
   @action
   void resetSessionArea() {
