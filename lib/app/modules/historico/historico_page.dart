@@ -30,7 +30,7 @@ class HistoricoPageState extends State<HistoricoPage> {
       future: _future,
       builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
         return SimpleScaffoldWidget(
-            title: 'AGENDAMENTO',
+            title: 'HISTÓRICO DE SESSÕES',
             useDefaultPadding: false,
             bodyPadding: EdgeInsets.symmetric(horizontal: 5.w),
             body: Observer(
@@ -38,7 +38,7 @@ class HistoricoPageState extends State<HistoricoPage> {
                 if (snapshot.connectionState == ConnectionState.done &&
                     snapshot.hasData) {
                   return Observer(builder: (_) {
-                    return _loadingBody();
+                    return _body();
                   });
                 } else {
                   return _loadingBody();
