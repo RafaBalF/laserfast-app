@@ -61,11 +61,14 @@ class _AvailableSchedulesState extends State<AvailableSchedulesWidget> {
           controller: scrollController,
           child: Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Wrap(
-              spacing: 2.w,
-              runSpacing: 1.h,
-              children: s.schedules!.map((v) => _selectableCard(s, v)).toList(),
-            ),
+            child: Observer(builder: (_) {
+              return Wrap(
+                spacing: 2.w,
+                runSpacing: 1.h,
+                children:
+                    s.schedules!.map((v) => _selectableCard(s, v)).toList(),
+              );
+            }),
           ),
         ),
       ),
@@ -77,11 +80,17 @@ class _AvailableSchedulesState extends State<AvailableSchedulesWidget> {
     late Color bgColor;
     late Color textColor;
 
-    final bool selected = _store.selectedSchedule != null &&
-        date == _store.selectedSchedule!.selectedDate! &&
-        schedule == _store.selectedSchedule!;
+    final bool hasSchedule = _store.selectedSchedule != null;
 
-    if (selected) {
+    bool sameDay = false;
+    bool sameHour = false;
+
+    if (hasSchedule) {
+      sameDay = date.day == _store.selectedSchedule!.selectedDate!.day;
+      sameHour = date.hour == _store.selectedSchedule!.selectedDate!.hour;
+    }
+
+    if (sameDay && sameHour) {
       borderColor = accent;
       bgColor = accent;
       textColor = white;
@@ -118,8 +127,6 @@ class _AvailableSchedulesState extends State<AvailableSchedulesWidget> {
         } else {
           _store.selectSchedule(null, null);
         }
-
-        setState(() {});
       },
     );
   }

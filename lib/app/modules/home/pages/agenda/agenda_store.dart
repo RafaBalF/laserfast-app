@@ -167,6 +167,8 @@ abstract class AgendaStoreBase with Store {
     if (selectedSchedule == null) return;
 
     selectedSchedule!.selectedDate = schedule;
+
+    selectedSchedule = AvailableSchedulesModel.createNew(selectedSchedule!);
   }
 
   @action

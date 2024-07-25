@@ -15,6 +15,14 @@ class AvailableSchedulesModel extends FromJsonModel {
     this.selectedDate,
   });
 
+  AvailableSchedulesModel.createNew(AvailableSchedulesModel model) {
+    day = model.day;
+    sessionCode = model.sessionCode;
+    duration = model.duration;
+    schedules = model.schedules;
+    selectedDate = model.selectedDate;
+  }
+
   AvailableSchedulesModel.fromJson(Map<String, dynamic> json) {
     day = json['day'];
     sessionCode = json['sessionCode'];
