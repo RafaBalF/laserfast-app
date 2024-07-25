@@ -1,3 +1,4 @@
+import 'package:laserfast_app/app/models/session.model.dart';
 import 'package:mobx/mobx.dart';
 import 'package:laserfast_app/loading_store.dart';
 
@@ -14,6 +15,8 @@ abstract class HistoricoStoreBase with Store {
   //SERVICES
 
   //OBSERVABLES
+  @observable
+  ObservableList<SessionModel> history = ObservableList.of([]);
 
   //VARIABLES
 
@@ -21,7 +24,52 @@ abstract class HistoricoStoreBase with Store {
 
   //ACTIONS
   @action
-  Future<void> init() async {}
+  Future<void> init() async {
+    await getHistory();
+  }
+
+  @action
+  Future<void> getHistory() async {
+    List<SessionModel> sessions = [
+      SessionModel(
+        applicator: 'Maria Silva',
+        date: DateTime.now(),
+        areas: 'Perna inteira, Virilha, Buço 10 sessões',
+        status: 'Sessão realizada',
+        statusCode: 0,
+      ),
+      SessionModel(
+        applicator: 'Maria Silva',
+        date: DateTime.now(),
+        areas: 'Perna inteira, Virilha, Buço 10 sessões',
+        status: 'Falta',
+        statusCode: 1,
+      ),
+      SessionModel(
+        applicator: 'Maria Silva',
+        date: DateTime.now(),
+        areas: 'Perna inteira, Virilha, Buço 10 sessões',
+        status: 'Sessão agendada',
+        statusCode: 2,
+      ),
+      SessionModel(
+        applicator: 'Maria Silva',
+        date: DateTime.now(),
+        areas: 'Perna inteira, Virilha, Buço 10 sessões',
+        status: 'Sessão em andamento',
+        statusCode: 3,
+      ),
+      SessionModel(
+        applicator: 'Maria Silva',
+        date: DateTime.now(),
+        areas: 'Perna inteira, Virilha, Buço 10 sessões',
+        status: 'Sessão confirmada',
+        statusCode: 4,
+      ),
+    ];
+
+    history.addAll(sessions);
+  }
 
   @action
   void reset() {}

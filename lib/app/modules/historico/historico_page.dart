@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:laserfast_app/app/models/session.model.dart';
 import 'package:laserfast_app/app/modules/historico/historico_store.dart';
 import 'package:laserfast_app/app/shared/widgets/divider_widget.dart';
 import 'package:laserfast_app/app/shared/widgets/shimmer_widget.dart';
@@ -16,6 +17,10 @@ class HistoricoPage extends StatefulWidget {
 class HistoricoPageState extends State<HistoricoPage> {
   final HistoricoStore _store = Modular.get<HistoricoStore>();
   late final Future<void> _future;
+  final ScrollController scrollController = ScrollController();
+
+  final double _height = 100.h;
+  final double _width = 100.w;
 
   @override
   void initState() {
@@ -38,7 +43,15 @@ class HistoricoPageState extends State<HistoricoPage> {
                 if (snapshot.connectionState == ConnectionState.done &&
                     snapshot.hasData) {
                   return Observer(builder: (_) {
-                    return _body();
+                    return SizedBox(
+                      height: _height,
+                      width: _width,
+                      child: ListView.builder(
+                        itemCount: _store.history.length,
+                        itemBuilder: (context, index) =>
+                            _sessionCard(_store.history[index]),
+                      ),
+                    );
                   });
                 } else {
                   return _loadingBody();
@@ -72,20 +85,18 @@ class HistoricoPageState extends State<HistoricoPage> {
     );
   }
 
-  Widget _body() {
-    final double spacing = 3.h;
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        DividerWidget(height: spacing),
-      ],
+  Widget _sessionCard(SessionModel session) {
+    return Padding(
+      padding: const EdgeInsets.all(24.0),
+      child: Text('${session.status}'),
     );
   }
 
   @override
   void dispose() {
     _store.reset();
+
+    scrollController.dispose();
 
     super.dispose();
   }
