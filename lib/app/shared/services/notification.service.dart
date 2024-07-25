@@ -47,7 +47,7 @@ class NotificationService {
   }
 
   void _handlePayload(NotificationPayloadModel payload) {
-    if (payload.type! == NotificationPayloadType.CHAT.asString) {
+    if (payload.type! == NotificationPayloadType.chat.asString) {
       Modular.to.pushNamed(
         '/home/order/chat',
         arguments: {

@@ -1,8 +1,4 @@
-// ignore_for_file: constant_identifier_names
-
-enum NotificationPayloadType {
-  CHAT,
-}
+enum NotificationPayloadType { chat, missingPayment }
 
 extension NotificationPayloadTypeExtension on NotificationPayloadType {
   String? get asString {
