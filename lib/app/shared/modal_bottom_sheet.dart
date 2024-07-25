@@ -11,9 +11,13 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 Future showCustomBottomSheet(
   BuildContext context,
   String header,
-  Widget widget,
-) {
+  Widget widget, {
+  bool dismissable = true,
+  void Function()? onClose,
+}) {
   return showModalBottomSheet(
+      isDismissible: dismissable,
+      enableDrag: dismissable,
       context: context,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(15.0)),
@@ -28,14 +32,16 @@ Future showCustomBottomSheet(
                 children: [
                   Text(header, style: modalHeader(color: black)),
                   IconButton(
-                      onPressed: () {
-                        Modular.to.pop();
-                      },
-                      icon: const Icon(
-                        Icons.close,
-                        color: accent,
-                        size: 32,
-                      ))
+                    onPressed: onClose ??
+                        () {
+                          Modular.to.pop();
+                        },
+                    icon: const Icon(
+                      Icons.close,
+                      color: accent,
+                      size: 32,
+                    ),
+                  )
                 ],
               ),
             ),
@@ -53,6 +59,8 @@ Future showErrorBottomSheet(
   String details = '',
   String btnTitle = 'OK',
   Function()? onPressed,
+  bool dismissable = true,
+  void Function()? onClose,
 }) {
   Widget widget = Column(
     mainAxisAlignment: MainAxisAlignment.center,
@@ -88,7 +96,13 @@ Future showErrorBottomSheet(
     ],
   );
 
-  return showCustomBottomSheet(context, 'ERRO', widget);
+  return showCustomBottomSheet(
+    context,
+    'ERRO',
+    widget,
+    dismissable: dismissable,
+    onClose: onClose,
+  );
 }
 
 Future showSuccessBottomSheet(
@@ -97,6 +111,8 @@ Future showSuccessBottomSheet(
   String details = '',
   String btnTitle = 'OK',
   Function()? onPressed,
+  bool dismissable = true,
+  void Function()? onClose,
 }) {
   Widget widget = Column(
     mainAxisAlignment: MainAxisAlignment.center,
@@ -132,7 +148,13 @@ Future showSuccessBottomSheet(
     ],
   );
 
-  return showCustomBottomSheet(context, 'SUCESSO', widget);
+  return showCustomBottomSheet(
+    context,
+    'SUCESSO',
+    widget,
+    dismissable: dismissable,
+    onClose: onClose,
+  );
 }
 
 Future showBaseModalBottomSheet(
@@ -140,12 +162,16 @@ Future showBaseModalBottomSheet(
   BaseModel baseModel, {
   Function()? onSuccessPressed,
   Function()? onErrorPressed,
+  bool dismissable = true,
+  void Function()? onClose,
 }) {
   if (baseModel.status) {
     return showSuccessBottomSheet(
       context,
       message: baseModel.message,
       onPressed: onSuccessPressed,
+      dismissable: dismissable,
+      onClose: onClose,
     );
   }
 
@@ -153,5 +179,7 @@ Future showBaseModalBottomSheet(
     context,
     message: baseModel.message,
     onPressed: onErrorPressed,
+    dismissable: dismissable,
+    onClose: onClose,
   );
 }
