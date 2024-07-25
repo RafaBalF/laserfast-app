@@ -116,12 +116,14 @@ abstract class AgendaStoreBase with Store {
   void selectSessionArea(SessionAreaModel s) {
     incrementSessionDuration(s.duration ?? 0);
     selectedSessionAreas.add(s);
+    resetSchedules();
   }
 
   @action
   void unselectSessionArea(SessionAreaModel s) {
     decrementSessionDuration(s.duration ?? 0);
     selectedSessionAreas.remove(s);
+    resetSchedules();
   }
 
   @action
@@ -176,9 +178,16 @@ abstract class AgendaStoreBase with Store {
   }
 
   @action
+  void resetSchedules() {
+    selectSchedule(null, null);
+    availableSchedules.clear();
+  }
+
+  @action
   void reset() {
     resetDates();
     resetSessionArea();
+    resetSchedules();
   }
 
   //METHODS

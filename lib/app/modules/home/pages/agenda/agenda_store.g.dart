@@ -255,6 +255,17 @@ mixin _$AgendaStore on AgendaStoreBase, Store {
   }
 
   @override
+  void resetSchedules() {
+    final _$actionInfo = _$AgendaStoreBaseActionController.startAction(
+        name: 'AgendaStoreBase.resetSchedules');
+    try {
+      return super.resetSchedules();
+    } finally {
+      _$AgendaStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void reset() {
     final _$actionInfo = _$AgendaStoreBaseActionController.startAction(
         name: 'AgendaStoreBase.reset');

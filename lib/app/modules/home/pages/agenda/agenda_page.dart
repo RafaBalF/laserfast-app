@@ -31,6 +31,7 @@ class AgendaPageState extends State<AgendaPage> {
 
   final DateFormat ddmmmyyyyFormatter = DateFormat('dd MMM yyyy');
   final DateFormat ddmmFormatter = DateFormat('dd/MM');
+  final DateFormat hhmmFormatter = DateFormat('HH:mm');
 
   @override
   void initState() {
@@ -263,6 +264,9 @@ class AgendaPageState extends State<AgendaPage> {
                   _store.setStartDate(startDate);
                   _store.setEndDate(endDate);
 
+                  _store.resetSchedules();
+                  _store.resetSessionArea();
+
                   _store.getSessionAreas();
 
                   Modular.to.pop();
@@ -346,17 +350,93 @@ class AgendaPageState extends State<AgendaPage> {
   }
 
   Widget _sessionDurationSection() {
+    final BorderRadius cardsBorderRadius = BorderRadius.circular(10);
+
     return Observer(builder: (_) {
-      return (_store.selectedSchedule != null)
-          ? Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              textWidget(
-                'Tempo sessão',
-                style: h2(),
-                textAlign: TextAlign.start,
+      if (_store.selectedSchedule != null) {
+        return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          textWidget(
+            'Tempo sessão',
+            style: h2(),
+            textAlign: TextAlign.start,
+          ),
+          DividerWidget(height: 2.h),
+          Container(
+            width: 100.w,
+            height: 15.h,
+            decoration: BoxDecoration(
+              color: lightGrey,
+              borderRadius: cardsBorderRadius,
+            ),
+            padding: EdgeInsets.symmetric(
+              horizontal: 2.w,
+              vertical: 1.h,
+            ),
+            child: Center(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      textWidget(
+                        'Início',
+                        textAlign: TextAlign.start,
+                        style: profileTile(color: darkGrey),
+                      ),
+                      DividerWidget(height: 0.5.h),
+                      Observer(builder: (_) {
+                        final String formattedStartHour = hhmmFormatter
+                            .format(_store.selectedSchedule!.selectedDate!);
+
+                        return textWidget(
+                          formattedStartHour,
+                          textAlign: TextAlign.center,
+                          style: h2(color: black),
+                        );
+                      }),
+                    ],
+                  ),
+                  Icon(
+                    Icons.chevron_right,
+                    size: 26.sp,
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      textWidget(
+                        'Até',
+                        textAlign: TextAlign.start,
+                        style: profileTile(color: darkGrey),
+                      ),
+                      DividerWidget(height: 0.5.h),
+                      Observer(builder: (_) {
+                        DateTime endHour = _store
+                            .selectedSchedule!.selectedDate!
+                            .add(Duration(minutes: _store.sessionDuration));
+
+                        final String formattedEndHour =
+                            hhmmFormatter.format(endHour);
+
+                        return textWidget(
+                          formattedEndHour,
+                          textAlign: TextAlign.center,
+                          style: h2(color: black),
+                        );
+                      }),
+                    ],
+                  ),
+                ],
               ),
-              DividerWidget(height: 2.h),
-            ])
-          : SizedBox(height: 3.h);
+            ),
+          ),
+        ]);
+      } else {
+        return SizedBox(height: 3.h);
+      }
     });
   }
 
