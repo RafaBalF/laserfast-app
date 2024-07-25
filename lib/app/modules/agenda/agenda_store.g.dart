@@ -130,6 +130,14 @@ mixin _$AgendaStore on AgendaStoreBase, Store {
     return _$initAsyncAction.run(() => super.init());
   }
 
+  late final _$submitAsyncAction =
+      AsyncAction('AgendaStoreBase.submit', context: context);
+
+  @override
+  Future<BaseModel<StringResponseModel>> submit() {
+    return _$submitAsyncAction.run(() => super.submit());
+  }
+
   late final _$AgendaStoreBaseActionController =
       ActionController(name: 'AgendaStoreBase', context: context);
 

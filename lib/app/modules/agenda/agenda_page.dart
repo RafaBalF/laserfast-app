@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:intl/intl.dart';
-import 'package:laserfast_app/app/modules/home/pages/agenda/agenda_store.dart';
-import 'package:laserfast_app/app/modules/home/pages/agenda/widgets/available_schedules_widget.dart';
+import 'package:laserfast_app/app/modules/agenda/agenda_store.dart';
+import 'package:laserfast_app/app/modules/agenda/widgets/available_schedules_widget.dart';
 import 'package:laserfast_app/app/shared/colors.dart';
 import 'package:laserfast_app/app/shared/modal_bottom_sheet.dart';
 import 'package:laserfast_app/app/shared/text_styles.dart';
@@ -351,6 +351,44 @@ class AgendaPageState extends State<AgendaPage> {
               ),
             ),
           ),
+          DividerWidget(height: 5.h),
+          Observer(builder: (_) {
+            return ButtonWidget.filled(
+              onPressed: () async {
+                var r = await _store.submit();
+
+                if (!mounted) return;
+
+                showBaseModalBottomSheet(
+                  context,
+                  r,
+                  onSuccessPressed: () {
+                    // String firstRoute = Modular.to.navigateHistory.first.name;
+
+                    // for (var route in Modular.to.navigateHistory) {
+                    //   print(route.name);
+                    // }
+
+                    Modular.to.pop();
+                    Modular.to.pop();
+
+                    Modular.to.pushNamed('/historico/');
+                  },
+                  onErrorPressed: () {},
+                  dismissable: false,
+                  onClose: () {
+                    Modular.to.pop();
+                  },
+                );
+              },
+              backgroundColor: accent,
+              title: 'CONFIRMAR',
+              textColor: white,
+              disabled: _store.selectedSchedule == null,
+              loading: _store.loadingStore.isLoading,
+            );
+          }),
+          DividerWidget(height: 5.h),
         ]);
       } else {
         return SizedBox(height: 3.h);

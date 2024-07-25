@@ -1,7 +1,9 @@
 import 'dart:math';
 
 import 'package:laserfast_app/app/models/available_schedule.model.dart';
+import 'package:laserfast_app/app/models/base.model.dart';
 import 'package:laserfast_app/app/models/session_area.model.dart';
+import 'package:laserfast_app/app/models/string_response.model.dart';
 import 'package:laserfast_app/app/shared/interfaces/selectable_card.interface.dart';
 import 'package:mobx/mobx.dart';
 import 'package:laserfast_app/loading_store.dart';
@@ -169,6 +171,18 @@ abstract class AgendaStoreBase with Store {
     selectedSchedule!.selectedDate = schedule;
 
     selectedSchedule = AvailableSchedulesModel.createNew(selectedSchedule!);
+  }
+
+  @action
+  Future<BaseModel<StringResponseModel>> submit() async {
+    BaseModel<StringResponseModel> r = BaseModel<StringResponseModel>();
+
+    if (selectedSchedule != null) {
+      r.status = true;
+      r.message = "Sua sessão foi salva com sucesso";
+    }
+
+    return r;
   }
 
   @action

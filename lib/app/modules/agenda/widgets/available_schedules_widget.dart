@@ -4,7 +4,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:intl/intl.dart';
 import 'package:laserfast_app/app/models/available_schedule.model.dart';
-import 'package:laserfast_app/app/modules/home/pages/agenda/agenda_store.dart';
+import 'package:laserfast_app/app/modules/agenda/agenda_store.dart';
 import 'package:laserfast_app/app/shared/colors.dart';
 import 'package:laserfast_app/app/shared/text_widget.dart';
 import 'package:laserfast_app/app/shared/widgets/accordion_widget.dart';
