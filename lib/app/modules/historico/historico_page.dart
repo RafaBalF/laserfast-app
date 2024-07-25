@@ -38,7 +38,7 @@ class HistoricoPageState extends State<HistoricoPage> {
                 if (snapshot.connectionState == ConnectionState.done &&
                     snapshot.hasData) {
                   return Observer(builder: (_) {
-                    return _body();
+                    return _loadingBody();
                   });
                 } else {
                   return _loadingBody();
@@ -55,57 +55,19 @@ class HistoricoPageState extends State<HistoricoPage> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          DividerWidget(height: 3.h),
-          SizedBox(
-            height: 10.h,
-            width: 100.w,
-            child: ListView.builder(
-              physics: const NeverScrollableScrollPhysics(),
-              scrollDirection: Axis.horizontal,
-              itemCount: 5,
-              itemBuilder: (BuildContext context, int index) {
-                return Padding(
-                  padding: EdgeInsets.only(right: 3.w),
-                  child: ShimmerWidget(width: 20.w, height: 25.h),
-                );
-              },
-            ),
+        children: List.generate(
+          6,
+          (index) => Column(
+            children: [
+              ShimmerWidget(width: 90.w, height: 6.h),
+              DividerWidget(height: 1.h),
+              ShimmerWidget(width: 90.w, height: 2.h),
+              DividerWidget(height: 1.h),
+              ShimmerWidget(width: 90.w, height: 2.h),
+              DividerWidget(height: 3.h),
+            ],
           ),
-          DividerWidget(height: 3.h),
-          SizedBox(
-            height: 5.h,
-            width: 90.w,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                ShimmerWidget(width: 70.w, height: 4.h),
-                ShimmerWidget(width: 15.w, height: 4.h),
-              ],
-            ),
-          ),
-          DividerWidget(height: 3.h),
-          ShimmerWidget(width: 90.w, height: 12.h),
-          DividerWidget(height: 2.h),
-          ShimmerWidget(width: 90.w, height: 12.h),
-          DividerWidget(height: 3.h),
-          SizedBox(
-            height: 25.h,
-            width: 100.w,
-            child: ListView.builder(
-              physics: const NeverScrollableScrollPhysics(),
-              scrollDirection: Axis.horizontal,
-              itemCount: 3,
-              itemBuilder: (BuildContext context, int index) {
-                return Padding(
-                  padding: EdgeInsets.only(right: 5.w),
-                  child: ShimmerWidget(width: 43.w, height: 10.h),
-                );
-              },
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }
