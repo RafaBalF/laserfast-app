@@ -204,6 +204,8 @@ class AgendaPageState extends State<AgendaPage> {
       maxDate: aMonthFromNow,
       selectionMode: DateRangePickerSelectionMode.range,
       showActionButtons: true,
+      cancelText: 'Cancelar',
+      confirmText: 'Confirmar',
       onCancel: () {
         Modular.to.pop();
       },
@@ -363,12 +365,6 @@ class AgendaPageState extends State<AgendaPage> {
                   context,
                   r,
                   onSuccessPressed: () {
-                    // String firstRoute = Modular.to.navigateHistory.first.name;
-
-                    // for (var route in Modular.to.navigateHistory) {
-                    //   print(route.name);
-                    // }
-
                     Modular.to.pop();
                     Modular.to.pop();
 
