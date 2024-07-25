@@ -19,6 +19,7 @@ class AvailableSchedulesWidget extends StatefulWidget {
 
 class _AvailableSchedulesState extends State<AvailableSchedulesWidget> {
   final AgendaStore _store = Modular.get<AgendaStore>();
+  final List<ScrollController> _scrollControllersList = [];
 
   final DateFormat ddmmFormatter = DateFormat('dd/MM');
   final DateFormat hhmmFormatter = DateFormat('HH:mm');
@@ -42,6 +43,8 @@ class _AvailableSchedulesState extends State<AvailableSchedulesWidget> {
 
   Widget _selectableCards(AvailableSchedulesModel s) {
     final ScrollController scrollController = ScrollController();
+    _scrollControllersList.add(scrollController);
+
     return Container(
       height: 20.h,
       width: 100.w,
@@ -119,5 +122,14 @@ class _AvailableSchedulesState extends State<AvailableSchedulesWidget> {
         setState(() {});
       },
     );
+  }
+
+  @override
+  void dispose() {
+    for (var c in _scrollControllersList) {
+      c.dispose();
+    }
+
+    super.dispose();
   }
 }
