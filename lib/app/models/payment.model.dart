@@ -10,6 +10,7 @@ class PaymentModel extends FromJsonModel {
   // 0 => pago
   // 1 => atrasado
   // 2 => aberto
+  double? discount;
 
   PaymentModel({
     this.id,
@@ -18,6 +19,7 @@ class PaymentModel extends FromJsonModel {
     this.price,
     this.oldPrice,
     this.statusCode,
+    this.discount,
   });
 
   PaymentModel.createNew(PaymentModel model) {
@@ -27,6 +29,7 @@ class PaymentModel extends FromJsonModel {
     oldPrice = model.oldPrice;
     date = model.date;
     statusCode = model.statusCode;
+    discount = model.discount;
   }
 
   PaymentModel.fromJson(Map<String, dynamic> json) {
@@ -36,6 +39,7 @@ class PaymentModel extends FromJsonModel {
     oldPrice = json['oldPrice'];
     date = json['date'];
     statusCode = json['statusCode'];
+    discount = json['discount'];
   }
 
   Map<String, dynamic> toJson() {

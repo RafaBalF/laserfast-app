@@ -13,6 +13,7 @@ const Color error = Color(0xFFFF2F2F);
 const Color background = Color(0xFFFFFFFF);
 const Color success = Color(0XFF00C5A9);
 const Color violet = Color(0XFF8572FF);
+const Color backgroundSecondary = Color(0XFFD6D6D6);
 
 MaterialColor primaryMaterial = const MaterialColor(
   0xFF2C0A49,

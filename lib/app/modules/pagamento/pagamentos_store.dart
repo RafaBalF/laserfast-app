@@ -5,9 +5,9 @@ import 'package:laserfast_app/loading_store.dart';
 
 part 'pagamentos_store.g.dart';
 
-class PagamentosStore = PagamentoStoreBase with _$PagamentosStore;
+class PagamentosStore = PagamentosStoreBase with _$PagamentosStore;
 
-abstract class PagamentoStoreBase with Store {
+abstract class PagamentosStoreBase with Store {
   //APIS
 
   //STORES
@@ -31,6 +31,7 @@ abstract class PagamentoStoreBase with Store {
   //COMPUTED
 
   //ACTIONS
+  //PAGAMENTOS
   @action
   Future<void> init() async {
     await getAllPayments();
@@ -51,9 +52,10 @@ abstract class PagamentoStoreBase with Store {
         id: 2,
         parcela: null,
         date: DateTime.now(),
-        price: 389.30,
-        oldPrice: 365,
+        price: 365,
+        oldPrice: 389.30,
         statusCode: 1,
+        discount: 24.3,
       ),
       PaymentModel(
         id: 3,
@@ -91,6 +93,13 @@ abstract class PagamentoStoreBase with Store {
 
   @action
   void reset() {}
+
+  //PAGAMENTO
+  @action
+  Future<void> initPagamento() async {}
+
+  @action
+  void resetPagamento() {}
 
   //METHODS
 }

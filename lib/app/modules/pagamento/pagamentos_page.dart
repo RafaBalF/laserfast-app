@@ -103,7 +103,7 @@ class PagamentosPageState extends State<PagamentosPage> {
         Observer(builder: (_) {
           return ButtonWidget.filled(
             onPressed: () {
-              // _store.getAvailableSchedules();
+              Modular.to.pushNamed('/pagamentos/pagamento');
             },
             backgroundColor: accent,
             title: 'PAGAR',
@@ -258,7 +258,7 @@ class PagamentosPageState extends State<PagamentosPage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         textWidget(
-          "DE R\$ ${currencyFormatter.format(payment.price)}",
+          "DE R\$ ${currencyFormatter.format(payment.oldPrice)}",
           style: modalDetails(textDecoration: TextDecoration.lineThrough),
         ),
         textWidget(
