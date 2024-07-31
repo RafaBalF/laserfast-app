@@ -227,6 +227,7 @@ class PagamentosPageState extends State<PagamentosPage> {
         text = '';
         break;
     }
+
     return Container(
       height: 2.5.h,
       width: 25.w,
