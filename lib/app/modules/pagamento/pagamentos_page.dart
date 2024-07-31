@@ -148,12 +148,14 @@ class PagamentosPageState extends State<PagamentosPage> {
                   children: [
                     SizedBox(
                       width: 15.w,
-                      child: Center(
-                        child: Checkbox(
-                          value: payment.selected,
-                          onChanged: (b) => _store.selectPayment(payment),
-                        ),
-                      ),
+                      child: (payment.value.statusCode != 0)
+                          ? Center(
+                              child: Checkbox(
+                                value: payment.selected,
+                                onChanged: (b) => _store.selectPayment(payment),
+                              ),
+                            )
+                          : const SizedBox(),
                     ),
                     Flexible(
                       child: Column(
@@ -205,25 +207,24 @@ class PagamentosPageState extends State<PagamentosPage> {
 
   Widget _card(int? statusCode) {
     late Color color;
-    late String label;
+    late String text;
 
     switch (statusCode) {
       case 0:
         color = pagoCard;
-        label = 'PAGO';
+        text = 'PAGO';
         break;
       case 1:
         color = atrasadoCard;
-        label = 'ATRASADO';
+        text = 'ATRASADO';
         break;
       case 2:
         color = anteciparCard;
-        label = 'ANTECIPAR';
-
+        text = 'ANTECIPAR';
         break;
       default:
         color = padrao;
-        label = '';
+        text = '';
         break;
     }
     return Container(
@@ -236,9 +237,9 @@ class PagamentosPageState extends State<PagamentosPage> {
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 2.5.w),
         child: textWidget(
-          label,
-          color: white,
+          text,
           textAlign: TextAlign.center,
+          style: label(color: white),
         ),
       ),
     );
