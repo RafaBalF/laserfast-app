@@ -3,9 +3,9 @@ import 'package:laserfast_app/app/shared/interfaces/simple_selectable_card.inter
 import 'package:mobx/mobx.dart';
 import 'package:laserfast_app/loading_store.dart';
 
-part 'pagamento_store.g.dart';
+part 'pagamentos_store.g.dart';
 
-class PagamentoStore = PagamentoStoreBase with _$PagamentoStore;
+class PagamentosStore = PagamentoStoreBase with _$PagamentosStore;
 
 abstract class PagamentoStoreBase with Store {
   //APIS
@@ -17,11 +17,7 @@ abstract class PagamentoStoreBase with Store {
 
   //OBSERVABLES
   @observable
-  ObservableList<SimpleSelectableCard<PaymentModel>> allPayments =
-      ObservableList.of([]);
-
-  @observable
-  ObservableList<SimpleSelectableCard<PaymentModel>> displayedPayments =
+  ObservableList<SimpleSelectableCard<PaymentModel>> payments =
       ObservableList.of([]);
 
   @observable
@@ -42,7 +38,7 @@ abstract class PagamentoStoreBase with Store {
 
   @action
   Future<void> getAllPayments() async {
-    List<PaymentModel> payments = [
+    List<PaymentModel> list = [
       PaymentModel(
         id: 1,
         parcela: "1/10",
@@ -55,8 +51,8 @@ abstract class PagamentoStoreBase with Store {
         id: 2,
         parcela: null,
         date: DateTime.now(),
-        price: 315,
-        oldPrice: null,
+        price: 389.30,
+        oldPrice: 365,
         statusCode: 1,
       ),
       PaymentModel(
@@ -69,37 +65,28 @@ abstract class PagamentoStoreBase with Store {
       ),
     ];
 
-    for (var payment in payments) {
-      allPayments.add(SimpleSelectableCard<PaymentModel>(value: payment));
-      displayedPayments.add(SimpleSelectableCard<PaymentModel>(value: payment));
+    for (var payment in list) {
+      payments.add(SimpleSelectableCard<PaymentModel>(value: payment));
     }
-
-    displayedPayments;
   }
 
   @action
-  void setOnlyOpened(bool b) {
-    onlyOpened = b;
-
-    displayedPayments.clear();
-
-    displayedPayments.addAll((b)
-        ? allPayments.toList().where((p) => p.value.statusCode != 0)
-        : allPayments.toList());
-  }
+  void setOnlyOpened(bool b) => onlyOpened = b;
 
   @action
-  void selectPayment(PaymentModel payment) {
-    displayedPayments.where((p) => p.value.id == payment.id).first.selected =
-        true;
+  void selectPayment(SimpleSelectableCard<PaymentModel> payment) {
+    int index = payments.indexWhere((p) => p.value.id == payment.value.id);
 
-    // if (selectedPayments.contains(model.value)) {
-    //   selectedPayments.remove(model.value);
-    //   model.selected = false;
-    // } else {
-    //   selectedPayments.add(model.value);
-    //   model.selected = true;
-    // }
+    var model = SimpleSelectableCard<PaymentModel>(
+      value: payment.value,
+      selected: !payment.selected,
+    );
+
+    payments[index] = model;
+
+    (selectedPayments.contains(model.value))
+        ? selectedPayments.remove(model.value)
+        : selectedPayments.add(model.value);
   }
 
   @action

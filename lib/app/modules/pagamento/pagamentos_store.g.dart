@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'pagamento_store.dart';
+part of 'pagamentos_store.dart';
 
 // **************************************************************************
 // StoreGenerator
@@ -8,37 +8,20 @@ part of 'pagamento_store.dart';
 
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic, no_leading_underscores_for_local_identifiers
 
-mixin _$PagamentoStore on PagamentoStoreBase, Store {
-  late final _$allPaymentsAtom =
-      Atom(name: 'PagamentoStoreBase.allPayments', context: context);
+mixin _$PagamentosStore on PagamentoStoreBase, Store {
+  late final _$paymentsAtom =
+      Atom(name: 'PagamentoStoreBase.payments', context: context);
 
   @override
-  ObservableList<SimpleSelectableCard<PaymentModel>> get allPayments {
-    _$allPaymentsAtom.reportRead();
-    return super.allPayments;
+  ObservableList<SimpleSelectableCard<PaymentModel>> get payments {
+    _$paymentsAtom.reportRead();
+    return super.payments;
   }
 
   @override
-  set allPayments(ObservableList<SimpleSelectableCard<PaymentModel>> value) {
-    _$allPaymentsAtom.reportWrite(value, super.allPayments, () {
-      super.allPayments = value;
-    });
-  }
-
-  late final _$displayedPaymentsAtom =
-      Atom(name: 'PagamentoStoreBase.displayedPayments', context: context);
-
-  @override
-  ObservableList<SimpleSelectableCard<PaymentModel>> get displayedPayments {
-    _$displayedPaymentsAtom.reportRead();
-    return super.displayedPayments;
-  }
-
-  @override
-  set displayedPayments(
-      ObservableList<SimpleSelectableCard<PaymentModel>> value) {
-    _$displayedPaymentsAtom.reportWrite(value, super.displayedPayments, () {
-      super.displayedPayments = value;
+  set payments(ObservableList<SimpleSelectableCard<PaymentModel>> value) {
+    _$paymentsAtom.reportWrite(value, super.payments, () {
+      super.payments = value;
     });
   }
 
@@ -105,7 +88,7 @@ mixin _$PagamentoStore on PagamentoStoreBase, Store {
   }
 
   @override
-  void selectPayment(PaymentModel payment) {
+  void selectPayment(SimpleSelectableCard<PaymentModel> payment) {
     final _$actionInfo = _$PagamentoStoreBaseActionController.startAction(
         name: 'PagamentoStoreBase.selectPayment');
     try {
@@ -129,8 +112,7 @@ mixin _$PagamentoStore on PagamentoStoreBase, Store {
   @override
   String toString() {
     return '''
-allPayments: ${allPayments},
-displayedPayments: ${displayedPayments},
+payments: ${payments},
 selectedPayments: ${selectedPayments},
 onlyOpened: ${onlyOpened}
     ''';

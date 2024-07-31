@@ -163,7 +163,7 @@ class HomePageState extends State<HomePage> {
           RedirectCardWidget(
             imgPath: 'assets/icons/svg/money_accent.svg',
             label: 'Pagamentos',
-            route: '/pagamento/',
+            route: '/pagamentos/',
             labelColor: accent,
             margin: EdgeInsets.only(right: 2.w),
           ),
