@@ -133,9 +133,10 @@ class PagamentoPageState extends State<PagamentoPage> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                textWidget("Total", style: label(color: accent)),
+                textWidget("Total", style: headTitle(color: accent)),
                 textWidget(
                   "R\$ ${currencyFormatter.format(finalPrice)}",
+                  style: headTitle(color: accent),
                 ),
               ],
             ),
