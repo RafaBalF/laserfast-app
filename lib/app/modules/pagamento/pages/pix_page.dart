@@ -126,9 +126,7 @@ class PixPageState extends State<PixPage> {
 
   Widget _pixCode() {
     return GestureDetector(
-      onTap: () async {
-        await Clipboard.setData(ClipboardData(text: _store.pixCode));
-      },
+      onTap: _copyCode,
       child: textWidget(
         _store.pixCode,
         style: h2(color: black),
@@ -141,14 +139,25 @@ class PixPageState extends State<PixPage> {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 5.w),
       child: ButtonWidget.outlined(
-        onPressed: () async {
-          await Clipboard.setData(ClipboardData(text: _store.pixCode));
-        },
+        onPressed: _copyCode,
         borderColor: darkGrey,
         title: 'PIX COPIA E COLA',
         textColor: darkGrey,
       ),
     );
+  }
+
+  void _copyCode() async {
+    Clipboard.setData(ClipboardData(text: _store.pixCode)).then((_) {
+      ScaffoldMessenger.of(context).clearSnackBars();
+
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text("CÓDIGO COPIADO COM SUCESSO"),
+        backgroundColor: accent,
+        behavior: SnackBarBehavior.floating,
+        showCloseIcon: true,
+      ));
+    });
   }
 
   @override
