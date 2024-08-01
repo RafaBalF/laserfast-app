@@ -151,8 +151,8 @@ class PixPageState extends State<PixPage> {
     Clipboard.setData(ClipboardData(text: _store.pixCode)).then((_) {
       ScaffoldMessenger.of(context).clearSnackBars();
 
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        content: Text("CÓDIGO COPIADO COM SUCESSO"),
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: textWidget("CÓDIGO COPIADO COM SUCESSO", color: white),
         backgroundColor: accent,
         behavior: SnackBarBehavior.floating,
         showCloseIcon: true,
