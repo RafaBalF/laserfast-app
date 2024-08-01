@@ -93,6 +93,22 @@ mixin _$PagamentosStore on PagamentosStoreBase, Store {
     });
   }
 
+  late final _$cardsAtom =
+      Atom(name: 'PagamentosStoreBase.cards', context: context);
+
+  @override
+  ObservableList<CreditCardModel> get cards {
+    _$cardsAtom.reportRead();
+    return super.cards;
+  }
+
+  @override
+  set cards(ObservableList<CreditCardModel> value) {
+    _$cardsAtom.reportWrite(value, super.cards, () {
+      super.cards = value;
+    });
+  }
+
   late final _$initAsyncAction =
       AsyncAction('PagamentosStoreBase.init', context: context);
 
@@ -228,7 +244,8 @@ payments: ${payments},
 selectedPayments: ${selectedPayments},
 onlyOpened: ${onlyOpened},
 pixDuration: ${pixDuration},
-pixCode: ${pixCode}
+pixCode: ${pixCode},
+cards: ${cards}
     ''';
   }
 }

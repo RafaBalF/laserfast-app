@@ -1,24 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:laserfast_app/app/modules/pagamento/pagamentos_store.dart';
-import 'package:laserfast_app/app/shared/colors.dart';
-import 'package:laserfast_app/app/shared/text_styles.dart';
-import 'package:laserfast_app/app/shared/text_widget.dart';
-import 'package:laserfast_app/app/shared/widgets/button_widget.dart';
 import 'package:laserfast_app/app/shared/widgets/divider_widget.dart';
 import 'package:laserfast_app/app/shared/widgets/shimmer_widget.dart';
 import 'package:laserfast_app/app/shared/widgets/simple_scaffold_widget.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
-class MyCardsPage extends StatefulWidget {
-  const MyCardsPage({super.key});
+class CreditCardFormPage extends StatefulWidget {
+  const CreditCardFormPage({super.key});
   @override
-  MyCardsPageState createState() => MyCardsPageState();
+  CreditCardFormPageState createState() => CreditCardFormPageState();
 }
 
-class MyCardsPageState extends State<MyCardsPage> {
+class CreditCardFormPageState extends State<CreditCardFormPage> {
   final PagamentosStore _store = Modular.get<PagamentosStore>();
   late final Future<void> _future;
 
@@ -35,16 +30,14 @@ class MyCardsPageState extends State<MyCardsPage> {
       future: _future,
       builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
         return SimpleScaffoldWidget(
-          title: 'MEUS CARTÕES',
+          title: 'PAGAMENTO',
           useDefaultPadding: false,
           bodyPadding: EdgeInsets.symmetric(horizontal: 5.w),
           body: Observer(
             builder: (_) {
               if (snapshot.connectionState == ConnectionState.done &&
                   snapshot.hasData) {
-                return Observer(builder: (_) {
-                  return (_store.cards.isEmpty) ? _emptyBody() : _filledBody();
-                });
+                return _body();
               } else {
                 return _loadingBody();
               }
@@ -78,39 +71,11 @@ class MyCardsPageState extends State<MyCardsPage> {
     );
   }
 
-  Widget _emptyBody() {
-    return Column(
-      children: [
-        DividerWidget(height: 10.h),
-        SvgPicture.asset(
-          'assets/images/pagamentos/cards.svg',
-          height: 12.h,
-        ),
-        DividerWidget(height: 1.h),
-        textWidget(
-          'Sem cartões cadastrados',
-          style: h2(color: grey),
-        ),
-        DividerWidget(height: 10.h),
-        _newCardBtn(accent, white),
-      ],
-    );
-  }
-
-  Widget _filledBody() {
+  Widget _body() {
     return Column(
       children: [
         DividerWidget(height: 2.h),
       ],
-    );
-  }
-
-  Widget _newCardBtn(Color bgColor, Color textColor) {
-    return ButtonWidget.filled(
-      onPressed: () {},
-      backgroundColor: bgColor,
-      title: 'CADASTRAR NOVO CARTÃO',
-      textColor: textColor,
     );
   }
 

@@ -121,7 +121,7 @@ class PixPageState extends State<PixPage> {
   }
 
   Widget _qrCode() {
-    return Image.asset('assets/images/qrcode_example.png');
+    return Image.asset('assets/images/pagamentos/qrcode_example.png');
   }
 
   Widget _pixCode() {

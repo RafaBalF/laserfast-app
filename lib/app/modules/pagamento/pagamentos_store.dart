@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:laserfast_app/app/models/credit_card.model.dart';
+import 'package:laserfast_app/app/models/hives/credit_cards.hive.dart';
 import 'package:laserfast_app/app/models/payment.model.dart';
 import 'package:laserfast_app/app/shared/interfaces/simple_selectable_card.interface.dart';
 import 'package:mobx/mobx.dart';
@@ -12,7 +14,9 @@ class PagamentosStore = PagamentosStoreBase with _$PagamentosStore;
 abstract class PagamentosStoreBase with Store {
   final LoadingStore loadingStore = LoadingStore();
 
-  //====PAGAMENTOS====
+  final CreditCardsHive _creditCardsHive = CreditCardsHive();
+
+  //==== PAGAMENTOS ====
 
   @observable
   ObservableList<SimpleSelectableCard<PaymentModel>> payments =
@@ -86,7 +90,7 @@ abstract class PagamentosStoreBase with Store {
   @action
   void reset() {}
 
-  //====PAGAMENTO====
+  //==== PAGAMENTO ====
 
   @action
   Future<void> initPagamento() async {}
@@ -94,7 +98,7 @@ abstract class PagamentosStoreBase with Store {
   @action
   void resetPagamento() {}
 
-  //====PIX====
+  //==== PIX ====
 
   final int maxPixDuration = 300;
 
@@ -126,15 +130,29 @@ abstract class PagamentosStoreBase with Store {
     pixDuration = maxPixDuration;
   }
 
-  //====MY-CARDS====
+  //==== MY-CARDS ====
+
+  @observable
+  ObservableList<CreditCardModel> cards = ObservableList.of([]);
 
   @action
-  Future<void> initMyCards() async {}
+  Future<void> initMyCards() async {
+    cards.clear();
+    cards.addAll(await _creditCardsHive.getCards());
+  }
 
   @action
   void resetMyCards() {}
 
-  //====CREDIT-CARD====
+  //==== CREDIT-CARD-FORM ====
+
+  @action
+  Future<void> initCreditCardForm() async {}
+
+  @action
+  void resetCreditCardForm() {}
+
+  //==== CREDIT-CARD ====
 
   @action
   Future<void> initCreditCard() async {}
