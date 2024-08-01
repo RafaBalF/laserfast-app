@@ -11,13 +11,13 @@ import 'package:laserfast_app/app/shared/widgets/shimmer_widget.dart';
 import 'package:laserfast_app/app/shared/widgets/simple_scaffold_widget.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
-class PagamentoPage extends StatefulWidget {
-  const PagamentoPage({super.key});
+class CreditCardPage extends StatefulWidget {
+  const CreditCardPage({super.key});
   @override
-  PagamentoPageState createState() => PagamentoPageState();
+  CreditCardPageState createState() => CreditCardPageState();
 }
 
-class PagamentoPageState extends State<PagamentoPage> {
+class CreditCardPageState extends State<CreditCardPage> {
   final PagamentosStore _store = Modular.get<PagamentosStore>();
   late final Future<void> _future;
 
@@ -159,9 +159,9 @@ class PagamentoPageState extends State<PagamentoPage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                _paymentMethodCard(Icons.pix, 'PIX', '/pagamentos/pix'),
+                _paymentMethodCard(Icons.pix, 'PIX', 'pagamentos/pix'),
                 _paymentMethodCard(Icons.credit_card, 'CARTÃO DE CRÉDITO',
-                    '/pagamentos/my-cards'),
+                    'pagamentos/credit-card'),
               ],
             ),
           ],

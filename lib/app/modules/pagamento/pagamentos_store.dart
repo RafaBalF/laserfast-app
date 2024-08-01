@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:laserfast_app/app/models/payment.model.dart';
 import 'package:laserfast_app/app/shared/interfaces/simple_selectable_card.interface.dart';
 import 'package:mobx/mobx.dart';
@@ -8,14 +10,10 @@ part 'pagamentos_store.g.dart';
 class PagamentosStore = PagamentosStoreBase with _$PagamentosStore;
 
 abstract class PagamentosStoreBase with Store {
-  //APIS
-
-  //STORES
   final LoadingStore loadingStore = LoadingStore();
 
-  //SERVICES
+  //====PAGAMENTOS====
 
-  //OBSERVABLES
   @observable
   ObservableList<SimpleSelectableCard<PaymentModel>> payments =
       ObservableList.of([]);
@@ -26,12 +24,6 @@ abstract class PagamentosStoreBase with Store {
   @observable
   bool onlyOpened = false;
 
-  //VARIABLES
-
-  //COMPUTED
-
-  //ACTIONS
-  //PAGAMENTOS
   @action
   Future<void> init() async {
     await getAllPayments();
@@ -94,12 +86,59 @@ abstract class PagamentosStoreBase with Store {
   @action
   void reset() {}
 
-  //PAGAMENTO
+  //====PAGAMENTO====
+
   @action
   Future<void> initPagamento() async {}
 
   @action
   void resetPagamento() {}
 
-  //METHODS
+  //====PIX====
+
+  final int maxPixDuration = 300;
+
+  late Timer pixTimer;
+
+  @observable
+  late int pixDuration = maxPixDuration;
+
+  @observable
+  String pixCode = '';
+
+  @action
+  Future<void> initPix() async {
+    pixTimer = Timer.periodic(const Duration(seconds: 1), (t) {
+      if (pixDuration <= 0) {
+        t.cancel();
+      } else {
+        pixDuration--;
+      }
+    });
+
+    pixCode = '8sd7784987sde7fsd987sdf7sdf987sdf987sfd';
+  }
+
+  @action
+  void resetPix() {
+    pixTimer.cancel();
+
+    pixDuration = maxPixDuration;
+  }
+
+  //====MY-CARDS====
+
+  @action
+  Future<void> initMyCards() async {}
+
+  @action
+  void resetMyCards() {}
+
+  //====CREDIT-CARD====
+
+  @action
+  Future<void> initCreditCard() async {}
+
+  @action
+  void resetCreditCard() {}
 }

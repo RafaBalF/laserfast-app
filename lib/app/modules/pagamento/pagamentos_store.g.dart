@@ -57,6 +57,42 @@ mixin _$PagamentosStore on PagamentosStoreBase, Store {
     });
   }
 
+  late final _$pixDurationAtom =
+      Atom(name: 'PagamentosStoreBase.pixDuration', context: context);
+
+  @override
+  int get pixDuration {
+    _$pixDurationAtom.reportRead();
+    return super.pixDuration;
+  }
+
+  bool _pixDurationIsInitialized = false;
+
+  @override
+  set pixDuration(int value) {
+    _$pixDurationAtom.reportWrite(
+        value, _pixDurationIsInitialized ? super.pixDuration : null, () {
+      super.pixDuration = value;
+      _pixDurationIsInitialized = true;
+    });
+  }
+
+  late final _$pixCodeAtom =
+      Atom(name: 'PagamentosStoreBase.pixCode', context: context);
+
+  @override
+  String get pixCode {
+    _$pixCodeAtom.reportRead();
+    return super.pixCode;
+  }
+
+  @override
+  set pixCode(String value) {
+    _$pixCodeAtom.reportWrite(value, super.pixCode, () {
+      super.pixCode = value;
+    });
+  }
+
   late final _$initAsyncAction =
       AsyncAction('PagamentosStoreBase.init', context: context);
 
@@ -79,6 +115,30 @@ mixin _$PagamentosStore on PagamentosStoreBase, Store {
   @override
   Future<void> initPagamento() {
     return _$initPagamentoAsyncAction.run(() => super.initPagamento());
+  }
+
+  late final _$initPixAsyncAction =
+      AsyncAction('PagamentosStoreBase.initPix', context: context);
+
+  @override
+  Future<void> initPix() {
+    return _$initPixAsyncAction.run(() => super.initPix());
+  }
+
+  late final _$initMyCardsAsyncAction =
+      AsyncAction('PagamentosStoreBase.initMyCards', context: context);
+
+  @override
+  Future<void> initMyCards() {
+    return _$initMyCardsAsyncAction.run(() => super.initMyCards());
+  }
+
+  late final _$initCreditCardAsyncAction =
+      AsyncAction('PagamentosStoreBase.initCreditCard', context: context);
+
+  @override
+  Future<void> initCreditCard() {
+    return _$initCreditCardAsyncAction.run(() => super.initCreditCard());
   }
 
   late final _$PagamentosStoreBaseActionController =
@@ -129,11 +189,46 @@ mixin _$PagamentosStore on PagamentosStoreBase, Store {
   }
 
   @override
+  void resetPix() {
+    final _$actionInfo = _$PagamentosStoreBaseActionController.startAction(
+        name: 'PagamentosStoreBase.resetPix');
+    try {
+      return super.resetPix();
+    } finally {
+      _$PagamentosStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void resetMyCards() {
+    final _$actionInfo = _$PagamentosStoreBaseActionController.startAction(
+        name: 'PagamentosStoreBase.resetMyCards');
+    try {
+      return super.resetMyCards();
+    } finally {
+      _$PagamentosStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void resetCreditCard() {
+    final _$actionInfo = _$PagamentosStoreBaseActionController.startAction(
+        name: 'PagamentosStoreBase.resetCreditCard');
+    try {
+      return super.resetCreditCard();
+    } finally {
+      _$PagamentosStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 payments: ${payments},
 selectedPayments: ${selectedPayments},
-onlyOpened: ${onlyOpened}
+onlyOpened: ${onlyOpened},
+pixDuration: ${pixDuration},
+pixCode: ${pixCode}
     ''';
   }
 }
