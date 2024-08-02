@@ -52,6 +52,16 @@ TextStyle categoryTitle({Color? color, TextDecoration? textDecoration}) {
   );
 }
 
+TextStyle large({Color? color, TextDecoration? textDecoration}) {
+  return defaultStyle(
+    fontSize: 20.sp,
+    fontWeight: FontWeight.bold,
+    color: color,
+    height: 1.3,
+    textDecoration: textDecoration,
+  );
+}
+
 TextStyle h2({Color? color, TextDecoration? textDecoration}) {
   return defaultStyle(
     fontSize: 18.sp,

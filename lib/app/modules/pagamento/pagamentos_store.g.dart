@@ -93,19 +93,19 @@ mixin _$PagamentosStore on PagamentosStoreBase, Store {
     });
   }
 
-  late final _$cardsAtom =
-      Atom(name: 'PagamentosStoreBase.cards', context: context);
+  late final _$myCardsAtom =
+      Atom(name: 'PagamentosStoreBase.myCards', context: context);
 
   @override
-  ObservableList<CreditCardModel> get cards {
-    _$cardsAtom.reportRead();
-    return super.cards;
+  ObservableList<SimpleSelectableCard<CreditCardModel>> get myCards {
+    _$myCardsAtom.reportRead();
+    return super.myCards;
   }
 
   @override
-  set cards(ObservableList<CreditCardModel> value) {
-    _$cardsAtom.reportWrite(value, super.cards, () {
-      super.cards = value;
+  set myCards(ObservableList<SimpleSelectableCard<CreditCardModel>> value) {
+    _$myCardsAtom.reportWrite(value, super.myCards, () {
+      super.myCards = value;
     });
   }
 
@@ -432,7 +432,7 @@ selectedPayments: ${selectedPayments},
 onlyOpened: ${onlyOpened},
 pixDuration: ${pixDuration},
 pixCode: ${pixCode},
-cards: ${cards},
+myCards: ${myCards},
 cardId: ${cardId},
 cardNumber: ${cardNumber},
 expiryDate: ${expiryDate},

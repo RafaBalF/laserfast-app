@@ -16,7 +16,9 @@ abstract class PagamentosStoreBase with Store {
 
   final CreditCardsHive _creditCardsHive = CreditCardsHive();
 
-  //==== PAGAMENTOS ====
+  //==============================================
+  //==== PAGAMENTOS ==============================
+  //==============================================
 
   @observable
   ObservableList<SimpleSelectableCard<PaymentModel>> payments =
@@ -109,7 +111,9 @@ abstract class PagamentosStoreBase with Store {
   @action
   void resetPagamento() {}
 
-  //==== PIX ====
+  //==============================================
+  //==== PIX =====================================
+  //==============================================
 
   final int maxPixDuration = 300;
 
@@ -141,27 +145,41 @@ abstract class PagamentosStoreBase with Store {
     pixDuration = maxPixDuration;
   }
 
-  //==== MY-CARDS ====
+  //==============================================
+  //==== MY-CARDS ================================
+  //==============================================
 
   @observable
-  ObservableList<CreditCardModel> cards = ObservableList.of([]);
+  ObservableList<SimpleSelectableCard<CreditCardModel>> myCards =
+      ObservableList.of([]);
 
   @action
   Future<void> initMyCards() async {
-    cards.clear();
+    myCards.clear();
     await getCreditCards();
   }
 
   @action
   Future<void> getCreditCards() async {
-    cards.clear();
-    cards.addAll(await _creditCardsHive.getCards());
+    myCards.clear();
+
+    List<SimpleSelectableCard<CreditCardModel>> l = [];
+
+    var cards = await _creditCardsHive.getCards();
+
+    for (var c in cards) {
+      l.add(SimpleSelectableCard(value: c));
+    }
+
+    myCards.addAll(l);
   }
 
   @action
   void resetMyCards() {}
 
-  //==== CREDIT-CARD-FORM ====
+  //==============================================
+  //==== CREDIT-CARD-FORM ========================
+  //==============================================
 
   @observable
   int? cardId;
@@ -253,7 +271,9 @@ abstract class PagamentosStoreBase with Store {
     cvvFocused = false;
   }
 
-  //==== CREDIT-CARD ====
+  //==============================================
+  //==== CREDIT-CARD =============================
+  //==============================================
 
   @action
   Future<void> initCreditCard() async {}

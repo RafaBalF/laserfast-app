@@ -20,7 +20,12 @@ class CreditCardsHive {
 
     int index = cards.indexWhere((c) => c.id == card.id);
 
-    (index == -1) ? cards.add(card) : cards[index] = card;
+    if (index == -1) {
+      card.id = cards.length + 1;
+      cards.add(card);
+    } else {
+      cards[index] = card;
+    }
 
     try {
       await Hive.box('credit_cards').put('cards', cards);

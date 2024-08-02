@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:laserfast_app/app/models/credit_card.model.dart';
 import 'package:laserfast_app/app/modules/pagamento/pagamentos_store.dart';
 import 'package:laserfast_app/app/shared/colors.dart';
+import 'package:laserfast_app/app/shared/interfaces/simple_selectable_card.interface.dart';
 import 'package:laserfast_app/app/shared/text_styles.dart';
 import 'package:laserfast_app/app/shared/text_widget.dart';
 import 'package:laserfast_app/app/shared/widgets/button_widget.dart';
@@ -43,7 +45,9 @@ class MyCardsPageState extends State<MyCardsPage> {
               if (snapshot.connectionState == ConnectionState.done &&
                   snapshot.hasData) {
                 return Observer(builder: (_) {
-                  return (_store.cards.isEmpty) ? _emptyBody() : _filledBody();
+                  return (_store.myCards.isEmpty)
+                      ? _emptyBody()
+                      : _filledBody();
                 });
               } else {
                 return _loadingBody();
@@ -98,10 +102,51 @@ class MyCardsPageState extends State<MyCardsPage> {
   }
 
   Widget _filledBody() {
-    return Column(
-      children: [
-        DividerWidget(height: 2.h),
-      ],
+    return Observer(builder: (_) {
+      return Column(
+        children: _store.myCards.map((c) => _card(c)).toList(),
+      );
+    });
+  }
+
+  Widget _card(SimpleSelectableCard<CreditCardModel> card) {
+    String number = card.value.numero!;
+
+    String start = "${number[0]}${number[1]}${number[2]}${number[3]}";
+    String end = "${number[18]}${number[17]}${number[16]}${number[15]}";
+
+    String displayNumber = "$start **** **** $end";
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: 1.h),
+      child: Container(
+        width: 100.w,
+        padding: EdgeInsets.symmetric(vertical: 2.h, horizontal: 5.w),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          border: Border.all(color: grey),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(
+              children: [
+                Icon(Icons.credit_card, size: 24.sp),
+                textWidget(displayNumber, style: h2()),
+              ],
+            ),
+            Checkbox(
+              value: card.selected,
+              onChanged: (b) {
+                setState(() {
+                  card.selected = !card.selected;
+                });
+              },
+              shape: const CircleBorder(),
+              activeColor: accent,
+            ),
+          ],
+        ),
+      ),
     );
   }
 
