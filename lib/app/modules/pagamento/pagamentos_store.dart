@@ -80,7 +80,18 @@ abstract class PagamentosStoreBase with Store {
       selected: !payment.selected,
     );
 
+    // isso garante que tenha apenas um pagamento selecionado
+    for (var i = 0; i < payments.length; i++) {
+      payments[i] = SimpleSelectableCard<PaymentModel>(
+        value: payments[i].value,
+        selected: false,
+      );
+    }
+
     payments[index] = model;
+
+    // isso garante que tenha apenas um pagamento selecionado
+    selectedPayments.clear();
 
     (selectedPayments.contains(model.value))
         ? selectedPayments.remove(model.value)
