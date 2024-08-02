@@ -149,6 +149,15 @@ mixin _$PagamentosStore on PagamentosStoreBase, Store {
     return _$initMyCardsAsyncAction.run(() => super.initMyCards());
   }
 
+  late final _$initCreditCardFormAsyncAction =
+      AsyncAction('PagamentosStoreBase.initCreditCardForm', context: context);
+
+  @override
+  Future<void> initCreditCardForm() {
+    return _$initCreditCardFormAsyncAction
+        .run(() => super.initCreditCardForm());
+  }
+
   late final _$initCreditCardAsyncAction =
       AsyncAction('PagamentosStoreBase.initCreditCard', context: context);
 
@@ -221,6 +230,17 @@ mixin _$PagamentosStore on PagamentosStoreBase, Store {
         name: 'PagamentosStoreBase.resetMyCards');
     try {
       return super.resetMyCards();
+    } finally {
+      _$PagamentosStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void resetCreditCardForm() {
+    final _$actionInfo = _$PagamentosStoreBaseActionController.startAction(
+        name: 'PagamentosStoreBase.resetCreditCardForm');
+    try {
+      return super.resetCreditCardForm();
     } finally {
       _$PagamentosStoreBaseActionController.endAction(_$actionInfo);
     }
