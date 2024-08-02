@@ -11,14 +11,23 @@ class CreditCardsHive {
     return await Hive.box('credit_cards').get('cards') ?? [];
   }
 
-  Future<void> saveCard(CreditCardModel card) async {
+  Future<CreditCardModel?> findCard(int id) async {
+    return (await getCards()).where((c) => c.id == id).firstOrNull;
+  }
+
+  Future<bool> saveCard(CreditCardModel card) async {
     var cards = await getCards();
 
     int index = cards.indexWhere((c) => c.id == card.id);
 
     (index == -1) ? cards.add(card) : cards[index] = card;
 
-    return await Hive.box('credit_cards').put('cards', cards);
+    try {
+      await Hive.box('credit_cards').put('cards', cards);
+      return true;
+    } catch (_) {
+      return false;
+    }
   }
 
   bool hasCards() {

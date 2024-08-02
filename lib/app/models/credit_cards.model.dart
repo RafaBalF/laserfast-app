@@ -4,7 +4,7 @@ import 'abstract/from_json.abstract.dart';
 
 part 'credit_cards.model.g.dart';
 
-@HiveType(typeId: 1)
+@HiveType(typeId: 2)
 class CreditCardsModel extends FromJsonModel {
   @HiveField(0)
   List<CreditCardsModel>? cards;

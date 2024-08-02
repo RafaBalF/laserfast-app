@@ -109,6 +109,102 @@ mixin _$PagamentosStore on PagamentosStoreBase, Store {
     });
   }
 
+  late final _$cardIdAtom =
+      Atom(name: 'PagamentosStoreBase.cardId', context: context);
+
+  @override
+  int? get cardId {
+    _$cardIdAtom.reportRead();
+    return super.cardId;
+  }
+
+  @override
+  set cardId(int? value) {
+    _$cardIdAtom.reportWrite(value, super.cardId, () {
+      super.cardId = value;
+    });
+  }
+
+  late final _$cardNumberAtom =
+      Atom(name: 'PagamentosStoreBase.cardNumber', context: context);
+
+  @override
+  String get cardNumber {
+    _$cardNumberAtom.reportRead();
+    return super.cardNumber;
+  }
+
+  @override
+  set cardNumber(String value) {
+    _$cardNumberAtom.reportWrite(value, super.cardNumber, () {
+      super.cardNumber = value;
+    });
+  }
+
+  late final _$expiryDateAtom =
+      Atom(name: 'PagamentosStoreBase.expiryDate', context: context);
+
+  @override
+  String get expiryDate {
+    _$expiryDateAtom.reportRead();
+    return super.expiryDate;
+  }
+
+  @override
+  set expiryDate(String value) {
+    _$expiryDateAtom.reportWrite(value, super.expiryDate, () {
+      super.expiryDate = value;
+    });
+  }
+
+  late final _$cardHolderNameAtom =
+      Atom(name: 'PagamentosStoreBase.cardHolderName', context: context);
+
+  @override
+  String get cardHolderName {
+    _$cardHolderNameAtom.reportRead();
+    return super.cardHolderName;
+  }
+
+  @override
+  set cardHolderName(String value) {
+    _$cardHolderNameAtom.reportWrite(value, super.cardHolderName, () {
+      super.cardHolderName = value;
+    });
+  }
+
+  late final _$cvvCodeAtom =
+      Atom(name: 'PagamentosStoreBase.cvvCode', context: context);
+
+  @override
+  String get cvvCode {
+    _$cvvCodeAtom.reportRead();
+    return super.cvvCode;
+  }
+
+  @override
+  set cvvCode(String value) {
+    _$cvvCodeAtom.reportWrite(value, super.cvvCode, () {
+      super.cvvCode = value;
+    });
+  }
+
+  late final _$cvvFocusedAtom =
+      Atom(name: 'PagamentosStoreBase.cvvFocused', context: context);
+
+  @override
+  bool get cvvFocused {
+    _$cvvFocusedAtom.reportRead();
+    return super.cvvFocused;
+  }
+
+  @override
+  set cvvFocused(bool value) {
+    _$cvvFocusedAtom.reportWrite(value, super.cvvFocused, () {
+      super.cvvFocused = value;
+    });
+  }
+
   late final _$initAsyncAction =
       AsyncAction('PagamentosStoreBase.init', context: context);
 
@@ -149,13 +245,29 @@ mixin _$PagamentosStore on PagamentosStoreBase, Store {
     return _$initMyCardsAsyncAction.run(() => super.initMyCards());
   }
 
+  late final _$getCreditCardsAsyncAction =
+      AsyncAction('PagamentosStoreBase.getCreditCards', context: context);
+
+  @override
+  Future<void> getCreditCards() {
+    return _$getCreditCardsAsyncAction.run(() => super.getCreditCards());
+  }
+
   late final _$initCreditCardFormAsyncAction =
       AsyncAction('PagamentosStoreBase.initCreditCardForm', context: context);
 
   @override
-  Future<void> initCreditCardForm() {
+  Future<void> initCreditCardForm(int? id) {
     return _$initCreditCardFormAsyncAction
-        .run(() => super.initCreditCardForm());
+        .run(() => super.initCreditCardForm(id));
+  }
+
+  late final _$saveCardAsyncAction =
+      AsyncAction('PagamentosStoreBase.saveCard', context: context);
+
+  @override
+  Future<bool> saveCard() {
+    return _$saveCardAsyncAction.run(() => super.saveCard());
   }
 
   late final _$initCreditCardAsyncAction =
@@ -236,6 +348,61 @@ mixin _$PagamentosStore on PagamentosStoreBase, Store {
   }
 
   @override
+  void setCardNumber(String v) {
+    final _$actionInfo = _$PagamentosStoreBaseActionController.startAction(
+        name: 'PagamentosStoreBase.setCardNumber');
+    try {
+      return super.setCardNumber(v);
+    } finally {
+      _$PagamentosStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setExpiryDate(String v) {
+    final _$actionInfo = _$PagamentosStoreBaseActionController.startAction(
+        name: 'PagamentosStoreBase.setExpiryDate');
+    try {
+      return super.setExpiryDate(v);
+    } finally {
+      _$PagamentosStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setCardHolderName(String v) {
+    final _$actionInfo = _$PagamentosStoreBaseActionController.startAction(
+        name: 'PagamentosStoreBase.setCardHolderName');
+    try {
+      return super.setCardHolderName(v);
+    } finally {
+      _$PagamentosStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setCvvCode(String v) {
+    final _$actionInfo = _$PagamentosStoreBaseActionController.startAction(
+        name: 'PagamentosStoreBase.setCvvCode');
+    try {
+      return super.setCvvCode(v);
+    } finally {
+      _$PagamentosStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setCvvFocused(bool v) {
+    final _$actionInfo = _$PagamentosStoreBaseActionController.startAction(
+        name: 'PagamentosStoreBase.setCvvFocused');
+    try {
+      return super.setCvvFocused(v);
+    } finally {
+      _$PagamentosStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void resetCreditCardForm() {
     final _$actionInfo = _$PagamentosStoreBaseActionController.startAction(
         name: 'PagamentosStoreBase.resetCreditCardForm');
@@ -265,7 +432,13 @@ selectedPayments: ${selectedPayments},
 onlyOpened: ${onlyOpened},
 pixDuration: ${pixDuration},
 pixCode: ${pixCode},
-cards: ${cards}
+cards: ${cards},
+cardId: ${cardId},
+cardNumber: ${cardNumber},
+expiryDate: ${expiryDate},
+cardHolderName: ${cardHolderName},
+cvvCode: ${cvvCode},
+cvvFocused: ${cvvFocused}
     ''';
   }
 }

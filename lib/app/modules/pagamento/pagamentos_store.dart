@@ -149,6 +149,12 @@ abstract class PagamentosStoreBase with Store {
   @action
   Future<void> initMyCards() async {
     cards.clear();
+    await getCreditCards();
+  }
+
+  @action
+  Future<void> getCreditCards() async {
+    cards.clear();
     cards.addAll(await _creditCardsHive.getCards());
   }
 
@@ -157,11 +163,95 @@ abstract class PagamentosStoreBase with Store {
 
   //==== CREDIT-CARD-FORM ====
 
-  @action
-  Future<void> initCreditCardForm() async {}
+  @observable
+  int? cardId;
+  @observable
+  String cardNumber = '';
+  @observable
+  String expiryDate = '';
+  @observable
+  String cardHolderName = '';
+  @observable
+  String cvvCode = '';
+  @observable
+  bool cvvFocused = false;
 
   @action
-  void resetCreditCardForm() {}
+  Future<void> initCreditCardForm(int? id) async {
+    CreditCardModel? model;
+
+    if (id != null) {
+      model = await _creditCardsHive.findCard(id);
+    }
+
+    if (model != null) {
+      cardNumber = model.numero!;
+      expiryDate = model.numero!;
+      cardHolderName = model.nome!;
+      cvvCode = model.cvv!;
+    } else {
+      cardNumber = '';
+      expiryDate = '';
+      cardHolderName = '';
+      cvvCode = '';
+    }
+
+    cardId = id;
+    cvvFocused = false;
+  }
+
+  @action
+  void setCardNumber(String v) {
+    cardNumber = v;
+    cvvFocused = false;
+  }
+
+  @action
+  void setExpiryDate(String v) {
+    expiryDate = v;
+    cvvFocused = false;
+  }
+
+  @action
+  void setCardHolderName(String v) {
+    cardHolderName = v;
+    cvvFocused = false;
+  }
+
+  @action
+  void setCvvCode(String v) {
+    cvvCode = v;
+    cvvFocused = true;
+  }
+
+  @action
+  void setCvvFocused(bool v) => cvvFocused = v;
+
+  @action
+  Future<bool> saveCard() async {
+    CreditCardModel creditCard = CreditCardModel(
+      id: cardId,
+      numero: cardNumber,
+      nome: cardHolderName,
+      dataVencimento: expiryDate,
+      cvv: cvvCode,
+    );
+
+    bool b = await _creditCardsHive.saveCard(creditCard);
+
+    await getCreditCards();
+
+    return b;
+  }
+
+  @action
+  void resetCreditCardForm() {
+    cardNumber = '';
+    expiryDate = '';
+    cardHolderName = '';
+    cvvCode = '';
+    cvvFocused = false;
+  }
 
   //==== CREDIT-CARD ====
 

@@ -24,7 +24,7 @@ class MyCardsPageState extends State<MyCardsPage> {
 
   @override
   void initState() {
-    _future = Future.wait([_store.initPagamento()]);
+    _future = Future.wait([_store.initMyCards()]);
 
     super.initState();
   }
@@ -107,7 +107,9 @@ class MyCardsPageState extends State<MyCardsPage> {
 
   Widget _newCardBtn(Color bgColor, Color textColor) {
     return ButtonWidget.filled(
-      onPressed: () {},
+      onPressed: () {
+        Modular.to.pushNamed('/pagamentos/credit-card-form');
+      },
       backgroundColor: bgColor,
       title: 'CADASTRAR NOVO CARTÃO',
       textColor: textColor,
@@ -116,7 +118,7 @@ class MyCardsPageState extends State<MyCardsPage> {
 
   @override
   void dispose() {
-    _store.resetPagamento();
+    _store.resetMyCards();
 
     super.dispose();
   }

@@ -1,18 +1,28 @@
+import 'package:hive/hive.dart';
+
 import 'abstract/from_json.abstract.dart';
 
+part 'credit_card.model.g.dart';
+
+@HiveType(typeId: 1)
 class CreditCardModel extends FromJsonModel {
+  @HiveField(0)
   int? id;
+  @HiveField(1)
   String? numero;
+  @HiveField(2)
   String? nome;
+  @HiveField(3)
   String? dataVencimento;
-  String? cvc;
+  @HiveField(4)
+  String? cvv;
 
   CreditCardModel({
     this.id,
     this.numero,
     this.nome,
     this.dataVencimento,
-    this.cvc,
+    this.cvv,
   });
 
   CreditCardModel.fromJson(Map<String, dynamic> json) {
@@ -20,7 +30,7 @@ class CreditCardModel extends FromJsonModel {
     numero = json['numero'];
     nome = json['nome'];
     dataVencimento = json['dataVencimento'];
-    cvc = json['cvc'];
+    cvv = json['cvv'];
   }
 
   Map<String, dynamic> toJson() {
@@ -30,7 +40,7 @@ class CreditCardModel extends FromJsonModel {
     json['numero'] = numero;
     json['nome'] = nome;
     json['dataVencimento'] = dataVencimento;
-    json['cvc'] = cvc;
+    json['cvv'] = cvv;
 
     return json;
   }

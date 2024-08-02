@@ -30,6 +30,7 @@ class InputWidget extends StatefulWidget {
   final double contentPaddingBot;
   final double contentPaddingTop;
   final String? Function(String?)? validator;
+  final int? errorMaxLines;
 
   const InputWidget({
     super.key,
@@ -57,6 +58,7 @@ class InputWidget extends StatefulWidget {
     this.contentPaddingBot = 16,
     this.contentPaddingTop = 16,
     this.validator,
+    this.errorMaxLines = 3,
   });
 
   @override
@@ -142,7 +144,9 @@ class _InputWidgetState extends State<InputWidget> {
       suffixIcon: widget.suffixIcon,
       prefixIcon: widget.prefixIcon,
       errorText: widget.error,
+      errorMaxLines: widget.errorMaxLines,
       hintText: widget.placeholder,
+      hintStyle: const TextStyle(color: grey),
       disabledBorder: _border(color: grey),
       enabledBorder: _border(),
       focusedBorder: _border(),

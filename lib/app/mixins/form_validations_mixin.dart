@@ -15,9 +15,25 @@ mixin FormValidationsMixin {
     return null;
   }
 
+  String? nChars(int charNumber, String? value, [String? message]) {
+    if (value!.length != charNumber) {
+      return message ?? "Este campo deve ter $charNumber caracteres";
+    }
+
+    return null;
+  }
+
   String? atLeastNChars(int charNumber, String? value, [String? message]) {
     if (value!.length < charNumber) {
       return message ?? "Este campo deve ter pelo menos $charNumber caracteres";
+    }
+
+    return null;
+  }
+
+  String? atMostNChars(int charNumber, String? value, [String? message]) {
+    if (value!.length > charNumber) {
+      return message ?? "Este campo deve ter no máximo $charNumber caracteres";
     }
 
     return null;

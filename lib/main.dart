@@ -4,6 +4,7 @@ import 'package:hive_flutter/adapters.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:laserfast_app/app/models/auth.model.dart';
+import 'package:laserfast_app/app/models/credit_card.model.dart';
 import 'package:laserfast_app/app/models/credit_cards.model.dart';
 import 'package:laserfast_app/app_module.dart';
 import 'package:laserfast_app/app_widget.dart';
@@ -17,6 +18,7 @@ void main() async {
   await Hive.initFlutter();
 
   Hive.registerAdapter(AuthModelAdapter());
+  Hive.registerAdapter(CreditCardModelAdapter());
   Hive.registerAdapter(CreditCardsModelAdapter());
 
   await Hive.openBox('login');
