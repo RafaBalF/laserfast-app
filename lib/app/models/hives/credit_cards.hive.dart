@@ -8,16 +8,20 @@ class CreditCardsHive {
 
   //guests
   Future<List<CreditCardModel>> getCards() async {
-    List<dynamic> dynamicList = [];
-    List<CreditCardModel> typedList = [];
+    // List<dynamic> dynamicList = [];
+    // List<CreditCardModel> typedList = [];
 
-    dynamicList = await Hive.box('credit_cards').get('cards', defaultValue: []);
+    // dynamicList = await Hive.box('credit_cards').get('cards', defaultValue: []);
 
-    for (var item in dynamicList) {
-      typedList.add(item as CreditCardModel);
-    }
+    // for (var item in dynamicList) {
+    //   typedList.add(item as CreditCardModel);
+    // }
 
-    return typedList;
+    // return typedList;
+
+    // PRECISA DESSA MERDA PQ O HIVE É BURRO
+    return (await Hive.box('credit_cards').get('cards', defaultValue: []))
+        .cast<CreditCardModel>();
   }
 
   Future<CreditCardModel?> findCard(int id) async {

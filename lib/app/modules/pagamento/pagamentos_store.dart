@@ -166,11 +166,7 @@ abstract class PagamentosStoreBase with Store {
 
     List<CreditCardModel> cards = [];
 
-    try {
-      cards = await _creditCardsHive.getCards();
-    } catch (e) {
-      print(e);
-    }
+    cards = await _creditCardsHive.getCards();
 
     for (var c in cards) {
       l.add(SimpleSelectableCard(value: c));
