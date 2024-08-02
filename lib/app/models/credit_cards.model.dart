@@ -1,4 +1,5 @@
 import 'package:hive/hive.dart';
+import 'package:laserfast_app/app/models/credit_card.model.dart';
 
 import 'abstract/from_json.abstract.dart';
 
@@ -7,7 +8,7 @@ part 'credit_cards.model.g.dart';
 @HiveType(typeId: 2)
 class CreditCardsModel extends FromJsonModel {
   @HiveField(0)
-  List<CreditCardsModel>? cards;
+  List<CreditCardModel>? cards;
 
   CreditCardsModel({
     this.cards,
@@ -18,7 +19,7 @@ class CreditCardsModel extends FromJsonModel {
 
     if (json['cards'] != null) {
       for (var card in json['cards']) {
-        cards!.add(CreditCardsModel.fromJson(card));
+        cards!.add(CreditCardModel.fromJson(card));
       }
     }
   }

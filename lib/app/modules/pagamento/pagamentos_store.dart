@@ -155,7 +155,6 @@ abstract class PagamentosStoreBase with Store {
 
   @action
   Future<void> initMyCards() async {
-    myCards.clear();
     await getCreditCards();
   }
 
@@ -165,7 +164,13 @@ abstract class PagamentosStoreBase with Store {
 
     List<SimpleSelectableCard<CreditCardModel>> l = [];
 
-    var cards = await _creditCardsHive.getCards();
+    List<CreditCardModel> cards = [];
+
+    try {
+      cards = await _creditCardsHive.getCards();
+    } catch (e) {
+      print(e);
+    }
 
     for (var c in cards) {
       l.add(SimpleSelectableCard(value: c));

@@ -17,7 +17,7 @@ class CreditCardsModelAdapter extends TypeAdapter<CreditCardsModel> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return CreditCardsModel(
-      cards: (fields[0] as List?)?.cast<CreditCardsModel>(),
+      cards: (fields[0] as List?)?.cast<CreditCardModel>(),
     );
   }
 
