@@ -131,6 +131,7 @@ class MyCardsPageState extends State<MyCardsPage> {
             Row(
               children: [
                 Icon(Icons.credit_card, size: 24.sp),
+                SizedBox(width: 5.w),
                 textWidget(displayNumber, style: h2()),
               ],
             ),
