@@ -51,7 +51,7 @@ class CreditCardsHive {
     return await Hive.box('credit_cards').delete('cards');
   }
 
-  Future<bool> delete(int id) async {
+  Future<bool> delete(int? id) async {
     var cards = await getCards();
 
     int index = cards.indexWhere((c) => c.id == id);

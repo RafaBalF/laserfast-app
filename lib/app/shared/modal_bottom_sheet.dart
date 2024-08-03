@@ -69,7 +69,14 @@ Future showErrorBottomSheet(
       DividerWidget(height: 5.h),
       Image.asset('assets/icons/error.png'),
       DividerWidget(height: 5.h),
-      textWidget(message, style: modalHeader()),
+      Padding(
+        padding: EdgeInsets.symmetric(horizontal: 5.w),
+        child: textWidget(
+          message,
+          style: modalHeader(),
+          textAlign: TextAlign.center,
+        ),
+      ),
       DividerWidget(height: 5.h),
       Padding(
         padding: EdgeInsets.symmetric(horizontal: 20.w),
@@ -121,7 +128,14 @@ Future showSuccessBottomSheet(
       DividerWidget(height: 5.h),
       Image.asset('assets/icons/success.png'),
       DividerWidget(height: 5.h),
-      textWidget(message, style: modalHeader()),
+      Padding(
+        padding: EdgeInsets.symmetric(horizontal: 5.w),
+        child: textWidget(
+          message,
+          style: modalHeader(),
+          textAlign: TextAlign.center,
+        ),
+      ),
       DividerWidget(height: 5.h),
       Padding(
         padding: EdgeInsets.symmetric(horizontal: 20.w),

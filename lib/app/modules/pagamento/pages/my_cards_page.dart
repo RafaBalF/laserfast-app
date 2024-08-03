@@ -5,6 +5,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:laserfast_app/app/models/credit_card.model.dart';
 import 'package:laserfast_app/app/modules/pagamento/pagamentos_store.dart';
 import 'package:laserfast_app/app/shared/colors.dart';
+import 'package:laserfast_app/app/shared/modal_bottom_sheet.dart';
 import 'package:laserfast_app/app/shared/text_styles.dart';
 import 'package:laserfast_app/app/shared/text_widget.dart';
 import 'package:laserfast_app/app/shared/widgets/button_widget.dart';
@@ -132,6 +133,7 @@ class MyCardsPageState extends State<MyCardsPage> {
           border: Border.all(color: borderColor),
         ),
         child: RadioListTile(
+          controlAffinity: ListTileControlAffinity.trailing,
           value: card,
           groupValue: _store.selectedCard,
           onChanged: _store.selectCard,
@@ -142,7 +144,7 @@ class MyCardsPageState extends State<MyCardsPage> {
             children: [
               GestureDetector(
                 onTap: () {
-                  print('ansdfaidasdasdasd');
+                  showDeleteCardModal(displayNumber, card.id);
                 },
                 child: Padding(
                   padding: EdgeInsets.only(top: 1.h),
@@ -171,6 +173,92 @@ class MyCardsPageState extends State<MyCardsPage> {
       title: 'CADASTRAR NOVO CARTÃO',
       textColor: textColor,
     );
+  }
+
+  void showDeleteCardModal(String displayNumber, int? cardId) {
+    showCustomBottomSheet(context, 'CARTÃO DE CRÉDITO', Observer(builder: (_) {
+      return SizedBox(
+        width: 90.w,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            DividerWidget(height: 5.h),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 15.w),
+              child: textWidget(
+                'DESEJA REALMENTE EXCLUIR O CARTÃO?',
+                style: h2(),
+                textAlign: TextAlign.center,
+              ),
+            ),
+            DividerWidget(height: 5.h),
+            Container(
+              padding: EdgeInsets.symmetric(vertical: 2.5.h, horizontal: 5.w),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                border: Border.all(color: accent),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.credit_card,
+                    size: 30.sp,
+                    color: accent,
+                  ),
+                  SizedBox(width: 10.w),
+                  textWidget(displayNumber, style: large()),
+                ],
+              ),
+            ),
+            DividerWidget(height: 5.h),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                SizedBox(
+                  width: 40.w,
+                  child: ButtonWidget.outlined(
+                    borderColor: darkGrey,
+                    onPressed: () {
+                      Modular.to.pop();
+                    },
+                    textColor: darkGrey,
+                    title: 'CANCELAR',
+                  ),
+                ),
+                SizedBox(
+                  width: 40.w,
+                  child: ButtonWidget.filled(
+                    backgroundColor: accent,
+                    onPressed: () async {
+                      final bool r = await _store.deleteCard(cardId);
+
+                      if (!mounted) return;
+
+                      Modular.to.pop();
+
+                      if (r) {
+                        showSuccessBottomSheet(
+                          context,
+                          message: 'CARTÃO EXCLUÍDO COM SUCESSO',
+                        );
+                      } else {
+                        showErrorBottomSheet(
+                          context,
+                          message: 'OCORREU UM ERRO AO TENTAR EXCLUIR O CARTÃO',
+                        );
+                      }
+                    },
+                    textColor: white,
+                    title: 'EXCLUIR',
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      );
+    }));
   }
 
   @override

@@ -176,6 +176,17 @@ abstract class PagamentosStoreBase with Store {
   void selectCard(CreditCardModel? c) => selectedCard = c;
 
   @action
+  Future<bool> deleteCard(int? cardId) async {
+    bool r = await _creditCardsHive.delete(cardId);
+
+    if (r) {
+      getCreditCards();
+    }
+
+    return r;
+  }
+
+  @action
   void resetMyCards() {}
 
   //==============================================
