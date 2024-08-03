@@ -191,6 +191,11 @@ abstract class PagamentosStoreBase with Store {
   }
 
   @action
+  Future<bool> payWithCreditCard() async {
+    return true;
+  }
+
+  @action
   void resetMyCards() {}
 
   //==============================================

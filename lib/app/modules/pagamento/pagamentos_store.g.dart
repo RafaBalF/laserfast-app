@@ -277,6 +277,14 @@ mixin _$PagamentosStore on PagamentosStoreBase, Store {
     return _$deleteCardAsyncAction.run(() => super.deleteCard(cardId));
   }
 
+  late final _$payWithCreditCardAsyncAction =
+      AsyncAction('PagamentosStoreBase.payWithCreditCard', context: context);
+
+  @override
+  Future<bool> payWithCreditCard() {
+    return _$payWithCreditCardAsyncAction.run(() => super.payWithCreditCard());
+  }
+
   late final _$initCreditCardFormAsyncAction =
       AsyncAction('PagamentosStoreBase.initCreditCardForm', context: context);
 

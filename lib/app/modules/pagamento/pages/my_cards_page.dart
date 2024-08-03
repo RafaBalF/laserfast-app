@@ -127,7 +127,34 @@ class MyCardsPageState extends State<MyCardsPage> {
         ),
         DividerWidget(height: 2.h),
         ButtonWidget.filled(
-          onPressed: () {},
+          onPressed: () async {
+            final bool r = await _store.payWithCreditCard();
+
+            if (!mounted) return;
+
+            if (r) {
+              showSuccessBottomSheet(
+                context,
+                message: 'PAGAMENTO EFETUADO COM SUCESSO',
+                onPressed: () {
+                  Modular.to.pop();
+                  Modular.to.pop();
+                  Modular.to.pop();
+                },
+                onClose: () {
+                  Modular.to.pop();
+                  Modular.to.pop();
+                  Modular.to.pop();
+                },
+                dismissable: false,
+              );
+            } else {
+              showErrorBottomSheet(
+                context,
+                message: 'OCORREU UM ERRO AO TENTAR EFETUAR O PAGAMENTO',
+              );
+            }
+          },
           backgroundColor: accent,
           title: 'SELECIONAR CARTÃO',
           textColor: white,
