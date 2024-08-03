@@ -150,8 +150,10 @@ abstract class PagamentosStoreBase with Store {
   //==============================================
 
   @observable
-  ObservableList<SimpleSelectableCard<CreditCardModel>> myCards =
-      ObservableList.of([]);
+  ObservableList<CreditCardModel> myCards = ObservableList.of([]);
+
+  @observable
+  CreditCardModel? selectedCard;
 
   @action
   Future<void> initMyCards() async {
@@ -162,18 +164,16 @@ abstract class PagamentosStoreBase with Store {
   Future<void> getCreditCards() async {
     myCards.clear();
 
-    List<SimpleSelectableCard<CreditCardModel>> l = [];
-
     List<CreditCardModel> cards = [];
 
     cards = await _creditCardsHive.getCards();
+    myCards.addAll(cards);
 
-    for (var c in cards) {
-      l.add(SimpleSelectableCard(value: c));
-    }
-
-    myCards.addAll(l);
+    if (cards.isNotEmpty) selectCard(cards.first);
   }
+
+  @action
+  void selectCard(CreditCardModel? c) => selectedCard = c;
 
   @action
   void resetMyCards() {}

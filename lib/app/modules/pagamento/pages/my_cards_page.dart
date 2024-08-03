@@ -5,7 +5,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:laserfast_app/app/models/credit_card.model.dart';
 import 'package:laserfast_app/app/modules/pagamento/pagamentos_store.dart';
 import 'package:laserfast_app/app/shared/colors.dart';
-import 'package:laserfast_app/app/shared/interfaces/simple_selectable_card.interface.dart';
 import 'package:laserfast_app/app/shared/text_styles.dart';
 import 'package:laserfast_app/app/shared/text_widget.dart';
 import 'package:laserfast_app/app/shared/widgets/button_widget.dart';
@@ -109,43 +108,55 @@ class MyCardsPageState extends State<MyCardsPage> {
     });
   }
 
-  Widget _card(SimpleSelectableCard<CreditCardModel> card) {
-    String number = card.value.numero!;
+  Widget _card(CreditCardModel card) {
+    String number = card.numero!;
 
     String start = "${number[0]}${number[1]}${number[2]}${number[3]}";
     String end = "${number[18]}${number[17]}${number[16]}${number[15]}";
 
     String displayNumber = "$start **** **** $end";
+
+    Color borderColor = grey;
+    Color iconColor = darkerGrey;
+
+    if (_store.selectedCard == card) {
+      borderColor = iconColor = accent;
+    }
+
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 1.h),
       child: Container(
-        width: 100.w,
         padding: EdgeInsets.symmetric(vertical: 2.h, horizontal: 5.w),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
-          border: Border.all(color: grey),
+          border: Border.all(color: borderColor),
         ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Row(
-              children: [
-                Icon(Icons.credit_card, size: 24.sp),
-                SizedBox(width: 5.w),
-                textWidget(displayNumber, style: h2()),
-              ],
-            ),
-            Checkbox(
-              value: card.selected,
-              onChanged: (b) {
-                setState(() {
-                  card.selected = !card.selected;
-                });
-              },
-              shape: const CircleBorder(),
-              activeColor: accent,
-            ),
-          ],
+        child: RadioListTile(
+          value: card,
+          groupValue: _store.selectedCard,
+          onChanged: _store.selectCard,
+          title: textWidget(displayNumber),
+          secondary: Icon(Icons.credit_card, size: 24.sp, color: iconColor),
+          subtitle: Flex(
+            direction: Axis.horizontal,
+            children: [
+              GestureDetector(
+                onTap: () {
+                  print('ansdfaidasdasdasd');
+                },
+                child: Padding(
+                  padding: EdgeInsets.only(top: 1.h),
+                  child: textWidget(
+                    'Excluir',
+                    style: text(
+                      color: accent,
+                      textDecoration: TextDecoration.underline,
+                    ),
+                  ),
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );

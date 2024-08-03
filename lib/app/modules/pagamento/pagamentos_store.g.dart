@@ -97,15 +97,31 @@ mixin _$PagamentosStore on PagamentosStoreBase, Store {
       Atom(name: 'PagamentosStoreBase.myCards', context: context);
 
   @override
-  ObservableList<SimpleSelectableCard<CreditCardModel>> get myCards {
+  ObservableList<CreditCardModel> get myCards {
     _$myCardsAtom.reportRead();
     return super.myCards;
   }
 
   @override
-  set myCards(ObservableList<SimpleSelectableCard<CreditCardModel>> value) {
+  set myCards(ObservableList<CreditCardModel> value) {
     _$myCardsAtom.reportWrite(value, super.myCards, () {
       super.myCards = value;
+    });
+  }
+
+  late final _$selectedCardAtom =
+      Atom(name: 'PagamentosStoreBase.selectedCard', context: context);
+
+  @override
+  CreditCardModel? get selectedCard {
+    _$selectedCardAtom.reportRead();
+    return super.selectedCard;
+  }
+
+  @override
+  set selectedCard(CreditCardModel? value) {
+    _$selectedCardAtom.reportWrite(value, super.selectedCard, () {
+      super.selectedCard = value;
     });
   }
 
@@ -337,6 +353,17 @@ mixin _$PagamentosStore on PagamentosStoreBase, Store {
   }
 
   @override
+  void selectCard(CreditCardModel? c) {
+    final _$actionInfo = _$PagamentosStoreBaseActionController.startAction(
+        name: 'PagamentosStoreBase.selectCard');
+    try {
+      return super.selectCard(c);
+    } finally {
+      _$PagamentosStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void resetMyCards() {
     final _$actionInfo = _$PagamentosStoreBaseActionController.startAction(
         name: 'PagamentosStoreBase.resetMyCards');
@@ -433,6 +460,7 @@ onlyOpened: ${onlyOpened},
 pixDuration: ${pixDuration},
 pixCode: ${pixCode},
 myCards: ${myCards},
+selectedCard: ${selectedCard},
 cardId: ${cardId},
 cardNumber: ${cardNumber},
 expiryDate: ${expiryDate},
