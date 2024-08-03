@@ -96,17 +96,45 @@ class MyCardsPageState extends State<MyCardsPage> {
           style: h2(color: grey),
         ),
         DividerWidget(height: 10.h),
-        _newCardBtn(accent, white),
+        ButtonWidget.filled(
+          onPressed: () {
+            Modular.to.pushNamed('/pagamentos/credit-card-form');
+          },
+          backgroundColor: accent,
+          title: 'CADASTRAR NOVO CARTÃO',
+          textColor: white,
+        ),
       ],
     );
   }
 
   Widget _filledBody() {
-    return Observer(builder: (_) {
-      return Column(
-        children: _store.myCards.map((c) => _card(c)).toList(),
-      );
-    });
+    return Column(
+      children: [
+        Observer(builder: (_) {
+          return Column(
+            children: _store.myCards.map((c) => _card(c)).toList(),
+          );
+        }),
+        DividerWidget(height: 5.h),
+        ButtonWidget.outlined(
+          onPressed: () {
+            Modular.to.pushNamed('/pagamentos/credit-card-form');
+          },
+          borderColor: darkGrey,
+          title: 'CADASTRAR NOVO CARTÃO',
+          textColor: darkGrey,
+        ),
+        DividerWidget(height: 2.h),
+        ButtonWidget.filled(
+          onPressed: () {},
+          backgroundColor: accent,
+          title: 'SELECIONAR CARTÃO',
+          textColor: white,
+        ),
+        DividerWidget(height: 5.h),
+      ],
+    );
   }
 
   Widget _card(CreditCardModel card) {
@@ -161,17 +189,6 @@ class MyCardsPageState extends State<MyCardsPage> {
           ),
         ),
       ),
-    );
-  }
-
-  Widget _newCardBtn(Color bgColor, Color textColor) {
-    return ButtonWidget.filled(
-      onPressed: () {
-        Modular.to.pushNamed('/pagamentos/credit-card-form');
-      },
-      backgroundColor: bgColor,
-      title: 'CADASTRAR NOVO CARTÃO',
-      textColor: textColor,
     );
   }
 
