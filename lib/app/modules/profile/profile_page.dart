@@ -1,26 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:laserfast_app/app/modules/home/pages/profile/profile_store.dart';
-import 'package:laserfast_app/app/modules/home/widgets/tab_body_widget.dart';
 import 'package:laserfast_app/app/shared/colors.dart';
 import 'package:laserfast_app/app/shared/text_widget.dart';
 import 'package:laserfast_app/app/shared/text_styles.dart';
+import 'package:laserfast_app/app/shared/widgets/simple_scaffold_widget.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 class ProfilePage extends StatefulWidget {
-  final String title;
-  const ProfilePage({super.key, this.title = 'ProfilePage'});
+  const ProfilePage({super.key});
   @override
   ProfilePageState createState() => ProfilePageState();
 }
 
 class ProfilePageState extends State<ProfilePage> {
-  final ProfileStore _store = Modular.get<ProfileStore>();
-
   @override
   void initState() {
-    _store.init();
     super.initState();
   }
 
@@ -28,84 +23,74 @@ class ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     List<Widget> tiles = _getTiles();
 
-    return TabBodyWidget(
-        widget: SizedBox(
-      height: 100.h,
-      width: 90.w,
-      child: GridView.count(
-        crossAxisCount: 3,
-        childAspectRatio: 0.90,
-        children: List.generate(tiles.length, (index) {
-          return Center(
-            child: tiles[index],
-          );
-        }),
+    return SimpleScaffoldWidget(
+      title: 'PERFIL',
+      useDefaultPadding: false,
+      bodyPadding: EdgeInsets.symmetric(horizontal: 5.w),
+      body: SizedBox(
+        height: 100.h,
+        width: 100.w,
+        child: GridView.count(
+          crossAxisCount: 3,
+          childAspectRatio: 0.90,
+          children: tiles.map((t) => t).toList(),
+        ),
       ),
-    ));
+    );
   }
 
   List<Widget> _getTiles() {
     return [
       _tileCard(
-        'assets/icons/svg/person.svg',
+        'assets/icons/svg/person_accent.svg',
         'Dados pessoais',
-        '/home/profile/',
+        '/profile/dados-pessoais',
       ),
       _tileCard(
-        'assets/icons/svg/map.svg',
+        'assets/icons/svg/map_accent.svg',
         'Endereços cadastrados',
-        '/home/profile/',
+        '/profile/',
       ),
       _tileCard(
-        'assets/icons/svg/payment-data.svg',
+        'assets/icons/svg/payment_accent.svg',
         'Dados de pagamento',
-        '/home/profile/',
+        '/profile/',
       ),
       // _tileCard(
-      //   'assets/icons/svg/chat.svg',
+      //   'assets/icons/svg/chat_accent.svg',
       //   'Conversas',
-      //   '/home/profile/',
+      //   '/profile/',
       // ),
       // _tileCard(
-      //   'assets/icons/svg/chef_hat.svg',
+      //   'assets/icons/svg/chef_hat_accent.svg',
       //   'Papa Club',
-      //   '/home/profile/',
+      //   '/profile/',
       // ),
-      _tileCard(
-        'assets/icons/svg/tickets.svg',
-        'Cupons',
-        '/home/profile/',
-      ),
       // _tileCard(
-      //   'assets/icons/svg/favorite.svg',
+      //   'assets/icons/svg/favorite_accent.svg',
       //   'Favoritos',
-      //   '/home/profile/',
+      //   '/profile/',
       // ),
       _tileCard(
-        'assets/icons/svg/cog.svg',
+        'assets/icons/svg/cog_accent.svg',
         'Configurações',
-        '/home/profile/',
+        '/profile/',
         maxLines: 1,
       ),
       _tileCard(
-        'assets/icons/svg/privacy.svg',
+        'assets/icons/svg/privacy_accent.svg',
         'Políticas de privacidade',
-        '/home/profile/',
+        '/profile/',
       ),
       _tileCard(
-        'assets/icons/svg/orders_table.svg',
-        'Histórico de pedidos',
-        '/home/profile/',
-      ),
-      _tileCard(
-        'assets/icons/svg/change-password.svg',
+        'assets/icons/svg/change-password_accent.svg',
         'Redefinir senha',
-        '/home/profile/',
+        '/profile/',
       ),
       // _tileCard(
-      //   'assets/icons/svg/franchise.svg',
+      //   'assets/icons/svg/franchise_accent.svg',
       //   'Seja um franqueado',
-      //   '/home/profile/',
+      //   '/profile/',
       // ),
     ];
   }

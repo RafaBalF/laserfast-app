@@ -14,10 +14,19 @@ class AuthModel extends FromJsonModel {
   String? name;
   @HiveField(3)
   String? cpf;
+  @HiveField(4)
+  String? celular;
+  @HiveField(5)
+  String? email;
 
   AuthModel.uuid({this.uuid});
 
-  AuthModel({this.token, this.name, this.uuid, this.cpf});
+  AuthModel({
+    this.token,
+    this.name,
+    this.uuid,
+    this.cpf,
+  });
 
   AuthModel.fromJson(Map<String, dynamic> json) {
     token = json['token'];

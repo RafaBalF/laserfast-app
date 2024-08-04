@@ -21,13 +21,15 @@ class AuthModelAdapter extends TypeAdapter<AuthModel> {
       name: fields[2] as String?,
       uuid: fields[0] as String?,
       cpf: fields[3] as String?,
-    );
+    )
+      ..celular = fields[4] as String?
+      ..email = fields[5] as String?;
   }
 
   @override
   void write(BinaryWriter writer, AuthModel obj) {
     writer
-      ..writeByte(4)
+      ..writeByte(6)
       ..writeByte(0)
       ..write(obj.uuid)
       ..writeByte(1)
@@ -35,7 +37,11 @@ class AuthModelAdapter extends TypeAdapter<AuthModel> {
       ..writeByte(2)
       ..write(obj.name)
       ..writeByte(3)
-      ..write(obj.cpf);
+      ..write(obj.cpf)
+      ..writeByte(4)
+      ..write(obj.celular)
+      ..writeByte(5)
+      ..write(obj.email);
   }
 
   @override
