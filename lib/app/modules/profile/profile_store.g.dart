@@ -58,6 +58,22 @@ mixin _$ProfileStore on ProfileStoreBase, Store {
         .run(() => super.resetDadosPessoais());
   }
 
+  late final _$initEnderecosAsyncAction =
+      AsyncAction('ProfileStoreBase.initEnderecos', context: context);
+
+  @override
+  Future<void> initEnderecos() {
+    return _$initEnderecosAsyncAction.run(() => super.initEnderecos());
+  }
+
+  late final _$resetEnderecosAsyncAction =
+      AsyncAction('ProfileStoreBase.resetEnderecos', context: context);
+
+  @override
+  Future<void> resetEnderecos() {
+    return _$resetEnderecosAsyncAction.run(() => super.resetEnderecos());
+  }
+
   @override
   String toString() {
     return '''

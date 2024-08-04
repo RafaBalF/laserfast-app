@@ -6,6 +6,7 @@ import 'package:laserfast_app/app/shared/text_widget.dart';
 import 'package:laserfast_app/app/shared/text_styles.dart';
 import 'package:laserfast_app/app/shared/widgets/simple_scaffold_widget.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -44,61 +45,71 @@ class ProfilePageState extends State<ProfilePage> {
       _tileCard(
         'assets/icons/svg/person_accent.svg',
         'Dados pessoais',
-        '/profile/dados-pessoais',
+        () => Modular.to.pushNamed('/profile/dados-pessoais'),
       ),
       _tileCard(
         'assets/icons/svg/map_accent.svg',
         'Endereços cadastrados',
-        '/profile/',
+        () => Modular.to.pushNamed('/profile/enderecos'),
       ),
       _tileCard(
         'assets/icons/svg/payment_accent.svg',
         'Dados de pagamento',
-        '/profile/',
+        () => Modular.to.pushNamed('/pagamentos/my-cards'),
       ),
-      // _tileCard(
-      //   'assets/icons/svg/chat_accent.svg',
-      //   'Conversas',
-      //   '/profile/',
-      // ),
-      // _tileCard(
-      //   'assets/icons/svg/chef_hat_accent.svg',
-      //   'Papa Club',
-      //   '/profile/',
-      // ),
-      // _tileCard(
-      //   'assets/icons/svg/favorite_accent.svg',
-      //   'Favoritos',
-      //   '/profile/',
-      // ),
+      _tileCard(
+        'assets/icons/svg/chat_accent.svg',
+        'Conversas',
+        () => Modular.to.pushNamed('/profile/chat'),
+      ),
+      _tileCard(
+        'assets/icons/svg/parceiros_accent.svg',
+        'Parceiros',
+        () => Modular.to.pushNamed('/profile/parceiros'),
+      ),
+      _tileCard(
+        'assets/icons/svg/users_accent.svg',
+        'Indicação',
+        () => Modular.to.pushNamed('/profile/indicacao'),
+      ),
+      _tileCard(
+        'assets/icons/svg/favorite_accent.svg',
+        'Diário',
+        () => Modular.to.pushNamed('/diario/'),
+      ),
       _tileCard(
         'assets/icons/svg/cog_accent.svg',
         'Configurações',
-        '/profile/',
+        () => Modular.to.pushNamed('/profile/'),
         maxLines: 1,
       ),
       _tileCard(
         'assets/icons/svg/privacy_accent.svg',
         'Políticas de privacidade',
-        '/profile/',
+        () => Modular.to.pushNamed('/profile/'),
+      ),
+      _tileCard(
+        'assets/icons/svg/orders_table_accent.svg',
+        'Histórico de sessões',
+        () => Modular.to.pushNamed('/historico/'),
       ),
       _tileCard(
         'assets/icons/svg/change-password_accent.svg',
         'Redefinir senha',
-        '/profile/',
+        () => Modular.to.pushNamed('/profile/redefinir-senha'),
       ),
-      // _tileCard(
-      //   'assets/icons/svg/franchise_accent.svg',
-      //   'Seja um franqueado',
-      //   '/profile/',
-      // ),
+      _tileCard(
+        'assets/icons/svg/franchise_accent.svg',
+        'Seja um franqueado',
+        () => launchUrlString('https://laserfast.com.br/franquia'),
+      ),
     ];
   }
 
   Widget _tileCard(
     String imgPath,
     String title,
-    String route, {
+    Function()? onTap, {
     bool isSvg = true,
     IconData? icon,
     int maxLines = 2,
@@ -106,6 +117,7 @@ class ProfilePageState extends State<ProfilePage> {
     return Container(
       margin: const EdgeInsets.all(5),
       child: GestureDetector(
+        onTap: onTap,
         child: Container(
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
@@ -131,9 +143,6 @@ class ProfilePageState extends State<ProfilePage> {
             ],
           ),
         ),
-        onTap: () {
-          Modular.to.pushNamed(route);
-        },
       ),
     );
   }

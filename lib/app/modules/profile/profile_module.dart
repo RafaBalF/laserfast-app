@@ -14,5 +14,6 @@ class ProfileModule extends Module {
   void routes(r) {
     r.child('/', child: (context) => const ProfilePage());
     r.child('/dados-pessoais', child: (context) => const DadosPessoaisPage());
+    r.child('/enderecos', child: (context) => const DadosPessoaisPage());
   }
 }

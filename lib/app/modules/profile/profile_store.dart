@@ -43,4 +43,14 @@ abstract class ProfileStoreBase with Store {
 
   @action
   Future<void> resetDadosPessoais() async {}
+
+  //==============================================
+  //==== ENDERECOS ===============================
+  //==============================================
+
+  @action
+  Future<void> initEnderecos() async {}
+
+  @action
+  Future<void> resetEnderecos() async {}
 }
