@@ -50,7 +50,7 @@ class ProfilePageState extends State<ProfilePage> {
       _tileCard(
         'assets/icons/svg/map_accent.svg',
         'Endereços cadastrados',
-        () => Modular.to.pushNamed('/profile/enderecos'),
+        () => Modular.to.pushNamed('/profile/enderecos'), // TODO: FAZER TELA
       ),
       _tileCard(
         'assets/icons/svg/payment_accent.svg',
@@ -60,7 +60,7 @@ class ProfilePageState extends State<ProfilePage> {
       _tileCard(
         'assets/icons/svg/chat_accent.svg',
         'Conversas',
-        () => Modular.to.pushNamed('/profile/chat'),
+        () => Modular.to.pushNamed('/profile/chat'), // TODO: FAZER TELA
       ),
       _tileCard(
         'assets/icons/svg/parceiros_accent.svg',
@@ -70,23 +70,23 @@ class ProfilePageState extends State<ProfilePage> {
       _tileCard(
         'assets/icons/svg/users_accent.svg',
         'Indicação',
-        () => Modular.to.pushNamed('/profile/indicacao'),
+        () => Modular.to.pushNamed('/profile/indicacao'), // TODO: FAZER TELA
       ),
       _tileCard(
         'assets/icons/svg/favorite_accent.svg',
         'Diário',
-        () => Modular.to.pushNamed('/diario/'),
+        () => Modular.to.pushNamed('/diario/'), // TODO: FAZER TELA
       ),
       _tileCard(
         'assets/icons/svg/cog_accent.svg',
         'Configurações',
-        () => Modular.to.pushNamed('/profile/'),
+        () => Modular.to.pushNamed('/profile/'), // TODO: FAZER TELA
         maxLines: 1,
       ),
       _tileCard(
         'assets/icons/svg/privacy_accent.svg',
         'Políticas de privacidade',
-        () => Modular.to.pushNamed('/profile/'),
+        () => Modular.to.pushNamed('/profile/'), // TODO: FAZER TELA
       ),
       _tileCard(
         'assets/icons/svg/orders_table_accent.svg',
@@ -96,7 +96,8 @@ class ProfilePageState extends State<ProfilePage> {
       _tileCard(
         'assets/icons/svg/change-password_accent.svg',
         'Redefinir senha',
-        () => Modular.to.pushNamed('/profile/redefinir-senha'),
+        () => Modular.to
+            .pushNamed('/profile/redefinir-senha'), // TODO: FAZER TELA
       ),
       _tileCard(
         'assets/icons/svg/franchise_accent.svg',
