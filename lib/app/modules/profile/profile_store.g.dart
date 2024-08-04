@@ -74,6 +74,22 @@ mixin _$ProfileStore on ProfileStoreBase, Store {
     return _$resetEnderecosAsyncAction.run(() => super.resetEnderecos());
   }
 
+  late final _$initParceirosAsyncAction =
+      AsyncAction('ProfileStoreBase.initParceiros', context: context);
+
+  @override
+  Future<void> initParceiros() {
+    return _$initParceirosAsyncAction.run(() => super.initParceiros());
+  }
+
+  late final _$resetParceirosAsyncAction =
+      AsyncAction('ProfileStoreBase.resetParceiros', context: context);
+
+  @override
+  Future<void> resetParceiros() {
+    return _$resetParceirosAsyncAction.run(() => super.resetParceiros());
+  }
+
   @override
   String toString() {
     return '''
