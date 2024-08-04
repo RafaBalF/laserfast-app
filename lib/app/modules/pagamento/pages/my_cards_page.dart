@@ -126,42 +126,48 @@ class MyCardsPageState extends State<MyCardsPage> {
           textColor: darkGrey,
         ),
         DividerWidget(height: 2.h),
-        ButtonWidget.filled(
-          onPressed: () async {
-            final bool r = await _store.payWithCreditCard();
-
-            if (!mounted) return;
-
-            if (r) {
-              showSuccessBottomSheet(
-                context,
-                message: 'PAGAMENTO EFETUADO COM SUCESSO',
-                onPressed: () {
-                  Modular.to.pop();
-                  Modular.to.pop();
-                  Modular.to.pop();
-                },
-                onClose: () {
-                  Modular.to.pop();
-                  Modular.to.pop();
-                  Modular.to.pop();
-                },
-                dismissable: false,
-              );
-            } else {
-              showErrorBottomSheet(
-                context,
-                message: 'OCORREU UM ERRO AO TENTAR EFETUAR O PAGAMENTO',
-              );
-            }
-          },
-          backgroundColor: accent,
-          title: 'SELECIONAR CARTÃO',
-          textColor: white,
-        ),
+        _payBtn(),
         DividerWidget(height: 5.h),
       ],
     );
+  }
+
+  Widget _payBtn() {
+    return (_store.selectedPayments.isNotEmpty)
+        ? ButtonWidget.filled(
+            onPressed: () async {
+              final bool r = await _store.payWithCreditCard();
+
+              if (!mounted) return;
+
+              if (r) {
+                showSuccessBottomSheet(
+                  context,
+                  message: 'PAGAMENTO EFETUADO COM SUCESSO',
+                  onPressed: () {
+                    Modular.to.pop();
+                    Modular.to.pop();
+                    Modular.to.pop();
+                  },
+                  onClose: () {
+                    Modular.to.pop();
+                    Modular.to.pop();
+                    Modular.to.pop();
+                  },
+                  dismissable: false,
+                );
+              } else {
+                showErrorBottomSheet(
+                  context,
+                  message: 'OCORREU UM ERRO AO TENTAR EFETUAR O PAGAMENTO',
+                );
+              }
+            },
+            backgroundColor: accent,
+            title: 'SELECIONAR CARTÃO',
+            textColor: white,
+          )
+        : const SizedBox();
   }
 
   Widget _card(CreditCardModel card) {
