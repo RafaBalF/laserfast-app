@@ -22,11 +22,12 @@ Future showCustomBottomSheet(
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(15.0)),
       ),
+      isScrollControlled: true,
       builder: (context) {
-        return Column(
+        return Wrap(
           children: [
             Padding(
-              padding: EdgeInsets.only(left: 5.w, right: 5.w, top: 5),
+              padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 1.h),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -48,6 +49,7 @@ Future showCustomBottomSheet(
             Center(
               child: widget,
             ),
+            DividerWidget(height: 3.h),
           ],
         );
       });
