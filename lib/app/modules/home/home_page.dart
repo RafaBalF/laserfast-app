@@ -249,20 +249,21 @@ class HomePageState extends State<HomePage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _horizontalBanner('assets/images/banners/partners.png', ''),
+        _horizontalBanner(
+          'assets/images/banners/partners.png',
+          () => Modular.to.pushNamed('/parceiros/'),
+        ),
         DividerWidget(height: 1.h),
-        _horizontalBanner('assets/images/banners/your-sessions.png', ''),
+        _horizontalBanner('assets/images/banners/your-sessions.png', () {}),
       ],
     );
   }
 
-  Widget _horizontalBanner(String imgPath, String route) {
+  Widget _horizontalBanner(String imgPath, Function()? onTap) {
     return SizedBox(
       width: 90.w,
       child: GestureDetector(
-        onTap: () {
-          Modular.to.pushNamed(route);
-        },
+        onTap: onTap,
         child: Image.asset(
           imgPath,
           fit: BoxFit.fitHeight,
