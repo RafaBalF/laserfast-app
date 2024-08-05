@@ -109,8 +109,7 @@ class ProfilePageState extends State<ProfilePage> {
       _tileCard(
         'assets/icons/svg/change-password_accent.svg',
         'Redefinir senha',
-        () => Modular.to
-            .pushNamed('/profile/redefinir-senha'), // TODO: FAZER TELA
+        () => Modular.to.pushNamed('/profile/redefinir-senha'),
       ),
       _tileCard(
         'assets/icons/svg/franchise_accent.svg',
