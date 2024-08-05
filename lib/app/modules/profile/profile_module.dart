@@ -2,6 +2,7 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:laserfast_app/app/modules/profile/pages/configuracoes_page.dart';
 import 'package:laserfast_app/app/modules/profile/pages/dados_pessoais_page.dart';
 import 'package:laserfast_app/app/modules/profile/pages/politicas_de_privacidade_page.dart';
+import 'package:laserfast_app/app/modules/profile/pages/redefinir_senha_page.dart';
 import 'package:laserfast_app/app/modules/profile/profile_page.dart';
 import 'package:laserfast_app/app/modules/profile/profile_store.dart';
 
@@ -22,5 +23,6 @@ class ProfileModule extends Module {
       '/politicas-de-privacidade',
       child: (context) => const PoliticasDePrivacidadePage(),
     );
+    r.child('/redefinir-senha', child: (context) => const RedefinirSenhaPage());
   }
 }

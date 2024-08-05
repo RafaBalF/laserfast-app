@@ -100,6 +100,24 @@ mixin _$ProfileStore on ProfileStoreBase, Store {
         .run(() => super.initPoliticasDePrivacidade());
   }
 
+  late final _$initRedefinirSenhaAsyncAction =
+      AsyncAction('ProfileStoreBase.initRedefinirSenha', context: context);
+
+  @override
+  Future<void> initRedefinirSenha() {
+    return _$initRedefinirSenhaAsyncAction
+        .run(() => super.initRedefinirSenha());
+  }
+
+  late final _$redefinirSenhaAsyncAction =
+      AsyncAction('ProfileStoreBase.redefinirSenha', context: context);
+
+  @override
+  Future<bool> redefinirSenha(String password, String confirmPassword) {
+    return _$redefinirSenhaAsyncAction
+        .run(() => super.redefinirSenha(password, confirmPassword));
+  }
+
   late final _$ProfileStoreBaseActionController =
       ActionController(name: 'ProfileStoreBase', context: context);
 
@@ -153,6 +171,17 @@ mixin _$ProfileStore on ProfileStoreBase, Store {
         name: 'ProfileStoreBase.resetPoliticasDePrivacidade');
     try {
       return super.resetPoliticasDePrivacidade();
+    } finally {
+      _$ProfileStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void resetRedefinirSenha() {
+    final _$actionInfo = _$ProfileStoreBaseActionController.startAction(
+        name: 'ProfileStoreBase.resetRedefinirSenha');
+    try {
+      return super.resetRedefinirSenha();
     } finally {
       _$ProfileStoreBaseActionController.endAction(_$actionInfo);
     }

@@ -89,4 +89,19 @@ abstract class ProfileStoreBase with Store {
 
   @action
   void resetPoliticasDePrivacidade() {}
+
+  //==============================================
+  //==== REDEFINIR-SENHA =========================
+  //==============================================
+
+  @action
+  Future<void> initRedefinirSenha() async {}
+
+  @action
+  Future<bool> redefinirSenha(String password, String confirmPassword) async {
+    return true;
+  }
+
+  @action
+  void resetRedefinirSenha() {}
 }
