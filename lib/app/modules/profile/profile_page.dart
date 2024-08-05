@@ -99,7 +99,7 @@ class ProfilePageState extends State<ProfilePage> {
       _tileCard(
         'assets/icons/svg/privacy_accent.svg',
         'Políticas de privacidade',
-        () => Modular.to.pushNamed('/profile/'), // TODO: FAZER TELA
+        () => Modular.to.pushNamed('/profile/politicas-de-privacidade'),
       ),
       _tileCard(
         'assets/icons/svg/orders_table_accent.svg',

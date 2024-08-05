@@ -25,6 +25,23 @@ mixin _$ProfileStore on ProfileStoreBase, Store {
     });
   }
 
+  late final _$politicaDePrivacidadeAtom =
+      Atom(name: 'ProfileStoreBase.politicaDePrivacidade', context: context);
+
+  @override
+  String get politicaDePrivacidade {
+    _$politicaDePrivacidadeAtom.reportRead();
+    return super.politicaDePrivacidade;
+  }
+
+  @override
+  set politicaDePrivacidade(String value) {
+    _$politicaDePrivacidadeAtom.reportWrite(value, super.politicaDePrivacidade,
+        () {
+      super.politicaDePrivacidade = value;
+    });
+  }
+
   late final _$initProfileAsyncAction =
       AsyncAction('ProfileStoreBase.initProfile', context: context);
 
@@ -71,6 +88,16 @@ mixin _$ProfileStore on ProfileStoreBase, Store {
   @override
   Future<void> deleteAccount() {
     return _$deleteAccountAsyncAction.run(() => super.deleteAccount());
+  }
+
+  late final _$initPoliticasDePrivacidadeAsyncAction = AsyncAction(
+      'ProfileStoreBase.initPoliticasDePrivacidade',
+      context: context);
+
+  @override
+  Future<void> initPoliticasDePrivacidade() {
+    return _$initPoliticasDePrivacidadeAsyncAction
+        .run(() => super.initPoliticasDePrivacidade());
   }
 
   late final _$ProfileStoreBaseActionController =
@@ -121,9 +148,21 @@ mixin _$ProfileStore on ProfileStoreBase, Store {
   }
 
   @override
+  void resetPoliticasDePrivacidade() {
+    final _$actionInfo = _$ProfileStoreBaseActionController.startAction(
+        name: 'ProfileStoreBase.resetPoliticasDePrivacidade');
+    try {
+      return super.resetPoliticasDePrivacidade();
+    } finally {
+      _$ProfileStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
-dadosPessoaisModel: ${dadosPessoaisModel}
+dadosPessoaisModel: ${dadosPessoaisModel},
+politicaDePrivacidade: ${politicaDePrivacidade}
     ''';
   }
 }
