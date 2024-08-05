@@ -5,6 +5,7 @@ import 'package:laserfast_app/app/modules/historico/historico_module.dart';
 import 'package:laserfast_app/app/modules/home/home_module.dart';
 import 'package:laserfast_app/app/modules/launch/launch_module.dart';
 import 'package:laserfast_app/app/modules/pagamento/pagamentos_module.dart';
+import 'package:laserfast_app/app/modules/parceiros/parceiros_module.dart';
 import 'package:laserfast_app/app/modules/profile/profile_module.dart';
 import 'package:laserfast_app/loading_store.dart';
 
@@ -49,6 +50,11 @@ class AppModule extends Module {
     r.module(
       '/profile',
       module: ProfileModule(),
+      transition: TransitionType.rightToLeft,
+    );
+    r.module(
+      '/parceiros',
+      module: ParceirosModule(),
       transition: TransitionType.rightToLeft,
     );
   }

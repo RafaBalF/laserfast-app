@@ -1,12 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:flutter_modular/flutter_modular.dart';
-import 'package:laserfast_app/app/modules/profile/profile_store.dart';
 import 'package:laserfast_app/app/shared/colors.dart';
 import 'package:laserfast_app/app/shared/text_styles.dart';
 import 'package:laserfast_app/app/shared/text_widget.dart';
-import 'package:laserfast_app/app/shared/widgets/divider_widget.dart';
-import 'package:laserfast_app/app/shared/widgets/shimmer_widget.dart';
 import 'package:laserfast_app/app/shared/widgets/simple_scaffold_widget.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:url_launcher/url_launcher_string.dart';
@@ -18,70 +13,25 @@ class ParceirosPage extends StatefulWidget {
 }
 
 class ParceirosPageState extends State<ParceirosPage> {
-  final ProfileStore _store = Modular.get<ProfileStore>();
-  late final Future<void> _future;
-
   @override
   void initState() {
-    _future = Future.wait([_store.initParceiros()]);
-
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: _future,
-      builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-        return SimpleScaffoldWidget(
-            title: 'DADOS PESSOAIS',
-            useDefaultPadding: false,
-            bodyPadding: EdgeInsets.symmetric(horizontal: 5.w),
-            body: Observer(
-              builder: (_) {
-                if (snapshot.connectionState == ConnectionState.done &&
-                    snapshot.hasData) {
-                  return _body();
-                } else {
-                  return _loadingBody();
-                }
-              },
-            ));
-      },
-    );
-  }
-
-  Widget _loadingBody() {
-    return SingleChildScrollView(
-      physics: const NeverScrollableScrollPhysics(),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: List.generate(
-          6,
-          (index) => Column(
-            children: [
-              ShimmerWidget(width: 90.w, height: 6.h),
-              DividerWidget(height: 1.h),
-              ShimmerWidget(width: 90.w, height: 2.h),
-              DividerWidget(height: 1.h),
-              ShimmerWidget(width: 90.w, height: 2.h),
-              DividerWidget(height: 3.h),
-            ],
-          ),
+    return SimpleScaffoldWidget(
+      title: 'PARCEIROS',
+      useDefaultPadding: false,
+      bodyPadding: EdgeInsets.symmetric(horizontal: 5.w),
+      body: SizedBox(
+        height: 100.h,
+        width: 100.w,
+        child: GridView.count(
+          crossAxisCount: 2,
+          childAspectRatio: 0.80,
+          children: _getTiles().map((t) => t).toList(),
         ),
-      ),
-    );
-  }
-
-  Widget _body() {
-    return SizedBox(
-      height: 100.h,
-      width: 100.w,
-      child: GridView.count(
-        crossAxisCount: 2,
-        childAspectRatio: 0.80,
-        children: _getTiles().map((t) => t).toList(),
       ),
     );
   }

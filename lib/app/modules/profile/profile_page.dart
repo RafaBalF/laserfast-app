@@ -78,7 +78,7 @@ class ProfilePageState extends State<ProfilePage> {
       _tileCard(
         'assets/icons/svg/parceiros_accent.svg',
         'Parceiros',
-        () => Modular.to.pushNamed('/profile/parceiros'),
+        () => Modular.to.pushNamed('/parceiros/'),
       ),
       _tileCard(
         'assets/icons/svg/users_accent.svg',
