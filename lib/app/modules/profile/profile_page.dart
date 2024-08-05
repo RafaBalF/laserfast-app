@@ -93,7 +93,7 @@ class ProfilePageState extends State<ProfilePage> {
       _tileCard(
         'assets/icons/svg/cog_accent.svg',
         'Configurações',
-        () => Modular.to.pushNamed('/profile/'), // TODO: FAZER TELA
+        () => Modular.to.pushNamed('/profile/configuracoes'),
         maxLines: 1,
       ),
       _tileCard(

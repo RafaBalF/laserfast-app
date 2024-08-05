@@ -1,4 +1,5 @@
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:laserfast_app/app/modules/profile/pages/configuracoes_page.dart';
 import 'package:laserfast_app/app/modules/profile/pages/dados_pessoais_page.dart';
 import 'package:laserfast_app/app/modules/profile/profile_page.dart';
 import 'package:laserfast_app/app/modules/profile/profile_store.dart';
@@ -15,5 +16,6 @@ class ProfileModule extends Module {
     r.child('/', child: (context) => const ProfilePage());
     r.child('/dados-pessoais', child: (context) => const DadosPessoaisPage());
     r.child('/enderecos', child: (context) => const DadosPessoaisPage());
+    r.child('/configuracoes', child: (context) => const ConfiguracoesPage());
   }
 }

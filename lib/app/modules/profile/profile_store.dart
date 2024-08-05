@@ -20,7 +20,7 @@ abstract class ProfileStoreBase with Store {
   Future<void> initProfile() async {}
 
   @action
-  Future<void> resetProfile() async {}
+  void resetProfile() {}
 
   //==============================================
   //==== DADOS-PESSOAIS ==========================
@@ -42,7 +42,7 @@ abstract class ProfileStoreBase with Store {
   }
 
   @action
-  Future<void> resetDadosPessoais() async {}
+  void resetDadosPessoais() {}
 
   //==============================================
   //==== ENDERECOS ===============================
@@ -52,15 +52,25 @@ abstract class ProfileStoreBase with Store {
   Future<void> initEnderecos() async {}
 
   @action
-  Future<void> resetEnderecos() async {}
+  void resetEnderecos() {}
 
   //==============================================
-  //==== PARCEIROS ===============================
+  //==== CONFIGURAÇÕES ===========================
   //==============================================
 
   @action
-  Future<void> initParceiros() async {}
+  Future<void> initConfiguracoes() async {}
 
   @action
-  Future<void> resetParceiros() async {}
+  Future<void> logout() async {
+    await _loginHive.logout();
+  }
+
+  @action
+  Future<void> deleteAccount() async {
+    await _loginHive.logout();
+  }
+
+  @action
+  void resetConfiguracoes() {}
 }

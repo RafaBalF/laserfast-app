@@ -33,29 +33,12 @@ mixin _$ProfileStore on ProfileStoreBase, Store {
     return _$initProfileAsyncAction.run(() => super.initProfile());
   }
 
-  late final _$resetProfileAsyncAction =
-      AsyncAction('ProfileStoreBase.resetProfile', context: context);
-
-  @override
-  Future<void> resetProfile() {
-    return _$resetProfileAsyncAction.run(() => super.resetProfile());
-  }
-
   late final _$initDadosPessoaisAsyncAction =
       AsyncAction('ProfileStoreBase.initDadosPessoais', context: context);
 
   @override
   Future<void> initDadosPessoais() {
     return _$initDadosPessoaisAsyncAction.run(() => super.initDadosPessoais());
-  }
-
-  late final _$resetDadosPessoaisAsyncAction =
-      AsyncAction('ProfileStoreBase.resetDadosPessoais', context: context);
-
-  @override
-  Future<void> resetDadosPessoais() {
-    return _$resetDadosPessoaisAsyncAction
-        .run(() => super.resetDadosPessoais());
   }
 
   late final _$initEnderecosAsyncAction =
@@ -66,28 +49,75 @@ mixin _$ProfileStore on ProfileStoreBase, Store {
     return _$initEnderecosAsyncAction.run(() => super.initEnderecos());
   }
 
-  late final _$resetEnderecosAsyncAction =
-      AsyncAction('ProfileStoreBase.resetEnderecos', context: context);
+  late final _$initConfiguracoesAsyncAction =
+      AsyncAction('ProfileStoreBase.initConfiguracoes', context: context);
 
   @override
-  Future<void> resetEnderecos() {
-    return _$resetEnderecosAsyncAction.run(() => super.resetEnderecos());
+  Future<void> initConfiguracoes() {
+    return _$initConfiguracoesAsyncAction.run(() => super.initConfiguracoes());
   }
 
-  late final _$initParceirosAsyncAction =
-      AsyncAction('ProfileStoreBase.initParceiros', context: context);
+  late final _$logoutAsyncAction =
+      AsyncAction('ProfileStoreBase.logout', context: context);
 
   @override
-  Future<void> initParceiros() {
-    return _$initParceirosAsyncAction.run(() => super.initParceiros());
+  Future<void> logout() {
+    return _$logoutAsyncAction.run(() => super.logout());
   }
 
-  late final _$resetParceirosAsyncAction =
-      AsyncAction('ProfileStoreBase.resetParceiros', context: context);
+  late final _$deleteAccountAsyncAction =
+      AsyncAction('ProfileStoreBase.deleteAccount', context: context);
 
   @override
-  Future<void> resetParceiros() {
-    return _$resetParceirosAsyncAction.run(() => super.resetParceiros());
+  Future<void> deleteAccount() {
+    return _$deleteAccountAsyncAction.run(() => super.deleteAccount());
+  }
+
+  late final _$ProfileStoreBaseActionController =
+      ActionController(name: 'ProfileStoreBase', context: context);
+
+  @override
+  void resetProfile() {
+    final _$actionInfo = _$ProfileStoreBaseActionController.startAction(
+        name: 'ProfileStoreBase.resetProfile');
+    try {
+      return super.resetProfile();
+    } finally {
+      _$ProfileStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void resetDadosPessoais() {
+    final _$actionInfo = _$ProfileStoreBaseActionController.startAction(
+        name: 'ProfileStoreBase.resetDadosPessoais');
+    try {
+      return super.resetDadosPessoais();
+    } finally {
+      _$ProfileStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void resetEnderecos() {
+    final _$actionInfo = _$ProfileStoreBaseActionController.startAction(
+        name: 'ProfileStoreBase.resetEnderecos');
+    try {
+      return super.resetEnderecos();
+    } finally {
+      _$ProfileStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void resetConfiguracoes() {
+    final _$actionInfo = _$ProfileStoreBaseActionController.startAction(
+        name: 'ProfileStoreBase.resetConfiguracoes');
+    try {
+      return super.resetConfiguracoes();
+    } finally {
+      _$ProfileStoreBaseActionController.endAction(_$actionInfo);
+    }
   }
 
   @override
