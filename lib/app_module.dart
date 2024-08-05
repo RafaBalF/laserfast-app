@@ -1,6 +1,7 @@
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:laserfast_app/app/modules/agenda/agenda_module.dart';
 import 'package:laserfast_app/app/modules/auth/auth_module.dart';
+import 'package:laserfast_app/app/modules/faq/faq_module.dart';
 import 'package:laserfast_app/app/modules/historico/historico_module.dart';
 import 'package:laserfast_app/app/modules/home/home_module.dart';
 import 'package:laserfast_app/app/modules/launch/launch_module.dart';
@@ -55,6 +56,11 @@ class AppModule extends Module {
     r.module(
       '/parceiros',
       module: ParceirosModule(),
+      transition: TransitionType.rightToLeft,
+    );
+    r.module(
+      '/faq',
+      module: FAQModule(),
       transition: TransitionType.rightToLeft,
     );
   }

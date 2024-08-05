@@ -177,7 +177,7 @@ class HomePageState extends State<HomePage> {
           RedirectCardWidget(
             imgPath: 'assets/icons/svg/list-details_accent.svg',
             label: 'Perguntas frequentes',
-            route: '', // TODO: COLOCAR ROTA CERTA
+            route: '/faq',
             labelColor: accent,
             margin: EdgeInsets.only(right: 2.w),
           ),
