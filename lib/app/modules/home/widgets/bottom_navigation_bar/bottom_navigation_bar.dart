@@ -46,10 +46,6 @@ class _BottomNavigationBarWidgetState extends State<BottomNavigationBarWidget> {
               'Pagamento',
             ),
             _bottomNavigationBarItem(
-              'assets/icons/svg/voucher.svg',
-              'Vouchers',
-            ),
-            _bottomNavigationBarItem(
               'assets/icons/svg/chat.svg',
               'Chat',
             ),
