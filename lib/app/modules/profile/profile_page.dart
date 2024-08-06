@@ -85,7 +85,7 @@ class ProfilePageState extends State<ProfilePage> {
       _tileCard(
         'assets/icons/svg/orders_table_accent.svg',
         'Histórico de sessões',
-        () => Modular.to.pushNamed('/historico/'),
+        () => Modular.to.pushNamed('/sessao/historico'),
       ),
       _tileCard(
         'assets/icons/svg/change-password_accent.svg',

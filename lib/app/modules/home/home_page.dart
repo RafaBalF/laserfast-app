@@ -208,10 +208,9 @@ class HomePageState extends State<HomePage> {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              // TODO: COLOCAR ROTA CERTA
-              _mostAccessedCard('MEU DIÁRIO', ''),
-              _mostAccessedCard('MEU TRATAMENTO', ''),
-              _mostAccessedCard('FINANCEIRO', ''),
+              _mostAccessedCard('MEU DIÁRIO', ''), // TODO: COLOCAR ROTA CERTA
+              _mostAccessedCard('MEU TRATAMENTO', '/sessao/historico'),
+              _mostAccessedCard('FINANCEIRO', '/pagamentos/'),
             ],
           ),
         )
@@ -338,7 +337,6 @@ class HomePageState extends State<HomePage> {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // TODO: COLOCAR ROTA CERTA
               _mostWishedCard(
                 'Pernas inteiras 12 vezes',
                 'assets/images/home/most-wished-1.png',
