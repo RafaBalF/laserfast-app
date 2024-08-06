@@ -28,7 +28,7 @@ class HistoricoPageState extends State<HistoricoPage> {
 
   final DateFormat sessionDateFormatter = DateFormat("dd/MM/yyyy 'as' HH:mm");
 
-  final realiza = const Color(0XFF65A491);
+  final realizada = const Color(0XFF65A491);
   final falta = const Color(0xFFCB91D1);
   final agendada = const Color(0XFFDDD2D2);
   final andamento = const Color(0XFFE8C691);
@@ -164,7 +164,7 @@ class HistoricoPageState extends State<HistoricoPage> {
   Color _getColor(int statusCode) {
     switch (statusCode) {
       case 0:
-        return realiza;
+        return realizada;
       case 1:
         return falta;
       case 2:
@@ -181,7 +181,7 @@ class HistoricoPageState extends State<HistoricoPage> {
   Widget _getStatusWidget(int statusCode) {
     switch (statusCode) {
       case 0:
-        return _cardBtn(realiza, 'CHECK-IN', () {});
+        return _cardBtn(realizada, 'CHECK-IN', () {});
       case 1:
         return const SizedBox();
       case 2:
@@ -189,7 +189,7 @@ class HistoricoPageState extends State<HistoricoPage> {
           onTap: () {},
           child: Icon(
             size: 4.h,
-            Icons.zoom_in,
+            Icons.edit_outlined,
             color: black,
           ),
         );
@@ -198,7 +198,7 @@ class HistoricoPageState extends State<HistoricoPage> {
       case 4:
         return _cardBtn(confirmada, 'CHECK-OUT', () {});
       default:
-        return _cardBtn(realiza, 'CHECK-IN', () {});
+        return _cardBtn(realizada, 'CHECK-IN', () {});
     }
   }
 
