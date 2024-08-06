@@ -216,7 +216,7 @@ class ConfiguracoesPageState extends State<ConfiguracoesPage> {
 
   @override
   void dispose() {
-    _store.resetEnderecos();
+    _store.resetConfiguracoes();
 
     super.dispose();
   }

@@ -61,11 +61,6 @@ class ProfilePageState extends State<ProfilePage> {
         () => Modular.to.pushNamed('/profile/dados-pessoais'),
       ),
       _tileCard(
-        'assets/icons/svg/map_accent.svg',
-        'Endereços cadastrados',
-        () => Modular.to.pushNamed('/profile/enderecos'), // TODO: FAZER TELA
-      ),
-      _tileCard(
         'assets/icons/svg/payment_accent.svg',
         'Dados de pagamento',
         () => Modular.to.pushNamed('/pagamentos/my-cards'),

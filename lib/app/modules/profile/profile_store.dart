@@ -46,16 +46,6 @@ abstract class ProfileStoreBase with Store {
   void resetDadosPessoais() {}
 
   //==============================================
-  //==== ENDERECOS ===============================
-  //==============================================
-
-  @action
-  Future<void> initEnderecos() async {}
-
-  @action
-  void resetEnderecos() {}
-
-  //==============================================
   //==== CONFIGURAÇÕES ===========================
   //==============================================
 

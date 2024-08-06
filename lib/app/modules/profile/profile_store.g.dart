@@ -58,14 +58,6 @@ mixin _$ProfileStore on ProfileStoreBase, Store {
     return _$initDadosPessoaisAsyncAction.run(() => super.initDadosPessoais());
   }
 
-  late final _$initEnderecosAsyncAction =
-      AsyncAction('ProfileStoreBase.initEnderecos', context: context);
-
-  @override
-  Future<void> initEnderecos() {
-    return _$initEnderecosAsyncAction.run(() => super.initEnderecos());
-  }
-
   late final _$initConfiguracoesAsyncAction =
       AsyncAction('ProfileStoreBase.initConfiguracoes', context: context);
 
@@ -138,17 +130,6 @@ mixin _$ProfileStore on ProfileStoreBase, Store {
         name: 'ProfileStoreBase.resetDadosPessoais');
     try {
       return super.resetDadosPessoais();
-    } finally {
-      _$ProfileStoreBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  void resetEnderecos() {
-    final _$actionInfo = _$ProfileStoreBaseActionController.startAction(
-        name: 'ProfileStoreBase.resetEnderecos');
-    try {
-      return super.resetEnderecos();
     } finally {
       _$ProfileStoreBaseActionController.endAction(_$actionInfo);
     }
