@@ -1,14 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:laserfast_app/app/modules/faq/faq_store.dart';
+import 'package:intl/intl.dart';
+import 'package:laserfast_app/app/mixins/form_validations_mixin.dart';
+import 'package:laserfast_app/app/models/base.model.dart';
+import 'package:laserfast_app/app/models/indicado.model.dart';
+import 'package:laserfast_app/app/modules/indicar/indicar_store.dart';
 import 'package:laserfast_app/app/shared/colors.dart';
+import 'package:laserfast_app/app/shared/modal_bottom_sheet.dart';
 import 'package:laserfast_app/app/shared/text_styles.dart';
 import 'package:laserfast_app/app/shared/text_widget.dart';
-import 'package:laserfast_app/app/shared/widgets/accordion_widget.dart';
+import 'package:laserfast_app/app/shared/widgets/button_widget.dart';
 import 'package:laserfast_app/app/shared/widgets/divider_widget.dart';
+import 'package:laserfast_app/app/shared/widgets/inputs/input_widget.dart';
 import 'package:laserfast_app/app/shared/widgets/shimmer_widget.dart';
 import 'package:laserfast_app/app/shared/widgets/simple_scaffold_widget.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 class IndicarPage extends StatefulWidget {
@@ -17,9 +25,23 @@ class IndicarPage extends StatefulWidget {
   IndicarPageState createState() => IndicarPageState();
 }
 
-class IndicarPageState extends State<IndicarPage> {
-  final FAQStore _store = Modular.get<FAQStore>();
+class IndicarPageState extends State<IndicarPage> with FormValidationsMixin {
+  final IndicarStore _store = Modular.get<IndicarStore>();
   late final Future<void> _future;
+
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  final phoneFormatter = MaskTextInputFormatter(
+    mask: '(##) #####-####',
+    filter: {"#": RegExp(r'[0-9]')},
+    type: MaskAutoCompletionType.lazy,
+  );
+
+  final nameController = TextEditingController();
+  final emailController = TextEditingController();
+  final phoneController = TextEditingController();
+
+  final DateFormat indicadoEmFormatter = DateFormat("dd/MM/yyyy 'as' HH:mm");
 
   @override
   void initState() {
@@ -35,6 +57,20 @@ class IndicarPageState extends State<IndicarPage> {
       builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
         return SimpleScaffoldWidget(
             title: 'INDICAR',
+            showReturnArrow: false,
+            actions: [
+              GestureDetector(
+                onTap: () => Modular.to.pop(),
+                child: Padding(
+                  padding: EdgeInsets.only(right: 5.w),
+                  child: Icon(
+                    Icons.close,
+                    color: accent,
+                    size: 22.sp,
+                  ),
+                ),
+              ),
+            ],
             bodyPadding: EdgeInsets.symmetric(horizontal: 5.w),
             body: Observer(
               builder: (_) {
@@ -76,42 +112,111 @@ class IndicarPageState extends State<IndicarPage> {
   }
 
   Widget _body() {
-    return Column(
+    return Flex(
+      direction: Axis.vertical,
       children: [
-        textWidget('Tire suas dúvidas sobre os procedimentos'),
-        DividerWidget(height: 2.h),
-        _tile(
-          'É muito caro o tratamento?',
-          """Foi-se a época que depilação de laser era cara. A LaserFast veio tornar acessível este tratamento à todas as clientes, fornecendo preço justo e condição de pagamento facilitada.
+        Form(
+          key: _formKey,
+          child: Column(
+            children: [
+              InputWidget(
+                label: 'Nome',
+                validator: notEmpty,
+                controller: nameController,
+              ),
+              DividerWidget(height: 2.h),
+              InputWidget(
+                label: 'Email',
+                validator: (v) => combine([
+                  () => notEmpty(v),
+                  () => validEmail(v),
+                ]),
+                controller: emailController,
+              ),
+              DividerWidget(height: 2.h),
+              InputWidget(
+                label: 'Celular',
+                inputFormatters: [phoneFormatter],
+                validator: (v) => combine([
+                  () => notEmpty(v),
+                  () => atLeastNChars(15, v, 'Número de celular inválido'),
+                ]),
+                controller: phoneController,
+              ),
+              DividerWidget(height: 5.h),
+              ButtonWidget.filled(
+                onPressed: () async {
+                  if (!_formKey.currentState!.validate()) return;
 
-Além disso, o custo é super compensatório uma vez que lâminas, ceras e outros métodos requerem mensalmente uma manutenção, diferentemente do laser que tem durabilidade muito maior.""",
+                  final indicado = IndicadoModel(
+                    name: nameController.text,
+                    email: emailController.text.toLowerCase(),
+                    phone: phoneController.text,
+                  );
+
+                  BaseModel r = await _store.indicar(indicado);
+
+                  if (!r.status && mounted) {
+                    return showErrorBottomSheet(
+                      context,
+                      message: r.message,
+                    );
+                  }
+
+                  nameController.value = TextEditingValue.empty;
+                  emailController.value = TextEditingValue.empty;
+                  phoneController.value = TextEditingValue.empty;
+                },
+                backgroundColor: accent,
+                title: 'SALVAR',
+                textColor: white,
+              ),
+            ],
+          ),
         ),
-        DividerWidget(height: 2.h),
-        _tile(
-          'Depilação a laser dói?',
-          """
-A LaserFast possui o laser mais moderno e tecnológico do mercado, que garante uma depilação muito mais confortável e praticamente indolor em algumas áreas.""",
-        ),
-        DividerWidget(height: 2.h),
-        _tile(
-          'Quanto tempo leva uma sessão?',
-          """
-Graças ao nosso laser super moderno, a área de aplicação é amplamente atingida a cada disparo. Uma sessão pode durar entre 5 minutos (como é o caso das axilas) até 30 minutos (aplicação de pernas inteiras).
-""",
-        ),
+        DividerWidget(height: 5.h),
+        Observer(builder: (_) {
+          return Column(
+            children: _store.indicados.map((i) => _indicadoCard(i)).toList(),
+          );
+        }),
       ],
     );
   }
 
-  Widget _tile(String title, String details) {
-    return AccordionWidget(
-      label: title,
-      content: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 5.w),
-        child: Text(details),
+  Widget _indicadoCard(IndicadoModel indicado) {
+    return Padding(
+      padding: EdgeInsets.only(bottom: 2.5.h),
+      child: Container(
+        decoration: const BoxDecoration(
+          border: BorderDirectional(
+            bottom: BorderSide(color: grey),
+          ),
+        ),
+        padding: EdgeInsets.symmetric(horizontal: 2.5.w),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                textWidget(indicado.name, style: headTitle(color: darkerGrey)),
+                (indicado.indicadoEm != null)
+                    ? textWidget(
+                        indicadoEmFormatter.format(indicado.indicadoEm!),
+                        style: small(color: darkerGrey),
+                      )
+                    : const SizedBox(),
+              ],
+            ),
+            DividerWidget(height: 0.5.h),
+            textWidget(indicado.email, style: small(color: darkerGrey)),
+            DividerWidget(height: 0.5.h),
+            textWidget(indicado.phone, style: small(color: darkerGrey)),
+            DividerWidget(height: 2.h),
+          ],
+        ),
       ),
-      titleStyle: h2(color: accent),
-      initiallyExpanded: true,
     );
   }
 

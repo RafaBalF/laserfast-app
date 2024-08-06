@@ -2,14 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:laserfast_app/app/shared/colors.dart';
-import 'package:laserfast_app/app/shared/modal_bottom_sheet.dart';
 import 'package:laserfast_app/app/shared/text_widget.dart';
 import 'package:laserfast_app/app/shared/text_styles.dart';
-import 'package:laserfast_app/app/shared/widgets/button_widget.dart';
-import 'package:laserfast_app/app/shared/widgets/divider_widget.dart';
-import 'package:laserfast_app/app/shared/widgets/inputs/input_widget.dart';
 import 'package:laserfast_app/app/shared/widgets/simple_scaffold_widget.dart';
-import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
@@ -20,14 +15,6 @@ class ProfilePage extends StatefulWidget {
 }
 
 class ProfilePageState extends State<ProfilePage> {
-  final GlobalKey<FormState> _indicateFormKey = GlobalKey<FormState>();
-
-  final phoneFormatter = MaskTextInputFormatter(
-    mask: '(##) #####-####',
-    filter: {"#": RegExp(r'[0-9]')},
-    type: MaskAutoCompletionType.lazy,
-  );
-
   @override
   void initState() {
     super.initState();
@@ -77,7 +64,7 @@ class ProfilePageState extends State<ProfilePage> {
       _tileCard(
         'assets/icons/svg/users_accent.svg',
         'Indicação',
-        _indicate, // TODO: TROCAR MOCK POR IMPLEMENTAÇÃO
+        () => Modular.to.pushNamed('/indicar/'),
       ),
       _tileCard(
         'assets/icons/svg/favorite_accent.svg',
@@ -149,35 +136,6 @@ class ProfilePageState extends State<ProfilePage> {
               ),
             ],
           ),
-        ),
-      ),
-    );
-  }
-
-  void _indicate() {
-    showCustomBottomSheet(
-      context,
-      'INDICAR',
-      Form(
-        key: _indicateFormKey,
-        child: Column(
-          children: [
-            const InputWidget(label: 'Nome'),
-            DividerWidget(height: 2.h),
-            const InputWidget(label: 'Email'),
-            DividerWidget(height: 2.h),
-            InputWidget(label: 'Celular', inputFormatters: [phoneFormatter]),
-            DividerWidget(height: 5.h),
-            ButtonWidget.filled(
-              onPressed: () {
-                Modular.to.pop();
-              },
-              backgroundColor: accent,
-              title: 'SALVAR',
-              textColor: white,
-            ),
-            DividerWidget(height: 40.h),
-          ],
         ),
       ),
     );
