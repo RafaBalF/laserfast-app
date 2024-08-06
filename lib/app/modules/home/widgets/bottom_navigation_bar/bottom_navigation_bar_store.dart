@@ -7,22 +7,15 @@ class BottomNavigationBarStore = BottomNavigationBarStoreBase
     with _$BottomNavigationBarStore;
 
 abstract class BottomNavigationBarStoreBase with Store {
-  List<String> routes = ['/home/', '/agenda/'];
+  final List<String> routes = ['/home/', '/agenda/', '/pagamentos/', '/chats/'];
 
   @observable
   int selectedIndex = 0;
 
   @action
   void setSelectedIndex(int i) {
-    selectedIndex = 0;
+    if (i == 0) return;
 
-    switch (i) {
-      case 1:
-        Modular.to.pushNamed(routes[1]);
-        break;
-      default:
-        Modular.to.navigate(routes[0]);
-        break;
-    }
+    Modular.to.pushNamed(routes[i]);
   }
 }

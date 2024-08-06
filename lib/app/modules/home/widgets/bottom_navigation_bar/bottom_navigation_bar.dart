@@ -45,10 +45,10 @@ class _BottomNavigationBarWidgetState extends State<BottomNavigationBarWidget> {
               'assets/icons/svg/ticket.svg',
               'Pagamento',
             ),
-            _bottomNavigationBarItem(
-              'assets/icons/svg/chat.svg',
-              'Chat',
-            ),
+            // _bottomNavigationBarItem(
+            //   'assets/icons/svg/chat.svg',
+            //   'Chat',
+            // ),
           ],
           backgroundColor: background,
           selectedItemColor: darkerGrey,
