@@ -60,7 +60,7 @@ class SimpleScaffoldWidget extends StatelessWidget {
                   },
                 ),
               )
-            : null,
+            : const SizedBox(),
         centerTitle: true,
         backgroundColor: finalBodyColor,
         title: Text(
