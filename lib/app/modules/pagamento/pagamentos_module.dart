@@ -1,4 +1,5 @@
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:laserfast_app/app/constants/transition_type.dart';
 import 'package:laserfast_app/app/modules/pagamento/pagamentos_page.dart';
 import 'package:laserfast_app/app/modules/pagamento/pagamentos_store.dart';
 import 'package:laserfast_app/app/modules/pagamento/pages/credit_card_form_page.dart';
@@ -16,14 +17,35 @@ class PagamentoModule extends Module {
 
   @override
   void routes(r) {
-    r.child('/', child: (context) => const PagamentosPage());
-    r.child('/pagamento', child: (context) => const PagamentoPage());
-    r.child('/pix', child: (context) => const PixPage());
-    r.child('/credit-card', child: (context) => const CreditCardPage());
-    r.child('/my-cards', child: (context) => const MyCardsPage());
+    r.child(
+      '/',
+      child: (context) => const PagamentosPage(),
+      transition: defaultTransitonType,
+    );
+    r.child(
+      '/pagamento',
+      child: (context) => const PagamentoPage(),
+      transition: defaultTransitonType,
+    );
+    r.child(
+      '/pix',
+      child: (context) => const PixPage(),
+      transition: defaultTransitonType,
+    );
+    r.child(
+      '/credit-card',
+      child: (context) => const CreditCardPage(),
+      transition: defaultTransitonType,
+    );
+    r.child(
+      '/my-cards',
+      child: (context) => const MyCardsPage(),
+      transition: defaultTransitonType,
+    );
     r.child(
       '/credit-card-form',
       child: (context) => CreditCardFormPage(creditCardId: r.args.data),
+      transition: defaultTransitonType,
     );
   }
 }

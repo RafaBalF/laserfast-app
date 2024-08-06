@@ -1,4 +1,5 @@
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:laserfast_app/app/constants/transition_type.dart';
 import 'package:laserfast_app/app/modules/auth/auth_page.dart';
 import 'package:laserfast_app/app/modules/auth/auth_store.dart';
 import 'package:laserfast_app/app/modules/auth/login/login_page.dart';
@@ -22,22 +23,22 @@ class AuthModule extends Module {
     r.child(
       '/',
       child: (context) => const AuthPage(),
-      transition: TransitionType.rightToLeft,
+      transition: defaultTransitonType,
     );
     r.child(
       '/login',
       child: (context) => const LoginPage(),
-      transition: TransitionType.rightToLeft,
+      transition: defaultTransitonType,
     );
     r.child(
       '/register',
       child: (context) => const RegisterPage(),
-      transition: TransitionType.rightToLeft,
+      transition: defaultTransitonType,
     );
     r.child(
       '/recover-password',
       child: (context) => const RecoverPasswordPage(),
-      transition: TransitionType.rightToLeft,
+      transition: defaultTransitonType,
     );
   }
 }
