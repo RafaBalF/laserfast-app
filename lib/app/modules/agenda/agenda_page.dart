@@ -46,7 +46,6 @@ class AgendaPageState extends State<AgendaPage> {
       builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
         return SimpleScaffoldWidget(
             title: 'AGENDAMENTO',
-            useDefaultPadding: false,
             bodyPadding: EdgeInsets.symmetric(horizontal: 5.w),
             body: Observer(
               builder: (_) {

@@ -18,7 +18,6 @@ class SimpleScaffoldWidget extends StatelessWidget {
   final EdgeInsetsGeometry? bodyPadding;
   final bool showReturnArrow;
   final Color? returnArrowColor;
-  final bool useDefaultPadding;
 
   const SimpleScaffoldWidget({
     super.key,
@@ -35,7 +34,6 @@ class SimpleScaffoldWidget extends StatelessWidget {
     this.bodyPadding,
     this.showReturnArrow = true,
     this.returnArrowColor,
-    this.useDefaultPadding = true,
   });
 
   @override
@@ -78,7 +76,7 @@ class SimpleScaffoldWidget extends StatelessWidget {
           width: 100.w,
           color: finalBodyColor,
           padding:
-              (useDefaultPadding) ? EdgeInsets.only(left: 5.w) : bodyPadding,
+              (bodyPadding != null) ? bodyPadding : EdgeInsets.only(left: 5.w),
           child: Flex(
             direction: Axis.vertical,
             children: [body],

@@ -36,7 +36,6 @@ class PixPageState extends State<PixPage> {
       builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
         return SimpleScaffoldWidget(
           title: 'PIX',
-          useDefaultPadding: false,
           bodyPadding: EdgeInsets.symmetric(horizontal: 5.w),
           body: Observer(
             builder: (_) {

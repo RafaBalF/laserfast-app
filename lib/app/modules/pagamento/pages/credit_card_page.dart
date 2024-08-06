@@ -31,7 +31,6 @@ class CreditCardPageState extends State<CreditCardPage> {
       builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
         return SimpleScaffoldWidget(
           title: 'PAGAMENTO',
-          useDefaultPadding: false,
           bodyPadding: EdgeInsets.symmetric(horizontal: 5.w),
           body: Observer(
             builder: (_) {

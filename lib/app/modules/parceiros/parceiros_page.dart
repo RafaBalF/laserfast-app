@@ -22,7 +22,6 @@ class ParceirosPageState extends State<ParceirosPage> {
   Widget build(BuildContext context) {
     return SimpleScaffoldWidget(
       title: 'PARCEIROS',
-      useDefaultPadding: false,
       bodyPadding: EdgeInsets.symmetric(horizontal: 5.w),
       body: SizedBox(
         height: 100.h,

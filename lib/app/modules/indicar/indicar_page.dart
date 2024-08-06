@@ -35,7 +35,6 @@ class IndicarPageState extends State<IndicarPage> {
       builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
         return SimpleScaffoldWidget(
             title: 'INDICAR',
-            useDefaultPadding: false,
             bodyPadding: EdgeInsets.symmetric(horizontal: 5.w),
             body: Observer(
               builder: (_) {

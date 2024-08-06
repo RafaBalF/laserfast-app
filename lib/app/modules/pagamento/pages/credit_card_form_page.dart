@@ -65,7 +65,6 @@ class CreditCardFormPageState extends State<CreditCardFormPage>
       builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
         return SimpleScaffoldWidget(
           title: pageTitle,
-          useDefaultPadding: false,
           bodyPadding: EdgeInsets.symmetric(horizontal: 5.w),
           body: Observer(
             builder: (_) {

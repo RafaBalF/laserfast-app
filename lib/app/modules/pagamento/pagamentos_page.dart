@@ -51,7 +51,6 @@ class PagamentosPageState extends State<PagamentosPage> {
       builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
         return SimpleScaffoldWidget(
             title: 'PAGAMENTOS',
-            useDefaultPadding: false,
             bodyPadding: EdgeInsets.symmetric(horizontal: 5.w),
             body: Observer(
               builder: (_) {

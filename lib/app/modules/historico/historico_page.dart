@@ -49,7 +49,6 @@ class HistoricoPageState extends State<HistoricoPage> {
       builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
         return SimpleScaffoldWidget(
             title: 'HISTÓRICO DE SESSÕES',
-            useDefaultPadding: false,
             bodyPadding: EdgeInsets.symmetric(horizontal: 5.w),
             body: Observer(
               builder: (_) {

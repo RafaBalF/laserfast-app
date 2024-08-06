@@ -35,7 +35,6 @@ class FAQPageState extends State<FAQPage> {
       builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
         return SimpleScaffoldWidget(
             title: 'FAQ',
-            useDefaultPadding: false,
             bodyPadding: EdgeInsets.symmetric(horizontal: 5.w),
             body: Observer(
               builder: (_) {

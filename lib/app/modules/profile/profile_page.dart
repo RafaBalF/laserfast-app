@@ -39,7 +39,6 @@ class ProfilePageState extends State<ProfilePage> {
 
     return SimpleScaffoldWidget(
       title: 'PERFIL',
-      useDefaultPadding: false,
       bodyPadding: EdgeInsets.symmetric(horizontal: 5.w),
       body: SizedBox(
         height: 100.h,
