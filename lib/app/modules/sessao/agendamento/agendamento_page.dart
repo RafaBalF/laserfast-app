@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:intl/intl.dart';
-import 'package:laserfast_app/app/modules/agenda/agenda_store.dart';
-import 'package:laserfast_app/app/modules/agenda/widgets/available_schedules_widget.dart';
+import 'package:laserfast_app/app/modules/sessao/agendamento/widgets/available_schedules_widget.dart';
+import 'package:laserfast_app/app/modules/sessao/sessao_store.dart';
 import 'package:laserfast_app/app/shared/colors.dart';
 import 'package:laserfast_app/app/shared/modal_bottom_sheet.dart';
 import 'package:laserfast_app/app/shared/text_styles.dart';
@@ -16,14 +16,18 @@ import 'package:laserfast_app/app/shared/widgets/simple_scaffold_widget.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
-class AgendaPage extends StatefulWidget {
-  const AgendaPage({super.key});
+class AgendamentoPage extends StatefulWidget {
+  final int? sessionId;
+  const AgendamentoPage({
+    super.key,
+    this.sessionId,
+  });
   @override
-  AgendaPageState createState() => AgendaPageState();
+  AgendamentoPageState createState() => AgendamentoPageState();
 }
 
-class AgendaPageState extends State<AgendaPage> {
-  final AgendaStore _store = Modular.get<AgendaStore>();
+class AgendamentoPageState extends State<AgendamentoPage> {
+  final SessaoStore _store = Modular.get<SessaoStore>();
   late final Future<void> _future;
 
   final DateRangePickerController _controller = DateRangePickerController();
@@ -34,7 +38,7 @@ class AgendaPageState extends State<AgendaPage> {
 
   @override
   void initState() {
-    _future = Future.wait([_store.init()]);
+    _future = Future.wait([_store.initAgendamento(widget.sessionId)]);
 
     super.initState();
   }
@@ -438,7 +442,7 @@ class AgendaPageState extends State<AgendaPage> {
 
   @override
   void dispose() {
-    _store.reset();
+    _store.resetAgendamento();
 
     _controller.dispose();
 

@@ -1,6 +1,7 @@
 import 'abstract/from_json.abstract.dart';
 
 class SessionModel extends FromJsonModel {
+  int? id;
   String? status;
   String? areas;
   String? applicator;
@@ -14,6 +15,7 @@ class SessionModel extends FromJsonModel {
   // 4 => confirmada
 
   SessionModel({
+    this.id,
     this.status,
     this.areas,
     this.applicator,
@@ -22,6 +24,7 @@ class SessionModel extends FromJsonModel {
   });
 
   SessionModel.createNew(SessionModel model) {
+    id = model.id;
     status = model.status;
     areas = model.areas;
     applicator = model.applicator;
@@ -30,6 +33,7 @@ class SessionModel extends FromJsonModel {
   }
 
   SessionModel.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
     status = json['status'];
     areas = json['areas'];
     applicator = json['applicator'];

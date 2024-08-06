@@ -4,7 +4,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:intl/intl.dart';
 import 'package:laserfast_app/app/models/available_schedule.model.dart';
-import 'package:laserfast_app/app/modules/agenda/agenda_store.dart';
+import 'package:laserfast_app/app/modules/sessao/sessao_store.dart';
 import 'package:laserfast_app/app/shared/colors.dart';
 import 'package:laserfast_app/app/shared/text_widget.dart';
 import 'package:laserfast_app/app/shared/widgets/accordion_widget.dart';
@@ -18,7 +18,7 @@ class AvailableSchedulesWidget extends StatefulWidget {
 }
 
 class _AvailableSchedulesState extends State<AvailableSchedulesWidget> {
-  final AgendaStore _store = Modular.get<AgendaStore>();
+  final SessaoStore _store = Modular.get<SessaoStore>();
   final List<ScrollController> _scrollControllersList = [];
 
   final DateFormat ddmmFormatter = DateFormat('dd/MM');

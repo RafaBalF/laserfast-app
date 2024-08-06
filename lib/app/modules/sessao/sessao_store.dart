@@ -2,25 +2,27 @@ import 'dart:math';
 
 import 'package:laserfast_app/app/models/available_schedule.model.dart';
 import 'package:laserfast_app/app/models/base.model.dart';
+import 'package:laserfast_app/app/models/session.model.dart';
 import 'package:laserfast_app/app/models/session_area.model.dart';
 import 'package:laserfast_app/app/models/string_response.model.dart';
 import 'package:laserfast_app/app/shared/interfaces/selectable_card.interface.dart';
 import 'package:mobx/mobx.dart';
 import 'package:laserfast_app/loading_store.dart';
 
-part 'agenda_store.g.dart';
+part 'sessao_store.g.dart';
 
-class AgendaStore = AgendaStoreBase with _$AgendaStore;
+class SessaoStore = SessaoStoreBase with _$SessaoStore;
 
-abstract class AgendaStoreBase with Store {
-  //APIS
-
-  //STORES
+abstract class SessaoStoreBase with Store {
   final LoadingStore loadingStore = LoadingStore();
 
-  //SERVICES
+  //==============================================
+  //==== AGENDAMENTO =============================
+  //==============================================
 
-  //OBSERVABLES
+  @observable
+  SessionModel? currentSession;
+
   @observable
   DateTime? startDate;
   @observable
@@ -41,13 +43,8 @@ abstract class AgendaStoreBase with Store {
   @observable
   AvailableSchedulesModel? selectedSchedule;
 
-  //VARIABLES
-
-  //COMPUTED
-
-  //ACTIONS
   @action
-  Future<void> init() async {}
+  Future<void> initAgendamento(int? id) async {}
 
   @action
   void setStartDate(DateTime date) => startDate = date;
@@ -200,11 +197,69 @@ abstract class AgendaStoreBase with Store {
   }
 
   @action
-  void reset() {
+  void resetAgendamento() {
     resetDates();
     resetSessionArea();
     resetSchedules();
   }
 
-  //METHODS
+  //==============================================
+  //==== HISTÓRICO ===============================
+  //==============================================
+
+  @observable
+  ObservableList<SessionModel> history = ObservableList.of([]);
+
+  @action
+  Future<void> initHistory() async {
+    await getHistory();
+  }
+
+  @action
+  Future<void> getHistory() async {
+    List<SessionModel> sessions = [
+      SessionModel(
+        applicator: 'Maria Silva',
+        date: DateTime.now(),
+        areas: 'Perna inteira, Virilha, Buço 10 sessões',
+        status: 'Sessão realizada',
+        statusCode: 0,
+      ),
+      SessionModel(
+        applicator: 'Maria Silva',
+        date: DateTime.now(),
+        areas: 'Perna inteira, Virilha, Buço 10 sessões',
+        status: 'Falta',
+        statusCode: 1,
+      ),
+      SessionModel(
+        applicator: 'Maria Silva',
+        date: DateTime.now(),
+        areas: 'Perna inteira, Virilha, Buço 10 sessões',
+        status: 'Sessão agendada',
+        statusCode: 2,
+      ),
+      SessionModel(
+        applicator: 'Maria Silva',
+        date: DateTime.now(),
+        areas: 'Perna inteira, Virilha, Buço 10 sessões',
+        status: 'Sessão em andamento',
+        statusCode: 3,
+      ),
+      SessionModel(
+        applicator: 'Maria Silva',
+        date: DateTime.now(),
+        areas: 'Perna inteira, Virilha, Buço 10 sessões',
+        status: 'Sessão confirmada',
+        statusCode: 4,
+      ),
+    ];
+
+    history.addAll(sessions);
+  }
+
+  @action
+  void resetHistory() {
+    history.clear();
+  }
 }

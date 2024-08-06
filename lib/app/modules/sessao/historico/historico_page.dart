@@ -3,7 +3,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:intl/intl.dart';
 import 'package:laserfast_app/app/models/session.model.dart';
-import 'package:laserfast_app/app/modules/historico/historico_store.dart';
+import 'package:laserfast_app/app/modules/sessao/sessao_store.dart';
 import 'package:laserfast_app/app/shared/colors.dart';
 import 'package:laserfast_app/app/shared/text_styles.dart';
 import 'package:laserfast_app/app/shared/text_widget.dart';
@@ -19,7 +19,7 @@ class HistoricoPage extends StatefulWidget {
 }
 
 class HistoricoPageState extends State<HistoricoPage> {
-  final HistoricoStore _store = Modular.get<HistoricoStore>();
+  final SessaoStore _store = Modular.get<SessaoStore>();
   late final Future<void> _future;
   final ScrollController scrollController = ScrollController();
 
@@ -37,7 +37,7 @@ class HistoricoPageState extends State<HistoricoPage> {
 
   @override
   void initState() {
-    _future = Future.wait([_store.init()]);
+    _future = Future.wait([_store.initHistory()]);
 
     super.initState();
   }
@@ -221,7 +221,7 @@ class HistoricoPageState extends State<HistoricoPage> {
 
   @override
   void dispose() {
-    _store.reset();
+    _store.resetHistory();
 
     scrollController.dispose();
 
