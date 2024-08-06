@@ -5,8 +5,11 @@ import 'package:intl/intl.dart';
 import 'package:laserfast_app/app/models/session.model.dart';
 import 'package:laserfast_app/app/modules/sessao/sessao_store.dart';
 import 'package:laserfast_app/app/shared/colors.dart';
+import 'package:laserfast_app/app/shared/modal_bottom_sheet.dart';
 import 'package:laserfast_app/app/shared/text_styles.dart';
 import 'package:laserfast_app/app/shared/text_widget.dart';
+import 'package:laserfast_app/app/shared/widgets/button_widget.dart';
+import 'package:laserfast_app/app/shared/widgets/divided_card_widget.dart';
 import 'package:laserfast_app/app/shared/widgets/divider_widget.dart';
 import 'package:laserfast_app/app/shared/widgets/shimmer_widget.dart';
 import 'package:laserfast_app/app/shared/widgets/simple_scaffold_widget.dart';
@@ -153,7 +156,7 @@ class HistoricoPageState extends State<HistoricoPage> {
             width: 100.w,
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.end, children: [
-              _getStatusWidget(session.statusCode!),
+              _getStatusWidget(session),
             ]),
           ),
         ],
@@ -178,15 +181,15 @@ class HistoricoPageState extends State<HistoricoPage> {
     }
   }
 
-  Widget _getStatusWidget(int statusCode) {
-    switch (statusCode) {
+  Widget _getStatusWidget(SessionModel session) {
+    switch (session.statusCode) {
       case 0:
         return _cardBtn(realizada, 'CHECK-IN', () {});
       case 1:
         return const SizedBox();
       case 2:
         return GestureDetector(
-          onTap: () {},
+          onTap: () => _edit(session),
           child: Icon(
             size: 4.h,
             Icons.edit_outlined,
@@ -215,6 +218,68 @@ class HistoricoPageState extends State<HistoricoPage> {
           padding: EdgeInsets.symmetric(horizontal: 2.5.w),
           child: textWidget(label, color: white),
         ),
+      ),
+    );
+  }
+
+  void _edit(SessionModel session) {
+    showCustomBottomSheet(
+      context,
+      'AGENDA',
+      Column(
+        children: [
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 2.5.h),
+            child: DividedCardWidget(
+              header: 'Resumo:',
+              content: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      textWidget(
+                        '${session.status}',
+                        style: label(),
+                      ),
+                      textWidget(
+                        sessionDateFormatter.format(session.date!),
+                        style: small(),
+                      ),
+                    ],
+                  ),
+                  DividerWidget(height: 0.5.h),
+                  textWidget(
+                    '${session.areas}',
+                    style: small(),
+                  ),
+                  DividerWidget(height: 0.5.h),
+                ],
+              ),
+            ),
+          ),
+          DividerWidget(height: 5.h),
+          ButtonWidget.filled(
+            onPressed: () async {
+              await _store.confirmSession(session);
+              Modular.to.pop();
+            },
+            backgroundColor: accent,
+            title: 'CONFIRMAR',
+            textColor: white,
+          ),
+          DividerWidget(height: 2.h),
+          ButtonWidget.outlined(
+            onPressed: () => Modular.to.pushNamed(
+              '/sessao/agendamento',
+              arguments: session.id,
+            ),
+            borderColor: grey,
+            title: 'REAGENDAR',
+            textColor: darkerGrey,
+          ),
+          DividerWidget(height: 2.h),
+        ],
       ),
     );
   }

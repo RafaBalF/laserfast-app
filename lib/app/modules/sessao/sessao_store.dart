@@ -219,6 +219,7 @@ abstract class SessaoStoreBase with Store {
   Future<void> getHistory() async {
     List<SessionModel> sessions = [
       SessionModel(
+        id: 1,
         applicator: 'Maria Silva',
         date: DateTime.now(),
         areas: 'Perna inteira, Virilha, Buço 10 sessões',
@@ -226,6 +227,7 @@ abstract class SessaoStoreBase with Store {
         statusCode: 0,
       ),
       SessionModel(
+        id: 2,
         applicator: 'Maria Silva',
         date: DateTime.now(),
         areas: 'Perna inteira, Virilha, Buço 10 sessões',
@@ -233,6 +235,7 @@ abstract class SessaoStoreBase with Store {
         statusCode: 1,
       ),
       SessionModel(
+        id: 3,
         applicator: 'Maria Silva',
         date: DateTime.now(),
         areas: 'Perna inteira, Virilha, Buço 10 sessões',
@@ -240,6 +243,7 @@ abstract class SessaoStoreBase with Store {
         statusCode: 2,
       ),
       SessionModel(
+        id: 4,
         applicator: 'Maria Silva',
         date: DateTime.now(),
         areas: 'Perna inteira, Virilha, Buço 10 sessões',
@@ -247,6 +251,7 @@ abstract class SessaoStoreBase with Store {
         statusCode: 3,
       ),
       SessionModel(
+        id: 5,
         applicator: 'Maria Silva',
         date: DateTime.now(),
         areas: 'Perna inteira, Virilha, Buço 10 sessões',
@@ -256,6 +261,20 @@ abstract class SessaoStoreBase with Store {
     ];
 
     history.addAll(sessions);
+  }
+
+  @action
+  Future<void> confirmSession(SessionModel session) async {
+    var s = history.indexWhere((s) => s.id == session.id);
+
+    if (s == -1) return;
+
+    var newSession = SessionModel.createNew(session);
+
+    newSession.status = 'Sessão confirmada';
+    newSession.statusCode = 4;
+
+    history[s] = newSession;
   }
 
   @action

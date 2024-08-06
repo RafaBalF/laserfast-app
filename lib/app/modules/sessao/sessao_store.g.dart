@@ -186,6 +186,14 @@ mixin _$SessaoStore on SessaoStoreBase, Store {
     return _$getHistoryAsyncAction.run(() => super.getHistory());
   }
 
+  late final _$confirmSessionAsyncAction =
+      AsyncAction('SessaoStoreBase.confirmSession', context: context);
+
+  @override
+  Future<void> confirmSession(SessionModel session) {
+    return _$confirmSessionAsyncAction.run(() => super.confirmSession(session));
+  }
+
   late final _$SessaoStoreBaseActionController =
       ActionController(name: 'SessaoStoreBase', context: context);
 
