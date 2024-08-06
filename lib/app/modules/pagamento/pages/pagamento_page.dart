@@ -6,6 +6,7 @@ import 'package:laserfast_app/app/modules/pagamento/pagamentos_store.dart';
 import 'package:laserfast_app/app/shared/colors.dart';
 import 'package:laserfast_app/app/shared/text_styles.dart';
 import 'package:laserfast_app/app/shared/text_widget.dart';
+import 'package:laserfast_app/app/shared/widgets/divided_card_widget.dart';
 import 'package:laserfast_app/app/shared/widgets/divider_widget.dart';
 import 'package:laserfast_app/app/shared/widgets/shimmer_widget.dart';
 import 'package:laserfast_app/app/shared/widgets/simple_scaffold_widget.dart';
@@ -113,9 +114,9 @@ class PagamentoPageState extends State<PagamentoPage> {
       ));
     }
 
-    return _card(
-      'Resumo:',
-      Column(
+    return DividedCardWidget(
+      header: 'Resumo:',
+      content: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           SizedBox(
@@ -146,9 +147,9 @@ class PagamentoPageState extends State<PagamentoPage> {
   }
 
   Widget _payment() {
-    return _card(
-      'Pagamento:',
-      SizedBox(
+    return DividedCardWidget(
+      header: 'Pagamento:',
+      content: SizedBox(
         width: 100.w,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -159,55 +160,15 @@ class PagamentoPageState extends State<PagamentoPage> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 _paymentMethodCard(Icons.pix, 'PIX', '/pagamentos/pix'),
-                _paymentMethodCard(Icons.credit_card, 'CARTÃO DE CRÉDITO',
-                    '/pagamentos/my-cards'),
+                _paymentMethodCard(
+                  Icons.credit_card,
+                  'CARTÃO DE CRÉDITO',
+                  '/pagamentos/my-cards',
+                ),
               ],
             ),
           ],
         ),
-      ),
-    );
-  }
-
-  Widget _card(String header, Widget content) {
-    return Container(
-      decoration: const BoxDecoration(
-        boxShadow: <BoxShadow>[
-          BoxShadow(
-            color: darkGrey,
-            blurRadius: 5,
-          ),
-        ],
-        borderRadius: BorderRadius.all(Radius.circular(10)),
-      ),
-      child: Column(
-        children: [
-          Container(
-            height: 5.h,
-            width: 100.w,
-            decoration: const BoxDecoration(
-              color: backgroundSecondary,
-              borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
-            ),
-            child: Container(
-              padding: EdgeInsets.symmetric(vertical: 1.h, horizontal: 5.w),
-              child: textWidget(
-                header,
-                style: headTitle(),
-                textAlign: TextAlign.start,
-              ),
-            ),
-          ),
-          Container(
-            width: 100.w,
-            padding: EdgeInsets.symmetric(vertical: 2.h, horizontal: 5.w),
-            decoration: const BoxDecoration(
-              color: white,
-              borderRadius: BorderRadius.vertical(bottom: Radius.circular(10)),
-            ),
-            child: content,
-          ),
-        ],
       ),
     );
   }

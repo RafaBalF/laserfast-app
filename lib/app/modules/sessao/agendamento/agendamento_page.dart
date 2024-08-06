@@ -371,7 +371,7 @@ class AgendamentoPageState extends State<AgendamentoPage> {
                     Modular.to.pop();
                     Modular.to.pop();
 
-                    Modular.to.pushNamed('/historico/');
+                    Modular.to.pushNamed('/sessao/historico');
                   },
                   onErrorPressed: () {},
                   dismissable: false,
