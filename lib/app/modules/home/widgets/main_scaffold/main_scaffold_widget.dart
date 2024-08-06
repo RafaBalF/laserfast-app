@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:laserfast_app/app/modules/home/widgets/bottom_navigation_bar/bottom_navigation_bar.dart';
@@ -7,6 +8,7 @@ import 'package:laserfast_app/app/shared/colors.dart';
 import 'package:laserfast_app/app/shared/text_widget.dart';
 import 'package:laserfast_app/app/shared/text_styles.dart';
 import 'package:laserfast_app/app/shared/widgets/divider_widget.dart';
+import 'package:laserfast_app/app/shared/widgets/shimmer_widget.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 class MainScaffoldWidget extends StatefulWidget {
@@ -35,6 +37,14 @@ class MainScaffoldWidget extends StatefulWidget {
 
 class _MainScaffoldWidgetState extends State<MainScaffoldWidget> {
   final MainScaffoldStore _store = Modular.get<MainScaffoldStore>();
+  late final Future<void> _future;
+
+  @override
+  void initState() {
+    _future = Future.wait([_store.init()]);
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -76,6 +86,30 @@ class _MainScaffoldWidgetState extends State<MainScaffoldWidget> {
   }
 
   Widget _title() {
+    return FutureBuilder(
+      future: _future,
+      builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+        if (snapshot.connectionState == ConnectionState.done &&
+            snapshot.hasData) {
+          return _loaded();
+        } else {
+          return _loading();
+        }
+      },
+    );
+  }
+
+  Widget _loading() {
+    return Column(
+      children: [
+        ShimmerWidget(width: 20.w, height: 2.h),
+        DividerWidget(height: 1.h),
+        ShimmerWidget(width: 40.w, height: 2.h),
+      ],
+    );
+  }
+
+  Widget _loaded() {
     return GestureDetector(
       onTap: () {},
       child: Column(
@@ -100,5 +134,12 @@ class _MainScaffoldWidgetState extends State<MainScaffoldWidget> {
       padding: EdgeInsets.only(right: 5.w),
       child: child,
     );
+  }
+
+  @override
+  void dispose() {
+    _store.reset();
+
+    super.dispose();
   }
 }
