@@ -19,6 +19,7 @@ class ButtonWidget extends StatefulWidget {
   final IconData? iconData;
   final double? iconSize;
   final Color? iconColor;
+  final double? width;
 
   const ButtonWidget({
     super.key,
@@ -34,6 +35,7 @@ class ButtonWidget extends StatefulWidget {
     this.iconData,
     this.iconSize,
     this.iconColor,
+    this.width,
   });
 
   factory ButtonWidget.filled({
@@ -44,6 +46,7 @@ class ButtonWidget extends StatefulWidget {
     bool disabled = false,
     bool loading = false,
     ButtonSize buttonSize = ButtonSize.large,
+    double? width,
   }) =>
       ButtonWidget(
         onPressed: onPressed,
@@ -54,6 +57,7 @@ class ButtonWidget extends StatefulWidget {
         loading: loading,
         buttonSize: buttonSize,
         buttonType: ButtonType.filled,
+        width: width,
       );
 
   factory ButtonWidget.outlined({
@@ -64,6 +68,7 @@ class ButtonWidget extends StatefulWidget {
     bool loading = false,
     bool disabled = false,
     ButtonSize buttonSize = ButtonSize.large,
+    double? width,
   }) =>
       ButtonWidget(
         onPressed: onPressed,
@@ -74,6 +79,7 @@ class ButtonWidget extends StatefulWidget {
         loading: loading,
         buttonSize: buttonSize,
         buttonType: ButtonType.outlined,
+        width: width,
       );
 
   factory ButtonWidget.filledIcon({
@@ -132,7 +138,7 @@ class _ButtonWidgetState extends State<ButtonWidget> {
   @override
   void initState() {
     height = 6.h;
-    width = 90.w;
+    width = widget.width ?? 90.w;
     radius = 10;
 
     super.initState();

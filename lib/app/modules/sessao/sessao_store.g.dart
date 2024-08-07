@@ -170,6 +170,70 @@ mixin _$SessaoStore on SessaoStoreBase, Store {
     });
   }
 
+  late final _$aplicadorAtom =
+      Atom(name: 'SessaoStoreBase.aplicador', context: context);
+
+  @override
+  AplicadorModel? get aplicador {
+    _$aplicadorAtom.reportRead();
+    return super.aplicador;
+  }
+
+  @override
+  set aplicador(AplicadorModel? value) {
+    _$aplicadorAtom.reportWrite(value, super.aplicador, () {
+      super.aplicador = value;
+    });
+  }
+
+  late final _$estabelecimentoAtom =
+      Atom(name: 'SessaoStoreBase.estabelecimento', context: context);
+
+  @override
+  EstabelecimentoModel? get estabelecimento {
+    _$estabelecimentoAtom.reportRead();
+    return super.estabelecimento;
+  }
+
+  @override
+  set estabelecimento(EstabelecimentoModel? value) {
+    _$estabelecimentoAtom.reportWrite(value, super.estabelecimento, () {
+      super.estabelecimento = value;
+    });
+  }
+
+  late final _$notaSessaoAtom =
+      Atom(name: 'SessaoStoreBase.notaSessao', context: context);
+
+  @override
+  double? get notaSessao {
+    _$notaSessaoAtom.reportRead();
+    return super.notaSessao;
+  }
+
+  @override
+  set notaSessao(double? value) {
+    _$notaSessaoAtom.reportWrite(value, super.notaSessao, () {
+      super.notaSessao = value;
+    });
+  }
+
+  late final _$notaEstabelecimentoAtom =
+      Atom(name: 'SessaoStoreBase.notaEstabelecimento', context: context);
+
+  @override
+  double? get notaEstabelecimento {
+    _$notaEstabelecimentoAtom.reportRead();
+    return super.notaEstabelecimento;
+  }
+
+  @override
+  set notaEstabelecimento(double? value) {
+    _$notaEstabelecimentoAtom.reportWrite(value, super.notaEstabelecimento, () {
+      super.notaEstabelecimento = value;
+    });
+  }
+
   late final _$initAgendamentoAsyncAction =
       AsyncAction('SessaoStoreBase.initAgendamento', context: context);
 
@@ -216,6 +280,24 @@ mixin _$SessaoStore on SessaoStoreBase, Store {
   @override
   Future<void> initAvaliar() {
     return _$initAvaliarAsyncAction.run(() => super.initAvaliar());
+  }
+
+  late final _$getAplicadorEEstabelecimentoAsyncAction = AsyncAction(
+      'SessaoStoreBase.getAplicadorEEstabelecimento',
+      context: context);
+
+  @override
+  Future<void> getAplicadorEEstabelecimento() {
+    return _$getAplicadorEEstabelecimentoAsyncAction
+        .run(() => super.getAplicadorEEstabelecimento());
+  }
+
+  late final _$avaliarAsyncAction =
+      AsyncAction('SessaoStoreBase.avaliar', context: context);
+
+  @override
+  Future<bool> avaliar() {
+    return _$avaliarAsyncAction.run(() => super.avaliar());
   }
 
   late final _$SessaoStoreBaseActionController =
@@ -387,6 +469,28 @@ mixin _$SessaoStore on SessaoStoreBase, Store {
   }
 
   @override
+  void setNotaSessao(double? d) {
+    final _$actionInfo = _$SessaoStoreBaseActionController.startAction(
+        name: 'SessaoStoreBase.setNotaSessao');
+    try {
+      return super.setNotaSessao(d);
+    } finally {
+      _$SessaoStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setNotaEstabelecimento(double? d) {
+    final _$actionInfo = _$SessaoStoreBaseActionController.startAction(
+        name: 'SessaoStoreBase.setNotaEstabelecimento');
+    try {
+      return super.setNotaEstabelecimento(d);
+    } finally {
+      _$SessaoStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void resetAvaliar() {
     final _$actionInfo = _$SessaoStoreBaseActionController.startAction(
         name: 'SessaoStoreBase.resetAvaliar');
@@ -409,7 +513,11 @@ selectedSessionAreas: ${selectedSessionAreas},
 availableSchedules: ${availableSchedules},
 selectedSchedule: ${selectedSchedule},
 history: ${history},
-sessaoSendoAvaliada: ${sessaoSendoAvaliada}
+sessaoSendoAvaliada: ${sessaoSendoAvaliada},
+aplicador: ${aplicador},
+estabelecimento: ${estabelecimento},
+notaSessao: ${notaSessao},
+notaEstabelecimento: ${notaEstabelecimento}
     ''';
   }
 }

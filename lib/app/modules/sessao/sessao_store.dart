@@ -1,7 +1,9 @@
 import 'dart:math';
 
+import 'package:laserfast_app/app/models/aplicador.model.dart';
 import 'package:laserfast_app/app/models/available_schedule.model.dart';
 import 'package:laserfast_app/app/models/base.model.dart';
+import 'package:laserfast_app/app/models/estabelecimento.model.dart';
 import 'package:laserfast_app/app/models/session.model.dart';
 import 'package:laserfast_app/app/models/session_area.model.dart';
 import 'package:laserfast_app/app/models/string_response.model.dart';
@@ -288,13 +290,52 @@ abstract class SessaoStoreBase with Store {
 
   @observable
   SessionModel? sessaoSendoAvaliada;
+  @observable
+  AplicadorModel? aplicador;
+  @observable
+  EstabelecimentoModel? estabelecimento;
+  @observable
+  double? notaSessao;
+  @observable
+  double? notaEstabelecimento;
 
   @action
-  Future<void> initAvaliar() async {}
+  Future<void> initAvaliar() async {
+    getAplicadorEEstabelecimento();
+  }
+
+  @action
+  Future<void> getAplicadorEEstabelecimento() async {
+    aplicador = AplicadorModel(
+      id: 1,
+      nome: "Lara Souza",
+      atendimentos: 132,
+      foto: null,
+    );
+
+    estabelecimento = EstabelecimentoModel(
+      id: 1,
+      nome: "LASER FAST UNIDADE REDENTORA",
+      foto: null,
+    );
+  }
 
   @action
   void setSessaoSendoAvaliada(SessionModel? s) => sessaoSendoAvaliada = s;
+  @action
+  void setNotaSessao(double? d) => notaSessao = d;
+  @action
+  void setNotaEstabelecimento(double? d) => notaEstabelecimento = d;
 
   @action
-  void resetAvaliar() {}
+  Future<bool> avaliar() async {
+    return true;
+  }
+
+  @action
+  void resetAvaliar() {
+    setSessaoSendoAvaliada(null);
+    setNotaSessao(null);
+    setNotaEstabelecimento(null);
+  }
 }

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:laserfast_app/app/modules/sessao/sessao_store.dart';
 import 'package:laserfast_app/app/shared/colors.dart';
+import 'package:laserfast_app/app/shared/modal_bottom_sheet.dart';
 import 'package:laserfast_app/app/shared/text_styles.dart';
 import 'package:laserfast_app/app/shared/text_widget.dart';
 import 'package:laserfast_app/app/shared/widgets/button_widget.dart';
@@ -100,7 +102,140 @@ class AvaliarPageState extends State<AvaliarPage> {
   }
 
   Widget _body() {
-    return Container();
+    return Column(
+      children: [
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 10.w),
+          child: Column(
+            children: [
+              DividerWidget(height: 2.h),
+              _avaliacaoSessao(),
+              DividerWidget(height: 5.h),
+              _avaliacaoEstabelecimento(),
+            ],
+          ),
+        ),
+        DividerWidget(height: 5.h),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            ButtonWidget.outlined(
+              onPressed: () => Modular.to.pop(),
+              borderColor: grey,
+              title: 'REAGENDAR',
+              textColor: darkerGrey,
+              width: 40.w,
+            ),
+            ButtonWidget.filled(
+              onPressed: () async {
+                bool r = await _store.avaliar();
+
+                if (!mounted) return;
+
+                if (!r) {
+                  return showErrorBottomSheet(
+                    context,
+                    message: "Erro ao tentar avaliar",
+                  );
+                }
+
+                return showSuccessBottomSheet(context,
+                    message: "Avaliado com sucesso", onClose: () {
+                  Modular.to.pop();
+                  Modular.to.pop();
+                }, onPressed: () {
+                  Modular.to.pop();
+                  Modular.to.pop();
+                });
+              },
+              backgroundColor: accent,
+              title: 'CONFIRMAR',
+              textColor: white,
+              width: 40.w,
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
+  Widget _avaliacaoSessao() {
+    if (_store.aplicador == null) return const SizedBox();
+
+    return Column(
+      children: [
+        (_store.aplicador!.foto == null)
+            ? CircleAvatar(
+                maxRadius: 30.sp,
+                backgroundColor: accent,
+                child: Icon(
+                  Icons.person,
+                  color: white,
+                  size: 30.sp,
+                ),
+              )
+            : Image.network(_store.aplicador!.foto!),
+        DividerWidget(height: 1.h),
+        textWidget(
+          _store.aplicador!.nome,
+          style: h2(),
+          textAlign: TextAlign.center,
+        ),
+        DividerWidget(height: 1.h),
+        textWidget(
+          "Atendimentos feitos: ${_store.aplicador!.atendimentos}",
+          style: text(),
+        ),
+        DividerWidget(height: 1.h),
+        RatingBar.builder(
+          initialRating: 4,
+          minRating: 1,
+          direction: Axis.horizontal,
+          itemCount: 5,
+          itemPadding: EdgeInsets.symmetric(horizontal: 1.w),
+          itemBuilder: (context, _) => const Icon(Icons.star, color: accent),
+          onRatingUpdate: _store.setNotaSessao,
+        ),
+      ],
+    );
+  }
+
+  Widget _avaliacaoEstabelecimento() {
+    if (_store.estabelecimento == null) return const SizedBox();
+
+    return Column(
+      children: [
+        textWidget(
+          "Avalie o estabelecimento:",
+          style: h2(),
+          textAlign: TextAlign.center,
+        ),
+        DividerWidget(height: 2.h),
+        (_store.estabelecimento!.foto == null)
+            ? Image.asset(
+                'assets/icons/ic_launcher.png',
+                height: 12.5.h,
+                width: 25.w,
+              )
+            : Image.network(_store.estabelecimento!.foto!),
+        DividerWidget(height: 1.h),
+        textWidget(
+          _store.estabelecimento!.nome,
+          style: h2(),
+          textAlign: TextAlign.center,
+        ),
+        DividerWidget(height: 1.h),
+        RatingBar.builder(
+          initialRating: 4,
+          minRating: 1,
+          direction: Axis.horizontal,
+          itemCount: 5,
+          itemPadding: EdgeInsets.symmetric(horizontal: 1.w),
+          itemBuilder: (context, _) => const Icon(Icons.star, color: accent),
+          onRatingUpdate: _store.setNotaSessao,
+        ),
+      ],
+    );
   }
 
   @override
