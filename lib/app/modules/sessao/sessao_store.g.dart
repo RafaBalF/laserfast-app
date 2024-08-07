@@ -154,6 +154,22 @@ mixin _$SessaoStore on SessaoStoreBase, Store {
     });
   }
 
+  late final _$sessaoSendoAvaliadaAtom =
+      Atom(name: 'SessaoStoreBase.sessaoSendoAvaliada', context: context);
+
+  @override
+  SessionModel? get sessaoSendoAvaliada {
+    _$sessaoSendoAvaliadaAtom.reportRead();
+    return super.sessaoSendoAvaliada;
+  }
+
+  @override
+  set sessaoSendoAvaliada(SessionModel? value) {
+    _$sessaoSendoAvaliadaAtom.reportWrite(value, super.sessaoSendoAvaliada, () {
+      super.sessaoSendoAvaliada = value;
+    });
+  }
+
   late final _$initAgendamentoAsyncAction =
       AsyncAction('SessaoStoreBase.initAgendamento', context: context);
 
@@ -192,6 +208,14 @@ mixin _$SessaoStore on SessaoStoreBase, Store {
   @override
   Future<void> confirmSession(SessionModel session) {
     return _$confirmSessionAsyncAction.run(() => super.confirmSession(session));
+  }
+
+  late final _$initAvaliarAsyncAction =
+      AsyncAction('SessaoStoreBase.initAvaliar', context: context);
+
+  @override
+  Future<void> initAvaliar() {
+    return _$initAvaliarAsyncAction.run(() => super.initAvaliar());
   }
 
   late final _$SessaoStoreBaseActionController =
@@ -352,6 +376,28 @@ mixin _$SessaoStore on SessaoStoreBase, Store {
   }
 
   @override
+  void setSessaoSendoAvaliada(SessionModel? s) {
+    final _$actionInfo = _$SessaoStoreBaseActionController.startAction(
+        name: 'SessaoStoreBase.setSessaoSendoAvaliada');
+    try {
+      return super.setSessaoSendoAvaliada(s);
+    } finally {
+      _$SessaoStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void resetAvaliar() {
+    final _$actionInfo = _$SessaoStoreBaseActionController.startAction(
+        name: 'SessaoStoreBase.resetAvaliar');
+    try {
+      return super.resetAvaliar();
+    } finally {
+      _$SessaoStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 currentSession: ${currentSession},
@@ -362,7 +408,8 @@ sessionAreas: ${sessionAreas},
 selectedSessionAreas: ${selectedSessionAreas},
 availableSchedules: ${availableSchedules},
 selectedSchedule: ${selectedSchedule},
-history: ${history}
+history: ${history},
+sessaoSendoAvaliada: ${sessaoSendoAvaliada}
     ''';
   }
 }

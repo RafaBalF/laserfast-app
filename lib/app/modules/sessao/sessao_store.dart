@@ -281,4 +281,20 @@ abstract class SessaoStoreBase with Store {
   void resetHistory() {
     history.clear();
   }
+
+  //==============================================
+  //==== AVALIAR =================================
+  //==============================================
+
+  @observable
+  SessionModel? sessaoSendoAvaliada;
+
+  @action
+  Future<void> initAvaliar() async {}
+
+  @action
+  void setSessaoSendoAvaliada(SessionModel? s) => sessaoSendoAvaliada = s;
+
+  @action
+  void resetAvaliar() {}
 }

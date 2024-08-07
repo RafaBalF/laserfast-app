@@ -199,9 +199,9 @@ class HistoricoPageState extends State<HistoricoPage> {
       case 3:
         return const SizedBox();
       case 4:
-        return _cardBtn(confirmada, 'CHECK-OUT', () {});
+        return _cardBtn(confirmada, 'AVALIAR', () => _avaliar(session));
       default:
-        return _cardBtn(realizada, 'CHECK-IN', () {});
+        return const SizedBox();
     }
   }
 
@@ -277,6 +277,59 @@ class HistoricoPageState extends State<HistoricoPage> {
             borderColor: grey,
             title: 'REAGENDAR',
             textColor: darkerGrey,
+          ),
+          DividerWidget(height: 2.h),
+        ],
+      ),
+    );
+  }
+
+  void _avaliar(SessionModel session) {
+    showCustomBottomSheet(
+      context,
+      'AGENDA',
+      Column(
+        children: [
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 2.5.h),
+            child: DividedCardWidget(
+              header: 'Resumo:',
+              content: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      textWidget(
+                        '${session.status}',
+                        style: label(),
+                      ),
+                      textWidget(
+                        sessionDateFormatter.format(session.date!),
+                        style: small(),
+                      ),
+                    ],
+                  ),
+                  DividerWidget(height: 0.5.h),
+                  textWidget(
+                    '${session.areas}',
+                    style: small(),
+                  ),
+                  DividerWidget(height: 0.5.h),
+                ],
+              ),
+            ),
+          ),
+          DividerWidget(height: 5.h),
+          ButtonWidget.filled(
+            onPressed: () async {
+              _store.setSessaoSendoAvaliada(session);
+              Modular.to.pop();
+              Modular.to.pushNamed('/sessao/avaliar');
+            },
+            backgroundColor: accent,
+            title: 'AVALIAR',
+            textColor: white,
           ),
           DividerWidget(height: 2.h),
         ],
