@@ -234,6 +234,22 @@ mixin _$SessaoStore on SessaoStoreBase, Store {
     });
   }
 
+  late final _$sessaoParaCheckInAtom =
+      Atom(name: 'SessaoStoreBase.sessaoParaCheckIn', context: context);
+
+  @override
+  SessionModel? get sessaoParaCheckIn {
+    _$sessaoParaCheckInAtom.reportRead();
+    return super.sessaoParaCheckIn;
+  }
+
+  @override
+  set sessaoParaCheckIn(SessionModel? value) {
+    _$sessaoParaCheckInAtom.reportWrite(value, super.sessaoParaCheckIn, () {
+      super.sessaoParaCheckIn = value;
+    });
+  }
+
   late final _$initAgendamentoAsyncAction =
       AsyncAction('SessaoStoreBase.initAgendamento', context: context);
 
@@ -298,6 +314,22 @@ mixin _$SessaoStore on SessaoStoreBase, Store {
   @override
   Future<bool> avaliar() {
     return _$avaliarAsyncAction.run(() => super.avaliar());
+  }
+
+  late final _$initCheckInAsyncAction =
+      AsyncAction('SessaoStoreBase.initCheckIn', context: context);
+
+  @override
+  Future<void> initCheckIn() {
+    return _$initCheckInAsyncAction.run(() => super.initCheckIn());
+  }
+
+  late final _$buscarSessaoAsyncAction =
+      AsyncAction('SessaoStoreBase.buscarSessao', context: context);
+
+  @override
+  Future<bool> buscarSessao() {
+    return _$buscarSessaoAsyncAction.run(() => super.buscarSessao());
   }
 
   late final _$SessaoStoreBaseActionController =
@@ -502,6 +534,28 @@ mixin _$SessaoStore on SessaoStoreBase, Store {
   }
 
   @override
+  void setSessaoParaCheckIn(SessionModel? s) {
+    final _$actionInfo = _$SessaoStoreBaseActionController.startAction(
+        name: 'SessaoStoreBase.setSessaoParaCheckIn');
+    try {
+      return super.setSessaoParaCheckIn(s);
+    } finally {
+      _$SessaoStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void resetCheckIn() {
+    final _$actionInfo = _$SessaoStoreBaseActionController.startAction(
+        name: 'SessaoStoreBase.resetCheckIn');
+    try {
+      return super.resetCheckIn();
+    } finally {
+      _$SessaoStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 currentSession: ${currentSession},
@@ -517,7 +571,8 @@ sessaoSendoAvaliada: ${sessaoSendoAvaliada},
 aplicador: ${aplicador},
 estabelecimento: ${estabelecimento},
 notaSessao: ${notaSessao},
-notaEstabelecimento: ${notaEstabelecimento}
+notaEstabelecimento: ${notaEstabelecimento},
+sessaoParaCheckIn: ${sessaoParaCheckIn}
     ''';
   }
 }

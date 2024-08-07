@@ -184,7 +184,14 @@ class HistoricoPageState extends State<HistoricoPage> {
   Widget _getStatusWidget(SessionModel session) {
     switch (session.statusCode) {
       case 0:
-        return _cardBtn(realizada, 'CHECK-IN', () {});
+        return _cardBtn(
+          realizada,
+          'CHECK-IN',
+          () {
+            _store.setSessaoParaCheckIn(session);
+            Modular.to.pushNamed('/sessao/check_in');
+          },
+        );
       case 1:
         return const SizedBox();
       case 2:
@@ -322,7 +329,7 @@ class HistoricoPageState extends State<HistoricoPage> {
           ),
           DividerWidget(height: 5.h),
           ButtonWidget.filled(
-            onPressed: () async {
+            onPressed: () {
               _store.setSessaoSendoAvaliada(session);
               Modular.to.pop();
               Modular.to.pushNamed('/sessao/avaliar');

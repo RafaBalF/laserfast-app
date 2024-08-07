@@ -338,4 +338,27 @@ abstract class SessaoStoreBase with Store {
     setNotaSessao(null);
     setNotaEstabelecimento(null);
   }
+
+  //==============================================
+  //==== CHECK-IN ================================
+  //==============================================
+
+  @observable
+  SessionModel? sessaoParaCheckIn;
+
+  @action
+  Future<void> initCheckIn() async {
+    await buscarSessao();
+  }
+
+  @action
+  void setSessaoParaCheckIn(SessionModel? s) => sessaoParaCheckIn = s;
+
+  @action
+  Future<bool> buscarSessao() async {
+    return true;
+  }
+
+  @action
+  void resetCheckIn() {}
 }
