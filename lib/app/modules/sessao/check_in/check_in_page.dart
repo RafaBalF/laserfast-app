@@ -1,3 +1,4 @@
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
@@ -9,6 +10,7 @@ import 'package:laserfast_app/app/shared/widgets/button_widget.dart';
 import 'package:laserfast_app/app/shared/widgets/divider_widget.dart';
 import 'package:laserfast_app/app/shared/widgets/shimmer_widget.dart';
 import 'package:laserfast_app/app/shared/widgets/simple_scaffold_widget.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 class CheckInPage extends StatefulWidget {
@@ -21,11 +23,35 @@ class CheckInPageState extends State<CheckInPage> {
   final SessaoStore _store = Modular.get<SessaoStore>();
   late final Future<void> _future;
 
+  CameraController? _controller;
+
   @override
   void initState() {
     _future = Future.wait([_store.initCheckIn()]);
 
     super.initState();
+  }
+
+  Future<void> _pedirPermissao() async {
+    var status = await Permission.storage.status;
+    if (!status.isGranted) {
+      await Permission.storage.request();
+    }
+
+    var cameraStatus = await Permission.camera.status;
+    if (!cameraStatus.isGranted) {
+      await Permission.camera.request();
+    }
+  }
+
+  Future<void> _ativarCamera() async {
+    final cameras = await availableCameras();
+
+    _controller = CameraController(cameras.first, ResolutionPreset.max);
+
+    _controller!.initialize();
+
+    _store.setShowCameraPreview(true);
   }
 
   @override
@@ -100,14 +126,51 @@ class CheckInPageState extends State<CheckInPage> {
   }
 
   Widget _body() {
-    return const Column(
-      children: [],
+    return Column(
+      children: [
+        DividerWidget(height: 2.5.h),
+        _frame(),
+        DividerWidget(height: 2.5.h),
+        ButtonWidget.filled(
+          onPressed: () async {
+            await _pedirPermissao();
+            await _ativarCamera();
+            setState(() {});
+          },
+          backgroundColor: accent,
+          title: 'TIRAR FOTO',
+          textColor: white,
+        ),
+        DividerWidget(height: 2.5.h),
+      ],
+    );
+  }
+
+  Widget _frame() {
+    return Container(
+      height: 40.h,
+      width: 90.w,
+      decoration: BoxDecoration(
+        color: lightGrey,
+        borderRadius: BorderRadius.circular(5),
+        border: Border.all(color: grey, width: 1.w),
+      ),
+      child: Observer(builder: (_) {
+        return SizedBox(
+            child: (_store.showCameraPreview)
+                ? CameraPreview(_controller!)
+                : null);
+      }),
     );
   }
 
   @override
   void dispose() {
     _store.resetCheckIn();
+
+    if (_controller != null) {
+      _controller!.dispose();
+    }
 
     super.dispose();
   }

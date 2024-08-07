@@ -250,6 +250,22 @@ mixin _$SessaoStore on SessaoStoreBase, Store {
     });
   }
 
+  late final _$showCameraPreviewAtom =
+      Atom(name: 'SessaoStoreBase.showCameraPreview', context: context);
+
+  @override
+  bool get showCameraPreview {
+    _$showCameraPreviewAtom.reportRead();
+    return super.showCameraPreview;
+  }
+
+  @override
+  set showCameraPreview(bool value) {
+    _$showCameraPreviewAtom.reportWrite(value, super.showCameraPreview, () {
+      super.showCameraPreview = value;
+    });
+  }
+
   late final _$initAgendamentoAsyncAction =
       AsyncAction('SessaoStoreBase.initAgendamento', context: context);
 
@@ -545,6 +561,17 @@ mixin _$SessaoStore on SessaoStoreBase, Store {
   }
 
   @override
+  void setShowCameraPreview(bool b) {
+    final _$actionInfo = _$SessaoStoreBaseActionController.startAction(
+        name: 'SessaoStoreBase.setShowCameraPreview');
+    try {
+      return super.setShowCameraPreview(b);
+    } finally {
+      _$SessaoStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void resetCheckIn() {
     final _$actionInfo = _$SessaoStoreBaseActionController.startAction(
         name: 'SessaoStoreBase.resetCheckIn');
@@ -572,7 +599,8 @@ aplicador: ${aplicador},
 estabelecimento: ${estabelecimento},
 notaSessao: ${notaSessao},
 notaEstabelecimento: ${notaEstabelecimento},
-sessaoParaCheckIn: ${sessaoParaCheckIn}
+sessaoParaCheckIn: ${sessaoParaCheckIn},
+showCameraPreview: ${showCameraPreview}
     ''';
   }
 }

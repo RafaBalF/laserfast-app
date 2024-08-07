@@ -345,6 +345,8 @@ abstract class SessaoStoreBase with Store {
 
   @observable
   SessionModel? sessaoParaCheckIn;
+  @observable
+  bool showCameraPreview = false;
 
   @action
   Future<void> initCheckIn() async {
@@ -353,6 +355,8 @@ abstract class SessaoStoreBase with Store {
 
   @action
   void setSessaoParaCheckIn(SessionModel? s) => sessaoParaCheckIn = s;
+  @action
+  void setShowCameraPreview(bool b) => showCameraPreview = b;
 
   @action
   Future<bool> buscarSessao() async {
@@ -360,5 +364,8 @@ abstract class SessaoStoreBase with Store {
   }
 
   @action
-  void resetCheckIn() {}
+  void resetCheckIn() {
+    setSessaoParaCheckIn(null);
+    showCameraPreview = false;
+  }
 }
