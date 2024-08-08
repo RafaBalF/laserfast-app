@@ -7,7 +7,12 @@ class BottomNavigationBarStore = BottomNavigationBarStoreBase
     with _$BottomNavigationBarStore;
 
 abstract class BottomNavigationBarStoreBase with Store {
-  final List<String> routes = ['/home/', '/agenda/', '/pagamentos/', '/chats/'];
+  final List<String> routes = [
+    '/home/',
+    '/agenda/',
+    '/pagamentos/',
+    // '/chats/',
+  ];
 
   @observable
   int selectedIndex = 0;

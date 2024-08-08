@@ -181,13 +181,13 @@ class HomePageState extends State<HomePage> {
             labelColor: accent,
             margin: EdgeInsets.only(right: 2.w),
           ),
-          RedirectCardWidget(
-            imgPath: 'assets/icons/svg/chat_accent.svg',
-            label: 'Chat',
-            route: '', // TODO: COLOCAR ROTA CERTA
-            labelColor: accent,
-            margin: EdgeInsets.only(right: 2.w),
-          ),
+          // RedirectCardWidget(
+          //   imgPath: 'assets/icons/svg/chat_accent.svg',
+          //   label: 'Chat',
+          //   route: '', // TODO: COLOCAR ROTA CERTA
+          //   labelColor: accent,
+          //   margin: EdgeInsets.only(right: 2.w),
+          // ),
         ],
       ),
     );
