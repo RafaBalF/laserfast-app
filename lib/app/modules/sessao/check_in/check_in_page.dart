@@ -1,16 +1,19 @@
-import 'package:camera/camera.dart';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:laserfast_app/app/modules/sessao/sessao_store.dart';
 import 'package:laserfast_app/app/shared/colors.dart';
+import 'package:laserfast_app/app/shared/modal_bottom_sheet.dart';
+import 'package:laserfast_app/app/shared/services/camera.service.dart';
 import 'package:laserfast_app/app/shared/text_styles.dart';
 import 'package:laserfast_app/app/shared/text_widget.dart';
 import 'package:laserfast_app/app/shared/widgets/button_widget.dart';
 import 'package:laserfast_app/app/shared/widgets/divider_widget.dart';
+import 'package:laserfast_app/app/shared/widgets/selectable_cards_widget.dart';
 import 'package:laserfast_app/app/shared/widgets/shimmer_widget.dart';
 import 'package:laserfast_app/app/shared/widgets/simple_scaffold_widget.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 class CheckInPage extends StatefulWidget {
@@ -23,35 +26,16 @@ class CheckInPageState extends State<CheckInPage> {
   final SessaoStore _store = Modular.get<SessaoStore>();
   late final Future<void> _future;
 
-  CameraController? _controller;
+  final _cameraService = CameraService();
 
   @override
   void initState() {
-    _future = Future.wait([_store.initCheckIn()]);
+    _future = Future.wait([
+      _store.initCheckIn(),
+      _cameraService.init(),
+    ]);
 
     super.initState();
-  }
-
-  Future<void> _pedirPermissao() async {
-    var status = await Permission.storage.status;
-    if (!status.isGranted) {
-      await Permission.storage.request();
-    }
-
-    var cameraStatus = await Permission.camera.status;
-    if (!cameraStatus.isGranted) {
-      await Permission.camera.request();
-    }
-  }
-
-  Future<void> _ativarCamera() async {
-    final cameras = await availableCameras();
-
-    _controller = CameraController(cameras.first, ResolutionPreset.max);
-
-    _controller!.initialize();
-
-    _store.setShowCameraPreview(true);
   }
 
   @override
@@ -131,17 +115,9 @@ class CheckInPageState extends State<CheckInPage> {
         DividerWidget(height: 2.5.h),
         _frame(),
         DividerWidget(height: 2.5.h),
-        ButtonWidget.filled(
-          onPressed: () async {
-            await _pedirPermissao();
-            await _ativarCamera();
-            setState(() {});
-          },
-          backgroundColor: accent,
-          title: 'TIRAR FOTO',
-          textColor: white,
-        ),
+        _tirarFotoBtn(),
         DividerWidget(height: 2.5.h),
+        _confirmarCheckIn(),
       ],
     );
   }
@@ -157,20 +133,125 @@ class CheckInPageState extends State<CheckInPage> {
       ),
       child: Observer(builder: (_) {
         return SizedBox(
-            child: (_store.showCameraPreview)
-                ? CameraPreview(_controller!)
+            child: (_store.fotoCheckIn != null)
+                ? Image.file(File(_store.fotoCheckIn!.path))
                 : null);
       }),
     );
   }
 
+  Widget _tirarFotoBtn() {
+    return Observer(builder: (_) {
+      return (_store.fotoCheckIn == null)
+          ? ButtonWidget.filled(
+              onPressed: () async {
+                bool hasPermission = await _cameraService.hasAllPermissions();
+
+                if (!mounted) return;
+
+                if (!hasPermission) {
+                  return showErrorBottomSheet(
+                    context,
+                    message:
+                        "É necessário acesso à camera e ao armazenamento para prosseguir",
+                  );
+                }
+
+                _store.setfotoCheckIn(await _cameraService.takePhoto());
+              },
+              backgroundColor: accent,
+              title: 'TIRAR FOTO',
+              textColor: white,
+            )
+          : ButtonWidget.outlined(
+              onPressed: () => _store.setfotoCheckIn(null),
+              borderColor: grey,
+              title: 'REMOVER FOTO',
+              textColor: darkerGrey,
+            );
+    });
+  }
+
+  Widget _confirmarCheckIn() {
+    return Observer(builder: (_) {
+      return (_store.fotoCheckIn != null)
+          ? Column(
+              children: [
+                SelectableCardsWidget(
+                  height: 20.h,
+                  items: _store.areasDisponiveis.toList(),
+                ),
+                DividerWidget(height: 2.5.h),
+                ButtonWidget.filled(
+                  onPressed: () async {
+                    bool r = await _store.fazerCheckIn();
+
+                    if (!mounted) return;
+
+                    Modular.to.pop();
+
+                    if (!r) {
+                      showErrorBottomSheet(
+                        context,
+                        message: 'OCORREU UM ERRO AO TENTAR FAZER CHECK-IN',
+                      );
+                    } else {
+                      showCustomBottomSheet(
+                        context,
+                        'CHECK-IN',
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 15.w),
+                          child: Column(
+                            children: [
+                              (_store.atendidoPor!.foto == null)
+                                  ? CircleAvatar(
+                                      maxRadius: 30.sp,
+                                      backgroundColor: accent,
+                                      child: Icon(
+                                        Icons.person,
+                                        color: white,
+                                        size: 30.sp,
+                                      ),
+                                    )
+                                  : Image.network(_store.atendidoPor!.foto!),
+                              DividerWidget(height: 1.h),
+                              textWidget(
+                                "Você será atendido(a) por ${_store.atendidoPor!.nome}",
+                                style: h2(),
+                                textAlign: TextAlign.center,
+                              ),
+                              DividerWidget(height: 1.h),
+                              textWidget(
+                                "Atendimentos feitos: ${_store.atendidoPor!.atendimentos}",
+                                style: text(),
+                              ),
+                              DividerWidget(height: 2.5.h),
+                              ButtonWidget.filled(
+                                onPressed: () => Modular.to.pop(),
+                                backgroundColor: accent,
+                                title: 'FECHAR',
+                                textColor: white,
+                              ),
+                            ],
+                          ),
+                        ),
+                        dismissable: false,
+                      );
+                    }
+                  },
+                  backgroundColor: accent,
+                  title: 'FAZER CHECK-IN',
+                  textColor: white,
+                ),
+              ],
+            )
+          : const SizedBox();
+    });
+  }
+
   @override
   void dispose() {
     _store.resetCheckIn();
-
-    if (_controller != null) {
-      _controller!.dispose();
-    }
 
     super.dispose();
   }

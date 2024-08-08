@@ -1,3 +1,5 @@
+import 'package:laserfast_app/app/models/session_area.model.dart';
+
 import 'abstract/from_json.abstract.dart';
 
 class SessionModel extends FromJsonModel {
@@ -7,6 +9,7 @@ class SessionModel extends FromJsonModel {
   String? applicator;
   DateTime? date;
   int? statusCode;
+  List<SessionAreaModel>? sessionAreas;
 
   // 0 => realizada
   // 1 => falta
@@ -21,6 +24,7 @@ class SessionModel extends FromJsonModel {
     this.applicator,
     this.date,
     this.statusCode,
+    this.sessionAreas,
   });
 
   SessionModel.createNew(SessionModel model) {
@@ -30,6 +34,7 @@ class SessionModel extends FromJsonModel {
     applicator = model.applicator;
     date = model.date;
     statusCode = model.statusCode;
+    sessionAreas = model.sessionAreas;
   }
 
   SessionModel.fromJson(Map<String, dynamic> json) {
@@ -39,6 +44,14 @@ class SessionModel extends FromJsonModel {
     applicator = json['applicator'];
     date = json['date'];
     statusCode = json['statusCode'];
+
+    if (json['sessionAreas'] != null) {
+      sessionAreas = [];
+      for (var area in json['sessionAreas']) {
+        var m = SessionAreaModel.fromJson(area);
+        sessionAreas!.add(m);
+      }
+    }
   }
 
   Map<String, dynamic> toJson() {

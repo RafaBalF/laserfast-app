@@ -49,7 +49,7 @@ Future showCustomBottomSheet(
             Center(
               child: widget,
             ),
-            DividerWidget(height: 3.h),
+            DividerWidget(height: 5.h),
           ],
         );
       });

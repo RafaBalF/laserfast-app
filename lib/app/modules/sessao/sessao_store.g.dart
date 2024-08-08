@@ -250,19 +250,51 @@ mixin _$SessaoStore on SessaoStoreBase, Store {
     });
   }
 
-  late final _$showCameraPreviewAtom =
-      Atom(name: 'SessaoStoreBase.showCameraPreview', context: context);
+  late final _$fotoCheckInAtom =
+      Atom(name: 'SessaoStoreBase.fotoCheckIn', context: context);
 
   @override
-  bool get showCameraPreview {
-    _$showCameraPreviewAtom.reportRead();
-    return super.showCameraPreview;
+  XFile? get fotoCheckIn {
+    _$fotoCheckInAtom.reportRead();
+    return super.fotoCheckIn;
   }
 
   @override
-  set showCameraPreview(bool value) {
-    _$showCameraPreviewAtom.reportWrite(value, super.showCameraPreview, () {
-      super.showCameraPreview = value;
+  set fotoCheckIn(XFile? value) {
+    _$fotoCheckInAtom.reportWrite(value, super.fotoCheckIn, () {
+      super.fotoCheckIn = value;
+    });
+  }
+
+  late final _$areasDisponiveisAtom =
+      Atom(name: 'SessaoStoreBase.areasDisponiveis', context: context);
+
+  @override
+  ObservableList<SelectableCard<SessionAreaModel>> get areasDisponiveis {
+    _$areasDisponiveisAtom.reportRead();
+    return super.areasDisponiveis;
+  }
+
+  @override
+  set areasDisponiveis(ObservableList<SelectableCard<SessionAreaModel>> value) {
+    _$areasDisponiveisAtom.reportWrite(value, super.areasDisponiveis, () {
+      super.areasDisponiveis = value;
+    });
+  }
+
+  late final _$atendidoPorAtom =
+      Atom(name: 'SessaoStoreBase.atendidoPor', context: context);
+
+  @override
+  AplicadorModel? get atendidoPor {
+    _$atendidoPorAtom.reportRead();
+    return super.atendidoPor;
+  }
+
+  @override
+  set atendidoPor(AplicadorModel? value) {
+    _$atendidoPorAtom.reportWrite(value, super.atendidoPor, () {
+      super.atendidoPor = value;
     });
   }
 
@@ -346,6 +378,23 @@ mixin _$SessaoStore on SessaoStoreBase, Store {
   @override
   Future<bool> buscarSessao() {
     return _$buscarSessaoAsyncAction.run(() => super.buscarSessao());
+  }
+
+  late final _$getAreasDisponiveisAsyncAction =
+      AsyncAction('SessaoStoreBase.getAreasDisponiveis', context: context);
+
+  @override
+  Future<void> getAreasDisponiveis() {
+    return _$getAreasDisponiveisAsyncAction
+        .run(() => super.getAreasDisponiveis());
+  }
+
+  late final _$fazerCheckInAsyncAction =
+      AsyncAction('SessaoStoreBase.fazerCheckIn', context: context);
+
+  @override
+  Future<bool> fazerCheckIn() {
+    return _$fazerCheckInAsyncAction.run(() => super.fazerCheckIn());
   }
 
   late final _$SessaoStoreBaseActionController =
@@ -561,11 +610,22 @@ mixin _$SessaoStore on SessaoStoreBase, Store {
   }
 
   @override
-  void setShowCameraPreview(bool b) {
+  void setfotoCheckIn(XFile? b) {
     final _$actionInfo = _$SessaoStoreBaseActionController.startAction(
-        name: 'SessaoStoreBase.setShowCameraPreview');
+        name: 'SessaoStoreBase.setfotoCheckIn');
     try {
-      return super.setShowCameraPreview(b);
+      return super.setfotoCheckIn(b);
+    } finally {
+      _$SessaoStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void selecionarAreasDaSessao(SessionAreaModel session) {
+    final _$actionInfo = _$SessaoStoreBaseActionController.startAction(
+        name: 'SessaoStoreBase.selecionarAreasDaSessao');
+    try {
+      return super.selecionarAreasDaSessao(session);
     } finally {
       _$SessaoStoreBaseActionController.endAction(_$actionInfo);
     }
@@ -600,7 +660,9 @@ estabelecimento: ${estabelecimento},
 notaSessao: ${notaSessao},
 notaEstabelecimento: ${notaEstabelecimento},
 sessaoParaCheckIn: ${sessaoParaCheckIn},
-showCameraPreview: ${showCameraPreview}
+fotoCheckIn: ${fotoCheckIn},
+areasDisponiveis: ${areasDisponiveis},
+atendidoPor: ${atendidoPor}
     ''';
   }
 }

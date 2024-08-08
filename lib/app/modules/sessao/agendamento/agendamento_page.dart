@@ -148,7 +148,7 @@ class AgendamentoPageState extends State<AgendamentoPage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _sectionHeader('Selecione as áreas'),
+        _sectionHeader('Selecione o período'),
         DividerWidget(height: 2.h),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,

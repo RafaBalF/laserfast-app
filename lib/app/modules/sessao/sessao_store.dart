@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:image_picker/image_picker.dart';
 import 'package:laserfast_app/app/models/aplicador.model.dart';
 import 'package:laserfast_app/app/models/available_schedule.model.dart';
 import 'package:laserfast_app/app/models/base.model.dart';
@@ -346,7 +347,12 @@ abstract class SessaoStoreBase with Store {
   @observable
   SessionModel? sessaoParaCheckIn;
   @observable
-  bool showCameraPreview = false;
+  XFile? fotoCheckIn;
+  @observable
+  ObservableList<SelectableCard<SessionAreaModel>> areasDisponiveis =
+      ObservableList.of([]);
+  @observable
+  AplicadorModel? atendidoPor;
 
   @action
   Future<void> initCheckIn() async {
@@ -356,16 +362,130 @@ abstract class SessaoStoreBase with Store {
   @action
   void setSessaoParaCheckIn(SessionModel? s) => sessaoParaCheckIn = s;
   @action
-  void setShowCameraPreview(bool b) => showCameraPreview = b;
+  void setfotoCheckIn(XFile? b) => fotoCheckIn = b;
 
   @action
   Future<bool> buscarSessao() async {
+    sessaoParaCheckIn = SessionModel(
+      id: 1,
+      applicator: 'Maria Silva',
+      date: DateTime.now(),
+      areas: 'Perna inteira, Virilha, Buço 10 sessões',
+      status: 'Sessão realizada',
+      statusCode: 0,
+      sessionAreas: [
+        SessionAreaModel(
+          name: 'Virilha (5 min)',
+          duration: 5,
+        ),
+        SessionAreaModel(
+          name: 'Buço',
+          duration: 10,
+        ),
+        SessionAreaModel(
+          name: 'Axilas (10 sessões)',
+          duration: 15,
+        ),
+      ],
+    );
+
+    await getAreasDisponiveis();
+
+    return true;
+  }
+
+  @action
+  Future<void> getAreasDisponiveis() async {
+    areasDisponiveis.clear();
+
+    List<SessionAreaModel> sessions = [
+      SessionAreaModel(
+        name: 'Virilha (5 min)',
+        duration: 5,
+      ),
+      SessionAreaModel(
+        name: 'Buço',
+        duration: 10,
+      ),
+      SessionAreaModel(
+        name: 'Axilas (10 sessões)',
+        duration: 15,
+      ),
+      SessionAreaModel(
+        name: 'Coxas',
+        duration: 10,
+      ),
+      SessionAreaModel(
+        name: 'Rosto inteiro',
+        duration: 15,
+      ),
+      SessionAreaModel(
+        name: 'Linha alba',
+        duration: 15,
+      ),
+      SessionAreaModel(
+        name: 'Braços e mãos',
+        duration: 20,
+      ),
+    ];
+
+    List<SelectableCard<SessionAreaModel>> items = [];
+
+    for (var s in sessions) {
+      final selected = (sessaoParaCheckIn!.sessionAreas!
+              .where((sessao) => sessao.name == s.name)
+              .firstOrNull !=
+          null);
+
+      items.add(SelectableCard(
+        selected: selected,
+        label: s.name.toString(),
+        value: s,
+        onSelect: () {
+          selecionarAreasDaSessao(s);
+        },
+        onUnselect: () {
+          selecionarAreasDaSessao(s);
+        },
+      ));
+    }
+
+    areasDisponiveis.addAll(items);
+  }
+
+  @action
+  void selecionarAreasDaSessao(SessionAreaModel session) {
+    if (sessaoParaCheckIn == null) return;
+    if (sessaoParaCheckIn!.sessionAreas == null) return;
+
+    var index = sessaoParaCheckIn!.sessionAreas!
+        .indexWhere((s) => s.name == session.name);
+
+    if (index == -1) {
+      sessaoParaCheckIn!.sessionAreas!
+          .add(sessaoParaCheckIn!.sessionAreas![index]);
+    } else {
+      sessaoParaCheckIn!.sessionAreas!.removeAt(index);
+    }
+  }
+
+  @action
+  Future<bool> fazerCheckIn() async {
+    atendidoPor = AplicadorModel(
+      id: 1,
+      nome: "Lara Souza",
+      atendimentos: 132,
+      foto: null,
+    );
+
     return true;
   }
 
   @action
   void resetCheckIn() {
     setSessaoParaCheckIn(null);
-    showCameraPreview = false;
+    setfotoCheckIn(null);
+    areasDisponiveis.clear();
+    atendidoPor = null;
   }
 }
