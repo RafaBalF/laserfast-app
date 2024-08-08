@@ -69,7 +69,7 @@ class ProfilePageState extends State<ProfilePage> {
       _tileCard(
         'assets/icons/svg/favorite_accent.svg',
         'Diário',
-        () => Modular.to.pushNamed('/diario/'), // TODO: FAZER TELA
+        () => Modular.to.pushNamed('/diario/'),
       ),
       _tileCard(
         'assets/icons/svg/cog_accent.svg',

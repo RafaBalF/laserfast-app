@@ -1,6 +1,7 @@
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:laserfast_app/app/constants/transition_type.dart';
 import 'package:laserfast_app/app/modules/auth/auth_module.dart';
+import 'package:laserfast_app/app/modules/diario/diario_module.dart';
 import 'package:laserfast_app/app/modules/faq/faq_module.dart';
 import 'package:laserfast_app/app/modules/home/home_module.dart';
 import 'package:laserfast_app/app/modules/indicar/indicar_module.dart';
@@ -62,6 +63,11 @@ class AppModule extends Module {
     r.module(
       '/indicar',
       module: IndicarModule(),
+      transition: defaultTransitonType,
+    );
+    r.module(
+      '/diario',
+      module: DiarioModule(),
       transition: defaultTransitonType,
     );
   }

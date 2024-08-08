@@ -170,7 +170,7 @@ class HomePageState extends State<HomePage> {
           RedirectCardWidget(
             imgPath: 'assets/icons/svg/blockquote_accent.svg',
             label: 'Diário',
-            route: '', // TODO: COLOCAR ROTA CERTA
+            route: '/diario/',
             labelColor: accent,
             margin: EdgeInsets.only(right: 2.w),
           ),
@@ -208,7 +208,7 @@ class HomePageState extends State<HomePage> {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              _mostAccessedCard('MEU DIÁRIO', ''), // TODO: COLOCAR ROTA CERTA
+              _mostAccessedCard('MEU DIÁRIO', '/diario/'),
               _mostAccessedCard('MEU TRATAMENTO', '/sessao/historico'),
               _mostAccessedCard('FINANCEIRO', '/pagamentos/'),
             ],
@@ -283,7 +283,6 @@ class HomePageState extends State<HomePage> {
             'assets/images/banners/fastmassagem.png',
             'https://www.instagram.com/fastmassagem_/',
           ),
-          // TODO: ADICIONAR O OUTRO BANNER DPS Q O POLO ME PASSAR
         ],
       ),
     );
