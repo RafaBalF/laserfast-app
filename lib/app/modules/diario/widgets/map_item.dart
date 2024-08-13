@@ -65,7 +65,10 @@ class MapItem extends StatelessWidget {
       bottom: position.bottom,
       width: position.width,
       height: position.height,
-      child: SvgPicture.asset(imagePath),
+      child: GestureDetector(
+        onTap: onPressed,
+        child: SvgPicture.asset(imagePath),
+      ),
     );
   }
 }

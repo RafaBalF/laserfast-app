@@ -10,10 +10,19 @@ abstract class DiarioStoreBase with Store {
   final LoadingStore loadingStore = LoadingStore();
   final LoginHive _loginHive = LoginHive();
 
+  @observable
+  bool viuIntro = false;
+  @observable
+  int etapa = 0;
+
   @action
   Future<void> initDiario() async {
+    verIntro();
     _loginHive.getLogin();
   }
+
+  @action
+  void verIntro() => viuIntro = true;
 
   @action
   void resetDiario() {}

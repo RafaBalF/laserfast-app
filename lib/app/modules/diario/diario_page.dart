@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:laserfast_app/app/modules/diario/diario_store.dart';
 import 'package:laserfast_app/app/modules/diario/widgets/map_item.dart';
+import 'package:laserfast_app/app/shared/colors.dart';
+import 'package:laserfast_app/app/shared/enums/button_sizes.enum.dart';
 import 'package:laserfast_app/app/shared/interfaces/position.interface.dart';
+import 'package:laserfast_app/app/shared/widgets/button_widget.dart';
 import 'package:laserfast_app/app/shared/widgets/divider_widget.dart';
 import 'package:laserfast_app/app/shared/widgets/shimmer_widget.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -17,6 +21,8 @@ class DiarioPage extends StatefulWidget {
 class DiarioPageState extends State<DiarioPage> {
   final DiarioStore _store = Modular.get<DiarioStore>();
   late final Future<void> _future;
+
+  int introPage = 0;
 
   @override
   void initState() {
@@ -85,18 +91,105 @@ class DiarioPageState extends State<DiarioPage> {
           'assets/images/diario/background.png',
           fit: BoxFit.fitHeight,
         ),
-        MapItem.estrela(
-          onPressed: () {},
-          position: PositionInterface(
-            bottom: 1.h,
-            height: 10.h,
-            width: 20.w,
-            right: 2.w,
-          ),
-          desbloqueado: false,
-          usado: false,
-        ),
+        ..._items(),
+        ..._intro(),
       ],
+    );
+  }
+
+  List<Widget> _items() {
+    return [
+      MapItem.estrela(
+        onPressed: () {},
+        position: PositionInterface(
+          bottom: 3.h,
+          right: 12.w,
+        ),
+        desbloqueado: false,
+        usado: false,
+      ),
+    ];
+  }
+
+  List<Widget> _intro() {
+    if (_store.viuIntro) return [];
+
+    if (introPage == 0) {
+      return [
+        Positioned(
+          bottom: 0,
+          right: 0,
+          child: SizedBox(
+            height: 60.h,
+            child: Row(
+              children: [
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    DividerWidget(height: 5.h),
+                    SvgPicture.asset('assets/images/diario/intro-1.svg'),
+                    _avancar(
+                      () => setState(() {
+                        introPage = 1;
+                      }),
+                    ),
+                  ],
+                ),
+                Image.asset(
+                  'assets/images/diario/fly.png',
+                  fit: BoxFit.fitHeight,
+                )
+              ],
+            ),
+          ),
+        ),
+      ];
+    }
+
+    if (introPage == 1) {
+      return [
+        Positioned(
+          bottom: 0,
+          right: 0,
+          child: SizedBox(
+            height: 60.h,
+            child: Row(
+              children: [
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    DividerWidget(height: 5.h),
+                    SvgPicture.asset('assets/images/diario/intro-2.svg'),
+                    _avancar(
+                      () => setState(() {
+                        introPage = 2;
+                        _store.verIntro;
+                      }),
+                    ),
+                  ],
+                ),
+                Image.asset(
+                  'assets/images/diario/fly.png',
+                  fit: BoxFit.fitHeight,
+                )
+              ],
+            ),
+          ),
+        ),
+      ];
+    }
+
+    return [];
+  }
+
+  Widget _avancar(Function()? onPressed) {
+    return ButtonWidget.filled(
+      onPressed: onPressed,
+      backgroundColor: accent,
+      title: 'AVANÇAR >',
+      textColor: white,
+      buttonSize: ButtonSize.medium,
+      width: 40.w,
     );
   }
 
