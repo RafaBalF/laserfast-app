@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:laserfast_app/app/modules/diario/diario_store.dart';
+import 'package:laserfast_app/app/modules/diario/widgets/map_item.dart';
+import 'package:laserfast_app/app/shared/interfaces/position.interface.dart';
 import 'package:laserfast_app/app/shared/widgets/divider_widget.dart';
 import 'package:laserfast_app/app/shared/widgets/shimmer_widget.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -77,17 +79,24 @@ class DiarioPageState extends State<DiarioPage> {
   Widget _body() {
     return Stack(
       children: [
-        _background(),
+        Image.asset(
+          width: 100.w,
+          height: 100.h,
+          'assets/images/diario/background.png',
+          fit: BoxFit.fitHeight,
+        ),
+        MapItem.estrela(
+          onPressed: () {},
+          position: PositionInterface(
+            bottom: 1.h,
+            height: 10.h,
+            width: 20.w,
+            right: 2.w,
+          ),
+          desbloqueado: false,
+          usado: false,
+        ),
       ],
-    );
-  }
-
-  Image _background() {
-    return Image.asset(
-      width: 100.w,
-      height: 100.h,
-      'assets/images/diario/background.png',
-      fit: BoxFit.fitHeight,
     );
   }
 
