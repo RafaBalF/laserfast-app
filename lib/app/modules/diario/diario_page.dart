@@ -4,7 +4,6 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:laserfast_app/app/modules/diario/diario_store.dart';
 import 'package:laserfast_app/app/shared/widgets/divider_widget.dart';
 import 'package:laserfast_app/app/shared/widgets/shimmer_widget.dart';
-import 'package:laserfast_app/app/shared/widgets/simple_scaffold_widget.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 class DiarioPage extends StatefulWidget {
@@ -29,18 +28,23 @@ class DiarioPageState extends State<DiarioPage> {
     return FutureBuilder(
       future: _future,
       builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-        return SimpleScaffoldWidget(
-          title: 'DIÁRIO',
-          bodyPadding: EdgeInsets.symmetric(horizontal: 5.w),
-          body: Observer(
-            builder: (_) {
-              if (snapshot.connectionState == ConnectionState.done &&
-                  snapshot.hasData) {
-                return _body();
-              } else {
-                return _loadingBody();
-              }
-            },
+        return Scaffold(
+          body: SingleChildScrollView(
+            child: Container(
+              color: Colors.red,
+              width: 100.w,
+              height: 100.h,
+              child: Observer(
+                builder: (_) {
+                  if (snapshot.connectionState == ConnectionState.done &&
+                      snapshot.hasData) {
+                    return _body();
+                  } else {
+                    return _loadingBody();
+                  }
+                },
+              ),
+            ),
           ),
         );
       },
@@ -71,7 +75,20 @@ class DiarioPageState extends State<DiarioPage> {
   }
 
   Widget _body() {
-    return Container();
+    return Stack(
+      children: [
+        _background(),
+      ],
+    );
+  }
+
+  Image _background() {
+    return Image.asset(
+      width: 100.w,
+      height: 100.h,
+      'assets/images/diario/background.png',
+      fit: BoxFit.fitHeight,
+    );
   }
 
   @override
