@@ -10,17 +10,23 @@ import 'package:laserfast_app/app/shared/widgets/divider_widget.dart';
 import 'package:laserfast_app/app/shared/widgets/inputs/input_widget.dart';
 import 'package:laserfast_app/app/shared/widgets/inputs/password_input_widget.dart';
 import 'package:laserfast_app/app/shared/widgets/simple_scaffold_widget.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 class LoginPage extends StatefulWidget {
-  final String title;
-  const LoginPage({super.key, this.title = 'Login'});
+  const LoginPage({super.key});
   @override
   LoginPageState createState() => LoginPageState();
 }
 
 class LoginPageState extends State<LoginPage> with FormValidationsMixin {
   final LoginStore _store = Modular.get<LoginStore>();
+
+  final cpfFormatter = MaskTextInputFormatter(
+    mask: '###.###.###-##',
+    filter: {"#": RegExp(r'[0-9]')},
+    type: MaskAutoCompletionType.lazy,
+  );
 
   @override
   void initState() {
@@ -35,8 +41,8 @@ class LoginPageState extends State<LoginPage> with FormValidationsMixin {
   }
 
   void _clearFields() {
-    _store.setEmail(null);
-    _store.setPassword(null);
+    _store.setCpf(null);
+    _store.setSenha(null);
   }
 
   @override
@@ -71,20 +77,18 @@ class LoginPageState extends State<LoginPage> with FormValidationsMixin {
         children: [
           Observer(builder: (_) {
             return InputWidget(
-              label: 'E-mail',
+              label: 'Cpf',
               labelColor: white,
-              onChanged: _store.setEmail,
-              keyboardType: TextInputType.emailAddress,
-              validator: (v) => combine([
-                () => notEmpty(v),
-                () => validEmail(v),
-              ]),
+              keyboardType: TextInputType.number,
+              inputFormatters: [cpfFormatter],
+              onChanged: (v) => _store.setCpf(cpfFormatter.getUnmaskedText()),
+              validator: notEmpty,
             );
           }),
           DividerWidget(height: 2.h),
           PasswordInputWidget(
             labelColor: white,
-            onChanged: _store.setPassword,
+            onChanged: _store.setSenha,
             validator: notEmpty,
           ),
           DividerWidget(height: 1.h),
@@ -109,8 +113,6 @@ class LoginPageState extends State<LoginPage> with FormValidationsMixin {
             return ButtonWidget.filled(
               title: 'ENTRAR',
               onPressed: () async {
-                // TODO: FAZER LOGIN FUNCIONAR
-
                 Modular.to.navigate('/home/');
 
                 // if (!formKey.currentState!.validate()) return;

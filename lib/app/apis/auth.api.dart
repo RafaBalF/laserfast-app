@@ -20,12 +20,14 @@ class AuthApi extends BaseApi {
         return BaseModel.networkError();
       }
 
-      var result =
-          (await Dio(_option).post('/Login/AutenticacaoTokenApi', data: {
-        "login": login,
-        "senha": password,
-      }))
-              .data;
+      var result = (await Dio(_option).post(
+        '/Login/ValidarLogin',
+        data: {
+          "cpf": login,
+          "senha": password,
+        },
+      ))
+          .data;
 
       b = BaseModel<AuthModel>.fromJson(result, tipo: AuthModel());
 
@@ -33,6 +35,44 @@ class AuthApi extends BaseApi {
         AuthModel authModel = AuthModel(
           token: b.result!.token,
           name: b.result!.name,
+          uuid: b.result!.uuid,
+        );
+
+        await _loginHive.setLogin(authModel);
+        return b;
+      }
+    } on DioException catch (e) {
+      b.message = handleError(e);
+    } catch (e) {
+      b = BaseModel();
+    }
+
+    return b;
+  }
+
+  Future<BaseModel<AuthModel>> cadastrarLogin(String cpf, String senha) async {
+    BaseModel<AuthModel> b = BaseModel<AuthModel>();
+    try {
+      var connectivityResult = await (Connectivity().checkConnectivity());
+      if (connectivityResult.contains(ConnectivityResult.none)) {
+        return BaseModel.networkError();
+      }
+
+      var result = (await Dio(_option).post(
+        '/Login/CadastrarLogin',
+        data: {
+          "cpf": cpf,
+          "senha": senha,
+        },
+      ))
+          .data;
+
+      b = BaseModel<AuthModel>.fromJson(result, tipo: AuthModel());
+
+      if (b.status && b.result != null) {
+        AuthModel authModel = AuthModel(
+          token: b.result!.token,
+          cpf: b.result!.cpf,
           uuid: b.result!.uuid,
         );
 

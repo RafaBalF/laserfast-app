@@ -24,10 +24,9 @@ abstract class LoginStoreBase with Store {
   AuthModel? authModel;
 
   @observable
-  String? email;
-
+  String? cpf;
   @observable
-  String? password;
+  String? senha;
 
   // COMPUTED
 
@@ -35,9 +34,9 @@ abstract class LoginStoreBase with Store {
   @action
   void setAuthModel(AuthModel model) => authModel = model;
   @action
-  void setEmail(String? value) => email = value;
+  void setCpf(String? value) => cpf = value;
   @action
-  void setPassword(String? value) => password = value;
+  void setSenha(String? value) => senha = value;
 
   @action
   Future logout() async {
@@ -58,7 +57,7 @@ abstract class LoginStoreBase with Store {
   Future<BaseModel<AuthModel>> login() async {
     loadingStore.show();
     BaseModel<AuthModel> r = BaseModel<AuthModel>();
-    r = await authApi.login(email!, password!);
+    r = await authApi.login(cpf!, senha!);
     loadingStore.hide();
 
     if (r.status) _appPresentationHive.setHasSeenAppPresentationBefore(true);

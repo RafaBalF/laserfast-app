@@ -35,10 +35,7 @@ abstract class RegisterStoreBase with Store {
   AuthModel? authModel;
 
   @observable
-  String? name;
-
-  @observable
-  String? email;
+  String? cpf;
 
   @observable
   String? password;
@@ -64,9 +61,7 @@ abstract class RegisterStoreBase with Store {
   @action
   void setAuthModel(AuthModel model) => authModel = model;
   @action
-  void setName(String? value) => name = value;
-  @action
-  void setEmail(String? value) => email = value;
+  void setCpf(String? value) => cpf = value;
   @action
   void setPassword(String? value) => password = value;
   @action
@@ -95,13 +90,9 @@ abstract class RegisterStoreBase with Store {
   Future<BaseModel<AuthModel>> register() async {
     loadingStore.show();
 
-    user = UserModel(
-      name: name,
-      email: email,
-      password: password,
-    );
+    if (cpf == null || password == null) return BaseModel<AuthModel>();
 
-    var result = await userApi.create(user!);
+    var result = await authApi.cadastrarLogin(cpf!, password!);
 
     if (result.status) {
       _userUuid = result.result!.uuid;

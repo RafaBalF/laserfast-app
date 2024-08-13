@@ -49,35 +49,18 @@ mixin _$RegisterStore on RegisterStoreBase, Store {
     });
   }
 
-  late final _$nameAtom =
-      Atom(name: 'RegisterStoreBase.name', context: context);
+  late final _$cpfAtom = Atom(name: 'RegisterStoreBase.cpf', context: context);
 
   @override
-  String? get name {
-    _$nameAtom.reportRead();
-    return super.name;
+  String? get cpf {
+    _$cpfAtom.reportRead();
+    return super.cpf;
   }
 
   @override
-  set name(String? value) {
-    _$nameAtom.reportWrite(value, super.name, () {
-      super.name = value;
-    });
-  }
-
-  late final _$emailAtom =
-      Atom(name: 'RegisterStoreBase.email', context: context);
-
-  @override
-  String? get email {
-    _$emailAtom.reportRead();
-    return super.email;
-  }
-
-  @override
-  set email(String? value) {
-    _$emailAtom.reportWrite(value, super.email, () {
-      super.email = value;
+  set cpf(String? value) {
+    _$cpfAtom.reportWrite(value, super.cpf, () {
+      super.cpf = value;
     });
   }
 
@@ -200,22 +183,11 @@ mixin _$RegisterStore on RegisterStoreBase, Store {
   }
 
   @override
-  void setName(String? value) {
+  void setCpf(String? value) {
     final _$actionInfo = _$RegisterStoreBaseActionController.startAction(
-        name: 'RegisterStoreBase.setName');
+        name: 'RegisterStoreBase.setCpf');
     try {
-      return super.setName(value);
-    } finally {
-      _$RegisterStoreBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  void setEmail(String? value) {
-    final _$actionInfo = _$RegisterStoreBaseActionController.startAction(
-        name: 'RegisterStoreBase.setEmail');
-    try {
-      return super.setEmail(value);
+      return super.setCpf(value);
     } finally {
       _$RegisterStoreBaseActionController.endAction(_$actionInfo);
     }
@@ -270,8 +242,7 @@ mixin _$RegisterStore on RegisterStoreBase, Store {
     return '''
 user: ${user},
 authModel: ${authModel},
-name: ${name},
-email: ${email},
+cpf: ${cpf},
 password: ${password},
 confirmPassword: ${confirmPassword},
 code: ${code},

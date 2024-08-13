@@ -8,15 +8,16 @@ class PasswordInputWidget extends StatefulWidget {
   final Function(String)? onChanged;
   final String? error;
   final String? Function(String?)? validator;
+  final TextEditingController? controller;
 
-  const PasswordInputWidget({
-    super.key,
-    this.label,
-    this.labelColor,
-    required this.onChanged,
-    this.error,
-    this.validator,
-  });
+  const PasswordInputWidget(
+      {super.key,
+      this.label,
+      this.labelColor,
+      required this.onChanged,
+      this.error,
+      this.validator,
+      this.controller});
 
   @override
   State<PasswordInputWidget> createState() => _PasswordInputWidgetState();
@@ -48,6 +49,7 @@ class _PasswordInputWidgetState extends State<PasswordInputWidget> {
       ),
       error: widget.error,
       validator: widget.validator,
+      controller: widget.controller,
     );
   }
 }

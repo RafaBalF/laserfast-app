@@ -25,34 +25,33 @@ mixin _$LoginStore on LoginStoreBase, Store {
     });
   }
 
-  late final _$emailAtom = Atom(name: 'LoginStoreBase.email', context: context);
+  late final _$cpfAtom = Atom(name: 'LoginStoreBase.cpf', context: context);
 
   @override
-  String? get email {
-    _$emailAtom.reportRead();
-    return super.email;
+  String? get cpf {
+    _$cpfAtom.reportRead();
+    return super.cpf;
   }
 
   @override
-  set email(String? value) {
-    _$emailAtom.reportWrite(value, super.email, () {
-      super.email = value;
+  set cpf(String? value) {
+    _$cpfAtom.reportWrite(value, super.cpf, () {
+      super.cpf = value;
     });
   }
 
-  late final _$passwordAtom =
-      Atom(name: 'LoginStoreBase.password', context: context);
+  late final _$senhaAtom = Atom(name: 'LoginStoreBase.senha', context: context);
 
   @override
-  String? get password {
-    _$passwordAtom.reportRead();
-    return super.password;
+  String? get senha {
+    _$senhaAtom.reportRead();
+    return super.senha;
   }
 
   @override
-  set password(String? value) {
-    _$passwordAtom.reportWrite(value, super.password, () {
-      super.password = value;
+  set senha(String? value) {
+    _$senhaAtom.reportWrite(value, super.senha, () {
+      super.senha = value;
     });
   }
 
@@ -95,22 +94,22 @@ mixin _$LoginStore on LoginStoreBase, Store {
   }
 
   @override
-  void setEmail(String? value) {
+  void setCpf(String? value) {
     final _$actionInfo = _$LoginStoreBaseActionController.startAction(
-        name: 'LoginStoreBase.setEmail');
+        name: 'LoginStoreBase.setCpf');
     try {
-      return super.setEmail(value);
+      return super.setCpf(value);
     } finally {
       _$LoginStoreBaseActionController.endAction(_$actionInfo);
     }
   }
 
   @override
-  void setPassword(String? value) {
+  void setSenha(String? value) {
     final _$actionInfo = _$LoginStoreBaseActionController.startAction(
-        name: 'LoginStoreBase.setPassword');
+        name: 'LoginStoreBase.setSenha');
     try {
-      return super.setPassword(value);
+      return super.setSenha(value);
     } finally {
       _$LoginStoreBaseActionController.endAction(_$actionInfo);
     }
@@ -120,8 +119,8 @@ mixin _$LoginStore on LoginStoreBase, Store {
   String toString() {
     return '''
 authModel: ${authModel},
-email: ${email},
-password: ${password}
+cpf: ${cpf},
+senha: ${senha}
     ''';
   }
 }

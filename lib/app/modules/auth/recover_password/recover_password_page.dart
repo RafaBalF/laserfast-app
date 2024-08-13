@@ -44,29 +44,22 @@ class RecoverPasswordPageState extends State<RecoverPasswordPage>
   Widget build(BuildContext context) {
     return SimpleScaffoldWidget(
       title: widget.title,
-      body: SingleChildScrollView(
-        child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 5.w),
-          alignment: Alignment.center,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              DividerWidget(height: 2.h),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 5.w),
-                child: textWidget(
-                  'Escreva seu email cadastrado e redefina sua senha',
-                  style: h2(),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-              DividerWidget(height: 2.h),
-              _form(),
-              DividerWidget(height: 5.h),
-            ],
+      bodyPadding: EdgeInsets.symmetric(horizontal: 5.w),
+      body: Column(
+        children: [
+          DividerWidget(height: 2.h),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 5.w),
+            child: textWidget(
+              'Escreva seu email cadastrado e redefina sua senha',
+              style: h2(),
+              textAlign: TextAlign.center,
+            ),
           ),
-        ),
+          DividerWidget(height: 2.h),
+          _form(),
+          DividerWidget(height: 5.h),
+        ],
       ),
     );
   }
