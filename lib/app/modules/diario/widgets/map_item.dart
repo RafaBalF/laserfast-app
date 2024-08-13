@@ -1,10 +1,10 @@
 import 'package:flutter_svg/svg.dart';
-import 'package:laserfast_app/app/shared/interfaces/position.interface.dart';
+import 'package:laserfast_app/app/modules/diario/widgets/map_position.dart';
 import 'package:flutter/material.dart';
 
 class MapItem extends StatelessWidget {
   final Function()? onPressed;
-  final PositionInterface position;
+  final MapPosition position;
   final bool desbloqueado;
   final bool usado;
   final String imagePath;
@@ -20,7 +20,7 @@ class MapItem extends StatelessWidget {
 
   factory MapItem.estrela({
     required Function()? onPressed,
-    required PositionInterface? position,
+    required MapPosition? position,
     required bool desbloqueado,
     required bool usado,
   }) {
@@ -30,7 +30,7 @@ class MapItem extends StatelessWidget {
 
     return MapItem(
       onPressed: (usado) ? () {} : onPressed,
-      position: position ?? PositionInterface(),
+      position: position ?? MapPosition(),
       desbloqueado: desbloqueado,
       usado: usado,
       imagePath: path,
@@ -39,7 +39,7 @@ class MapItem extends StatelessWidget {
 
   factory MapItem.tesouro({
     required Function()? onPressed,
-    required PositionInterface? position,
+    required MapPosition? position,
     required bool desbloqueado,
     required bool usado,
   }) {
@@ -49,7 +49,7 @@ class MapItem extends StatelessWidget {
 
     return MapItem(
       onPressed: (usado) ? () {} : onPressed,
-      position: position ?? PositionInterface(),
+      position: position ?? MapPosition(),
       desbloqueado: desbloqueado,
       usado: usado,
       imagePath: path,

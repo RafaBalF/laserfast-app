@@ -1,4 +1,4 @@
-class PositionInterface {
+class MapPosition {
   double? left;
   double? top;
   double? right;
@@ -6,7 +6,7 @@ class PositionInterface {
   double? width;
   double? height;
 
-  PositionInterface({
+  MapPosition({
     this.left,
     this.top,
     this.right,

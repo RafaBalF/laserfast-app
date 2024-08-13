@@ -6,7 +6,7 @@ import 'package:laserfast_app/app/modules/diario/diario_store.dart';
 import 'package:laserfast_app/app/modules/diario/widgets/map_item.dart';
 import 'package:laserfast_app/app/shared/colors.dart';
 import 'package:laserfast_app/app/shared/enums/button_sizes.enum.dart';
-import 'package:laserfast_app/app/shared/interfaces/position.interface.dart';
+import 'package:laserfast_app/app/modules/diario/widgets/map_position.dart';
 import 'package:laserfast_app/app/shared/widgets/button_widget.dart';
 import 'package:laserfast_app/app/shared/widgets/divider_widget.dart';
 import 'package:laserfast_app/app/shared/widgets/shimmer_widget.dart';
@@ -101,7 +101,7 @@ class DiarioPageState extends State<DiarioPage> {
     return [
       MapItem.estrela(
         onPressed: () {},
-        position: PositionInterface(
+        position: MapPosition(
           bottom: 3.h,
           right: 12.w,
         ),
