@@ -64,7 +64,7 @@ class ButtonWidget extends StatefulWidget {
     required Function()? onPressed,
     required String title,
     Color? borderColor = grey,
-    Color? textColor = darkGrey,
+    Color? textColor = darkerGrey,
     bool loading = false,
     bool disabled = false,
     ButtonSize buttonSize = ButtonSize.large,

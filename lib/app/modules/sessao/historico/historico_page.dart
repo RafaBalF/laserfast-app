@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 import 'package:laserfast_app/app/models/session.model.dart';
 import 'package:laserfast_app/app/modules/sessao/sessao_store.dart';
@@ -58,15 +59,17 @@ class HistoricoPageState extends State<HistoricoPage> {
                 if (snapshot.connectionState == ConnectionState.done &&
                     snapshot.hasData) {
                   return Observer(builder: (_) {
-                    return SizedBox(
-                      height: _height,
-                      width: _width,
-                      child: ListView.builder(
-                        itemCount: _store.history.length,
-                        itemBuilder: (context, index) =>
-                            _sessionCard(_store.history[index]),
-                      ),
-                    );
+                    return _store.history.isEmpty
+                        ? _nenhumaSessao()
+                        : SizedBox(
+                            height: _height,
+                            width: _width,
+                            child: ListView.builder(
+                              itemCount: _store.history.length,
+                              itemBuilder: (context, index) =>
+                                  _sessionCard(_store.history[index]),
+                            ),
+                          );
                   });
                 } else {
                   return _loadingBody();
@@ -97,6 +100,29 @@ class HistoricoPageState extends State<HistoricoPage> {
           ),
         ),
       ),
+    );
+  }
+
+  Widget _nenhumaSessao() {
+    return Column(
+      children: [
+        DividerWidget(height: 5.h),
+        SvgPicture.asset(
+          'assets/icons/svg/document.svg',
+          height: 14.h,
+        ),
+        DividerWidget(height: 5.h),
+        textWidget(
+          'Parece que você ainda não realizou nenhuma sessão com a gente!',
+          textAlign: TextAlign.center,
+          style: h2(),
+        ),
+        DividerWidget(height: 5.h),
+        ButtonWidget.filled(
+          onPressed: () => Modular.to.pushNamed('/sessao/agendamento'),
+          title: 'AGENDAR',
+        ),
+      ],
     );
   }
 
@@ -271,9 +297,7 @@ class HistoricoPageState extends State<HistoricoPage> {
               await _store.confirmSession(session);
               Modular.to.pop();
             },
-            backgroundColor: accent,
             title: 'CONFIRMAR',
-            textColor: white,
           ),
           DividerWidget(height: 2.h),
           ButtonWidget.outlined(
@@ -281,9 +305,7 @@ class HistoricoPageState extends State<HistoricoPage> {
               '/sessao/agendamento',
               arguments: session.id,
             ),
-            borderColor: grey,
             title: 'REAGENDAR',
-            textColor: darkerGrey,
           ),
           DividerWidget(height: 2.h),
         ],
@@ -334,9 +356,7 @@ class HistoricoPageState extends State<HistoricoPage> {
               Modular.to.pop();
               Modular.to.pushNamed('/sessao/avaliar');
             },
-            backgroundColor: accent,
             title: 'AVALIAR',
-            textColor: white,
           ),
           DividerWidget(height: 2.h),
         ],
