@@ -7,38 +7,36 @@ part 'auth.model.g.dart';
 @HiveType(typeId: 0)
 class AuthModel extends FromJsonModel {
   @HiveField(0)
-  String? uuid;
-  @HiveField(1)
   String? token;
+  @HiveField(1)
+  String? nome;
   @HiveField(2)
-  String? name;
-  @HiveField(3)
   String? cpf;
-  @HiveField(4)
+  @HiveField(3)
   String? celular;
-  @HiveField(5)
+  @HiveField(4)
   String? email;
 
-  AuthModel.uuid({this.uuid});
+  AuthModel.cpf({this.cpf});
 
   AuthModel({
     this.token,
-    this.name,
-    this.uuid,
+    this.nome,
     this.cpf,
+    this.celular,
+    this.email,
   });
 
   AuthModel.fromJson(Map<String, dynamic> json) {
     token = json['token'];
-    uuid = json['uuid'];
-    name = json['name'];
-    cpf = json['cpf'];
+    nome = json['cliente']['nome'];
+    cpf = json['cliente']['cpf'];
+    celular = json['cliente']['celular'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['token'] = token;
-    data['uuid'] = uuid;
     return data;
   }
 

@@ -25,7 +25,7 @@ abstract class RegisterStoreBase with Store {
   final int defaultCounterValue = 60;
 
   //VARIABLES
-  String? _userUuid;
+  String? _userCpf;
 
   //OBSERVABLE
   @observable
@@ -95,7 +95,7 @@ abstract class RegisterStoreBase with Store {
     var result = await authApi.cadastrarLogin(cpf!, password!);
 
     if (result.status) {
-      _userUuid = result.result!.uuid;
+      _userCpf = result.data!.cpf;
     }
 
     loadingStore.hide();
@@ -105,11 +105,11 @@ abstract class RegisterStoreBase with Store {
 
   @action
   Future<BaseModel<StringResponseModel>> resendSMS() async {
-    if (_userUuid == null) {
+    if (_userCpf == null) {
       return BaseModel();
     }
 
-    var result = await authApi.resendSMS(_userUuid!);
+    var result = await authApi.resendSMS(_userCpf!);
 
     setCounter(defaultCounterValue);
 
@@ -118,16 +118,16 @@ abstract class RegisterStoreBase with Store {
 
   @action
   Future<BaseModel<AuthModel>> validateCode() async {
-    if (_userUuid == null) {
+    if (_userCpf == null) {
       return BaseModel();
     }
 
     loadingStore.show();
 
-    var result = await authApi.confirmCode(_userUuid!, code!);
+    var result = await authApi.confirmCode(_userCpf!, code!);
 
-    if (result.status && result.result != null) {
-      await _loginHive.setLogin(result.result!);
+    if (result.status && result.data != null) {
+      await _loginHive.setLogin(result.data!);
     }
 
     loadingStore.hide();

@@ -3,10 +3,11 @@ import 'package:laserfast_app/app/shared/convert.dart';
 
 class BaseModel<T extends FromJsonModel> {
   bool status = false;
+  int? statusCode;
   String message = "Erro ao tentar executar essa ação";
-  T? result;
+  T? data;
   List<T>? list;
-  int? total;
+
   BaseModel();
 
   BaseModel.errorMessage(this.message) {
@@ -18,23 +19,33 @@ class BaseModel<T extends FromJsonModel> {
     message = "Erro de conexão";
   }
 
-  BaseModel.fromJson(Map<String, dynamic> json, {T? tipo}) {
-    status = json['status'];
-    total = convertInt(json['total']);
+  BaseModel.fromJson(
+    Map<String, dynamic> json, {
+    T? tipo,
+    bool isList = false,
+  }) {
+    status = json['success'];
+
+    statusCode = convertInt(json['statusCode']);
+
     if (json['message'] != null) {
       message = json['message'];
     }
-    if (tipo != null && json['result'] != null) {
-      var a = tipo.fromJson(json['result']);
-      result = a;
-    }
-    if (tipo != null && json['list'] != null) {
-      var l = json['list'] as List<dynamic>;
-      list = <T>[];
-      for (var element in l) {
-        if (element != null) {
-          list!.add(tipo.fromJson(element));
+
+    if (isList) {
+      if (tipo != null && json['list'] != null) {
+        var l = json['list'] as List<dynamic>;
+        list = <T>[];
+        for (var element in l) {
+          if (element != null) {
+            list!.add(tipo.fromJson(element));
+          }
         }
+      }
+    } else {
+      if (tipo != null && json['data'] != null) {
+        var a = tipo.fromJson(json['data']);
+        data = a;
       }
     }
   }

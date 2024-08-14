@@ -53,17 +53,21 @@ abstract class LoginStoreBase with Store {
     }
   }
 
+// TODO: REMOVER QUANDO NÃO PRECISAR MAIS
+// {
+//   "cpf": "429.458.038-01",
+//   "senha": "94747546"
+// }
+
   @action
   Future<BaseModel<AuthModel>> login() async {
     loadingStore.show();
     BaseModel<AuthModel> r = BaseModel<AuthModel>();
-    r = await authApi.login(cpf!, senha!);
+    r = await authApi.validarLogin(cpf!, senha!);
     loadingStore.hide();
 
     if (r.status) _appPresentationHive.setHasSeenAppPresentationBefore(true);
 
     return r;
   }
-
-  //MISCS
 }

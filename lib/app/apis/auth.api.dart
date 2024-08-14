@@ -12,7 +12,7 @@ class AuthApi extends BaseApi {
   get _option => BaseOptions(baseUrl: _baseUrl);
   final LoginHive _loginHive = LoginHive();
 
-  Future<BaseModel<AuthModel>> login(String login, String password) async {
+  Future<BaseModel<AuthModel>> validarLogin(String cpf, String senha) async {
     BaseModel<AuthModel> b = BaseModel<AuthModel>();
     try {
       var connectivityResult = await (Connectivity().checkConnectivity());
@@ -23,19 +23,21 @@ class AuthApi extends BaseApi {
       var result = (await Dio(_option).post(
         '/Login/ValidarLogin',
         data: {
-          "cpf": login,
-          "senha": password,
+          "cpf": cpf,
+          "senha": senha,
         },
       ))
           .data;
 
       b = BaseModel<AuthModel>.fromJson(result, tipo: AuthModel());
 
-      if (b.status && b.result != null) {
+      if (b.status && b.data != null) {
         AuthModel authModel = AuthModel(
-          token: b.result!.token,
-          name: b.result!.name,
-          uuid: b.result!.uuid,
+          token: b.data!.token,
+          nome: b.data!.nome,
+          cpf: b.data!.cpf,
+          celular: b.data!.celular,
+          email: b.data!.email,
         );
 
         await _loginHive.setLogin(authModel);
@@ -69,11 +71,13 @@ class AuthApi extends BaseApi {
 
       b = BaseModel<AuthModel>.fromJson(result, tipo: AuthModel());
 
-      if (b.status && b.result != null) {
+      if (b.status && b.data != null) {
         AuthModel authModel = AuthModel(
-          token: b.result!.token,
-          cpf: b.result!.cpf,
-          uuid: b.result!.uuid,
+          token: b.data!.token,
+          nome: b.data!.nome,
+          cpf: b.data!.cpf,
+          celular: b.data!.celular,
+          email: b.data!.email,
         );
 
         await _loginHive.setLogin(authModel);

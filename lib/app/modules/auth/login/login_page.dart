@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:laserfast_app/app/modules/auth/login/login_store.dart';
+import 'package:laserfast_app/app/shared/modal_bottom_sheet.dart';
 import 'package:laserfast_app/app/shared/text_styles.dart';
 import 'package:laserfast_app/app/shared/widgets/button_widget.dart';
 import 'package:laserfast_app/app/shared/widgets/divider_widget.dart';
@@ -113,19 +114,17 @@ class LoginPageState extends State<LoginPage> with FormValidationsMixin {
             return ButtonWidget.filled(
               title: 'ENTRAR',
               onPressed: () async {
-                Modular.to.navigate('/home/');
+                if (!formKey.currentState!.validate()) return;
 
-                // if (!formKey.currentState!.validate()) return;
+                var r = await _store.login();
 
-                // var r = await _store.login();
-
-                // if (r.status) {
-                //   Modular.to.navigate('/home/');
-                // } else {
-                //   if (mounted) {
-                //     showErrorBottomSheet(context, message: r.message);
-                //   }
-                // }
+                if (r.status) {
+                  Modular.to.navigate('/home/');
+                } else {
+                  if (mounted) {
+                    showErrorBottomSheet(context, message: r.message);
+                  }
+                }
               },
               backgroundColor: accent,
               textColor: white,
