@@ -86,7 +86,7 @@ class RegisterPageState extends State<RegisterPage> with FormValidationsMixin {
               label: 'Cpf',
               keyboardType: TextInputType.number,
               inputFormatters: [cpfFormatter],
-              onChanged: (v) => _store.setCpf(cpfFormatter.getUnmaskedText()),
+              onChanged: _store.setCpf,
               validator: notEmpty,
             );
           }),

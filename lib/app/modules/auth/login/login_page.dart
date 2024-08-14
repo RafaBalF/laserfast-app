@@ -81,7 +81,7 @@ class LoginPageState extends State<LoginPage> with FormValidationsMixin {
               labelColor: white,
               keyboardType: TextInputType.number,
               inputFormatters: [cpfFormatter],
-              onChanged: (v) => _store.setCpf(cpfFormatter.getUnmaskedText()),
+              onChanged: _store.setCpf,
               validator: notEmpty,
             );
           }),
