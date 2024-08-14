@@ -114,7 +114,6 @@ class RecoverPasswordPageState extends State<RecoverPasswordPage>
                   r,
                   onErrorPressed: () {
                     Modular.to.pop();
-                    Modular.to.pop();
                   },
                   onClose: () {
                     Modular.to.pop();
