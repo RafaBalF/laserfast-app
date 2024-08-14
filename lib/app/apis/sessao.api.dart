@@ -21,7 +21,7 @@ class SessaoApi extends BaseApi {
 
       b = BaseModel.fromJson(result, tipo: SessionModel(), isList: true);
     } on DioException catch (e) {
-      b.message = handleError(e);
+      b.message = handleDioException(e);
     } catch (e) {
       b = BaseModel();
     }

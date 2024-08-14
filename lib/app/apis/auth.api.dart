@@ -48,7 +48,7 @@ class AuthApi extends BaseApi {
         return b;
       }
     } on DioException catch (e) {
-      b.message = handleError(e);
+      b.message = handleDioException(e);
     } catch (e) {
       b = BaseModel();
     }
@@ -88,7 +88,7 @@ class AuthApi extends BaseApi {
         return b;
       }
     } on DioException catch (e) {
-      b.message = handleError(e);
+      b.message = handleDioException(e);
     } catch (e) {
       b = BaseModel();
     }
@@ -121,7 +121,7 @@ class AuthApi extends BaseApi {
         tipo: StringResponseModel(),
       );
     } on DioException catch (e) {
-      b.message = handleError(e);
+      b.message = handleDioException(e);
     } catch (e) {
       b = BaseModel();
     }
@@ -144,7 +144,7 @@ class AuthApi extends BaseApi {
       b = BaseModel<StringResponseModel>.fromJson(result,
           tipo: StringResponseModel());
     } on DioException catch (e) {
-      b.message = handleError(e);
+      b.message = handleDioException(e);
     } catch (e) {
       b = BaseModel();
     }
@@ -167,7 +167,7 @@ class AuthApi extends BaseApi {
 
       b = BaseModel<AuthModel>.fromJson(result, tipo: AuthModel());
     } on DioException catch (e) {
-      b.message = handleError(e);
+      b.message = handleDioException(e);
     } catch (e) {
       b = BaseModel();
     }
@@ -187,7 +187,7 @@ class AuthApi extends BaseApi {
       b = BaseModel<StringResponseModel>.fromJson(result,
           tipo: StringResponseModel());
     } on DioException catch (e) {
-      b.message = handleError(e);
+      b.message = handleDioException(e);
     } catch (e) {
       b = BaseModel();
     }

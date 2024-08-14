@@ -50,7 +50,7 @@ class BaseApi {
     return d;
   }
 
-  String handleError(DioException e) {
+  String handleDioException(DioException e) {
     if (kDebugMode) {
       print(e);
     }
