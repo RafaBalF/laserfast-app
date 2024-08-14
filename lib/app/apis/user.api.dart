@@ -38,7 +38,7 @@ class UserApi extends BaseApi {
 
       b = BaseModel.fromJson(result, tipo: AuthModel());
     } on DioException catch (e) {
-      b.message = handleError(e);
+      b.message = handleDioException(e);
     } catch (e) {
       b = BaseModel();
     }
@@ -56,7 +56,7 @@ class UserApi extends BaseApi {
       var result = (await (await dio).get('user/find')).data;
       b = BaseModel.fromJson(result, tipo: UserModel());
     } on DioException catch (e) {
-      b.message = handleError(e);
+      b.message = handleDioException(e);
     } catch (e) {
       b = BaseModel();
     }
@@ -74,7 +74,7 @@ class UserApi extends BaseApi {
       var result = (await (await dio).get('user/findby/$uuid')).data;
       b = BaseModel.fromJson(result, tipo: UserModel());
     } on DioException catch (e) {
-      b.message = handleError(e);
+      b.message = handleDioException(e);
     } catch (e) {
       b = BaseModel();
     }
@@ -92,7 +92,7 @@ class UserApi extends BaseApi {
       var result = (await (await dio).get('ad/getLoggedUserWithAddress')).data;
       return BaseModel.fromJson(result, tipo: UserModel());
     } on DioException catch (e) {
-      b.message = handleError(e);
+      b.message = handleDioException(e);
     } catch (e) {
       b = BaseModel();
     }
@@ -110,7 +110,7 @@ class UserApi extends BaseApi {
       var result = (await (await dio).get('user/canCreateAds')).data;
       b = BaseModel.fromJson(result, tipo: CanCreateAdDto());
     } on DioException catch (e) {
-      b.message = handleError(e);
+      b.message = handleDioException(e);
     } catch (e) {
       b = BaseModel();
     }
@@ -128,7 +128,7 @@ class UserApi extends BaseApi {
       var result = (await (await dio).delete('user/')).data;
       b = BaseModel.fromJson(result);
     } on DioException catch (e) {
-      b.message = handleError(e);
+      b.message = handleDioException(e);
     } catch (e) {
       b = BaseModel();
     }
