@@ -93,13 +93,11 @@ abstract class RegisterStoreBase with Store {
     if (cpf == null || password == null) return BaseModel<AuthModel>();
 
     var result = await authApi.cadastrarLogin(cpf!, password!);
-
     if (result.status) {
       _userCpf = result.data!.cpf;
     }
 
     loadingStore.hide();
-
     return result;
   }
 
