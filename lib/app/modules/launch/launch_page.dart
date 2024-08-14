@@ -11,8 +11,7 @@ import 'package:laserfast_app/app/shared/widgets/divider_widget.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 class LaunchPage extends StatefulWidget {
-  final String title;
-  const LaunchPage({super.key, this.title = 'LaunchPage'});
+  const LaunchPage({super.key});
   @override
   LaunchPageState createState() => LaunchPageState();
 }
@@ -22,34 +21,54 @@ class LaunchPageState extends State<LaunchPage> with TickerProviderStateMixin {
   late final AnimationController _animationController =
       AnimationController(vsync: this);
 
+  late final Future<void> _future;
+
+  Widget container = Container(color: primary);
+
   @override
   void initState() {
-    _store.checkShowPresentation();
+    _future = Future.wait([
+      _store.checkShowPresentation(),
+      _store.getAppVersion(),
+    ]);
+
     super.initState();
   }
 
   @override
-  void dispose() {
-    try {
-      _animationController.dispose();
-    } catch (_) {}
-    super.dispose();
+  Widget build(BuildContext context) {
+    return FutureBuilder(
+      future: _future,
+      builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+        if (snapshot.connectionState == ConnectionState.done &&
+            snapshot.hasData) {
+          return _body();
+        } else {
+          return container;
+        }
+      },
+    );
   }
 
-  @override
-  Widget build(BuildContext context) {
+  Widget _body() {
+    if (_store.checkForUpdates && _store.shouldUpdate) {
+      Modular.to.navigate('/version-update');
+
+      return container;
+    }
+
     if (_store.isLogged()) {
       _animationController.dispose();
 
       Modular.to.navigate('/home/');
 
-      return Container(color: primary);
+      return container;
     }
 
     if (!_store.usingAppForFirstTime) {
       Modular.to.navigate('/auth/login');
 
-      return Container(color: primary);
+      return container;
     }
 
     return mainBody();
@@ -57,6 +76,7 @@ class LaunchPageState extends State<LaunchPage> with TickerProviderStateMixin {
 
   Widget mainBody() {
     List<Widget> presentationPages = _presentation();
+
     return Scaffold(
         body: SingleChildScrollView(
       child: SizedBox(
@@ -131,5 +151,13 @@ class LaunchPageState extends State<LaunchPage> with TickerProviderStateMixin {
             DividerWidget(height: 5.h),
           ]),
     );
+  }
+
+  @override
+  void dispose() {
+    try {
+      _animationController.dispose();
+    } catch (_) {}
+    super.dispose();
   }
 }

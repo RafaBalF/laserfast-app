@@ -42,6 +42,103 @@ mixin _$LaunchStore on LaunchStoreBase, Store {
     });
   }
 
+  late final _$checkForUpdatesAtom =
+      Atom(name: 'LaunchStoreBase.checkForUpdates', context: context);
+
+  @override
+  bool get checkForUpdates {
+    _$checkForUpdatesAtom.reportRead();
+    return super.checkForUpdates;
+  }
+
+  @override
+  set checkForUpdates(bool value) {
+    _$checkForUpdatesAtom.reportWrite(value, super.checkForUpdates, () {
+      super.checkForUpdates = value;
+    });
+  }
+
+  late final _$packageInfoAtom =
+      Atom(name: 'LaunchStoreBase.packageInfo', context: context);
+
+  @override
+  PackageInfo get packageInfo {
+    _$packageInfoAtom.reportRead();
+    return super.packageInfo;
+  }
+
+  @override
+  set packageInfo(PackageInfo value) {
+    _$packageInfoAtom.reportWrite(value, super.packageInfo, () {
+      super.packageInfo = value;
+    });
+  }
+
+  late final _$shouldUpdateAtom =
+      Atom(name: 'LaunchStoreBase.shouldUpdate', context: context);
+
+  @override
+  bool get shouldUpdate {
+    _$shouldUpdateAtom.reportRead();
+    return super.shouldUpdate;
+  }
+
+  @override
+  set shouldUpdate(bool value) {
+    _$shouldUpdateAtom.reportWrite(value, super.shouldUpdate, () {
+      super.shouldUpdate = value;
+    });
+  }
+
+  late final _$versionAtom =
+      Atom(name: 'LaunchStoreBase.version', context: context);
+
+  @override
+  String get version {
+    _$versionAtom.reportRead();
+    return super.version;
+  }
+
+  @override
+  set version(String value) {
+    _$versionAtom.reportWrite(value, super.version, () {
+      super.version = value;
+    });
+  }
+
+  late final _$obligatoryAtom =
+      Atom(name: 'LaunchStoreBase.obligatory', context: context);
+
+  @override
+  bool get obligatory {
+    _$obligatoryAtom.reportRead();
+    return super.obligatory;
+  }
+
+  @override
+  set obligatory(bool value) {
+    _$obligatoryAtom.reportWrite(value, super.obligatory, () {
+      super.obligatory = value;
+    });
+  }
+
+  late final _$getAppVersionAsyncAction =
+      AsyncAction('LaunchStoreBase.getAppVersion', context: context);
+
+  @override
+  Future<void> getAppVersion() {
+    return _$getAppVersionAsyncAction.run(() => super.getAppVersion());
+  }
+
+  late final _$checkShowPresentationAsyncAction =
+      AsyncAction('LaunchStoreBase.checkShowPresentation', context: context);
+
+  @override
+  Future<void> checkShowPresentation() {
+    return _$checkShowPresentationAsyncAction
+        .run(() => super.checkShowPresentation());
+  }
+
   late final _$setHasSeenAppPresentationBeforeAsyncAction = AsyncAction(
       'LaunchStoreBase.setHasSeenAppPresentationBefore',
       context: context);
@@ -56,11 +153,11 @@ mixin _$LaunchStore on LaunchStoreBase, Store {
       ActionController(name: 'LaunchStoreBase', context: context);
 
   @override
-  void checkShowPresentation() {
+  void ignoreUpdates() {
     final _$actionInfo = _$LaunchStoreBaseActionController.startAction(
-        name: 'LaunchStoreBase.checkShowPresentation');
+        name: 'LaunchStoreBase.ignoreUpdates');
     try {
-      return super.checkShowPresentation();
+      return super.ignoreUpdates();
     } finally {
       _$LaunchStoreBaseActionController.endAction(_$actionInfo);
     }
@@ -81,7 +178,12 @@ mixin _$LaunchStore on LaunchStoreBase, Store {
   String toString() {
     return '''
 usingAppForFirstTime: ${usingAppForFirstTime},
-presentationIndex: ${presentationIndex}
+presentationIndex: ${presentationIndex},
+checkForUpdates: ${checkForUpdates},
+packageInfo: ${packageInfo},
+shouldUpdate: ${shouldUpdate},
+version: ${version},
+obligatory: ${obligatory}
     ''';
   }
 }

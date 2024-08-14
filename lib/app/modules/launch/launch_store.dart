@@ -1,6 +1,7 @@
 import 'package:mobx/mobx.dart';
 import 'package:laserfast_app/app/models/hives/app_presentation.hive.dart';
 import 'package:laserfast_app/app/models/hives/login.hive.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 part 'launch_store.g.dart';
 
@@ -23,9 +24,44 @@ abstract class LaunchStoreBase with Store {
   @observable
   int presentationIndex = 0;
 
+  @observable
+  bool checkForUpdates = true;
+  @observable
+  PackageInfo packageInfo = PackageInfo(
+    appName: 'Unknown',
+    packageName: 'Unknown',
+    version: 'Unknown',
+    buildNumber: 'Unknown',
+    buildSignature: 'Unknown',
+    installerStore: 'Unknown',
+  );
+  @observable
+  bool shouldUpdate = false;
+  @observable
+  String version = "1.0.0";
+  @observable
+  bool obligatory = false;
+
   //ACTIONS
   @action
-  void checkShowPresentation() {
+  Future<void> getAppVersion() async {
+    // String platform = (Platform.isAndroid) ? 'android' : 'ios';
+    packageInfo = await PackageInfo.fromPlatform();
+
+    version = "1.0.1";
+    obligatory = false;
+
+    int currentVersion = int.parse(packageInfo.version.replaceAll('.', ''));
+    int newVersion = int.parse(version.replaceAll('.', ''));
+
+    shouldUpdate = (currentVersion < newVersion);
+  }
+
+  @action
+  void ignoreUpdates() => checkForUpdates = false;
+
+  @action
+  Future<void> checkShowPresentation() async {
     if (_shouldSkipPresentation()) {
       usingAppForFirstTime = false;
     }

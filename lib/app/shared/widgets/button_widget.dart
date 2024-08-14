@@ -40,9 +40,9 @@ class ButtonWidget extends StatefulWidget {
 
   factory ButtonWidget.filled({
     required Function()? onPressed,
-    required Color? backgroundColor,
     required String title,
-    required Color? textColor,
+    Color? backgroundColor = accent,
+    Color? textColor = white,
     bool disabled = false,
     bool loading = false,
     ButtonSize buttonSize = ButtonSize.large,
@@ -62,9 +62,9 @@ class ButtonWidget extends StatefulWidget {
 
   factory ButtonWidget.outlined({
     required Function()? onPressed,
-    required Color? borderColor,
     required String title,
-    required Color? textColor,
+    Color? borderColor = grey,
+    Color? textColor = darkGrey,
     bool loading = false,
     bool disabled = false,
     ButtonSize buttonSize = ButtonSize.large,
