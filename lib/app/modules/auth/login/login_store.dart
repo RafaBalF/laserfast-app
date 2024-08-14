@@ -66,7 +66,7 @@ abstract class LoginStoreBase with Store {
     BaseModel<AuthModel> r = BaseModel<AuthModel>();
     r = await authApi.validarLogin(cpf!, senha!);
 
-    if (r.status) _appPresentationHive.setHasSeenAppPresentationBefore(true);
+    if (r.success) _appPresentationHive.setHasSeenAppPresentationBefore(true);
 
     loadingStore.hide();
     return r;

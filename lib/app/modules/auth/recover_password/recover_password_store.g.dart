@@ -25,6 +25,22 @@ mixin _$RecoverPasswordStore on RecoverPasswordStoreBase, Store {
     });
   }
 
+  late final _$cpfAtom =
+      Atom(name: 'RecoverPasswordStoreBase.cpf', context: context);
+
+  @override
+  String? get cpf {
+    _$cpfAtom.reportRead();
+    return super.cpf;
+  }
+
+  @override
+  set cpf(String? value) {
+    _$cpfAtom.reportWrite(value, super.cpf, () {
+      super.cpf = value;
+    });
+  }
+
   late final _$recoverPasswordAsyncAction =
       AsyncAction('RecoverPasswordStoreBase.recoverPassword', context: context);
 
@@ -48,9 +64,21 @@ mixin _$RecoverPasswordStore on RecoverPasswordStoreBase, Store {
   }
 
   @override
+  void setCpf(String? value) {
+    final _$actionInfo = _$RecoverPasswordStoreBaseActionController.startAction(
+        name: 'RecoverPasswordStoreBase.setCpf');
+    try {
+      return super.setCpf(value);
+    } finally {
+      _$RecoverPasswordStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
-email: ${email}
+email: ${email},
+cpf: ${cpf}
     ''';
   }
 }

@@ -118,7 +118,7 @@ class LoginPageState extends State<LoginPage> with FormValidationsMixin {
 
                 var r = await _store.login();
 
-                if (r.status) {
+                if (r.success) {
                   Modular.to.navigate('/home/');
                 } else {
                   if (mounted) {

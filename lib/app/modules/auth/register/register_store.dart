@@ -92,13 +92,13 @@ abstract class RegisterStoreBase with Store {
 
     if (cpf == null || password == null) return BaseModel<AuthModel>();
 
-    var result = await authApi.cadastrarLogin(cpf!, password!);
-    if (result.status) {
-      _userCpf = result.data!.cpf;
+    var r = await authApi.cadastrarLogin(cpf!, password!);
+    if (r.success) {
+      _userCpf = r.data!.cpf;
     }
 
     loadingStore.hide();
-    return result;
+    return r;
   }
 
   @action
@@ -122,15 +122,15 @@ abstract class RegisterStoreBase with Store {
 
     loadingStore.show();
 
-    var result = await authApi.confirmCode(_userCpf!, code!);
+    var r = await authApi.confirmCode(_userCpf!, code!);
 
-    if (result.status && result.data != null) {
-      await _loginHive.setLogin(result.data!);
+    if (r.success && r.data != null) {
+      await _loginHive.setLogin(r.data!);
     }
 
     loadingStore.hide();
 
-    return result;
+    return r;
   }
 
   //MISCS

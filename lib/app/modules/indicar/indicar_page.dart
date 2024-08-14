@@ -155,7 +155,7 @@ class IndicarPageState extends State<IndicarPage> with FormValidationsMixin {
 
                   BaseModel r = await _store.indicar(indicado);
 
-                  if (!r.status && mounted) {
+                  if (!r.success && mounted) {
                     return showErrorBottomSheet(
                       context,
                       message: r.message,

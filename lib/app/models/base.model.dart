@@ -2,7 +2,7 @@ import 'package:laserfast_app/app/models/abstract/from_json.abstract.dart';
 import 'package:laserfast_app/app/shared/convert.dart';
 
 class BaseModel<T extends FromJsonModel> {
-  bool status = false;
+  bool success = false;
   int? statusCode;
   String message = "Erro ao tentar executar essa ação";
   T? data;
@@ -11,11 +11,11 @@ class BaseModel<T extends FromJsonModel> {
   BaseModel();
 
   BaseModel.errorMessage(this.message) {
-    status = false;
+    success = false;
   }
 
   BaseModel.networkError() {
-    status = false;
+    success = false;
     message = "Erro de conexão";
   }
 
@@ -24,7 +24,7 @@ class BaseModel<T extends FromJsonModel> {
     T? tipo,
     bool isList = false,
   }) {
-    status = json['success'];
+    success = json['success'];
 
     statusCode = convertInt(json['statusCode']);
 

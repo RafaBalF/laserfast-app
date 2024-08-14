@@ -31,7 +31,7 @@ class AuthApi extends BaseApi {
 
       b = BaseModel<AuthModel>.fromJson(result, tipo: AuthModel());
 
-      if (b.status && b.data != null) {
+      if (b.success && b.data != null) {
         AuthModel authModel = AuthModel(
           token: b.data!.token,
           nome: b.data!.nome,
@@ -71,7 +71,7 @@ class AuthApi extends BaseApi {
 
       b = BaseModel<AuthModel>.fromJson(result, tipo: AuthModel());
 
-      if (b.status && b.data != null) {
+      if (b.success && b.data != null) {
         AuthModel authModel = AuthModel(
           token: b.data!.token,
           nome: b.data!.nome,
@@ -83,6 +83,39 @@ class AuthApi extends BaseApi {
         await _loginHive.setLogin(authModel);
         return b;
       }
+    } on DioException catch (e) {
+      b.message = handleError(e);
+    } catch (e) {
+      b = BaseModel();
+    }
+
+    return b;
+  }
+
+  Future<BaseModel<StringResponseModel>> recuperarSenha(
+    String email,
+    String cpf,
+  ) async {
+    BaseModel<StringResponseModel> b = BaseModel<StringResponseModel>();
+    try {
+      var connectivityResult = await (Connectivity().checkConnectivity());
+      if (connectivityResult.contains(ConnectivityResult.none)) {
+        return BaseModel.networkError();
+      }
+
+      var result = (await Dio(_option).post(
+        '/Login/RecuperarSenha',
+        data: {
+          "email": email,
+          "cpf": cpf,
+        },
+      ))
+          .data;
+
+      b = BaseModel<StringResponseModel>.fromJson(
+        result,
+        tipo: StringResponseModel(),
+      );
     } on DioException catch (e) {
       b.message = handleError(e);
     } catch (e) {

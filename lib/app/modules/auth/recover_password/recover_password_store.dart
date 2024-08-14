@@ -26,17 +26,24 @@ abstract class RecoverPasswordStoreBase with Store {
 
   @observable
   String? email;
+  @observable
+  String? cpf;
 
   // COMPUTED
 
   //ACTION
   @action
   void setEmail(String? value) => email = value;
+  @action
+  void setCpf(String? value) => cpf = value;
 
   @action
   Future<BaseModel<StringResponseModel>> recoverPassword() async {
-    var result = await authApi.forgetPassword(email);
+    loadingStore.show();
 
+    var result = await authApi.recuperarSenha(email!, cpf!);
+
+    loadingStore.hide();
     return result;
   }
 

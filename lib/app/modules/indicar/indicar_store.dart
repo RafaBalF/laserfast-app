@@ -42,7 +42,7 @@ abstract class IndicarStoreBase with Store {
 
     indicado.indicadoEm = DateTime.now();
     indicados.add(indicado);
-    b.status = true;
+    b.success = true;
 
     return b;
   }

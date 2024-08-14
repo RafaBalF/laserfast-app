@@ -3,7 +3,6 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:laserfast_app/app/mixins/form_validations_mixin.dart';
 import 'package:laserfast_app/app/modules/auth/recover_password/recover_password_store.dart';
-import 'package:laserfast_app/app/shared/colors.dart';
 import 'package:laserfast_app/app/shared/modal_bottom_sheet.dart';
 import 'package:laserfast_app/app/shared/text_widget.dart';
 import 'package:laserfast_app/app/shared/text_styles.dart';
@@ -11,6 +10,7 @@ import 'package:laserfast_app/app/shared/widgets/button_widget.dart';
 import 'package:laserfast_app/app/shared/widgets/divider_widget.dart';
 import 'package:laserfast_app/app/shared/widgets/inputs/input_widget.dart';
 import 'package:laserfast_app/app/shared/widgets/simple_scaffold_widget.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 class RecoverPasswordPage extends StatefulWidget {
@@ -23,6 +23,12 @@ class RecoverPasswordPage extends StatefulWidget {
 class RecoverPasswordPageState extends State<RecoverPasswordPage>
     with FormValidationsMixin {
   final RecoverPasswordStore _store = Modular.get<RecoverPasswordStore>();
+
+  final cpfFormatter = MaskTextInputFormatter(
+    mask: '###.###.###-##',
+    filter: {"#": RegExp(r'[0-9]')},
+    type: MaskAutoCompletionType.lazy,
+  );
 
   @override
   void initState() {
@@ -51,12 +57,12 @@ class RecoverPasswordPageState extends State<RecoverPasswordPage>
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 5.w),
             child: textWidget(
-              'Escreva seu email cadastrado e redefina sua senha',
+              "Escreva seu email e cpf cadastrados e redefina sua senha",
               style: h2(),
               textAlign: TextAlign.center,
             ),
           ),
-          DividerWidget(height: 2.h),
+          DividerWidget(height: 2.5.h),
           _form(),
           DividerWidget(height: 5.h),
         ],
@@ -82,6 +88,16 @@ class RecoverPasswordPageState extends State<RecoverPasswordPage>
               ]),
             );
           }),
+          DividerWidget(height: 2.5.h),
+          Observer(builder: (_) {
+            return InputWidget(
+              label: 'Cpf',
+              keyboardType: TextInputType.number,
+              inputFormatters: [cpfFormatter],
+              onChanged: _store.setCpf,
+              validator: notEmpty,
+            );
+          }),
           DividerWidget(height: 5.h),
           Observer(builder: (_) {
             return ButtonWidget.filled(
@@ -89,22 +105,28 @@ class RecoverPasswordPageState extends State<RecoverPasswordPage>
               onPressed: () async {
                 if (!formKey.currentState!.validate()) return;
 
+                var r = await _store.recoverPassword();
+
                 if (!mounted) return;
 
-                showSuccessBottomSheet(
+                showBaseModalBottomSheet(
                   context,
-                  message: 'E-MAIL ENVIADO COM SUCESSO',
-                  details: 'Acesse sua caixa de email e redefina sua senha',
-                  btnTitle: 'VOLTAR PARA LOGIN',
-                  onPressed: () {
+                  r,
+                  onErrorPressed: () {
+                    Modular.to.pop();
+                    Modular.to.pop();
+                  },
+                  onClose: () {
+                    Modular.to.pop();
+                    Modular.to.pop();
+                  },
+                  onSuccessPressed: () {
                     Modular.to.pop();
                     Modular.to.pop();
                   },
                 );
               },
               loading: _store.loadingStore.isLoading,
-              backgroundColor: accent,
-              textColor: white,
             );
           }),
         ],

@@ -178,7 +178,7 @@ abstract class SessaoStoreBase with Store {
     BaseModel<StringResponseModel> r = BaseModel<StringResponseModel>();
 
     if (selectedSchedule != null) {
-      r.status = true;
+      r.success = true;
       r.message = "Sua sessão foi salva com sucesso";
     }
 

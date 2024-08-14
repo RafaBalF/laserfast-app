@@ -183,7 +183,7 @@ Future showBaseModalBottomSheet(
   bool dismissable = true,
   void Function()? onClose,
 }) {
-  if (baseModel.status) {
+  if (baseModel.success) {
     return showSuccessBottomSheet(
       context,
       message: baseModel.message,

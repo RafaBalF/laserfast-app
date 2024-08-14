@@ -123,7 +123,7 @@ class RegisterPageState extends State<RegisterPage> with FormValidationsMixin {
 
                   if (!mounted) return;
 
-                  if (b.status) {
+                  if (b.success) {
                     _startTimer();
                     showCustomBottomSheet(
                       context,
@@ -212,7 +212,7 @@ class RegisterPageState extends State<RegisterPage> with FormValidationsMixin {
                 var r = await _store.validateCode();
 
                 if (mounted) {
-                  if (r.status) {
+                  if (r.success) {
                     Timer(const Duration(seconds: 2), () {
                       Modular.to.navigate('/home/');
                     });
