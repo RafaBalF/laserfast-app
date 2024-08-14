@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:image_picker/image_picker.dart';
+import 'package:laserfast_app/app/apis/sessao.api.dart';
 import 'package:laserfast_app/app/models/aplicador.model.dart';
 import 'package:laserfast_app/app/models/available_schedule.model.dart';
 import 'package:laserfast_app/app/models/base.model.dart';
@@ -18,6 +19,8 @@ class SessaoStore = SessaoStoreBase with _$SessaoStore;
 
 abstract class SessaoStoreBase with Store {
   final LoadingStore loadingStore = LoadingStore();
+
+  final SessaoApi _sessaoApi = SessaoApi();
 
   //==============================================
   //==== AGENDAMENTO =============================
@@ -220,50 +223,9 @@ abstract class SessaoStoreBase with Store {
 
   @action
   Future<void> getHistory() async {
-    List<SessionModel> sessions = [
-      SessionModel(
-        id: 1,
-        applicator: 'Maria Silva',
-        date: DateTime.now(),
-        areas: 'Perna inteira, Virilha, Buço 10 sessões',
-        status: 'Sessão realizada',
-        statusCode: 0,
-      ),
-      SessionModel(
-        id: 2,
-        applicator: 'Maria Silva',
-        date: DateTime.now(),
-        areas: 'Perna inteira, Virilha, Buço 10 sessões',
-        status: 'Falta',
-        statusCode: 1,
-      ),
-      SessionModel(
-        id: 3,
-        applicator: 'Maria Silva',
-        date: DateTime.now(),
-        areas: 'Perna inteira, Virilha, Buço 10 sessões',
-        status: 'Sessão agendada',
-        statusCode: 2,
-      ),
-      SessionModel(
-        id: 4,
-        applicator: 'Maria Silva',
-        date: DateTime.now(),
-        areas: 'Perna inteira, Virilha, Buço 10 sessões',
-        status: 'Sessão em andamento',
-        statusCode: 3,
-      ),
-      SessionModel(
-        id: 5,
-        applicator: 'Maria Silva',
-        date: DateTime.now(),
-        areas: 'Perna inteira, Virilha, Buço 10 sessões',
-        status: 'Sessão confirmada',
-        statusCode: 4,
-      ),
-    ];
+    var r = await _sessaoApi.listarHistoricoUltimasSessoes();
 
-    history.addAll(sessions);
+    history.addAll(r.list ?? []);
   }
 
   @action

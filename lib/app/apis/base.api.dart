@@ -16,6 +16,8 @@ class BaseApi {
   Future<Dio> get dio async => await newDio();
   @protected
   final LoginHive _loginHive = LoginHive();
+  @protected
+  get cpf => _loginHive.cpf();
 
   @protected
   newDio() async {

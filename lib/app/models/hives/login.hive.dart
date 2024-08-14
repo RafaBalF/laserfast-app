@@ -19,12 +19,8 @@ class LoginHive {
     return Hive.box('login').get('login')!.token ?? "";
   }
 
-  String getUuid() {
-    return Hive.box('login').get('login')!.uuid ?? "";
-  }
-
-  String name() {
-    return Hive.box('login').get('login')!.user.name ?? "";
+  String cpf() {
+    return Hive.box('login').get('login')!.cpf ?? "";
   }
 
   Future logout() {
