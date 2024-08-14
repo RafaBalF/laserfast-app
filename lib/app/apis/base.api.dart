@@ -59,4 +59,12 @@ class BaseApi {
       return 'Erro ao tentar executar essa ação';
     }
   }
+
+  String getMessage(Map m) {
+    try {
+      return m['message'];
+    } catch (e) {
+      return 'Erro ao tentar executar essa ação';
+    }
+  }
 }

@@ -53,12 +53,6 @@ abstract class LoginStoreBase with Store {
     }
   }
 
-// TODO: REMOVER QUANDO NÃO PRECISAR MAIS
-// {
-//   "cpf": "429.458.038-01",
-//   "senha": "94747546"
-// }
-
   @action
   Future<BaseModel<AuthModel>> login() async {
     loadingStore.show();

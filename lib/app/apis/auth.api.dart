@@ -29,7 +29,11 @@ class AuthApi extends BaseApi {
       ))
           .data;
 
-      b = BaseModel<AuthModel>.fromJson(result, tipo: AuthModel());
+      try {
+        b = BaseModel<AuthModel>.fromJson(result, tipo: AuthModel());
+      } catch (e) {
+        b.message = getMessage(result);
+      }
 
       if (b.success && b.data != null) {
         AuthModel authModel = AuthModel(
