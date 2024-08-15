@@ -64,6 +64,7 @@ class MapItem extends StatelessWidget {
   factory MapItem.aviso({
     required Function()? onPressed,
     required MapPosition? position,
+    required String imgPath,
     double? imageHeight,
     double? imageWidth,
   }) {
@@ -72,7 +73,7 @@ class MapItem extends StatelessWidget {
       position: position ?? MapPosition(),
       desbloqueado: true,
       usado: false,
-      imagePath: 'assets/images/diario/balao-aviso.svg',
+      imagePath: imgPath,
       imageHeight: imageHeight ?? 5.h,
       imageWidth: imageWidth ?? 10.w,
     );

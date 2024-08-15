@@ -85,20 +85,22 @@ class DiarioPageState extends State<DiarioPage> {
   }
 
   Widget _body() {
-    return Stack(
-      children: [
-        Image.asset(
-          width: 100.w,
-          height: 100.h,
-          'assets/images/diario/background.png',
-          fit: BoxFit.fitHeight,
-        ),
-        ..._estrelas(),
-        ..._tesouros(),
-        ..._avisos(),
-        ..._intro(),
-      ],
-    );
+    return Observer(builder: (_) {
+      return Stack(
+        children: [
+          Image.asset(
+            width: 100.w,
+            height: 100.h,
+            'assets/images/diario/background.png',
+            fit: BoxFit.fitHeight,
+          ),
+          ..._estrelas(),
+          ..._tesouros(),
+          ..._avisos(),
+          ..._intro(),
+        ],
+      );
+    });
   }
 
   List<Widget> _estrelas() {
@@ -223,9 +225,19 @@ class DiarioPageState extends State<DiarioPage> {
     return [
       MapItem.aviso(
         position: MapPosition(
+          bottom: 35.h,
+          right: 65.w,
+        ),
+        imgPath: 'assets/images/diario/eh-normal-ainda-ter-pelos.svg',
+        imageHeight: 7.h,
+        onPressed: _mostrarAviso,
+      ),
+      MapItem.aviso(
+        position: MapPosition(
           bottom: 80.h,
           right: 85.w,
         ),
+        imgPath: 'assets/images/diario/balao-aviso.svg',
         onPressed: _mostrarAviso,
       ),
     ];
