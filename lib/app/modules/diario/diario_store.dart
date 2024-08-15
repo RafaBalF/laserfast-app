@@ -10,6 +10,10 @@ abstract class DiarioStoreBase with Store {
   final LoadingStore loadingStore = LoadingStore();
   final LoginHive _loginHive = LoginHive();
 
+  //==============================================
+  //==== DIÁRIO ==================================
+  //==============================================
+
   @observable
   bool viuIntro = false;
   @observable
@@ -28,4 +32,14 @@ abstract class DiarioStoreBase with Store {
 
   @action
   void resetDiario() {}
+
+  //==============================================
+  //==== PRIMEIRA-SESSAO =========================
+  //==============================================
+
+  @action
+  Future<void> initPrimeiraSessao() async {}
+
+  @action
+  void resetPrimeiraSessao() {}
 }

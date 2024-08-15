@@ -3,6 +3,7 @@ import 'package:laserfast_app/app/constants/transition_type.dart';
 import 'package:laserfast_app/app/modules/diario/diario_page.dart';
 import 'package:laserfast_app/app/modules/diario/diario_store.dart';
 import 'package:laserfast_app/app/modules/diario/primeira_sessao/antes_primeira_sessao_page.dart';
+import 'package:laserfast_app/app/modules/diario/primeira_sessao/primeira_sessao_page.dart';
 
 class DiarioModule extends Module {
   @override
@@ -20,6 +21,11 @@ class DiarioModule extends Module {
     r.child(
       '/antes-primeira-sessao',
       child: (context) => const AntesPrimeiraSessaoPage(),
+      transition: defaultTransitonType,
+    );
+    r.child(
+      '/primeira-sessao',
+      child: (context) => const PrimeiraSessaoPage(),
       transition: defaultTransitonType,
     );
   }

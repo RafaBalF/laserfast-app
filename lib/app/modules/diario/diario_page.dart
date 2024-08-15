@@ -114,8 +114,7 @@ class DiarioPageState extends State<DiarioPage> {
       builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
         return Scaffold(
           body: SingleChildScrollView(
-            child: Container(
-              color: Colors.red,
+            child: SizedBox(
               width: 100.w,
               height: 100.h,
               child: Observer(
