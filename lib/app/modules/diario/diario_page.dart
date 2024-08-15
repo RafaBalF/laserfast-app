@@ -7,6 +7,8 @@ import 'package:laserfast_app/app/modules/diario/widgets/map_item.dart';
 import 'package:laserfast_app/app/shared/colors.dart';
 import 'package:laserfast_app/app/shared/enums/button_sizes.enum.dart';
 import 'package:laserfast_app/app/modules/diario/widgets/map_position.dart';
+import 'package:laserfast_app/app/shared/modal_bottom_sheet.dart';
+import 'package:laserfast_app/app/shared/text_widget.dart';
 import 'package:laserfast_app/app/shared/widgets/button_widget.dart';
 import 'package:laserfast_app/app/shared/widgets/divider_widget.dart';
 import 'package:laserfast_app/app/shared/widgets/shimmer_widget.dart';
@@ -105,10 +107,157 @@ class DiarioPageState extends State<DiarioPage> {
           bottom: 3.h,
           right: 12.w,
         ),
+        desbloqueado: true,
+        usado: false,
+      ),
+      MapItem.tesouro(
+        onPressed: () {},
+        position: MapPosition(
+          bottom: 17.h,
+          right: 25.w,
+        ),
+        desbloqueado: false,
+        usado: false,
+      ),
+      MapItem.estrela(
+        onPressed: () {},
+        position: MapPosition(
+          bottom: 20.h,
+          right: 65.w,
+        ),
+        desbloqueado: false,
+        usado: false,
+      ),
+      MapItem.estrela(
+        onPressed: () {},
+        position: MapPosition(
+          bottom: 31.h,
+          right: 57.w,
+        ),
+        desbloqueado: false,
+        usado: false,
+      ),
+      MapItem.estrela(
+        onPressed: () {},
+        position: MapPosition(
+          bottom: 35.h,
+          right: 30.w,
+        ),
+        desbloqueado: false,
+        usado: false,
+      ),
+      MapItem.estrela(
+        onPressed: () {},
+        position: MapPosition(
+          bottom: 43.h,
+          right: 7.w,
+        ),
+        desbloqueado: false,
+        usado: false,
+      ),
+      MapItem.estrela(
+        onPressed: () {},
+        position: MapPosition(
+          bottom: 58.h,
+          right: 32.w,
+        ),
+        desbloqueado: false,
+        usado: false,
+      ),
+      MapItem.estrela(
+        onPressed: () {},
+        position: MapPosition(
+          bottom: 64.h,
+          right: 62.w,
+        ),
+        desbloqueado: false,
+        usado: false,
+      ),
+      MapItem.tesouro(
+        onPressed: () {},
+        position: MapPosition(
+          bottom: 68.h,
+          right: 35.w,
+        ),
+        desbloqueado: false,
+        usado: false,
+      ),
+      Positioned(
+        bottom: 73.h,
+        right: 65.w,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            GestureDetector(
+              onTap: _mostrarAviso,
+              child: SvgPicture.asset(
+                'assets/images/diario/balao-aviso.svg',
+                height: 5.h,
+              ),
+            ),
+            SizedBox(
+              width: 25.w,
+              child: MapItem.estrela(
+                onPressed: _mostrarAviso,
+                position: MapPosition(
+                  bottom: 70.h,
+                  right: 70.w,
+                ),
+                desbloqueado: false,
+                usado: false,
+              ),
+            ),
+          ],
+        ),
+      ),
+      MapItem.estrela(
+        onPressed: () {},
+        position: MapPosition(
+          bottom: 78.h,
+          right: 37.w,
+        ),
+        desbloqueado: false,
+        usado: false,
+      ),
+      MapItem.estrela(
+        onPressed: () {},
+        position: MapPosition(
+          bottom: 87.h,
+          right: 7.w,
+        ),
         desbloqueado: false,
         usado: false,
       ),
     ];
+  }
+
+  void _mostrarAviso() {
+    showCustomBottomSheet(
+      context,
+      'ATENÇÃO',
+      Padding(
+        padding: EdgeInsets.symmetric(horizontal: 5.w),
+        child: Column(
+          children: [
+            SvgPicture.asset(
+              'assets/images/diario/balao-aviso.svg',
+              height: 10.h,
+            ),
+            DividerWidget(height: 3.h),
+            textWidget(
+              'E aí, trouxe a foto? Ela é importante para avaliarmos a evolução e personalizar o seu tratamento. A técnica a ser utilizada poderá ser somente onde restarem pelos.',
+              maxLines: 10,
+              textAlign: TextAlign.center,
+            ),
+            DividerWidget(height: 3.h),
+            ButtonWidget.filled(
+              onPressed: () => Modular.to.pop(),
+              title: "FECHAR",
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   List<Widget> _intro() {
