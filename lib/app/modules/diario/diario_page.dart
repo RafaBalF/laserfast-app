@@ -93,13 +93,15 @@ class DiarioPageState extends State<DiarioPage> {
           'assets/images/diario/background.png',
           fit: BoxFit.fitHeight,
         ),
-        ..._items(),
+        ..._estrelas(),
+        ..._tesouros(),
+        ..._avisos(),
         ..._intro(),
       ],
     );
   }
 
-  List<Widget> _items() {
+  List<Widget> _estrelas() {
     return [
       MapItem.estrela(
         onPressed: () {},
@@ -108,15 +110,6 @@ class DiarioPageState extends State<DiarioPage> {
           right: 12.w,
         ),
         desbloqueado: true,
-        usado: false,
-      ),
-      MapItem.tesouro(
-        onPressed: () {},
-        position: MapPosition(
-          bottom: 17.h,
-          right: 25.w,
-        ),
-        desbloqueado: false,
         usado: false,
       ),
       MapItem.estrela(
@@ -173,42 +166,14 @@ class DiarioPageState extends State<DiarioPage> {
         desbloqueado: false,
         usado: false,
       ),
-      MapItem.tesouro(
-        onPressed: () {},
+      MapItem.estrela(
+        onPressed: _mostrarAviso,
         position: MapPosition(
-          bottom: 68.h,
-          right: 35.w,
+          bottom: 73.h,
+          right: 75.w,
         ),
         desbloqueado: false,
         usado: false,
-      ),
-      Positioned(
-        bottom: 73.h,
-        right: 65.w,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            GestureDetector(
-              onTap: _mostrarAviso,
-              child: SvgPicture.asset(
-                'assets/images/diario/balao-aviso.svg',
-                height: 5.h,
-              ),
-            ),
-            SizedBox(
-              width: 25.w,
-              child: MapItem.estrela(
-                onPressed: _mostrarAviso,
-                position: MapPosition(
-                  bottom: 70.h,
-                  right: 70.w,
-                ),
-                desbloqueado: false,
-                usado: false,
-              ),
-            ),
-          ],
-        ),
       ),
       MapItem.estrela(
         onPressed: () {},
@@ -227,6 +192,41 @@ class DiarioPageState extends State<DiarioPage> {
         ),
         desbloqueado: false,
         usado: false,
+      ),
+    ];
+  }
+
+  List<Widget> _tesouros() {
+    return [
+      MapItem.tesouro(
+        onPressed: () {},
+        position: MapPosition(
+          bottom: 17.h,
+          right: 25.w,
+        ),
+        desbloqueado: false,
+        usado: false,
+      ),
+      MapItem.tesouro(
+        onPressed: () {},
+        position: MapPosition(
+          bottom: 68.h,
+          right: 35.w,
+        ),
+        desbloqueado: false,
+        usado: false,
+      ),
+    ];
+  }
+
+  List<Widget> _avisos() {
+    return [
+      MapItem.aviso(
+        position: MapPosition(
+          bottom: 80.h,
+          right: 85.w,
+        ),
+        onPressed: _mostrarAviso,
       ),
     ];
   }
