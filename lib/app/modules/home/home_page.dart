@@ -184,7 +184,7 @@ class HomePageState extends State<HomePage> {
           // RedirectCardWidget(
           //   imgPath: 'assets/icons/svg/chat_accent.svg',
           //   label: 'Chat',
-          //   route: '', // TODO: COLOCAR ROTA CERTA
+          //   route: '',
           //   labelColor: accent,
           //   margin: EdgeInsets.only(right: 2.w),
           // ),
@@ -312,8 +312,8 @@ class HomePageState extends State<HomePage> {
               textAlign: TextAlign.start,
             ),
             GestureDetector(
-              onTap: () {
-                // TODO: PERGUNTAR PRO POLO PRA ONDE VAI ESSE CARA
+              onTap: () async {
+                await launchUrlString("https://lfcare.laserfast.com.br/");
               },
               child: Row(
                 children: [

@@ -54,7 +54,7 @@ class ProfilePageState extends State<ProfilePage> {
       // _tileCard(
       //   'assets/icons/svg/chat_accent.svg',
       //   'Conversas',
-      //   () => Modular.to.pushNamed('/profile/chat'), // TODO: FAZER TELA
+      //   () => Modular.to.pushNamed('/profile/chat'),
       // ),
       _tileCard(
         'assets/icons/svg/parceiros_accent.svg',

@@ -48,7 +48,7 @@ abstract class LaunchStoreBase with Store {
     // String platform = (Platform.isAndroid) ? 'android' : 'ios';
     packageInfo = await PackageInfo.fromPlatform();
 
-    version = "1.0.1";
+    version = "1.0.0";
     obligatory = false;
 
     int currentVersion = int.parse(packageInfo.version.replaceAll('.', ''));
