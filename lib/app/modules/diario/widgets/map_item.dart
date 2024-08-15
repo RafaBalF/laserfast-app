@@ -1,6 +1,7 @@
 import 'package:flutter_svg/svg.dart';
 import 'package:laserfast_app/app/modules/diario/widgets/map_position.dart';
 import 'package:flutter/material.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 
 class MapItem extends StatelessWidget {
   final Function()? onPressed;
@@ -8,6 +9,8 @@ class MapItem extends StatelessWidget {
   final bool desbloqueado;
   final bool usado;
   final String imagePath;
+  final double? imageHeight;
+  final double? imageWidth;
 
   const MapItem({
     super.key,
@@ -16,6 +19,8 @@ class MapItem extends StatelessWidget {
     required this.desbloqueado,
     required this.usado,
     required this.imagePath,
+    this.imageHeight,
+    this.imageWidth,
   });
 
   factory MapItem.estrela({
@@ -56,6 +61,23 @@ class MapItem extends StatelessWidget {
     );
   }
 
+  factory MapItem.aviso({
+    required Function()? onPressed,
+    required MapPosition? position,
+    double? imageHeight,
+    double? imageWidth,
+  }) {
+    return MapItem(
+      onPressed: onPressed,
+      position: position ?? MapPosition(),
+      desbloqueado: true,
+      usado: false,
+      imagePath: 'assets/images/diario/balao-aviso.svg',
+      imageHeight: imageHeight ?? 5.h,
+      imageWidth: imageWidth ?? 10.w,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Positioned(
@@ -67,7 +89,11 @@ class MapItem extends StatelessWidget {
       height: position.height,
       child: GestureDetector(
         onTap: onPressed,
-        child: SvgPicture.asset(imagePath),
+        child: SvgPicture.asset(
+          imagePath,
+          height: imageHeight,
+          width: imageWidth,
+        ),
       ),
     );
   }
