@@ -1,11 +1,9 @@
-import 'package:laserfast_app/app/apis/user.api.dart';
 import 'package:mobx/mobx.dart';
 import 'package:laserfast_app/app/apis/auth.api.dart';
 import 'package:laserfast_app/app/models/auth.model.dart';
 import 'package:laserfast_app/app/models/base.model.dart';
 import 'package:laserfast_app/app/models/hives/login.hive.dart';
 import 'package:laserfast_app/app/models/string_response.model.dart';
-import 'package:laserfast_app/app/models/user.model.dart';
 import 'package:laserfast_app/loading_store.dart';
 
 part 'register_store.g.dart';
@@ -15,7 +13,6 @@ class RegisterStore = RegisterStoreBase with _$RegisterStore;
 abstract class RegisterStoreBase with Store {
   //APIS
   final AuthApi authApi = AuthApi();
-  final UserApi userApi = UserApi();
   final LoginHive _loginHive = LoginHive();
 
   //STORES
@@ -28,8 +25,6 @@ abstract class RegisterStoreBase with Store {
   String? _userCpf;
 
   //OBSERVABLE
-  @observable
-  UserModel? user;
 
   @observable
   AuthModel? authModel;

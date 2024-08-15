@@ -17,22 +17,6 @@ mixin _$RegisterStore on RegisterStoreBase, Store {
               name: 'RegisterStoreBase.validCode'))
           .value;
 
-  late final _$userAtom =
-      Atom(name: 'RegisterStoreBase.user', context: context);
-
-  @override
-  UserModel? get user {
-    _$userAtom.reportRead();
-    return super.user;
-  }
-
-  @override
-  set user(UserModel? value) {
-    _$userAtom.reportWrite(value, super.user, () {
-      super.user = value;
-    });
-  }
-
   late final _$authModelAtom =
       Atom(name: 'RegisterStoreBase.authModel', context: context);
 
@@ -240,7 +224,6 @@ mixin _$RegisterStore on RegisterStoreBase, Store {
   @override
   String toString() {
     return '''
-user: ${user},
 authModel: ${authModel},
 cpf: ${cpf},
 password: ${password},

@@ -1,4 +1,3 @@
-import 'package:laserfast_app/app/apis/user.api.dart';
 import 'package:mobx/mobx.dart';
 import 'package:laserfast_app/app/apis/auth.api.dart';
 import 'package:laserfast_app/app/models/base.model.dart';
@@ -13,7 +12,6 @@ class RecoverPasswordStore = RecoverPasswordStoreBase
 abstract class RecoverPasswordStoreBase with Store {
   //APIS
   final AuthApi authApi = AuthApi();
-  final UserApi userApi = UserApi();
 
   //STORES
   final LoadingStore loadingStore = LoadingStore();
