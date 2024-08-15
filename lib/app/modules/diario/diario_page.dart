@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:laserfast_app/app/modules/diario/classes/map_item_values.dart';
 import 'package:laserfast_app/app/modules/diario/diario_store.dart';
 import 'package:laserfast_app/app/modules/diario/widgets/map_item.dart';
 import 'package:laserfast_app/app/shared/colors.dart';
 import 'package:laserfast_app/app/shared/enums/button_sizes.enum.dart';
-import 'package:laserfast_app/app/modules/diario/widgets/map_position.dart';
+import 'package:laserfast_app/app/modules/diario/classes/map_position.dart';
 import 'package:laserfast_app/app/shared/modal_bottom_sheet.dart';
 import 'package:laserfast_app/app/shared/text_widget.dart';
 import 'package:laserfast_app/app/shared/widgets/button_widget.dart';
@@ -25,6 +26,79 @@ class DiarioPageState extends State<DiarioPage> {
   late final Future<void> _future;
 
   int introPage = 0;
+
+  late final List<MapItemValues> valoresEstrelas = [
+    MapItemValues(
+      position: MapPosition(
+        bottom: 3.h,
+        right: 12.w,
+      ),
+      onPressed: () => Modular.to.pushNamed('/diario/antes-primeira-sessao'),
+    ),
+    MapItemValues(
+      position: MapPosition(
+        bottom: 20.h,
+        right: 65.w,
+      ),
+      onPressed: () {},
+    ),
+    MapItemValues(
+      position: MapPosition(
+        bottom: 31.h,
+        right: 57.w,
+      ),
+      onPressed: () {},
+    ),
+    MapItemValues(
+      position: MapPosition(
+        bottom: 35.h,
+        right: 30.w,
+      ),
+      onPressed: () {},
+    ),
+    MapItemValues(
+      position: MapPosition(
+        bottom: 43.h,
+        right: 7.w,
+      ),
+      onPressed: () {},
+    ),
+    MapItemValues(
+      position: MapPosition(
+        bottom: 58.h,
+        right: 32.w,
+      ),
+      onPressed: () {},
+    ),
+    MapItemValues(
+      position: MapPosition(
+        bottom: 64.h,
+        right: 62.w,
+      ),
+      onPressed: () {},
+    ),
+    MapItemValues(
+      position: MapPosition(
+        bottom: 73.h,
+        right: 75.w,
+      ),
+      onPressed: () {},
+    ),
+    MapItemValues(
+      position: MapPosition(
+        bottom: 78.h,
+        right: 37.w,
+      ),
+      onPressed: () {},
+    ),
+    MapItemValues(
+      position: MapPosition(
+        bottom: 87.h,
+        right: 7.w,
+      ),
+      onPressed: () {},
+    )
+  ];
 
   @override
   void initState() {
@@ -94,6 +168,18 @@ class DiarioPageState extends State<DiarioPage> {
             'assets/images/diario/background.png',
             fit: BoxFit.fitHeight,
           ),
+          Positioned(
+            bottom: 3.h,
+            right: 40.w,
+            child: SizedBox(
+              width: 40.w,
+              child: ButtonWidget.filled(
+                onPressed: () => Modular.to.pop(),
+                title: "RETORNAR",
+                buttonSize: ButtonSize.medium,
+              ),
+            ),
+          ),
           ..._estrelas(),
           ..._tesouros(),
           ..._avisos(),
@@ -104,98 +190,18 @@ class DiarioPageState extends State<DiarioPage> {
   }
 
   List<Widget> _estrelas() {
-    return [
-      MapItem.estrela(
-        onPressed: () {},
-        position: MapPosition(
-          bottom: 3.h,
-          right: 12.w,
-        ),
-        desbloqueado: true,
-        usado: false,
-      ),
-      MapItem.estrela(
-        onPressed: () {},
-        position: MapPosition(
-          bottom: 20.h,
-          right: 65.w,
-        ),
-        desbloqueado: false,
-        usado: false,
-      ),
-      MapItem.estrela(
-        onPressed: () {},
-        position: MapPosition(
-          bottom: 31.h,
-          right: 57.w,
-        ),
-        desbloqueado: false,
-        usado: false,
-      ),
-      MapItem.estrela(
-        onPressed: () {},
-        position: MapPosition(
-          bottom: 35.h,
-          right: 30.w,
-        ),
-        desbloqueado: false,
-        usado: false,
-      ),
-      MapItem.estrela(
-        onPressed: () {},
-        position: MapPosition(
-          bottom: 43.h,
-          right: 7.w,
-        ),
-        desbloqueado: false,
-        usado: false,
-      ),
-      MapItem.estrela(
-        onPressed: () {},
-        position: MapPosition(
-          bottom: 58.h,
-          right: 32.w,
-        ),
-        desbloqueado: false,
-        usado: false,
-      ),
-      MapItem.estrela(
-        onPressed: () {},
-        position: MapPosition(
-          bottom: 64.h,
-          right: 62.w,
-        ),
-        desbloqueado: false,
-        usado: false,
-      ),
-      MapItem.estrela(
-        onPressed: _mostrarAviso,
-        position: MapPosition(
-          bottom: 73.h,
-          right: 75.w,
-        ),
-        desbloqueado: false,
-        usado: false,
-      ),
-      MapItem.estrela(
-        onPressed: () {},
-        position: MapPosition(
-          bottom: 78.h,
-          right: 37.w,
-        ),
-        desbloqueado: false,
-        usado: false,
-      ),
-      MapItem.estrela(
-        onPressed: () {},
-        position: MapPosition(
-          bottom: 87.h,
-          right: 7.w,
-        ),
-        desbloqueado: false,
-        usado: false,
-      ),
-    ];
+    List<Widget> list = [];
+
+    for (var i = 0; i < valoresEstrelas.length; i++) {
+      list.add(MapItem.estrela(
+        onPressed: valoresEstrelas[i].onPressed,
+        position: valoresEstrelas[i].position,
+        desbloqueado: _store.etapa >= i,
+        usado: _store.etapa > i,
+      ));
+    }
+
+    return list;
   }
 
   List<Widget> _tesouros() {
@@ -230,7 +236,7 @@ class DiarioPageState extends State<DiarioPage> {
         ),
         imgPath: 'assets/images/diario/eh-normal-ainda-ter-pelos.svg',
         imageHeight: 7.h,
-        onPressed: _mostrarAviso,
+        onPressed: () {},
       ),
       MapItem.aviso(
         position: MapPosition(

@@ -23,6 +23,8 @@ abstract class DiarioStoreBase with Store {
 
   @action
   void verIntro() => viuIntro = true;
+  @action
+  void setEtapa(int e) => etapa = e;
 
   @action
   void resetDiario() {}

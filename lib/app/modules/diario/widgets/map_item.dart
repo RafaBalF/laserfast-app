@@ -1,5 +1,5 @@
 import 'package:flutter_svg/svg.dart';
-import 'package:laserfast_app/app/modules/diario/widgets/map_position.dart';
+import 'package:laserfast_app/app/modules/diario/classes/map_position.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
