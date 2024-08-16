@@ -10,23 +10,26 @@ class CameraService {
     cameraStatus = await Permission.camera.status;
   }
 
-  Future<void> _askStoragePermission() async {
+  Future<void> askStoragePermission() async {
     if (!storageStatus.isGranted) {
       await Permission.storage.request();
       storageStatus = await Permission.storage.status;
     }
   }
 
-  Future<void> _askCameraPermission() async {
+  Future<void> askCameraPermission() async {
     if (!cameraStatus.isGranted) {
       await Permission.camera.request();
       cameraStatus = await Permission.storage.status;
     }
   }
 
+  get hasStoragePermission async => storageStatus == PermissionStatus.granted;
+  get hasCameraPermission async => cameraStatus == PermissionStatus.granted;
+
   Future<bool> hasAllPermissions() async {
-    await _askStoragePermission();
-    await _askCameraPermission();
+    await askStoragePermission();
+    await askCameraPermission();
 
     return storageStatus == PermissionStatus.granted &&
         cameraStatus == PermissionStatus.granted;
@@ -50,5 +53,29 @@ class CameraService {
     );
 
     return image;
+  }
+
+  Future<XFile?> takePhotoFromCamera({
+    device = CameraDevice.front,
+    maxHeight = 480.0,
+    maxWidth = 480.0,
+  }) async {
+    return await takePhoto(
+      source: ImageSource.camera,
+      device: device,
+      maxHeight: maxHeight,
+      maxWidth: maxWidth,
+    );
+  }
+
+  Future<XFile?> getPhotoFromGallery({
+    maxHeight = 480.0,
+    maxWidth = 480.0,
+  }) async {
+    return await takePhoto(
+      source: ImageSource.gallery,
+      maxHeight: maxHeight,
+      maxWidth: maxWidth,
+    );
   }
 }

@@ -14,6 +14,7 @@ class InputWidget extends StatefulWidget {
   final double? height;
   final TextInputType? keyboardType;
   final TextInputAction? textInputAction;
+  final int? minLines;
   final int? maxLines;
   final int? maxLength;
   final bool? enabled;
@@ -31,6 +32,7 @@ class InputWidget extends StatefulWidget {
   final double contentPaddingTop;
   final String? Function(String?)? validator;
   final int? errorMaxLines;
+  final TextStyle? labelStyle;
 
   const InputWidget({
     super.key,
@@ -40,6 +42,7 @@ class InputWidget extends StatefulWidget {
     this.height,
     this.width,
     this.keyboardType,
+    this.minLines = 1,
     this.maxLines = 1,
     this.maxLength,
     this.enabled = true,
@@ -59,6 +62,7 @@ class InputWidget extends StatefulWidget {
     this.contentPaddingTop = 16,
     this.validator,
     this.errorMaxLines = 3,
+    this.labelStyle,
   });
 
   @override
@@ -99,7 +103,8 @@ class _InputWidgetState extends State<InputWidget> {
             alignment: Alignment.centerLeft,
             child: textWidget(
               widget.label,
-              style: label(color: widget.labelColor ?? black),
+              style:
+                  widget.labelStyle ?? label(color: widget.labelColor ?? black),
             ),
           ),
           SizedBox(height: 1.h),
@@ -117,6 +122,7 @@ class _InputWidgetState extends State<InputWidget> {
               onChanged: widget.onChanged,
               controller: widget.controller ?? _textEditingController,
               obscureText: widget.obscureText,
+              minLines: widget.minLines,
               maxLines: widget.maxLines,
               inputFormatters: widget.inputFormatters,
               keyboardType: widget.keyboardType ?? TextInputType.text,

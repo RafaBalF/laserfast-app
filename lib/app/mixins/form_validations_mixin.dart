@@ -15,6 +15,12 @@ mixin FormValidationsMixin {
     return null;
   }
 
+  String? notEmptyWhen(String? value, bool b, [String? message]) {
+    if (b && value!.isEmpty) return message ?? "Este campo é obrigatório";
+
+    return null;
+  }
+
   String? nChars(int charNumber, String? value, [String? message]) {
     if (value!.length != charNumber) {
       return message ?? "Este campo deve ter $charNumber caracteres";

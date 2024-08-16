@@ -1,3 +1,4 @@
+import 'package:image_picker/image_picker.dart';
 import 'package:laserfast_app/app/models/hives/login.hive.dart';
 import 'package:mobx/mobx.dart';
 import 'package:laserfast_app/loading_store.dart';
@@ -37,9 +38,66 @@ abstract class DiarioStoreBase with Store {
   //==== PRIMEIRA-SESSAO =========================
   //==============================================
 
+  //PS = PRIMEIRA SESSÃO
+
+  @observable
+  XFile? fotoPS;
+  @observable
+  String relatoPS = "";
+  @observable
+  bool? tomandoMedicamentoPS;
+  @observable
+  String? qualMedicamentoPS;
+  @observable
+  bool? tomouNosUltimosSeteDiasPS;
+  @observable
+  String parametrosPS = "";
+  @observable
+  String tecnicasPS = "";
+  @observable
+  String proxSessaoAgendadaPS = "";
+
   @action
   Future<void> initPrimeiraSessao() async {}
 
   @action
-  void resetPrimeiraSessao() {}
+  void setFotoPS(XFile? f) => fotoPS = f;
+  @action
+  void setRelatoPS(String s) => relatoPS = s;
+
+  @action
+  void setTomandoMedicamentoPS(bool? b) {
+    tomandoMedicamentoPS = b;
+
+    setQualMedicamentoPS(null);
+    setTomouNosUltimosSeteDiasPS(null);
+  }
+
+  @action
+  void setQualMedicamentoPS(String? s) => qualMedicamentoPS = s;
+  @action
+  void setTomouNosUltimosSeteDiasPS(bool? b) => tomouNosUltimosSeteDiasPS = b;
+  @action
+  void setParametrosPS(String s) => parametrosPS = s;
+  @action
+  void setTecnicasPS(String s) => tecnicasPS = s;
+  @action
+  void setProxSessaoAgendadaPS(String s) => proxSessaoAgendadaPS = s;
+
+  @action
+  Future<bool> postPS() async {
+    etapa = 1;
+
+    return true;
+  }
+
+  @action
+  void resetPrimeiraSessao() {
+    setFotoPS(null);
+    setRelatoPS("");
+    setTomandoMedicamentoPS(null);
+    setParametrosPS("");
+    setTecnicasPS("");
+    setProxSessaoAgendadaPS("");
+  }
 }
