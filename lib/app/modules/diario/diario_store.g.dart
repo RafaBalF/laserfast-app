@@ -49,6 +49,15 @@ mixin _$DiarioStore on DiarioStoreBase, Store {
     return _$initDiarioAsyncAction.run(() => super.initDiario());
   }
 
+  late final _$initPrimeiraSessaoAsyncAction =
+      AsyncAction('DiarioStoreBase.initPrimeiraSessao', context: context);
+
+  @override
+  Future<void> initPrimeiraSessao() {
+    return _$initPrimeiraSessaoAsyncAction
+        .run(() => super.initPrimeiraSessao());
+  }
+
   late final _$DiarioStoreBaseActionController =
       ActionController(name: 'DiarioStoreBase', context: context);
 
@@ -64,11 +73,33 @@ mixin _$DiarioStore on DiarioStoreBase, Store {
   }
 
   @override
+  void setEtapa(int e) {
+    final _$actionInfo = _$DiarioStoreBaseActionController.startAction(
+        name: 'DiarioStoreBase.setEtapa');
+    try {
+      return super.setEtapa(e);
+    } finally {
+      _$DiarioStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void resetDiario() {
     final _$actionInfo = _$DiarioStoreBaseActionController.startAction(
         name: 'DiarioStoreBase.resetDiario');
     try {
       return super.resetDiario();
+    } finally {
+      _$DiarioStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void resetPrimeiraSessao() {
+    final _$actionInfo = _$DiarioStoreBaseActionController.startAction(
+        name: 'DiarioStoreBase.resetPrimeiraSessao');
+    try {
+      return super.resetPrimeiraSessao();
     } finally {
       _$DiarioStoreBaseActionController.endAction(_$actionInfo);
     }
