@@ -72,7 +72,9 @@ class PrimeiraSessaoPageState extends State<PrimeiraSessaoPage> {
   }
 
   Widget _body() {
-    return Container();
+    return const Column(
+      children: [],
+    );
   }
 
   @override
