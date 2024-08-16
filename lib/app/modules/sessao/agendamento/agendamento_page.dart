@@ -79,6 +79,7 @@ class AgendamentoPageState extends State<AgendamentoPage> {
             height: 10.h,
             width: 100.w,
             child: ListView.builder(
+              // TODO: ADICIONAR HEIGHT PRA MELHORAR PERFORMANCE
               physics: const NeverScrollableScrollPhysics(),
               scrollDirection: Axis.horizontal,
               itemCount: 5,
@@ -112,6 +113,7 @@ class AgendamentoPageState extends State<AgendamentoPage> {
             height: 25.h,
             width: 100.w,
             child: ListView.builder(
+              // TODO: ADICIONAR HEIGHT PRA MELHORAR PERFORMANCE
               physics: const NeverScrollableScrollPhysics(),
               scrollDirection: Axis.horizontal,
               itemCount: 3,

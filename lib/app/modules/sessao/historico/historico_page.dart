@@ -65,6 +65,7 @@ class HistoricoPageState extends State<HistoricoPage> {
                             height: _height,
                             width: _width,
                             child: ListView.builder(
+                              // TODO: ADICIONAR HEIGHT PRA MELHORAR PERFORMANCE
                               itemCount: _store.history.length,
                               itemBuilder: (context, index) =>
                                   _sessionCard(_store.history[index]),
