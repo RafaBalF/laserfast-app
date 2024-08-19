@@ -9,6 +9,38 @@ part of 'sessao_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic, no_leading_underscores_for_local_identifiers
 
 mixin _$SessaoStore on SessaoStoreBase, Store {
+  late final _$contratosAtom =
+      Atom(name: 'SessaoStoreBase.contratos', context: context);
+
+  @override
+  ObservableList<ContratoModel> get contratos {
+    _$contratosAtom.reportRead();
+    return super.contratos;
+  }
+
+  @override
+  set contratos(ObservableList<ContratoModel> value) {
+    _$contratosAtom.reportWrite(value, super.contratos, () {
+      super.contratos = value;
+    });
+  }
+
+  late final _$contratoSelecionadoAtom =
+      Atom(name: 'SessaoStoreBase.contratoSelecionado', context: context);
+
+  @override
+  ContratoModel? get contratoSelecionado {
+    _$contratoSelecionadoAtom.reportRead();
+    return super.contratoSelecionado;
+  }
+
+  @override
+  set contratoSelecionado(ContratoModel? value) {
+    _$contratoSelecionadoAtom.reportWrite(value, super.contratoSelecionado, () {
+      super.contratoSelecionado = value;
+    });
+  }
+
   late final _$currentSessionAtom =
       Atom(name: 'SessaoStoreBase.currentSession', context: context);
 
@@ -645,6 +677,8 @@ mixin _$SessaoStore on SessaoStoreBase, Store {
   @override
   String toString() {
     return '''
+contratos: ${contratos},
+contratoSelecionado: ${contratoSelecionado},
 currentSession: ${currentSession},
 startDate: ${startDate},
 endDate: ${endDate},

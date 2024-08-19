@@ -78,17 +78,33 @@ class AgendamentoPageState extends State<AgendamentoPage> {
           SizedBox(
             height: 10.h,
             width: 100.w,
-            child: ListView.builder(
-              // TODO: ADICIONAR HEIGHT PRA MELHORAR PERFORMANCE
-              physics: const NeverScrollableScrollPhysics(),
-              scrollDirection: Axis.horizontal,
-              itemCount: 5,
-              itemBuilder: (BuildContext context, int index) {
-                return Padding(
+            child: Row(
+              children: [
+                Padding(
                   padding: EdgeInsets.only(right: 3.w),
                   child: ShimmerWidget(width: 20.w, height: 25.h),
-                );
-              },
+                ),
+                Padding(
+                  padding: EdgeInsets.only(right: 3.w),
+                  child: ShimmerWidget(width: 20.w, height: 25.h),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(right: 3.w),
+                  child: ShimmerWidget(width: 20.w, height: 25.h),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(right: 3.w),
+                  child: ShimmerWidget(width: 20.w, height: 25.h),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(right: 3.w),
+                  child: ShimmerWidget(width: 20.w, height: 25.h),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(right: 3.w),
+                  child: ShimmerWidget(width: 20.w, height: 25.h),
+                ),
+              ],
             ),
           ),
           DividerWidget(height: 3.h),
@@ -112,17 +128,21 @@ class AgendamentoPageState extends State<AgendamentoPage> {
           SizedBox(
             height: 25.h,
             width: 100.w,
-            child: ListView.builder(
-              // TODO: ADICIONAR HEIGHT PRA MELHORAR PERFORMANCE
-              physics: const NeverScrollableScrollPhysics(),
-              scrollDirection: Axis.horizontal,
-              itemCount: 3,
-              itemBuilder: (BuildContext context, int index) {
-                return Padding(
+            child: Row(
+              children: [
+                Padding(
                   padding: EdgeInsets.only(right: 5.w),
                   child: ShimmerWidget(width: 43.w, height: 10.h),
-                );
-              },
+                ),
+                Padding(
+                  padding: EdgeInsets.only(right: 5.w),
+                  child: ShimmerWidget(width: 43.w, height: 10.h),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(right: 5.w),
+                  child: ShimmerWidget(width: 43.w, height: 10.h),
+                )
+              ],
             ),
           ),
         ],
@@ -136,12 +156,62 @@ class AgendamentoPageState extends State<AgendamentoPage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        _contratosSection(),
+        DividerWidget(height: spacing),
         _datePickerSection(),
         DividerWidget(height: spacing),
         _areaPickerSection(),
         DividerWidget(height: spacing),
         _sessionDurationSection(),
         DividerWidget(height: spacing),
+      ],
+    );
+  }
+
+  Widget _contratosSection() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        _sectionHeader('Selecione seu contrato'),
+        DividerWidget(height: 2.h),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            _selectedDateCard('De', _store.startDate, 'Data início'),
+            _selectedDateCard('Até', _store.endDate, 'Data fim'),
+          ],
+        ),
+        DividerWidget(height: 2.h),
+        Center(
+          child: GestureDetector(
+            onTap: _onSelectDateRange,
+            child: Container(
+              width: 70.w,
+              height: 10.h,
+              decoration: BoxDecoration(
+                color: grey,
+                borderRadius: BorderRadius.circular(2),
+              ),
+              padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 1.h),
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    textWidget(
+                      'Escolher um período',
+                      style: h2(color: black),
+                    ),
+                    textWidget(
+                      'Clique aqui',
+                      style: text(color: black),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
       ],
     );
   }

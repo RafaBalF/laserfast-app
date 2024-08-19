@@ -5,6 +5,7 @@ import 'package:laserfast_app/app/apis/sessao.api.dart';
 import 'package:laserfast_app/app/models/aplicador.model.dart';
 import 'package:laserfast_app/app/models/available_schedule.model.dart';
 import 'package:laserfast_app/app/models/base.model.dart';
+import 'package:laserfast_app/app/models/contrato.model.dart';
 import 'package:laserfast_app/app/models/estabelecimento.model.dart';
 import 'package:laserfast_app/app/models/session.model.dart';
 import 'package:laserfast_app/app/models/session_area.model.dart';
@@ -25,6 +26,11 @@ abstract class SessaoStoreBase with Store {
   //==============================================
   //==== AGENDAMENTO =============================
   //==============================================
+
+  @observable
+  ObservableList<ContratoModel> contratos = ObservableList.of([]);
+  @observable
+  ContratoModel? contratoSelecionado;
 
   @observable
   SessionModel? currentSession;
