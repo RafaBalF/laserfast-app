@@ -7,6 +7,7 @@ import 'package:laserfast_app/app/models/available_schedule.model.dart';
 import 'package:laserfast_app/app/models/base.model.dart';
 import 'package:laserfast_app/app/models/contrato.model.dart';
 import 'package:laserfast_app/app/models/estabelecimento.model.dart';
+import 'package:laserfast_app/app/models/item_contrato.model.dart';
 import 'package:laserfast_app/app/models/session.model.dart';
 import 'package:laserfast_app/app/models/session_area.model.dart';
 import 'package:laserfast_app/app/models/string_response.model.dart';
@@ -31,6 +32,8 @@ abstract class SessaoStoreBase with Store {
   ObservableList<ContratoModel> contratos = ObservableList.of([]);
   @observable
   ContratoModel? contratoSelecionado;
+  @observable
+  ItemContratoModel? servicoSelecionado;
 
   @observable
   SessionModel? currentSession;
@@ -57,6 +60,16 @@ abstract class SessaoStoreBase with Store {
 
   @action
   Future<void> initAgendamento(int? id) async {}
+
+  @action
+  Future<void> getContratos() async {
+    if (contratos.isNotEmpty) return;
+  }
+
+  @action
+  void setContratoSelecionado(ContratoModel? c) => contratoSelecionado = c;
+  @action
+  void setServicoSelecionado(ItemContratoModel? i) => servicoSelecionado = i;
 
   @action
   void setStartDate(DateTime date) => startDate = date;

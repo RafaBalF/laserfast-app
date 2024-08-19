@@ -41,6 +41,22 @@ mixin _$SessaoStore on SessaoStoreBase, Store {
     });
   }
 
+  late final _$servicoSelecionadoAtom =
+      Atom(name: 'SessaoStoreBase.servicoSelecionado', context: context);
+
+  @override
+  ItemContratoModel? get servicoSelecionado {
+    _$servicoSelecionadoAtom.reportRead();
+    return super.servicoSelecionado;
+  }
+
+  @override
+  set servicoSelecionado(ItemContratoModel? value) {
+    _$servicoSelecionadoAtom.reportWrite(value, super.servicoSelecionado, () {
+      super.servicoSelecionado = value;
+    });
+  }
+
   late final _$currentSessionAtom =
       Atom(name: 'SessaoStoreBase.currentSession', context: context);
 
@@ -338,6 +354,14 @@ mixin _$SessaoStore on SessaoStoreBase, Store {
     return _$initAgendamentoAsyncAction.run(() => super.initAgendamento(id));
   }
 
+  late final _$getContratosAsyncAction =
+      AsyncAction('SessaoStoreBase.getContratos', context: context);
+
+  @override
+  Future<void> getContratos() {
+    return _$getContratosAsyncAction.run(() => super.getContratos());
+  }
+
   late final _$submitAsyncAction =
       AsyncAction('SessaoStoreBase.submit', context: context);
 
@@ -431,6 +455,28 @@ mixin _$SessaoStore on SessaoStoreBase, Store {
 
   late final _$SessaoStoreBaseActionController =
       ActionController(name: 'SessaoStoreBase', context: context);
+
+  @override
+  void setContratoSelecionado(ContratoModel? c) {
+    final _$actionInfo = _$SessaoStoreBaseActionController.startAction(
+        name: 'SessaoStoreBase.setContratoSelecionado');
+    try {
+      return super.setContratoSelecionado(c);
+    } finally {
+      _$SessaoStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setServicoSelecionado(ItemContratoModel? i) {
+    final _$actionInfo = _$SessaoStoreBaseActionController.startAction(
+        name: 'SessaoStoreBase.setServicoSelecionado');
+    try {
+      return super.setServicoSelecionado(i);
+    } finally {
+      _$SessaoStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
 
   @override
   void setStartDate(DateTime date) {
@@ -679,6 +725,7 @@ mixin _$SessaoStore on SessaoStoreBase, Store {
     return '''
 contratos: ${contratos},
 contratoSelecionado: ${contratoSelecionado},
+servicoSelecionado: ${servicoSelecionado},
 currentSession: ${currentSession},
 startDate: ${startDate},
 endDate: ${endDate},

@@ -55,9 +55,7 @@ class AgendamentoPageState extends State<AgendamentoPage> {
               builder: (_) {
                 if (snapshot.connectionState == ConnectionState.done &&
                     snapshot.hasData) {
-                  return Observer(builder: (_) {
-                    return _body();
-                  });
+                  return _body();
                 } else {
                   return _loadingBody();
                 }
@@ -158,6 +156,8 @@ class AgendamentoPageState extends State<AgendamentoPage> {
       children: [
         _contratosSection(),
         DividerWidget(height: spacing),
+        _servicosSection(),
+        DividerWidget(height: spacing),
         _datePickerSection(),
         DividerWidget(height: spacing),
         _areaPickerSection(),
@@ -172,43 +172,29 @@ class AgendamentoPageState extends State<AgendamentoPage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _sectionHeader('Selecione seu contrato'),
+        _sectionHeader('Selecione o contrato'),
         DividerWidget(height: 2.h),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            _selectedDateCard('De', _store.startDate, 'Data início'),
-            _selectedDateCard('Até', _store.endDate, 'Data fim'),
-          ],
-        ),
-        DividerWidget(height: 2.h),
-        Center(
-          child: GestureDetector(
-            onTap: _onSelectDateRange,
-            child: Container(
-              width: 70.w,
-              height: 10.h,
-              decoration: BoxDecoration(
-                color: grey,
-                borderRadius: BorderRadius.circular(2),
-              ),
-              padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 1.h),
-              child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    textWidget(
-                      'Escolher um período',
-                      style: h2(color: black),
-                    ),
-                    textWidget(
-                      'Clique aqui',
-                      style: text(color: black),
-                    ),
-                  ],
-                ),
-              ),
+        GestureDetector(
+          onTap: _selecionarContrato,
+          child: Container(
+            width: 100.w,
+            height: 7.5.h,
+            decoration: BoxDecoration(
+              color: grey,
+              borderRadius: BorderRadius.circular(2),
+            ),
+            padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 1.h),
+            child: Center(
+              child: Observer(builder: (_) {
+                String contrato = (_store.contratoSelecionado == null)
+                    ? 'Escolher um contrato'
+                    : "Contrato #${_store.contratoSelecionado!.codigoComanda}";
+
+                return textWidget(
+                  contrato,
+                  style: h2(color: black),
+                );
+              }),
             ),
           ),
         ),
@@ -216,52 +202,68 @@ class AgendamentoPageState extends State<AgendamentoPage> {
     );
   }
 
-  Widget _datePickerSection() {
+  void _selecionarContrato() {}
+
+  Widget _servicosSection() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _sectionHeader('Selecione o período'),
+        _sectionHeader('Serviços a serem agendados'),
         DividerWidget(height: 2.h),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            _selectedDateCard('De', _store.startDate, 'Data início'),
-            _selectedDateCard('Até', _store.endDate, 'Data fim'),
-          ],
-        ),
-        DividerWidget(height: 2.h),
-        Center(
-          child: GestureDetector(
-            onTap: _onSelectDateRange,
-            child: Container(
-              width: 70.w,
-              height: 10.h,
-              decoration: BoxDecoration(
-                color: grey,
-                borderRadius: BorderRadius.circular(2),
-              ),
-              padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 1.h),
-              child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    textWidget(
-                      'Escolher um período',
-                      style: h2(color: black),
-                    ),
-                    textWidget(
-                      'Clique aqui',
-                      style: text(color: black),
-                    ),
-                  ],
+      ],
+    );
+  }
+
+  Widget _datePickerSection() {
+    return Observer(builder: (_) {
+      if (_store.servicoSelecionado == null) return Container();
+
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _sectionHeader('Selecione o período'),
+          DividerWidget(height: 2.h),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              _selectedDateCard('De', _store.startDate, 'Data início'),
+              _selectedDateCard('Até', _store.endDate, 'Data fim'),
+            ],
+          ),
+          DividerWidget(height: 2.h),
+          Center(
+            child: GestureDetector(
+              onTap: _onSelectDateRange,
+              child: Container(
+                width: 70.w,
+                height: 10.h,
+                decoration: BoxDecoration(
+                  color: grey,
+                  borderRadius: BorderRadius.circular(2),
+                ),
+                padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 1.h),
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      textWidget(
+                        'Escolher um período',
+                        style: h2(color: black),
+                      ),
+                      textWidget(
+                        'Clique aqui',
+                        style: text(color: black),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
           ),
-        ),
-      ],
-    );
+        ],
+      );
+    });
   }
 
   void _onSelectDateRange() {
@@ -311,41 +313,45 @@ class AgendamentoPageState extends State<AgendamentoPage> {
   }
 
   Widget _areaPickerSection() {
-    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      _sectionHeader('Selecione as áreas'),
-      DividerWidget(height: 2.h),
-      Observer(builder: (_) {
-        return textWidget(
-          'Tempo de sessão: ${_store.sessionDuration} minutos',
-          style: label(),
-          textAlign: TextAlign.start,
-        );
-      }),
-      DividerWidget(height: 2.h),
-      Observer(builder: (_) {
-        return (_store.sessionAreas.isNotEmpty)
-            ? SelectableCardsWidget(
-                height: 20.h,
-                items: _store.sessionAreas.toList(),
-              )
-            : const SizedBox();
-      }),
-      DividerWidget(height: 2.h),
-      Observer(builder: (_) {
-        return ButtonWidget.filled(
-          onPressed: () {
-            _store.getAvailableSchedules();
-          },
-          backgroundColor: accent,
-          title: 'BUSCAR HORÁRIOS',
-          textColor: white,
-          disabled: _store.selectedSessionAreas.isEmpty,
-          loading: _store.loadingStore.isLoading,
-        );
-      }),
-      DividerWidget(height: 2.h),
-      const AvailableSchedulesWidget(),
-    ]);
+    return Observer(builder: (_) {
+      if (_store.selectedSessionAreas.isEmpty) return Container();
+
+      return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        _sectionHeader('Selecione as áreas'),
+        DividerWidget(height: 2.h),
+        Observer(builder: (_) {
+          return textWidget(
+            'Tempo de sessão: ${_store.sessionDuration} minutos',
+            style: label(),
+            textAlign: TextAlign.start,
+          );
+        }),
+        DividerWidget(height: 2.h),
+        Observer(builder: (_) {
+          return (_store.sessionAreas.isNotEmpty)
+              ? SelectableCardsWidget(
+                  height: 20.h,
+                  items: _store.sessionAreas.toList(),
+                )
+              : const SizedBox();
+        }),
+        DividerWidget(height: 2.h),
+        Observer(builder: (_) {
+          return ButtonWidget.filled(
+            onPressed: () {
+              _store.getAvailableSchedules();
+            },
+            backgroundColor: accent,
+            title: 'BUSCAR HORÁRIOS',
+            textColor: white,
+            disabled: _store.selectedSessionAreas.isEmpty,
+            loading: _store.loadingStore.isLoading,
+          );
+        }),
+        DividerWidget(height: 2.h),
+        const AvailableSchedulesWidget(),
+      ]);
+    });
   }
 
   Widget _sessionDurationSection() {
@@ -353,6 +359,14 @@ class AgendamentoPageState extends State<AgendamentoPage> {
 
     return Observer(builder: (_) {
       if (_store.selectedSchedule != null) {
+        final String formattedStartHour =
+            hhmmFormatter.format(_store.selectedSchedule!.selectedDate!);
+
+        DateTime endHour = _store.selectedSchedule!.selectedDate!
+            .add(Duration(minutes: _store.sessionDuration));
+
+        final String formattedEndHour = hhmmFormatter.format(endHour);
+
         return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           _sectionHeader('Tempo sessão'),
           DividerWidget(height: 2.h),
@@ -382,16 +396,11 @@ class AgendamentoPageState extends State<AgendamentoPage> {
                         style: profileTile(color: darkGrey),
                       ),
                       DividerWidget(height: 0.5.h),
-                      Observer(builder: (_) {
-                        final String formattedStartHour = hhmmFormatter
-                            .format(_store.selectedSchedule!.selectedDate!);
-
-                        return textWidget(
-                          formattedStartHour,
-                          textAlign: TextAlign.center,
-                          style: h2(color: black),
-                        );
-                      }),
+                      textWidget(
+                        formattedStartHour,
+                        textAlign: TextAlign.center,
+                        style: h2(color: black),
+                      ),
                     ],
                   ),
                   Icon(
@@ -408,20 +417,11 @@ class AgendamentoPageState extends State<AgendamentoPage> {
                         style: profileTile(color: darkGrey),
                       ),
                       DividerWidget(height: 0.5.h),
-                      Observer(builder: (_) {
-                        DateTime endHour = _store
-                            .selectedSchedule!.selectedDate!
-                            .add(Duration(minutes: _store.sessionDuration));
-
-                        final String formattedEndHour =
-                            hhmmFormatter.format(endHour);
-
-                        return textWidget(
-                          formattedEndHour,
-                          textAlign: TextAlign.center,
-                          style: h2(color: black),
-                        );
-                      }),
+                      textWidget(
+                        formattedEndHour,
+                        textAlign: TextAlign.center,
+                        style: h2(color: black),
+                      ),
                     ],
                   ),
                 ],
@@ -429,36 +429,34 @@ class AgendamentoPageState extends State<AgendamentoPage> {
             ),
           ),
           DividerWidget(height: 5.h),
-          Observer(builder: (_) {
-            return ButtonWidget.filled(
-              onPressed: () async {
-                var r = await _store.submit();
+          ButtonWidget.filled(
+            onPressed: () async {
+              var r = await _store.submit();
 
-                if (!mounted) return;
+              if (!mounted) return;
 
-                showBaseModalBottomSheet(
-                  context,
-                  r,
-                  onSuccessPressed: () {
-                    Modular.to.pop();
-                    Modular.to.pop();
+              showBaseModalBottomSheet(
+                context,
+                r,
+                onSuccessPressed: () {
+                  Modular.to.pop();
+                  Modular.to.pop();
 
-                    Modular.to.pushNamed('/sessao/historico');
-                  },
-                  onErrorPressed: () {},
-                  dismissable: false,
-                  onClose: () {
-                    Modular.to.pop();
-                  },
-                );
-              },
-              backgroundColor: accent,
-              title: 'CONFIRMAR',
-              textColor: white,
-              disabled: _store.selectedSchedule == null,
-              loading: _store.loadingStore.isLoading,
-            );
-          }),
+                  Modular.to.pushNamed('/sessao/historico');
+                },
+                onErrorPressed: () {},
+                dismissable: false,
+                onClose: () {
+                  Modular.to.pop();
+                },
+              );
+            },
+            backgroundColor: accent,
+            title: 'CONFIRMAR',
+            textColor: white,
+            disabled: _store.selectedSchedule == null,
+            loading: _store.loadingStore.isLoading,
+          ),
           DividerWidget(height: 5.h),
         ]);
       } else {
@@ -476,6 +474,9 @@ class AgendamentoPageState extends State<AgendamentoPage> {
   }
 
   Widget _selectedDateCard(String header, DateTime? date, String fallof) {
+    String formattedDate =
+        (date != null) ? ddmmmyyyyFormatter.format(date) : 'Data início';
+
     return Container(
       width: 30.w,
       decoration: BoxDecoration(
@@ -496,17 +497,11 @@ class AgendamentoPageState extends State<AgendamentoPage> {
             style: profileTile(color: darkGrey),
           ),
           DividerWidget(height: 0.5.h),
-          Observer(builder: (_) {
-            String formattedDate = (date != null)
-                ? ddmmmyyyyFormatter.format(date)
-                : 'Data início';
-
-            return textWidget(
-              formattedDate,
-              textAlign: TextAlign.center,
-              style: label(color: accent),
-            );
-          }),
+          textWidget(
+            formattedDate,
+            textAlign: TextAlign.center,
+            style: label(color: accent),
+          ),
         ],
       ),
     );

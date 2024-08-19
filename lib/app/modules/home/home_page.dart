@@ -71,7 +71,6 @@ class HomePageState extends State<HomePage> {
             height: 10.h,
             width: 100.w,
             child: ListView.builder(
-              // TODO: ADICIONAR HEIGHT PRA MELHORAR PERFORMANCE
               physics: const NeverScrollableScrollPhysics(),
               scrollDirection: Axis.horizontal,
               itemCount: 5,
@@ -105,7 +104,6 @@ class HomePageState extends State<HomePage> {
             height: 25.h,
             width: 100.w,
             child: ListView.builder(
-              // TODO: ADICIONAR HEIGHT PRA MELHORAR PERFORMANCE
               physics: const NeverScrollableScrollPhysics(),
               scrollDirection: Axis.horizontal,
               itemCount: 3,
