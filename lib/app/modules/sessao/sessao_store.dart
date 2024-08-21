@@ -1,17 +1,12 @@
-import 'dart:math';
-
 import 'package:image_picker/image_picker.dart';
 import 'package:laserfast_app/app/apis/sessao.api.dart';
 import 'package:laserfast_app/app/models/aplicador.model.dart';
 import 'package:laserfast_app/app/models/available_schedule.model.dart';
-import 'package:laserfast_app/app/models/base.model.dart';
-import 'package:laserfast_app/app/models/contrato.model.dart';
+import 'package:laserfast_app/app/models/comanda.model.dart';
 import 'package:laserfast_app/app/models/estabelecimento.model.dart';
 import 'package:laserfast_app/app/models/evento_sessao.model.dart';
-import 'package:laserfast_app/app/models/item_contrato.model.dart';
 import 'package:laserfast_app/app/models/sessao.model.dart';
 import 'package:laserfast_app/app/models/session_area.model.dart';
-import 'package:laserfast_app/app/models/string_response.model.dart';
 import 'package:laserfast_app/app/shared/interfaces/selectable_card.interface.dart';
 import 'package:mobx/mobx.dart';
 import 'package:laserfast_app/loading_store.dart';
@@ -30,14 +25,12 @@ abstract class SessaoStoreBase with Store {
   //==============================================
 
   @observable
-  ObservableList<ContratoModel> contratos = ObservableList.of([]);
-  @observable
-  ContratoModel? contratoSelecionado;
-  @observable
-  ItemContratoModel? servicoSelecionado;
+  SessaoModel? currentSession;
 
   @observable
-  SessaoModel? currentSession;
+  ObservableList<SelectableCard<ComandaModel>> comandas = ObservableList.of([]);
+  @observable
+  ComandaModel? comandaSelecionada;
 
   @observable
   DateTime? startDate;
@@ -46,11 +39,6 @@ abstract class SessaoStoreBase with Store {
 
   @observable
   int sessionDuration = 0;
-  @observable
-  ObservableList<SelectableCard<SessionAreaModel>> sessionAreas =
-      ObservableList.of([]);
-  @observable
-  ObservableList<SessionAreaModel> selectedSessionAreas = ObservableList.of([]);
 
   @observable
   ObservableList<AvailableSchedulesModel> availableSchedules =
@@ -60,38 +48,32 @@ abstract class SessaoStoreBase with Store {
   AvailableSchedulesModel? selectedSchedule;
 
   @action
-  Future<void> initAgendamento(int? id) async {}
+  Future<void> initAgendamento(int? id) async {
+    await getComandas();
+  }
 
   @action
-  Future<void> getContratos() async {
-    if (contratos.isNotEmpty) return;
+  Future<void> getComandas() async {
+    final r = await _sessaoApi.listarComandasComSessoesDisponiveisPorCPF();
 
-    final r = await _sessaoApi.listarContratos();
+    if (!r.success) return;
 
-    if (r.success) {
-      contratos.clear();
-      contratos.addAll(r.list!.toList());
+    for (var c in r.list!) {
+      comandas.add(SelectableCard(
+        label: c.item ?? "",
+        value: c,
+        onSelect: () {
+          selectComanda(c);
+        },
+        onUnselect: () {
+          unselectComanda(c);
+        },
+      ));
     }
   }
 
   @action
-  void setContratoSelecionado(ContratoModel? c) {
-    resetDates();
-    resetSessionArea();
-    resetSchedules();
-    setServicoSelecionado(null);
-
-    contratoSelecionado = c;
-  }
-
-  @action
-  void setServicoSelecionado(ItemContratoModel? i) {
-    resetDates();
-    resetSessionArea();
-    resetSchedules();
-
-    servicoSelecionado = i;
-  }
+  void setComandaSelecionada(ComandaModel? c) => comandaSelecionada = c;
 
   @action
   void setStartDate(DateTime date) => startDate = date;
@@ -101,145 +83,34 @@ abstract class SessaoStoreBase with Store {
   void resetDates() => startDate = endDate = null;
 
   @action
-  void getSessionAreas() {
-    sessionAreas.clear();
-
-    List<SessionAreaModel> sessions = [
-      SessionAreaModel(
-        name: 'Virilha (5 min)',
-        duration: 5,
-      ),
-      SessionAreaModel(
-        name: 'Buço',
-        duration: 10,
-      ),
-      SessionAreaModel(
-        name: 'Axilas (10 sessões)',
-        duration: 15,
-      ),
-      SessionAreaModel(
-        name: 'Coxas',
-        duration: 10,
-      ),
-      SessionAreaModel(
-        name: 'Rosto inteiro',
-        duration: 15,
-      ),
-      SessionAreaModel(
-        name: 'Linha alba',
-        duration: 15,
-      ),
-      SessionAreaModel(
-        name: 'Braços e mãos',
-        duration: 20,
-      ),
-    ];
-
-    List<SelectableCard<SessionAreaModel>> items = [];
-
-    for (var s in sessions) {
-      items.add(SelectableCard(
-        label: s.name.toString(),
-        value: s,
-        onSelect: () {
-          selectSessionArea(s);
-        },
-        onUnselect: () {
-          unselectSessionArea(s);
-        },
-      ));
-    }
-
-    sessionAreas.addAll(items);
-  }
-
-  @action
   void incrementSessionDuration(int d) => sessionDuration += d;
   @action
   void decrementSessionDuration(int d) => sessionDuration -= d;
 
   @action
-  void selectSessionArea(SessionAreaModel s) {
-    incrementSessionDuration(s.duration ?? 0);
-    selectedSessionAreas.add(s);
+  void selectComanda(ComandaModel c) {
+    setComandaSelecionada(c);
+    incrementSessionDuration(c.tempoSessao ?? 0);
     resetSchedules();
   }
 
   @action
-  void unselectSessionArea(SessionAreaModel s) {
-    decrementSessionDuration(s.duration ?? 0);
-    selectedSessionAreas.remove(s);
+  void unselectComanda(ComandaModel c) {
+    setComandaSelecionada(null);
+    decrementSessionDuration(c.tempoSessao ?? 0);
     resetSchedules();
   }
 
   @action
-  void getAvailableSchedules() {
-    availableSchedules.clear();
-
-    List<AvailableSchedulesModel> schedules = [];
-
-    final now = DateTime.now();
-
-    for (var i = 0; i < 3; i++) {
-      final currentDay = DateTime(now.year, now.month, now.day + i);
-      final count = Random().nextInt(3) + 5;
-
-      final sc = List<DateTime>.empty(growable: true);
-
-      for (var j = 0; j < count; j++) {
-        sc.add(DateTime(
-          currentDay.year,
-          currentDay.month,
-          currentDay.day,
-          count + j,
-        ));
-      }
-
-      schedules.add(AvailableSchedulesModel(
-        day: currentDay,
-        schedules: sc,
-        sessionCode: i,
-        duration: count * 3,
-      ));
-    }
-
-    availableSchedules.addAll(schedules);
-  }
-
-  @action
-  void selectSchedule(AvailableSchedulesModel? s, DateTime? schedule) {
-    selectedSchedule = s;
-
-    if (selectedSchedule == null) return;
-
-    selectedSchedule!.selectedDate = schedule;
-
-    selectedSchedule = AvailableSchedulesModel.createNew(selectedSchedule!);
-  }
-
-  @action
-  Future<BaseModel<StringResponseModel>> submit() async {
-    BaseModel<StringResponseModel> r = BaseModel<StringResponseModel>();
-
-    if (selectedSchedule != null) {
-      r.success = true;
-      r.message = "Sua sessão foi salva com sucesso";
-    }
-
-    return r;
-  }
+  Future<void> salvarAgendamento() async {}
 
   @action
   void resetSessionArea() {
     sessionDuration = 0;
-
-    sessionAreas.clear();
-    selectedSessionAreas.clear();
   }
 
   @action
   void resetSchedules() {
-    selectSchedule(null, null);
     availableSchedules.clear();
   }
 
@@ -248,8 +119,6 @@ abstract class SessaoStoreBase with Store {
     resetDates();
     resetSessionArea();
     resetSchedules();
-    setContratoSelecionado(null);
-    setServicoSelecionado(null);
   }
 
   //==============================================

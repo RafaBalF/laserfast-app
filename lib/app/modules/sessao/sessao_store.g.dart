@@ -9,54 +9,6 @@ part of 'sessao_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic, no_leading_underscores_for_local_identifiers
 
 mixin _$SessaoStore on SessaoStoreBase, Store {
-  late final _$contratosAtom =
-      Atom(name: 'SessaoStoreBase.contratos', context: context);
-
-  @override
-  ObservableList<ContratoModel> get contratos {
-    _$contratosAtom.reportRead();
-    return super.contratos;
-  }
-
-  @override
-  set contratos(ObservableList<ContratoModel> value) {
-    _$contratosAtom.reportWrite(value, super.contratos, () {
-      super.contratos = value;
-    });
-  }
-
-  late final _$contratoSelecionadoAtom =
-      Atom(name: 'SessaoStoreBase.contratoSelecionado', context: context);
-
-  @override
-  ContratoModel? get contratoSelecionado {
-    _$contratoSelecionadoAtom.reportRead();
-    return super.contratoSelecionado;
-  }
-
-  @override
-  set contratoSelecionado(ContratoModel? value) {
-    _$contratoSelecionadoAtom.reportWrite(value, super.contratoSelecionado, () {
-      super.contratoSelecionado = value;
-    });
-  }
-
-  late final _$servicoSelecionadoAtom =
-      Atom(name: 'SessaoStoreBase.servicoSelecionado', context: context);
-
-  @override
-  ItemContratoModel? get servicoSelecionado {
-    _$servicoSelecionadoAtom.reportRead();
-    return super.servicoSelecionado;
-  }
-
-  @override
-  set servicoSelecionado(ItemContratoModel? value) {
-    _$servicoSelecionadoAtom.reportWrite(value, super.servicoSelecionado, () {
-      super.servicoSelecionado = value;
-    });
-  }
-
   late final _$currentSessionAtom =
       Atom(name: 'SessaoStoreBase.currentSession', context: context);
 
@@ -70,6 +22,38 @@ mixin _$SessaoStore on SessaoStoreBase, Store {
   set currentSession(SessaoModel? value) {
     _$currentSessionAtom.reportWrite(value, super.currentSession, () {
       super.currentSession = value;
+    });
+  }
+
+  late final _$comandasAtom =
+      Atom(name: 'SessaoStoreBase.comandas', context: context);
+
+  @override
+  ObservableList<SelectableCard<ComandaModel>> get comandas {
+    _$comandasAtom.reportRead();
+    return super.comandas;
+  }
+
+  @override
+  set comandas(ObservableList<SelectableCard<ComandaModel>> value) {
+    _$comandasAtom.reportWrite(value, super.comandas, () {
+      super.comandas = value;
+    });
+  }
+
+  late final _$comandaSelecionadaAtom =
+      Atom(name: 'SessaoStoreBase.comandaSelecionada', context: context);
+
+  @override
+  ComandaModel? get comandaSelecionada {
+    _$comandaSelecionadaAtom.reportRead();
+    return super.comandaSelecionada;
+  }
+
+  @override
+  set comandaSelecionada(ComandaModel? value) {
+    _$comandaSelecionadaAtom.reportWrite(value, super.comandaSelecionada, () {
+      super.comandaSelecionada = value;
     });
   }
 
@@ -118,39 +102,6 @@ mixin _$SessaoStore on SessaoStoreBase, Store {
   set sessionDuration(int value) {
     _$sessionDurationAtom.reportWrite(value, super.sessionDuration, () {
       super.sessionDuration = value;
-    });
-  }
-
-  late final _$sessionAreasAtom =
-      Atom(name: 'SessaoStoreBase.sessionAreas', context: context);
-
-  @override
-  ObservableList<SelectableCard<SessionAreaModel>> get sessionAreas {
-    _$sessionAreasAtom.reportRead();
-    return super.sessionAreas;
-  }
-
-  @override
-  set sessionAreas(ObservableList<SelectableCard<SessionAreaModel>> value) {
-    _$sessionAreasAtom.reportWrite(value, super.sessionAreas, () {
-      super.sessionAreas = value;
-    });
-  }
-
-  late final _$selectedSessionAreasAtom =
-      Atom(name: 'SessaoStoreBase.selectedSessionAreas', context: context);
-
-  @override
-  ObservableList<SessionAreaModel> get selectedSessionAreas {
-    _$selectedSessionAreasAtom.reportRead();
-    return super.selectedSessionAreas;
-  }
-
-  @override
-  set selectedSessionAreas(ObservableList<SessionAreaModel> value) {
-    _$selectedSessionAreasAtom.reportWrite(value, super.selectedSessionAreas,
-        () {
-      super.selectedSessionAreas = value;
     });
   }
 
@@ -354,20 +305,20 @@ mixin _$SessaoStore on SessaoStoreBase, Store {
     return _$initAgendamentoAsyncAction.run(() => super.initAgendamento(id));
   }
 
-  late final _$getContratosAsyncAction =
-      AsyncAction('SessaoStoreBase.getContratos', context: context);
+  late final _$getComandasAsyncAction =
+      AsyncAction('SessaoStoreBase.getComandas', context: context);
 
   @override
-  Future<void> getContratos() {
-    return _$getContratosAsyncAction.run(() => super.getContratos());
+  Future<void> getComandas() {
+    return _$getComandasAsyncAction.run(() => super.getComandas());
   }
 
-  late final _$submitAsyncAction =
-      AsyncAction('SessaoStoreBase.submit', context: context);
+  late final _$salvarAgendamentoAsyncAction =
+      AsyncAction('SessaoStoreBase.salvarAgendamento', context: context);
 
   @override
-  Future<BaseModel<StringResponseModel>> submit() {
-    return _$submitAsyncAction.run(() => super.submit());
+  Future<void> salvarAgendamento() {
+    return _$salvarAgendamentoAsyncAction.run(() => super.salvarAgendamento());
   }
 
   late final _$initHistoryAsyncAction =
@@ -457,22 +408,11 @@ mixin _$SessaoStore on SessaoStoreBase, Store {
       ActionController(name: 'SessaoStoreBase', context: context);
 
   @override
-  void setContratoSelecionado(ContratoModel? c) {
+  void setComandaSelecionada(ComandaModel? c) {
     final _$actionInfo = _$SessaoStoreBaseActionController.startAction(
-        name: 'SessaoStoreBase.setContratoSelecionado');
+        name: 'SessaoStoreBase.setComandaSelecionada');
     try {
-      return super.setContratoSelecionado(c);
-    } finally {
-      _$SessaoStoreBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  void setServicoSelecionado(ItemContratoModel? i) {
-    final _$actionInfo = _$SessaoStoreBaseActionController.startAction(
-        name: 'SessaoStoreBase.setServicoSelecionado');
-    try {
-      return super.setServicoSelecionado(i);
+      return super.setComandaSelecionada(c);
     } finally {
       _$SessaoStoreBaseActionController.endAction(_$actionInfo);
     }
@@ -512,17 +452,6 @@ mixin _$SessaoStore on SessaoStoreBase, Store {
   }
 
   @override
-  void getSessionAreas() {
-    final _$actionInfo = _$SessaoStoreBaseActionController.startAction(
-        name: 'SessaoStoreBase.getSessionAreas');
-    try {
-      return super.getSessionAreas();
-    } finally {
-      _$SessaoStoreBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
   void incrementSessionDuration(int d) {
     final _$actionInfo = _$SessaoStoreBaseActionController.startAction(
         name: 'SessaoStoreBase.incrementSessionDuration');
@@ -545,44 +474,22 @@ mixin _$SessaoStore on SessaoStoreBase, Store {
   }
 
   @override
-  void selectSessionArea(SessionAreaModel s) {
+  void selectComanda(ComandaModel c) {
     final _$actionInfo = _$SessaoStoreBaseActionController.startAction(
-        name: 'SessaoStoreBase.selectSessionArea');
+        name: 'SessaoStoreBase.selectComanda');
     try {
-      return super.selectSessionArea(s);
+      return super.selectComanda(c);
     } finally {
       _$SessaoStoreBaseActionController.endAction(_$actionInfo);
     }
   }
 
   @override
-  void unselectSessionArea(SessionAreaModel s) {
+  void unselectComanda(ComandaModel c) {
     final _$actionInfo = _$SessaoStoreBaseActionController.startAction(
-        name: 'SessaoStoreBase.unselectSessionArea');
+        name: 'SessaoStoreBase.unselectComanda');
     try {
-      return super.unselectSessionArea(s);
-    } finally {
-      _$SessaoStoreBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  void getAvailableSchedules() {
-    final _$actionInfo = _$SessaoStoreBaseActionController.startAction(
-        name: 'SessaoStoreBase.getAvailableSchedules');
-    try {
-      return super.getAvailableSchedules();
-    } finally {
-      _$SessaoStoreBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  void selectSchedule(AvailableSchedulesModel? s, DateTime? schedule) {
-    final _$actionInfo = _$SessaoStoreBaseActionController.startAction(
-        name: 'SessaoStoreBase.selectSchedule');
-    try {
-      return super.selectSchedule(s, schedule);
+      return super.unselectComanda(c);
     } finally {
       _$SessaoStoreBaseActionController.endAction(_$actionInfo);
     }
@@ -723,15 +630,12 @@ mixin _$SessaoStore on SessaoStoreBase, Store {
   @override
   String toString() {
     return '''
-contratos: ${contratos},
-contratoSelecionado: ${contratoSelecionado},
-servicoSelecionado: ${servicoSelecionado},
 currentSession: ${currentSession},
+comandas: ${comandas},
+comandaSelecionada: ${comandaSelecionada},
 startDate: ${startDate},
 endDate: ${endDate},
 sessionDuration: ${sessionDuration},
-sessionAreas: ${sessionAreas},
-selectedSessionAreas: ${selectedSessionAreas},
 availableSchedules: ${availableSchedules},
 selectedSchedule: ${selectedSchedule},
 history: ${history},

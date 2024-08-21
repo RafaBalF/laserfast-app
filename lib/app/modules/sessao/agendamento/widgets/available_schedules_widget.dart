@@ -120,13 +120,13 @@ class _AvailableSchedulesState extends State<AvailableSchedulesWidget> {
         ),
       ),
       onTap: () {
-        if (_store.selectedSchedule == null) {
-          _store.selectSchedule(schedule, date);
-        } else if (_store.selectedSchedule!.selectedDate != date) {
-          _store.selectSchedule(schedule, date);
-        } else {
-          _store.selectSchedule(null, null);
-        }
+        // if (_store.selectedSchedule == null) {
+        //   _store.selectSchedule(schedule, date);
+        // } else if (_store.selectedSchedule!.selectedDate != date) {
+        //   _store.selectSchedule(schedule, date);
+        // } else {
+        //   _store.selectSchedule(null, null);
+        // }
       },
     );
   }
