@@ -140,7 +140,7 @@ class HistoricoPageState extends State<HistoricoPage> {
                   height: 30,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: _getColor(session.statusCode!),
+                    color: _getColor(session.statusCode),
                   ),
                   child: const SizedBox(),
                 ),
@@ -190,7 +190,7 @@ class HistoricoPageState extends State<HistoricoPage> {
     );
   }
 
-  Color _getColor(int statusCode) {
+  Color _getColor(int? statusCode) {
     switch (statusCode) {
       case 0:
         return realizada;

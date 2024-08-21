@@ -33,8 +33,8 @@ class BaseModel<T extends FromJsonModel> {
     }
 
     if (isList) {
-      if (tipo != null && json['list'] != null) {
-        var l = json['list'] as List<dynamic>;
+      if (tipo != null && json['data'] != null) {
+        var l = json['data'] as List<dynamic>;
         list = <T>[];
         for (var element in l) {
           if (element != null) {

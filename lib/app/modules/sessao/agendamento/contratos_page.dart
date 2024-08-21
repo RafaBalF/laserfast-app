@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:laserfast_app/app/models/contrato.model.dart';
 import 'package:laserfast_app/app/modules/sessao/sessao_store.dart';
 import 'package:laserfast_app/app/shared/colors.dart';
 import 'package:laserfast_app/app/shared/text_styles.dart';
@@ -43,7 +44,7 @@ class ContratosPageState extends State<ContratosPage> {
                 if (snapshot.connectionState == ConnectionState.done &&
                     snapshot.hasData) {
                   return Observer(builder: (_) {
-                    return (_store.sessaoParaCheckIn != null)
+                    return (_store.contratos.isNotEmpty)
                         ? _body()
                         : _bodySemContratos();
                   });
@@ -103,9 +104,30 @@ class ContratosPageState extends State<ContratosPage> {
 
   Widget _body() {
     return Column(
-      children: [
-        DividerWidget(height: 2.5.h),
-      ],
+      children: _store.contratos.map((c) => _contratoTile(c)).toList(),
+    );
+  }
+
+  Widget _contratoTile(ContratoModel c) {
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: 1.h),
+      child: GestureDetector(
+        onTap: () {
+          _store.setContratoSelecionado(c);
+          Modular.to.pop();
+        },
+        child: Container(
+          height: 5.h,
+          width: 100.w,
+          padding: EdgeInsets.only(top: 1.h),
+          decoration: const BoxDecoration(
+            border: BorderDirectional(
+              bottom: BorderSide(color: darkGrey),
+            ),
+          ),
+          child: textWidget('Contrato #${c.codigoComanda}'),
+        ),
+      ),
     );
   }
 }

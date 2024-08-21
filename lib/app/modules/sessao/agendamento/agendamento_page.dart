@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:intl/intl.dart';
+import 'package:laserfast_app/app/models/item_contrato.model.dart';
 import 'package:laserfast_app/app/modules/sessao/agendamento/widgets/available_schedules_widget.dart';
 import 'package:laserfast_app/app/modules/sessao/sessao_store.dart';
 import 'package:laserfast_app/app/shared/colors.dart';
@@ -175,7 +176,7 @@ class AgendamentoPageState extends State<AgendamentoPage> {
         _sectionHeader('Selecione o contrato'),
         DividerWidget(height: 2.h),
         GestureDetector(
-          onTap: _selecionarContrato,
+          onTap: () => Modular.to.pushNamed('/sessao/contratos'),
           child: Container(
             width: 100.w,
             height: 7.5.h,
@@ -202,15 +203,53 @@ class AgendamentoPageState extends State<AgendamentoPage> {
     );
   }
 
-  void _selecionarContrato() {}
-
   Widget _servicosSection() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        _sectionHeader('Serviços a serem agendados'),
-        DividerWidget(height: 2.h),
-      ],
+    return Observer(builder: (_) {
+      if (_store.contratoSelecionado == null) return Container();
+
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _sectionHeader('Serviços a serem agendados'),
+          DividerWidget(height: 2.h),
+          ..._store.contratoSelecionado!.itens!.map((c) => _contratoTile(c))
+        ],
+      );
+    });
+  }
+
+  Widget _contratoTile(ItemContratoModel i) {
+    return Padding(
+      padding: EdgeInsets.only(bottom: 1.h),
+      child: GestureDetector(
+        onTap: () {
+          _store.setServicoSelecionado(i);
+        },
+        child: Container(
+          height: 6.h,
+          width: 100.w,
+          padding: EdgeInsets.only(top: 1.h),
+          decoration: const BoxDecoration(
+            color: accent,
+            borderRadius: BorderRadius.all(Radius.circular(10)),
+            boxShadow: <BoxShadow>[
+              BoxShadow(
+                color: darkGrey,
+                blurRadius: 5,
+              ),
+            ],
+          ),
+          child: Container(
+            height: 5.h,
+            width: 100.w,
+            decoration: const BoxDecoration(
+              color: white,
+              borderRadius: BorderRadius.all(Radius.circular(10)),
+            ),
+            child: Center(child: textWidget(i.item)),
+          ),
+        ),
+      ),
     );
   }
 
@@ -314,7 +353,7 @@ class AgendamentoPageState extends State<AgendamentoPage> {
 
   Widget _areaPickerSection() {
     return Observer(builder: (_) {
-      if (_store.selectedSessionAreas.isEmpty) return Container();
+      if (_store.sessionAreas.isEmpty) return Container();
 
       return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         _sectionHeader('Selecione as áreas'),
@@ -327,27 +366,23 @@ class AgendamentoPageState extends State<AgendamentoPage> {
           );
         }),
         DividerWidget(height: 2.h),
-        Observer(builder: (_) {
-          return (_store.sessionAreas.isNotEmpty)
-              ? SelectableCardsWidget(
-                  height: 20.h,
-                  items: _store.sessionAreas.toList(),
-                )
-              : const SizedBox();
-        }),
+        (_store.sessionAreas.isNotEmpty)
+            ? SelectableCardsWidget(
+                height: 20.h,
+                items: _store.sessionAreas.toList(),
+              )
+            : const SizedBox(),
         DividerWidget(height: 2.h),
-        Observer(builder: (_) {
-          return ButtonWidget.filled(
-            onPressed: () {
-              _store.getAvailableSchedules();
-            },
-            backgroundColor: accent,
-            title: 'BUSCAR HORÁRIOS',
-            textColor: white,
-            disabled: _store.selectedSessionAreas.isEmpty,
-            loading: _store.loadingStore.isLoading,
-          );
-        }),
+        ButtonWidget.filled(
+          onPressed: () {
+            _store.getAvailableSchedules();
+          },
+          backgroundColor: accent,
+          title: 'BUSCAR HORÁRIOS',
+          textColor: white,
+          disabled: _store.selectedSessionAreas.isEmpty,
+          loading: _store.loadingStore.isLoading,
+        ),
         DividerWidget(height: 2.h),
         const AvailableSchedulesWidget(),
       ]);

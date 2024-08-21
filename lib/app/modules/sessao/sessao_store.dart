@@ -64,12 +64,33 @@ abstract class SessaoStoreBase with Store {
   @action
   Future<void> getContratos() async {
     if (contratos.isNotEmpty) return;
+
+    final r = await _sessaoApi.listarContratos();
+
+    if (r.success) {
+      contratos.clear();
+      contratos.addAll(r.list!.toList());
+    }
   }
 
   @action
-  void setContratoSelecionado(ContratoModel? c) => contratoSelecionado = c;
+  void setContratoSelecionado(ContratoModel? c) {
+    resetDates();
+    resetSessionArea();
+    resetSchedules();
+    setServicoSelecionado(null);
+
+    contratoSelecionado = c;
+  }
+
   @action
-  void setServicoSelecionado(ItemContratoModel? i) => servicoSelecionado = i;
+  void setServicoSelecionado(ItemContratoModel? i) {
+    resetDates();
+    resetSessionArea();
+    resetSchedules();
+
+    servicoSelecionado = i;
+  }
 
   @action
   void setStartDate(DateTime date) => startDate = date;
@@ -226,6 +247,8 @@ abstract class SessaoStoreBase with Store {
     resetDates();
     resetSessionArea();
     resetSchedules();
+    setContratoSelecionado(null);
+    setServicoSelecionado(null);
   }
 
   //==============================================
