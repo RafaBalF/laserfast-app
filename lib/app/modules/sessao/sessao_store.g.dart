@@ -61,13 +61,13 @@ mixin _$SessaoStore on SessaoStoreBase, Store {
       Atom(name: 'SessaoStoreBase.currentSession', context: context);
 
   @override
-  SessionModel? get currentSession {
+  SessaoModel? get currentSession {
     _$currentSessionAtom.reportRead();
     return super.currentSession;
   }
 
   @override
-  set currentSession(SessionModel? value) {
+  set currentSession(SessaoModel? value) {
     _$currentSessionAtom.reportWrite(value, super.currentSession, () {
       super.currentSession = value;
     });
@@ -190,13 +190,13 @@ mixin _$SessaoStore on SessaoStoreBase, Store {
       Atom(name: 'SessaoStoreBase.history', context: context);
 
   @override
-  ObservableList<SessionModel> get history {
+  ObservableList<EventoSessaoModel> get history {
     _$historyAtom.reportRead();
     return super.history;
   }
 
   @override
-  set history(ObservableList<SessionModel> value) {
+  set history(ObservableList<EventoSessaoModel> value) {
     _$historyAtom.reportWrite(value, super.history, () {
       super.history = value;
     });
@@ -206,13 +206,13 @@ mixin _$SessaoStore on SessaoStoreBase, Store {
       Atom(name: 'SessaoStoreBase.sessaoSendoAvaliada', context: context);
 
   @override
-  SessionModel? get sessaoSendoAvaliada {
+  EventoSessaoModel? get sessaoSendoAvaliada {
     _$sessaoSendoAvaliadaAtom.reportRead();
     return super.sessaoSendoAvaliada;
   }
 
   @override
-  set sessaoSendoAvaliada(SessionModel? value) {
+  set sessaoSendoAvaliada(EventoSessaoModel? value) {
     _$sessaoSendoAvaliadaAtom.reportWrite(value, super.sessaoSendoAvaliada, () {
       super.sessaoSendoAvaliada = value;
     });
@@ -286,13 +286,13 @@ mixin _$SessaoStore on SessaoStoreBase, Store {
       Atom(name: 'SessaoStoreBase.sessaoParaCheckIn', context: context);
 
   @override
-  SessionModel? get sessaoParaCheckIn {
+  EventoSessaoModel? get sessaoParaCheckIn {
     _$sessaoParaCheckInAtom.reportRead();
     return super.sessaoParaCheckIn;
   }
 
   @override
-  set sessaoParaCheckIn(SessionModel? value) {
+  set sessaoParaCheckIn(EventoSessaoModel? value) {
     _$sessaoParaCheckInAtom.reportWrite(value, super.sessaoParaCheckIn, () {
       super.sessaoParaCheckIn = value;
     });
@@ -390,8 +390,8 @@ mixin _$SessaoStore on SessaoStoreBase, Store {
       AsyncAction('SessaoStoreBase.confirmSession', context: context);
 
   @override
-  Future<void> confirmSession(SessionModel session) {
-    return _$confirmSessionAsyncAction.run(() => super.confirmSession(session));
+  Future<void> confirmSession(EventoSessaoModel evento) {
+    return _$confirmSessionAsyncAction.run(() => super.confirmSession(evento));
   }
 
   late final _$initAvaliarAsyncAction =
@@ -633,7 +633,7 @@ mixin _$SessaoStore on SessaoStoreBase, Store {
   }
 
   @override
-  void setSessaoSendoAvaliada(SessionModel? s) {
+  void setSessaoSendoAvaliada(EventoSessaoModel? s) {
     final _$actionInfo = _$SessaoStoreBaseActionController.startAction(
         name: 'SessaoStoreBase.setSessaoSendoAvaliada');
     try {
@@ -677,7 +677,7 @@ mixin _$SessaoStore on SessaoStoreBase, Store {
   }
 
   @override
-  void setSessaoParaCheckIn(SessionModel? s) {
+  void setSessaoParaCheckIn(EventoSessaoModel? s) {
     final _$actionInfo = _$SessaoStoreBaseActionController.startAction(
         name: 'SessaoStoreBase.setSessaoParaCheckIn');
     try {

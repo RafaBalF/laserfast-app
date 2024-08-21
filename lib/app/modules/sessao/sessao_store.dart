@@ -7,8 +7,9 @@ import 'package:laserfast_app/app/models/available_schedule.model.dart';
 import 'package:laserfast_app/app/models/base.model.dart';
 import 'package:laserfast_app/app/models/contrato.model.dart';
 import 'package:laserfast_app/app/models/estabelecimento.model.dart';
+import 'package:laserfast_app/app/models/evento_sessao.model.dart';
 import 'package:laserfast_app/app/models/item_contrato.model.dart';
-import 'package:laserfast_app/app/models/session.model.dart';
+import 'package:laserfast_app/app/models/sessao.model.dart';
 import 'package:laserfast_app/app/models/session_area.model.dart';
 import 'package:laserfast_app/app/models/string_response.model.dart';
 import 'package:laserfast_app/app/shared/interfaces/selectable_card.interface.dart';
@@ -36,7 +37,7 @@ abstract class SessaoStoreBase with Store {
   ItemContratoModel? servicoSelecionado;
 
   @observable
-  SessionModel? currentSession;
+  SessaoModel? currentSession;
 
   @observable
   DateTime? startDate;
@@ -256,7 +257,7 @@ abstract class SessaoStoreBase with Store {
   //==============================================
 
   @observable
-  ObservableList<SessionModel> history = ObservableList.of([]);
+  ObservableList<EventoSessaoModel> history = ObservableList.of([]);
 
   @action
   Future<void> initHistory() async {
@@ -267,19 +268,26 @@ abstract class SessaoStoreBase with Store {
   Future<void> getHistory() async {
     var r = await _sessaoApi.listarHistoricoUltimasSessoes();
 
-    history.addAll(r.list ?? []);
+    final sessoes = r.list ?? [];
+
+    final eventos = <EventoSessaoModel>[];
+
+    for (var sessao in sessoes) {
+      eventos.addAll(sessao.eventos!);
+    }
+
+    history.addAll(eventos);
   }
 
   @action
-  Future<void> confirmSession(SessionModel session) async {
-    var s = history.indexWhere((s) => s.id == session.id);
+  Future<void> confirmSession(EventoSessaoModel evento) async {
+    var s = history.indexWhere((s) => s.codigoEvento == evento.codigoEvento);
 
     if (s == -1) return;
 
-    var newSession = SessionModel.createNew(session);
+    var newSession = EventoSessaoModel.createNew(evento);
 
-    newSession.status = 'Sessão confirmada';
-    newSession.statusCode = 4;
+    newSession.status = 'Confirmado';
 
     history[s] = newSession;
   }
@@ -294,7 +302,7 @@ abstract class SessaoStoreBase with Store {
   //==============================================
 
   @observable
-  SessionModel? sessaoSendoAvaliada;
+  EventoSessaoModel? sessaoSendoAvaliada;
   @observable
   AplicadorModel? aplicador;
   @observable
@@ -326,7 +334,7 @@ abstract class SessaoStoreBase with Store {
   }
 
   @action
-  void setSessaoSendoAvaliada(SessionModel? s) => sessaoSendoAvaliada = s;
+  void setSessaoSendoAvaliada(EventoSessaoModel? s) => sessaoSendoAvaliada = s;
   @action
   void setNotaSessao(double? d) => notaSessao = d;
   @action
@@ -349,7 +357,7 @@ abstract class SessaoStoreBase with Store {
   //==============================================
 
   @observable
-  SessionModel? sessaoParaCheckIn;
+  EventoSessaoModel? sessaoParaCheckIn;
   @observable
   XFile? fotoCheckIn;
   @observable
@@ -364,35 +372,12 @@ abstract class SessaoStoreBase with Store {
   }
 
   @action
-  void setSessaoParaCheckIn(SessionModel? s) => sessaoParaCheckIn = s;
+  void setSessaoParaCheckIn(EventoSessaoModel? s) => sessaoParaCheckIn = s;
   @action
   void setfotoCheckIn(XFile? b) => fotoCheckIn = b;
 
   @action
   Future<bool> buscarSessao() async {
-    sessaoParaCheckIn = SessionModel(
-      id: 1,
-      applicator: 'Maria Silva',
-      date: DateTime.now(),
-      areas: 'Perna inteira, Virilha, Buço 10 sessões',
-      status: 'Sessão realizada',
-      statusCode: 0,
-      sessionAreas: [
-        SessionAreaModel(
-          name: 'Virilha (5 min)',
-          duration: 5,
-        ),
-        SessionAreaModel(
-          name: 'Buço',
-          duration: 10,
-        ),
-        SessionAreaModel(
-          name: 'Axilas (10 sessões)',
-          duration: 15,
-        ),
-      ],
-    );
-
     await getAreasDisponiveis();
 
     return true;
@@ -402,57 +387,7 @@ abstract class SessaoStoreBase with Store {
   Future<void> getAreasDisponiveis() async {
     areasDisponiveis.clear();
 
-    List<SessionAreaModel> sessions = [
-      SessionAreaModel(
-        name: 'Virilha (5 min)',
-        duration: 5,
-      ),
-      SessionAreaModel(
-        name: 'Buço',
-        duration: 10,
-      ),
-      SessionAreaModel(
-        name: 'Axilas (10 sessões)',
-        duration: 15,
-      ),
-      SessionAreaModel(
-        name: 'Coxas',
-        duration: 10,
-      ),
-      SessionAreaModel(
-        name: 'Rosto inteiro',
-        duration: 15,
-      ),
-      SessionAreaModel(
-        name: 'Linha alba',
-        duration: 15,
-      ),
-      SessionAreaModel(
-        name: 'Braços e mãos',
-        duration: 20,
-      ),
-    ];
-
     List<SelectableCard<SessionAreaModel>> items = [];
-
-    for (var s in sessions) {
-      final selected = (sessaoParaCheckIn!.sessionAreas!
-              .where((sessao) => sessao.name == s.name)
-              .firstOrNull !=
-          null);
-
-      items.add(SelectableCard(
-        selected: selected,
-        label: s.name.toString(),
-        value: s,
-        onSelect: () {
-          selecionarAreasDaSessao(s);
-        },
-        onUnselect: () {
-          selecionarAreasDaSessao(s);
-        },
-      ));
-    }
 
     areasDisponiveis.addAll(items);
   }
@@ -460,17 +395,6 @@ abstract class SessaoStoreBase with Store {
   @action
   void selecionarAreasDaSessao(SessionAreaModel session) {
     if (sessaoParaCheckIn == null) return;
-    if (sessaoParaCheckIn!.sessionAreas == null) return;
-
-    var index = sessaoParaCheckIn!.sessionAreas!
-        .indexWhere((s) => s.name == session.name);
-
-    if (index == -1) {
-      sessaoParaCheckIn!.sessionAreas!
-          .add(sessaoParaCheckIn!.sessionAreas![index]);
-    } else {
-      sessaoParaCheckIn!.sessionAreas!.removeAt(index);
-    }
   }
 
   @action

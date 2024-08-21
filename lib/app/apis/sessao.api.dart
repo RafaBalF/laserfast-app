@@ -1,13 +1,13 @@
 import 'package:laserfast_app/app/models/base.model.dart';
 import 'package:laserfast_app/app/models/contrato.model.dart';
-import 'package:laserfast_app/app/models/session.model.dart';
+import 'package:laserfast_app/app/models/sessao.model.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dio/dio.dart';
 import 'base.api.dart';
 
 class SessaoApi extends BaseApi {
-  Future<BaseModel<SessionModel>> listarHistoricoUltimasSessoes() async {
-    var b = BaseModel<SessionModel>();
+  Future<BaseModel<SessaoModel>> listarHistoricoUltimasSessoes() async {
+    var b = BaseModel<SessaoModel>();
 
     try {
       var connectivityResult = await (Connectivity().checkConnectivity());
@@ -20,7 +20,7 @@ class SessaoApi extends BaseApi {
 
       var result = (await (await dio).get(url)).data;
 
-      b = BaseModel.fromJson(result, tipo: SessionModel(), isList: true);
+      b = BaseModel.fromJson(result, tipo: SessaoModel(), isList: true);
     } on DioException catch (e) {
       b.message = handleDioException(e);
     } catch (e) {
