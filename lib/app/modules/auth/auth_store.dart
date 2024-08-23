@@ -1,3 +1,4 @@
+import 'package:laserfast_app/app/models/base.model.dart';
 import 'package:mobx/mobx.dart';
 import 'package:laserfast_app/app/apis/auth.api.dart';
 import 'package:laserfast_app/app/models/auth.model.dart';
@@ -20,6 +21,10 @@ abstract class AuthStoreBase with Store {
 
   @observable
   AuthModel? authModel;
+  @observable
+  bool attemptedAutoLogin = false;
+  @observable
+  bool autoLogged = false;
 
   // COMPUTED
 
@@ -35,11 +40,26 @@ abstract class AuthStoreBase with Store {
 
   @action
   Future<void> getAuthModel() async {
-    if (_loginHive.isLogged()) {
-      authModel = _loginHive.getLogin();
-    } else {
-      authModel = null;
-    }
+    _loginHive.isLogged()
+        ? authModel = _loginHive.getLogin()
+        : authModel = null;
+  }
+
+  @action
+  Future<void> attemptAutoLogin() async {
+    await getAuthModel();
+
+    if (authModel == null) return;
+
+    var r = BaseModel<AuthModel>();
+
+    r = await authApi.validarLogin(authModel!.cpf!, authModel!.senha!);
+
+    attemptedAutoLogin = true;
+
+    if (!r.success) return;
+
+    autoLogged = true;
   }
 
   //MISCS

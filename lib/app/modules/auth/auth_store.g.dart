@@ -25,6 +25,38 @@ mixin _$AuthStore on AuthStoreBase, Store {
     });
   }
 
+  late final _$attemptedAutoLoginAtom =
+      Atom(name: 'AuthStoreBase.attemptedAutoLogin', context: context);
+
+  @override
+  bool get attemptedAutoLogin {
+    _$attemptedAutoLoginAtom.reportRead();
+    return super.attemptedAutoLogin;
+  }
+
+  @override
+  set attemptedAutoLogin(bool value) {
+    _$attemptedAutoLoginAtom.reportWrite(value, super.attemptedAutoLogin, () {
+      super.attemptedAutoLogin = value;
+    });
+  }
+
+  late final _$autoLoggedAtom =
+      Atom(name: 'AuthStoreBase.autoLogged', context: context);
+
+  @override
+  bool get autoLogged {
+    _$autoLoggedAtom.reportRead();
+    return super.autoLogged;
+  }
+
+  @override
+  set autoLogged(bool value) {
+    _$autoLoggedAtom.reportWrite(value, super.autoLogged, () {
+      super.autoLogged = value;
+    });
+  }
+
   late final _$logoutAsyncAction =
       AsyncAction('AuthStoreBase.logout', context: context);
 
@@ -39,6 +71,14 @@ mixin _$AuthStore on AuthStoreBase, Store {
   @override
   Future<void> getAuthModel() {
     return _$getAuthModelAsyncAction.run(() => super.getAuthModel());
+  }
+
+  late final _$attemptAutoLoginAsyncAction =
+      AsyncAction('AuthStoreBase.attemptAutoLogin', context: context);
+
+  @override
+  Future<void> attemptAutoLogin() {
+    return _$attemptAutoLoginAsyncAction.run(() => super.attemptAutoLogin());
   }
 
   late final _$AuthStoreBaseActionController =
@@ -58,7 +98,9 @@ mixin _$AuthStore on AuthStoreBase, Store {
   @override
   String toString() {
     return '''
-authModel: ${authModel}
+authModel: ${authModel},
+attemptedAutoLogin: ${attemptedAutoLogin},
+autoLogged: ${autoLogged}
     ''';
   }
 }

@@ -42,6 +42,7 @@ class AuthApi extends BaseApi {
           cpf: b.data!.cpf,
           celular: b.data!.celular,
           email: b.data!.email,
+          senha: senha,
         );
 
         await _loginHive.setLogin(authModel);

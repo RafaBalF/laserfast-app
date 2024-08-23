@@ -1,5 +1,6 @@
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:laserfast_app/app/constants/transition_type.dart';
+import 'package:laserfast_app/app/guards/auth.guard.dart';
 import 'package:laserfast_app/app/modules/auth/auth_module.dart';
 import 'package:laserfast_app/app/modules/diario/diario_module.dart';
 import 'package:laserfast_app/app/modules/faq/faq_module.dart';
@@ -34,26 +35,31 @@ class AppModule extends Module {
       '/home',
       module: HomeModule(),
       transition: defaultTransitonType,
+      guards: [AuthGuard()],
     );
     r.module(
       '/sessao',
       module: SessaoModule(),
       transition: defaultTransitonType,
+      guards: [AuthGuard()],
     );
     r.module(
       '/pagamentos',
       module: PagamentoModule(),
       transition: defaultTransitonType,
+      guards: [AuthGuard()],
     );
     r.module(
       '/profile',
       module: ProfileModule(),
       transition: defaultTransitonType,
+      guards: [AuthGuard()],
     );
     r.module(
       '/parceiros',
       module: ParceirosModule(),
       transition: defaultTransitonType,
+      guards: [AuthGuard()],
     );
     r.module(
       '/faq',
@@ -64,11 +70,13 @@ class AppModule extends Module {
       '/indicar',
       module: IndicarModule(),
       transition: defaultTransitonType,
+      guards: [AuthGuard()],
     );
     r.module(
       '/diario',
       module: DiarioModule(),
       transition: defaultTransitonType,
+      guards: [AuthGuard()],
     );
   }
 }
