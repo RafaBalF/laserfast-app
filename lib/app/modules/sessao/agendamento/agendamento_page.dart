@@ -73,76 +73,17 @@ class AgendamentoPageState extends State<AgendamentoPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           DividerWidget(height: 3.h),
-          SizedBox(
-            height: 10.h,
-            width: 100.w,
-            child: Row(
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(right: 3.w),
-                  child: ShimmerWidget(width: 20.w, height: 25.h),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(right: 3.w),
-                  child: ShimmerWidget(width: 20.w, height: 25.h),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(right: 3.w),
-                  child: ShimmerWidget(width: 20.w, height: 25.h),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(right: 3.w),
-                  child: ShimmerWidget(width: 20.w, height: 25.h),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(right: 3.w),
-                  child: ShimmerWidget(width: 20.w, height: 25.h),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(right: 3.w),
-                  child: ShimmerWidget(width: 20.w, height: 25.h),
-                ),
-              ],
-            ),
-          ),
-          DividerWidget(height: 3.h),
-          SizedBox(
-            height: 5.h,
-            width: 90.w,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                ShimmerWidget(width: 70.w, height: 4.h),
-                ShimmerWidget(width: 15.w, height: 4.h),
-              ],
-            ),
-          ),
-          DividerWidget(height: 3.h),
           ShimmerWidget(width: 90.w, height: 12.h),
           DividerWidget(height: 2.h),
           ShimmerWidget(width: 90.w, height: 12.h),
           DividerWidget(height: 3.h),
-          SizedBox(
-            height: 25.h,
-            width: 100.w,
-            child: Row(
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(right: 5.w),
-                  child: ShimmerWidget(width: 43.w, height: 10.h),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(right: 5.w),
-                  child: ShimmerWidget(width: 43.w, height: 10.h),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(right: 5.w),
-                  child: ShimmerWidget(width: 43.w, height: 10.h),
-                )
-              ],
-            ),
-          ),
+          ShimmerWidget(width: 90.w, height: 12.h),
+          DividerWidget(height: 3.h),
+          ShimmerWidget(width: 90.w, height: 12.h),
+          DividerWidget(height: 3.h),
+          ShimmerWidget(width: 90.w, height: 12.h),
+          DividerWidget(height: 3.h),
+          ShimmerWidget(width: 90.w, height: 12.h),
         ],
       ),
     );
