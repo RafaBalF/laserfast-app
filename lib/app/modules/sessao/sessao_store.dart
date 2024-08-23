@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 import 'package:laserfast_app/app/apis/sessao.api.dart';
 import 'package:laserfast_app/app/models/aplicador.model.dart';
 import 'package:laserfast_app/app/models/comanda.model.dart';
@@ -7,6 +9,8 @@ import 'package:laserfast_app/app/models/evento_sessao.model.dart';
 import 'package:laserfast_app/app/models/horarios_disponiveis_com_opcoes.model.dart';
 import 'package:laserfast_app/app/models/sessao.model.dart';
 import 'package:laserfast_app/app/models/session_area.model.dart';
+import 'package:laserfast_app/app/modules/sessao/agendamento/models/hora_display.model.dart';
+import 'package:laserfast_app/app/modules/sessao/agendamento/models/horarios_display.model.dart';
 import 'package:laserfast_app/app/shared/interfaces/selectable_card.interface.dart';
 import 'package:mobx/mobx.dart';
 import 'package:laserfast_app/loading_store.dart';
@@ -23,6 +27,16 @@ abstract class SessaoStoreBase with Store {
   //==============================================
   //==== AGENDAMENTO =============================
   //==============================================
+
+  final ScrollController scrollController = ScrollController();
+
+  void scrollToBottom() {
+    scrollController.animateTo(
+      scrollController.position.maxScrollExtent,
+      duration: const Duration(seconds: 1),
+      curve: Curves.fastOutSlowIn,
+    );
+  }
 
   @observable
   SessaoModel? sessaoAtual;
@@ -107,8 +121,7 @@ abstract class SessaoStoreBase with Store {
   @observable
   HorariosDisponiveisComOpcoesModel? horarios;
   @observable
-  ObservableList<SelectableCard<DateTime>> horariosDisplay =
-      ObservableList.of([]);
+  ObservableList<HorariosDisplayModel> horariosDisplay = ObservableList.of([]);
   @observable
   DateTime? horarioSelecionado;
 
@@ -132,25 +145,56 @@ abstract class SessaoStoreBase with Store {
     if (!r.success) return;
 
     horariosDisplay.clear();
+    desselecionarHorario();
 
     horarios = r.data;
 
     horarios!.horarios!.length;
 
+    final DateFormat diaFormatter = DateFormat("dd/MM");
+    final DateFormat horaFormatter = DateFormat("hh:mm");
+
+    final dias = <int>[];
+
     for (var i = 0; i < horarios!.horarios!.length; i++) {
       final horario = horarios!.horarios![i];
 
-      horariosDisplay.add(SelectableCard(
-        label: horario.toString(),
-        value: horario,
-        onSelect: () {
-          selecionarHorario(horario);
-        },
-        onUnselect: () {
-          desselecionarHorario();
-        },
+      final dia = horario.day;
+
+      if (!dias.contains(dia)) dias.add(dia);
+    }
+
+    for (var d in dias) {
+      final horas = horarios!.horarios!.where((h) => h.day == d).toList();
+
+      if (horas.isEmpty) continue;
+
+      List<HoraDisplay> horaDisplays = [];
+
+      for (var h in horas) {
+        horaDisplays.add(HoraDisplay(hora: horaFormatter.format(h), valor: h));
+      }
+
+      horariosDisplay.add(HorariosDisplayModel(
+        dia: diaFormatter.format(horas.first),
+        horarios: horaDisplays,
       ));
     }
+
+    // for (var i = 0; i < horarios!.horarios!.length; i++) {
+    //   final horario = horarios!.horarios![i];
+
+    //   horariosDisplay.add(SelectableCard(
+    //     label: formatter.format(horario),
+    //     value: horario,
+    //     onSelect: () {
+    //       selecionarHorario(horario);
+    //     },
+    //     onUnselect: () {
+    //       desselecionarHorario();
+    //     },
+    //   ));
+    // }
   }
 
   @action
@@ -171,6 +215,9 @@ abstract class SessaoStoreBase with Store {
   void resetAgendamento() {
     resetDates();
     resetDuracaoSessao();
+    horarios = null;
+    horariosDisplay.clear();
+    desselecionarHorario();
   }
 
   //==============================================

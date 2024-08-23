@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:intl/intl.dart';
+import 'package:laserfast_app/app/modules/sessao/agendamento/widgets/horarios_disponiveis_widget.dart';
 import 'package:laserfast_app/app/modules/sessao/sessao_store.dart';
 import 'package:laserfast_app/app/shared/colors.dart';
 import 'package:laserfast_app/app/shared/modal_bottom_sheet.dart';
@@ -32,10 +33,7 @@ class AgendamentoPageState extends State<AgendamentoPage> {
   final DateRangePickerController _controller = DateRangePickerController();
 
   final DateFormat ddmmmyyyyFormatter = DateFormat('dd MMM yyyy');
-  final DateFormat ddmmFormatter = DateFormat('dd/MM');
   final DateFormat hhmmFormatter = DateFormat('HH:mm');
-
-  final ScrollController _scrollController = ScrollController();
 
   @override
   void initState() {
@@ -51,7 +49,7 @@ class AgendamentoPageState extends State<AgendamentoPage> {
       builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
         return SimpleScaffoldWidget(
             title: 'AGENDAMENTO',
-            controller: _scrollController,
+            controller: _store.scrollController,
             bodyPadding: EdgeInsets.symmetric(horizontal: 5.w),
             body: Observer(
               builder: (_) {
@@ -101,8 +99,9 @@ class AgendamentoPageState extends State<AgendamentoPage> {
         DividerWidget(height: spacing),
         _datePickerSection(),
         DividerWidget(height: spacing),
-        _sessionDurationSection(),
         _selecionarHorario(),
+        DividerWidget(height: spacing),
+        _sessionDurationSection(),
         DividerWidget(height: spacing),
       ],
     );
@@ -199,12 +198,8 @@ class AgendamentoPageState extends State<AgendamentoPage> {
           DividerWidget(height: 2.5.h),
           ButtonWidget.filled(
             onPressed: () async {
-              _store.buscarHorarios();
-              _scrollController.animateTo(
-                _scrollController.position.maxScrollExtent,
-                duration: const Duration(seconds: 1),
-                curve: Curves.fastOutSlowIn,
-              );
+              await _store.buscarHorarios();
+              _store.scrollToBottom();
             },
             title: 'BUSCAR HORÁRIOS',
             disabled: !_store.podeBuscarHorarios,
@@ -279,12 +274,7 @@ class AgendamentoPageState extends State<AgendamentoPage> {
           children: [
             _sectionHeader('Selecione o horário'),
             DividerWidget(height: 2.h),
-            SelectableCardsWidget(
-              height: 30.h,
-              items: _store.horariosDisplay.toList(),
-            ),
-            DividerWidget(height: 2.h),
-            DividerWidget(height: 10.h),
+            const HorariosDisponiveisWidget(),
           ]);
     });
   }
@@ -363,9 +353,10 @@ class AgendamentoPageState extends State<AgendamentoPage> {
               ),
             ),
           ),
+          DividerWidget(height: 5.h),
         ]);
       } else {
-        return SizedBox(height: 3.h);
+        return SizedBox(height: 10.h);
       }
     });
   }

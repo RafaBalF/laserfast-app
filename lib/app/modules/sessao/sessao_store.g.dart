@@ -133,13 +133,13 @@ mixin _$SessaoStore on SessaoStoreBase, Store {
       Atom(name: 'SessaoStoreBase.horariosDisplay', context: context);
 
   @override
-  ObservableList<SelectableCard<DateTime>> get horariosDisplay {
+  ObservableList<HorariosDisplayModel> get horariosDisplay {
     _$horariosDisplayAtom.reportRead();
     return super.horariosDisplay;
   }
 
   @override
-  set horariosDisplay(ObservableList<SelectableCard<DateTime>> value) {
+  set horariosDisplay(ObservableList<HorariosDisplayModel> value) {
     _$horariosDisplayAtom.reportWrite(value, super.horariosDisplay, () {
       super.horariosDisplay = value;
     });
