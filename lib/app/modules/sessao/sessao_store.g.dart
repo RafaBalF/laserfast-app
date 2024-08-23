@@ -113,22 +113,6 @@ mixin _$SessaoStore on SessaoStoreBase, Store {
     });
   }
 
-  late final _$horariosAtom =
-      Atom(name: 'SessaoStoreBase.horarios', context: context);
-
-  @override
-  HorariosDisponiveisComOpcoesModel? get horarios {
-    _$horariosAtom.reportRead();
-    return super.horarios;
-  }
-
-  @override
-  set horarios(HorariosDisponiveisComOpcoesModel? value) {
-    _$horariosAtom.reportWrite(value, super.horarios, () {
-      super.horarios = value;
-    });
-  }
-
   late final _$horariosDisplayAtom =
       Atom(name: 'SessaoStoreBase.horariosDisplay', context: context);
 
@@ -341,7 +325,7 @@ mixin _$SessaoStore on SessaoStoreBase, Store {
       AsyncAction('SessaoStoreBase.buscarHorarios', context: context);
 
   @override
-  Future<void> buscarHorarios() {
+  Future<BaseModel<HorariosDisponiveisComOpcoesModel>> buscarHorarios() {
     return _$buscarHorariosAsyncAction.run(() => super.buscarHorarios());
   }
 
@@ -528,6 +512,17 @@ mixin _$SessaoStore on SessaoStoreBase, Store {
   }
 
   @override
+  void limparHorarios() {
+    final _$actionInfo = _$SessaoStoreBaseActionController.startAction(
+        name: 'SessaoStoreBase.limparHorarios');
+    try {
+      return super.limparHorarios();
+    } finally {
+      _$SessaoStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void selecionarHorario(DateTime d) {
     final _$actionInfo = _$SessaoStoreBaseActionController.startAction(
         name: 'SessaoStoreBase.selecionarHorario');
@@ -679,7 +674,6 @@ comandaSelecionada: ${comandaSelecionada},
 startDate: ${startDate},
 endDate: ${endDate},
 duracaoSessao: ${duracaoSessao},
-horarios: ${horarios},
 horariosDisplay: ${horariosDisplay},
 horarioSelecionado: ${horarioSelecionado},
 history: ${history},

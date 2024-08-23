@@ -6,6 +6,7 @@ import 'package:laserfast_app/app/modules/sessao/agendamento/models/hora_display
 import 'package:laserfast_app/app/modules/sessao/agendamento/models/horarios_display.model.dart';
 import 'package:laserfast_app/app/modules/sessao/sessao_store.dart';
 import 'package:laserfast_app/app/shared/colors.dart';
+import 'package:laserfast_app/app/shared/text_styles.dart';
 import 'package:laserfast_app/app/shared/text_widget.dart';
 import 'package:laserfast_app/app/shared/widgets/accordion_widget.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -93,28 +94,27 @@ class _AvailableSchedulesState extends State<HorariosDisponiveisWidget> {
 
     return GestureDetector(
       child: Container(
+        width: 27.w,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(2),
           border: Border.all(color: borderColor),
           color: bgColor,
         ),
-        padding: EdgeInsets.symmetric(horizontal: 7.5.w, vertical: 1.h),
+        padding: EdgeInsets.symmetric(vertical: 1.h),
         child: textWidget(
           h.hora,
           textAlign: TextAlign.center,
-          style: TextStyle(
-            fontSize: 16.sp,
-            fontWeight: FontWeight.bold,
-            color: textColor,
-            height: 1.2,
-          ),
+          style: label(color: textColor),
         ),
       ),
-      onTap: () {
+      onTap: () async {
         if (_store.horarioSelecionado == null ||
             _store.horarioSelecionado != h.valor) {
           _store.selecionarHorario(h.valor!);
-          _store.scrollToBottom();
+          await Future.delayed(
+            const Duration(milliseconds: 100),
+            _store.scrollToBottom,
+          );
         } else {
           _store.desselecionarHorario();
         }

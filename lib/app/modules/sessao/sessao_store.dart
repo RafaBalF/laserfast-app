@@ -3,6 +3,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:laserfast_app/app/apis/sessao.api.dart';
 import 'package:laserfast_app/app/models/aplicador.model.dart';
+import 'package:laserfast_app/app/models/base.model.dart';
 import 'package:laserfast_app/app/models/comanda.model.dart';
 import 'package:laserfast_app/app/models/estabelecimento.model.dart';
 import 'package:laserfast_app/app/models/evento_sessao.model.dart';
@@ -28,11 +29,11 @@ abstract class SessaoStoreBase with Store {
   //==== AGENDAMENTO =============================
   //==============================================
 
-  final ScrollController scrollController = ScrollController();
+  final ScrollController agendaScrollController = ScrollController();
 
   void scrollToBottom() {
-    scrollController.animateTo(
-      scrollController.position.maxScrollExtent,
+    agendaScrollController.animateTo(
+      agendaScrollController.position.maxScrollExtent,
       duration: const Duration(seconds: 1),
       curve: Curves.fastOutSlowIn,
     );
@@ -119,21 +120,22 @@ abstract class SessaoStoreBase with Store {
   }
 
   @observable
-  HorariosDisponiveisComOpcoesModel? horarios;
-  @observable
   ObservableList<HorariosDisplayModel> horariosDisplay = ObservableList.of([]);
   @observable
   DateTime? horarioSelecionado;
 
   @action
-  Future<void> buscarHorarios() async {
+  Future<BaseModel<HorariosDisponiveisComOpcoesModel>> buscarHorarios() async {
     loadingStore.show();
 
+    var b = BaseModel<HorariosDisponiveisComOpcoesModel>();
+
     if (comandaSelecionada == null || startDate == null || endDate == null) {
-      return;
+      b.message = "Faltam informações para buscar horários";
+      return b;
     }
 
-    final r = await _sessaoApi.listarHorariosDisponiveisComOpcoes(
+    b = await _sessaoApi.listarHorariosDisponiveisComOpcoes(
       comandaSelecionada!.codigoUnidade!,
       comandaSelecionada!.tempoSessao!,
       startDate!,
@@ -142,22 +144,22 @@ abstract class SessaoStoreBase with Store {
 
     loadingStore.hide();
 
-    if (!r.success) return;
+    if (!b.success) return b;
 
     horariosDisplay.clear();
     desselecionarHorario();
 
-    horarios = r.data;
+    HorariosDisponiveisComOpcoesModel horariosDisponiveis = b.data!;
 
-    horarios!.horarios!.length;
+    horariosDisponiveis.horarios!.length;
 
     final DateFormat diaFormatter = DateFormat("dd/MM");
-    final DateFormat horaFormatter = DateFormat("hh:mm");
+    final DateFormat horaFormatter = DateFormat("HH:mm");
 
     final dias = <int>[];
 
-    for (var i = 0; i < horarios!.horarios!.length; i++) {
-      final horario = horarios!.horarios![i];
+    for (var i = 0; i < horariosDisponiveis.horarios!.length; i++) {
+      final horario = horariosDisponiveis.horarios![i];
 
       final dia = horario.day;
 
@@ -165,7 +167,8 @@ abstract class SessaoStoreBase with Store {
     }
 
     for (var d in dias) {
-      final horas = horarios!.horarios!.where((h) => h.day == d).toList();
+      final horas =
+          horariosDisponiveis.horarios!.where((h) => h.day == d).toList();
 
       if (horas.isEmpty) continue;
 
@@ -181,25 +184,14 @@ abstract class SessaoStoreBase with Store {
       ));
     }
 
-    // for (var i = 0; i < horarios!.horarios!.length; i++) {
-    //   final horario = horarios!.horarios![i];
-
-    //   horariosDisplay.add(SelectableCard(
-    //     label: formatter.format(horario),
-    //     value: horario,
-    //     onSelect: () {
-    //       selecionarHorario(horario);
-    //     },
-    //     onUnselect: () {
-    //       desselecionarHorario();
-    //     },
-    //   ));
-    // }
+    return b;
   }
 
   @action
-  void selecionarHorario(DateTime d) => horarioSelecionado = d;
+  void limparHorarios() => horarioSelecionado = null;
 
+  @action
+  void selecionarHorario(DateTime d) => horarioSelecionado = d;
   @action
   void desselecionarHorario() => horarioSelecionado = null;
 
@@ -215,7 +207,6 @@ abstract class SessaoStoreBase with Store {
   void resetAgendamento() {
     resetDates();
     resetDuracaoSessao();
-    horarios = null;
     horariosDisplay.clear();
     desselecionarHorario();
   }

@@ -49,7 +49,7 @@ class AgendamentoPageState extends State<AgendamentoPage> {
       builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
         return SimpleScaffoldWidget(
             title: 'AGENDAMENTO',
-            controller: _store.scrollController,
+            controller: _store.agendaScrollController,
             bodyPadding: EdgeInsets.symmetric(horizontal: 5.w),
             body: Observer(
               builder: (_) {
@@ -196,15 +196,27 @@ class AgendamentoPageState extends State<AgendamentoPage> {
             ),
           ),
           DividerWidget(height: 2.5.h),
-          ButtonWidget.filled(
-            onPressed: () async {
-              await _store.buscarHorarios();
-              _store.scrollToBottom();
-            },
-            title: 'BUSCAR HORÁRIOS',
-            disabled: !_store.podeBuscarHorarios,
-            loading: _store.loadingStore.isLoading,
-          ),
+          (_store.horariosDisplay.isEmpty)
+              ? ButtonWidget.filled(
+                  onPressed: () async {
+                    final r = await _store.buscarHorarios();
+
+                    if (!mounted) return;
+
+                    if (!r.success) {
+                      return showErrorBottomSheet(
+                        context,
+                        message: r.message,
+                      );
+                    }
+
+                    _store.scrollToBottom();
+                  },
+                  title: 'BUSCAR HORÁRIOS',
+                  disabled: !_store.podeBuscarHorarios,
+                  loading: _store.loadingStore.isLoading,
+                )
+              : const SizedBox(),
         ],
       );
     });
@@ -238,6 +250,9 @@ class AgendamentoPageState extends State<AgendamentoPage> {
           );
         }
 
+        _store.desselecionarHorario();
+        _store.horariosDisplay.clear();
+
         DateTime startDate = _controller.selectedRange!.startDate!;
         DateTime endDate = _controller.selectedRange!.endDate ?? startDate;
 
@@ -253,20 +268,20 @@ class AgendamentoPageState extends State<AgendamentoPage> {
 
   Widget _selecionarHorario() {
     return Observer(builder: (_) {
-      if (_store.horarios == null) return const SizedBox();
+      if (_store.horariosDisplay.isEmpty) return const SizedBox();
 
-      if (_store.horarios!.horarios!.isEmpty) {
-        return Column(
-          children: [
-            textWidget(
-              'Não foram encontrados horários, por favor selecione outro período de tempo.',
-              style: h2(),
-              maxLines: 5,
-            ),
-            DividerWidget(height: 5.h),
-          ],
-        );
-      }
+      // if (_store.horariosDisplay.isEmpty) {
+      //   return Column(
+      //     children: [
+      //       textWidget(
+      //         'Não foram encontrados horários, por favor selecione outro período de tempo.',
+      //         style: h2(),
+      //         maxLines: 5,
+      //       ),
+      //       DividerWidget(height: 5.h),
+      //     ],
+      //   );
+      // }
 
       return Column(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -352,6 +367,16 @@ class AgendamentoPageState extends State<AgendamentoPage> {
                 ],
               ),
             ),
+          ),
+          DividerWidget(height: 5.h),
+          ButtonWidget.filled(
+            onPressed: () async {
+              _store.scrollToBottom();
+              // await _store.buscarHorarios();
+            },
+            title: 'CONFIRMAR',
+            disabled: _store.horarioSelecionado == null,
+            loading: _store.loadingStore.isLoading,
           ),
           DividerWidget(height: 5.h),
         ]);
