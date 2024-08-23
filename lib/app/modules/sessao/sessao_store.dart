@@ -5,6 +5,7 @@ import 'package:laserfast_app/app/apis/sessao.api.dart';
 import 'package:laserfast_app/app/models/aplicador.model.dart';
 import 'package:laserfast_app/app/models/base.model.dart';
 import 'package:laserfast_app/app/models/comanda.model.dart';
+import 'package:laserfast_app/app/models/empty.model.dart';
 import 'package:laserfast_app/app/models/estabelecimento.model.dart';
 import 'package:laserfast_app/app/models/evento_sessao.model.dart';
 import 'package:laserfast_app/app/models/horarios_disponiveis_com_opcoes.model.dart';
@@ -120,6 +121,8 @@ abstract class SessaoStoreBase with Store {
   }
 
   @observable
+  HorariosDisponiveisComOpcoesModel? horariosDisponiveis;
+  @observable
   ObservableList<HorariosDisplayModel> horariosDisplay = ObservableList.of([]);
   @observable
   DateTime? horarioSelecionado;
@@ -149,17 +152,17 @@ abstract class SessaoStoreBase with Store {
     horariosDisplay.clear();
     desselecionarHorario();
 
-    HorariosDisponiveisComOpcoesModel horariosDisponiveis = b.data!;
+    horariosDisponiveis = b.data!;
 
-    horariosDisponiveis.horarios!.length;
+    horariosDisponiveis!.horarios!.length;
 
     final DateFormat diaFormatter = DateFormat("dd/MM");
     final DateFormat horaFormatter = DateFormat("HH:mm");
 
     final dias = <int>[];
 
-    for (var i = 0; i < horariosDisponiveis.horarios!.length; i++) {
-      final horario = horariosDisponiveis.horarios![i];
+    for (var i = 0; i < horariosDisponiveis!.horarios!.length; i++) {
+      final horario = horariosDisponiveis!.horarios![i];
 
       final dia = horario.day;
 
@@ -168,7 +171,7 @@ abstract class SessaoStoreBase with Store {
 
     for (var d in dias) {
       final horas =
-          horariosDisponiveis.horarios!.where((h) => h.day == d).toList();
+          horariosDisponiveis!.horarios!.where((h) => h.day == d).toList();
 
       if (horas.isEmpty) continue;
 
@@ -191,12 +194,36 @@ abstract class SessaoStoreBase with Store {
   void limparHorarios() => horarioSelecionado = null;
 
   @action
+  void setHorariosDisponiveis(HorariosDisponiveisComOpcoesModel d) =>
+      horariosDisponiveis = d;
+  @action
+  void limparHorariosDisponiveis() => horarioSelecionado = null;
+  @action
   void selecionarHorario(DateTime d) => horarioSelecionado = d;
   @action
   void desselecionarHorario() => horarioSelecionado = null;
 
   @action
-  Future<void> salvarAgendamento() async {}
+  Future<BaseModel<EmptyResponseModel>> salvarAgendamento() async {
+    loadingStore.show();
+
+    var b = BaseModel<EmptyResponseModel>();
+
+    b = await _sessaoApi.salvarAgendamento(
+      comandaSelecionada!.codigoUnidade!,
+      horariosDisponiveis!.codigoColaborador!,
+      comandaSelecionada!.codigoComandaItem!,
+      comandaSelecionada!.codigoItemSessao!,
+      comandaSelecionada!.item!,
+      horarioSelecionado!,
+      DateTime.parse(horarioSelecionado.toString())
+          .add(Duration(minutes: duracaoSessao)),
+    );
+
+    loadingStore.hide();
+
+    return b;
+  }
 
   @action
   void resetDuracaoSessao() {

@@ -17,7 +17,7 @@ class BaseApi {
   @protected
   final LoginHive _loginHive = LoginHive();
   @protected
-  get cpf => _loginHive.cpf();
+  String get cpf => _loginHive.cpf();
 
   @protected
   newDio() async {

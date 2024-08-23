@@ -371,8 +371,23 @@ class AgendamentoPageState extends State<AgendamentoPage> {
           DividerWidget(height: 5.h),
           ButtonWidget.filled(
             onPressed: () async {
-              _store.scrollToBottom();
-              // await _store.buscarHorarios();
+              final r = await _store.salvarAgendamento();
+
+              if (!mounted) return;
+
+              showBaseModalBottomSheet(
+                context,
+                r,
+                dismissable: false,
+                onSuccessPressed: () {
+                  Modular.to.pop();
+                  Modular.to.pop();
+
+                  Modular.to.pushNamed('/sessao/historico');
+                },
+                onErrorPressed: () => Modular.to.pop(),
+                onClose: () => Modular.to.pop(),
+              );
             },
             title: 'CONFIRMAR',
             disabled: _store.horarioSelecionado == null,

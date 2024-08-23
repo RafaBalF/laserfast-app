@@ -113,6 +113,22 @@ mixin _$SessaoStore on SessaoStoreBase, Store {
     });
   }
 
+  late final _$horariosDisponiveisAtom =
+      Atom(name: 'SessaoStoreBase.horariosDisponiveis', context: context);
+
+  @override
+  HorariosDisponiveisComOpcoesModel? get horariosDisponiveis {
+    _$horariosDisponiveisAtom.reportRead();
+    return super.horariosDisponiveis;
+  }
+
+  @override
+  set horariosDisponiveis(HorariosDisponiveisComOpcoesModel? value) {
+    _$horariosDisponiveisAtom.reportWrite(value, super.horariosDisponiveis, () {
+      super.horariosDisponiveis = value;
+    });
+  }
+
   late final _$horariosDisplayAtom =
       Atom(name: 'SessaoStoreBase.horariosDisplay', context: context);
 
@@ -333,7 +349,7 @@ mixin _$SessaoStore on SessaoStoreBase, Store {
       AsyncAction('SessaoStoreBase.salvarAgendamento', context: context);
 
   @override
-  Future<void> salvarAgendamento() {
+  Future<BaseModel<EmptyResponseModel>> salvarAgendamento() {
     return _$salvarAgendamentoAsyncAction.run(() => super.salvarAgendamento());
   }
 
@@ -523,6 +539,28 @@ mixin _$SessaoStore on SessaoStoreBase, Store {
   }
 
   @override
+  void setHorariosDisponiveis(HorariosDisponiveisComOpcoesModel d) {
+    final _$actionInfo = _$SessaoStoreBaseActionController.startAction(
+        name: 'SessaoStoreBase.setHorariosDisponiveis');
+    try {
+      return super.setHorariosDisponiveis(d);
+    } finally {
+      _$SessaoStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void limparHorariosDisponiveis() {
+    final _$actionInfo = _$SessaoStoreBaseActionController.startAction(
+        name: 'SessaoStoreBase.limparHorariosDisponiveis');
+    try {
+      return super.limparHorariosDisponiveis();
+    } finally {
+      _$SessaoStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void selecionarHorario(DateTime d) {
     final _$actionInfo = _$SessaoStoreBaseActionController.startAction(
         name: 'SessaoStoreBase.selecionarHorario');
@@ -674,6 +712,7 @@ comandaSelecionada: ${comandaSelecionada},
 startDate: ${startDate},
 endDate: ${endDate},
 duracaoSessao: ${duracaoSessao},
+horariosDisponiveis: ${horariosDisponiveis},
 horariosDisplay: ${horariosDisplay},
 horarioSelecionado: ${horarioSelecionado},
 history: ${history},
