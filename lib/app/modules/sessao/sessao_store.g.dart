@@ -9,19 +9,27 @@ part of 'sessao_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic, no_leading_underscores_for_local_identifiers
 
 mixin _$SessaoStore on SessaoStoreBase, Store {
-  late final _$currentSessionAtom =
-      Atom(name: 'SessaoStoreBase.currentSession', context: context);
+  Computed<bool>? _$podeBuscarHorariosComputed;
 
   @override
-  SessaoModel? get currentSession {
-    _$currentSessionAtom.reportRead();
-    return super.currentSession;
+  bool get podeBuscarHorarios => (_$podeBuscarHorariosComputed ??=
+          Computed<bool>(() => super.podeBuscarHorarios,
+              name: 'SessaoStoreBase.podeBuscarHorarios'))
+      .value;
+
+  late final _$sessaoAtualAtom =
+      Atom(name: 'SessaoStoreBase.sessaoAtual', context: context);
+
+  @override
+  SessaoModel? get sessaoAtual {
+    _$sessaoAtualAtom.reportRead();
+    return super.sessaoAtual;
   }
 
   @override
-  set currentSession(SessaoModel? value) {
-    _$currentSessionAtom.reportWrite(value, super.currentSession, () {
-      super.currentSession = value;
+  set sessaoAtual(SessaoModel? value) {
+    _$sessaoAtualAtom.reportWrite(value, super.sessaoAtual, () {
+      super.sessaoAtual = value;
     });
   }
 
@@ -89,51 +97,67 @@ mixin _$SessaoStore on SessaoStoreBase, Store {
     });
   }
 
-  late final _$sessionDurationAtom =
-      Atom(name: 'SessaoStoreBase.sessionDuration', context: context);
+  late final _$duracaoSessaoAtom =
+      Atom(name: 'SessaoStoreBase.duracaoSessao', context: context);
 
   @override
-  int get sessionDuration {
-    _$sessionDurationAtom.reportRead();
-    return super.sessionDuration;
+  int get duracaoSessao {
+    _$duracaoSessaoAtom.reportRead();
+    return super.duracaoSessao;
   }
 
   @override
-  set sessionDuration(int value) {
-    _$sessionDurationAtom.reportWrite(value, super.sessionDuration, () {
-      super.sessionDuration = value;
+  set duracaoSessao(int value) {
+    _$duracaoSessaoAtom.reportWrite(value, super.duracaoSessao, () {
+      super.duracaoSessao = value;
     });
   }
 
-  late final _$availableSchedulesAtom =
-      Atom(name: 'SessaoStoreBase.availableSchedules', context: context);
+  late final _$horariosAtom =
+      Atom(name: 'SessaoStoreBase.horarios', context: context);
 
   @override
-  ObservableList<AvailableSchedulesModel> get availableSchedules {
-    _$availableSchedulesAtom.reportRead();
-    return super.availableSchedules;
+  HorariosDisponiveisComOpcoesModel? get horarios {
+    _$horariosAtom.reportRead();
+    return super.horarios;
   }
 
   @override
-  set availableSchedules(ObservableList<AvailableSchedulesModel> value) {
-    _$availableSchedulesAtom.reportWrite(value, super.availableSchedules, () {
-      super.availableSchedules = value;
+  set horarios(HorariosDisponiveisComOpcoesModel? value) {
+    _$horariosAtom.reportWrite(value, super.horarios, () {
+      super.horarios = value;
     });
   }
 
-  late final _$selectedScheduleAtom =
-      Atom(name: 'SessaoStoreBase.selectedSchedule', context: context);
+  late final _$horariosDisplayAtom =
+      Atom(name: 'SessaoStoreBase.horariosDisplay', context: context);
 
   @override
-  AvailableSchedulesModel? get selectedSchedule {
-    _$selectedScheduleAtom.reportRead();
-    return super.selectedSchedule;
+  ObservableList<SelectableCard<DateTime>> get horariosDisplay {
+    _$horariosDisplayAtom.reportRead();
+    return super.horariosDisplay;
   }
 
   @override
-  set selectedSchedule(AvailableSchedulesModel? value) {
-    _$selectedScheduleAtom.reportWrite(value, super.selectedSchedule, () {
-      super.selectedSchedule = value;
+  set horariosDisplay(ObservableList<SelectableCard<DateTime>> value) {
+    _$horariosDisplayAtom.reportWrite(value, super.horariosDisplay, () {
+      super.horariosDisplay = value;
+    });
+  }
+
+  late final _$horarioSelecionadoAtom =
+      Atom(name: 'SessaoStoreBase.horarioSelecionado', context: context);
+
+  @override
+  DateTime? get horarioSelecionado {
+    _$horarioSelecionadoAtom.reportRead();
+    return super.horarioSelecionado;
+  }
+
+  @override
+  set horarioSelecionado(DateTime? value) {
+    _$horarioSelecionadoAtom.reportWrite(value, super.horarioSelecionado, () {
+      super.horarioSelecionado = value;
     });
   }
 
@@ -313,6 +337,14 @@ mixin _$SessaoStore on SessaoStoreBase, Store {
     return _$getComandasAsyncAction.run(() => super.getComandas());
   }
 
+  late final _$buscarHorariosAsyncAction =
+      AsyncAction('SessaoStoreBase.buscarHorarios', context: context);
+
+  @override
+  Future<void> buscarHorarios() {
+    return _$buscarHorariosAsyncAction.run(() => super.buscarHorarios());
+  }
+
   late final _$salvarAgendamentoAsyncAction =
       AsyncAction('SessaoStoreBase.salvarAgendamento', context: context);
 
@@ -452,22 +484,22 @@ mixin _$SessaoStore on SessaoStoreBase, Store {
   }
 
   @override
-  void incrementSessionDuration(int d) {
+  void incrementDuracaoSessao(int d) {
     final _$actionInfo = _$SessaoStoreBaseActionController.startAction(
-        name: 'SessaoStoreBase.incrementSessionDuration');
+        name: 'SessaoStoreBase.incrementDuracaoSessao');
     try {
-      return super.incrementSessionDuration(d);
+      return super.incrementDuracaoSessao(d);
     } finally {
       _$SessaoStoreBaseActionController.endAction(_$actionInfo);
     }
   }
 
   @override
-  void decrementSessionDuration(int d) {
+  void decrementDuracaoSessao(int d) {
     final _$actionInfo = _$SessaoStoreBaseActionController.startAction(
-        name: 'SessaoStoreBase.decrementSessionDuration');
+        name: 'SessaoStoreBase.decrementDuracaoSessao');
     try {
-      return super.decrementSessionDuration(d);
+      return super.decrementDuracaoSessao(d);
     } finally {
       _$SessaoStoreBaseActionController.endAction(_$actionInfo);
     }
@@ -496,22 +528,33 @@ mixin _$SessaoStore on SessaoStoreBase, Store {
   }
 
   @override
-  void resetSessionArea() {
+  void selecionarHorario(DateTime d) {
     final _$actionInfo = _$SessaoStoreBaseActionController.startAction(
-        name: 'SessaoStoreBase.resetSessionArea');
+        name: 'SessaoStoreBase.selecionarHorario');
     try {
-      return super.resetSessionArea();
+      return super.selecionarHorario(d);
     } finally {
       _$SessaoStoreBaseActionController.endAction(_$actionInfo);
     }
   }
 
   @override
-  void resetSchedules() {
+  void desselecionarHorario() {
     final _$actionInfo = _$SessaoStoreBaseActionController.startAction(
-        name: 'SessaoStoreBase.resetSchedules');
+        name: 'SessaoStoreBase.desselecionarHorario');
     try {
-      return super.resetSchedules();
+      return super.desselecionarHorario();
+    } finally {
+      _$SessaoStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void resetDuracaoSessao() {
+    final _$actionInfo = _$SessaoStoreBaseActionController.startAction(
+        name: 'SessaoStoreBase.resetDuracaoSessao');
+    try {
+      return super.resetDuracaoSessao();
     } finally {
       _$SessaoStoreBaseActionController.endAction(_$actionInfo);
     }
@@ -630,14 +673,15 @@ mixin _$SessaoStore on SessaoStoreBase, Store {
   @override
   String toString() {
     return '''
-currentSession: ${currentSession},
+sessaoAtual: ${sessaoAtual},
 comandas: ${comandas},
 comandaSelecionada: ${comandaSelecionada},
 startDate: ${startDate},
 endDate: ${endDate},
-sessionDuration: ${sessionDuration},
-availableSchedules: ${availableSchedules},
-selectedSchedule: ${selectedSchedule},
+duracaoSessao: ${duracaoSessao},
+horarios: ${horarios},
+horariosDisplay: ${horariosDisplay},
+horarioSelecionado: ${horarioSelecionado},
 history: ${history},
 sessaoSendoAvaliada: ${sessaoSendoAvaliada},
 aplicador: ${aplicador},
@@ -647,7 +691,8 @@ notaEstabelecimento: ${notaEstabelecimento},
 sessaoParaCheckIn: ${sessaoParaCheckIn},
 fotoCheckIn: ${fotoCheckIn},
 areasDisponiveis: ${areasDisponiveis},
-atendidoPor: ${atendidoPor}
+atendidoPor: ${atendidoPor},
+podeBuscarHorarios: ${podeBuscarHorarios}
     ''';
   }
 }

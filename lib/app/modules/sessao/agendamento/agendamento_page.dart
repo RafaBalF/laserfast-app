@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:intl/intl.dart';
-import 'package:laserfast_app/app/modules/sessao/agendamento/widgets/available_schedules_widget.dart';
 import 'package:laserfast_app/app/modules/sessao/sessao_store.dart';
 import 'package:laserfast_app/app/shared/colors.dart';
 import 'package:laserfast_app/app/shared/modal_bottom_sheet.dart';
@@ -36,6 +35,8 @@ class AgendamentoPageState extends State<AgendamentoPage> {
   final DateFormat ddmmFormatter = DateFormat('dd/MM');
   final DateFormat hhmmFormatter = DateFormat('HH:mm');
 
+  final ScrollController _scrollController = ScrollController();
+
   @override
   void initState() {
     _future = Future.wait([_store.initAgendamento(widget.sessionId)]);
@@ -50,6 +51,7 @@ class AgendamentoPageState extends State<AgendamentoPage> {
       builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
         return SimpleScaffoldWidget(
             title: 'AGENDAMENTO',
+            controller: _scrollController,
             bodyPadding: EdgeInsets.symmetric(horizontal: 5.w),
             body: Observer(
               builder: (_) {
@@ -100,43 +102,51 @@ class AgendamentoPageState extends State<AgendamentoPage> {
         _datePickerSection(),
         DividerWidget(height: spacing),
         _sessionDurationSection(),
+        _selecionarHorario(),
         DividerWidget(height: spacing),
       ],
     );
   }
 
   Widget _areaPickerSection() {
-    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      _sectionHeader('Selecione as áreas'),
-      DividerWidget(height: 2.h),
-      Observer(builder: (_) {
-        return textWidget(
-          'Tempo de sessão: ${_store.sessionDuration} minutos',
+    return Observer(builder: (_) {
+      if (_store.comandas.isEmpty) {
+        return Center(
+          child: Column(
+            children: [
+              DividerWidget(height: 5.h),
+              textWidget(
+                'Parece que você não tem comandas que possam ser agendadas, entre em contato com nosso time para consultar suas opções.',
+                style: h2(),
+                maxLines: 5,
+              ),
+              DividerWidget(height: 5.h),
+              ButtonWidget.filled(
+                onPressed: () {
+                  Modular.to.pop();
+                },
+                title: 'VOLTAR',
+              ),
+            ],
+          ),
+        );
+      }
+
+      return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        _sectionHeader('Selecione as áreas'),
+        DividerWidget(height: 2.h),
+        textWidget(
+          'Tempo de sessão: ${_store.duracaoSessao} minutos',
           style: label(),
           textAlign: TextAlign.start,
-        );
-      }),
-      DividerWidget(height: 2.h),
-      (_store.comandas.isNotEmpty)
-          ? SelectableCardsWidget(
-              height: 20.h,
-              items: _store.comandas.toList(),
-            )
-          : const SizedBox(),
-      DividerWidget(height: 2.h),
-      ButtonWidget.filled(
-        onPressed: () {
-          // _store.getAvailableSchedules();
-        },
-        backgroundColor: accent,
-        title: 'BUSCAR HORÁRIOS',
-        textColor: white,
-        disabled: _store.comandaSelecionada == null,
-        loading: _store.loadingStore.isLoading,
-      ),
-      DividerWidget(height: 2.h),
-      const AvailableSchedulesWidget(),
-    ]);
+        ),
+        DividerWidget(height: 2.h),
+        SelectableCardsWidget(
+          height: 20.h,
+          items: _store.comandas.toList(),
+        ),
+      ]);
+    });
   }
 
   Widget _datePickerSection() {
@@ -186,6 +196,20 @@ class AgendamentoPageState extends State<AgendamentoPage> {
               ),
             ),
           ),
+          DividerWidget(height: 2.5.h),
+          ButtonWidget.filled(
+            onPressed: () async {
+              _store.buscarHorarios();
+              _scrollController.animateTo(
+                _scrollController.position.maxScrollExtent,
+                duration: const Duration(seconds: 1),
+                curve: Curves.fastOutSlowIn,
+              );
+            },
+            title: 'BUSCAR HORÁRIOS',
+            disabled: !_store.podeBuscarHorarios,
+            loading: _store.loadingStore.isLoading,
+          ),
         ],
       );
     });
@@ -225,9 +249,6 @@ class AgendamentoPageState extends State<AgendamentoPage> {
         _store.setStartDate(startDate);
         _store.setEndDate(endDate);
 
-        _store.resetSchedules();
-        _store.resetSessionArea();
-
         Modular.to.pop();
       },
     );
@@ -235,16 +256,49 @@ class AgendamentoPageState extends State<AgendamentoPage> {
     showCustomBottomSheet(context, 'Selecione um período', rangeDatePicker);
   }
 
+  Widget _selecionarHorario() {
+    return Observer(builder: (_) {
+      if (_store.horarios == null) return const SizedBox();
+
+      if (_store.horarios!.horarios!.isEmpty) {
+        return Column(
+          children: [
+            textWidget(
+              'Não foram encontrados horários, por favor selecione outro período de tempo.',
+              style: h2(),
+              maxLines: 5,
+            ),
+            DividerWidget(height: 5.h),
+          ],
+        );
+      }
+
+      return Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _sectionHeader('Selecione o horário'),
+            DividerWidget(height: 2.h),
+            SelectableCardsWidget(
+              height: 30.h,
+              items: _store.horariosDisplay.toList(),
+            ),
+            DividerWidget(height: 2.h),
+            DividerWidget(height: 10.h),
+          ]);
+    });
+  }
+
   Widget _sessionDurationSection() {
     final BorderRadius cardsBorderRadius = BorderRadius.circular(10);
 
     return Observer(builder: (_) {
-      if (_store.selectedSchedule != null) {
+      if (_store.horarioSelecionado != null) {
         final String formattedStartHour =
-            hhmmFormatter.format(_store.selectedSchedule!.selectedDate!);
+            hhmmFormatter.format(_store.horarioSelecionado!);
 
-        DateTime endHour = _store.selectedSchedule!.selectedDate!
-            .add(Duration(minutes: _store.sessionDuration));
+        DateTime endHour = _store.horarioSelecionado!
+            .add(Duration(minutes: _store.duracaoSessao));
 
         final String formattedEndHour = hhmmFormatter.format(endHour);
 
@@ -309,36 +363,6 @@ class AgendamentoPageState extends State<AgendamentoPage> {
               ),
             ),
           ),
-          DividerWidget(height: 5.h),
-          ButtonWidget.filled(
-            onPressed: () async {
-              // var r = await _store.salvarAgendamento();
-
-              // if (!mounted) return;
-
-              // showBaseModalBottomSheet(
-              //   context,
-              //   r,
-              //   onSuccessPressed: () {
-              //     Modular.to.pop();
-              //     Modular.to.pop();
-
-              //     Modular.to.pushNamed('/sessao/historico');
-              //   },
-              //   onErrorPressed: () {},
-              //   dismissable: false,
-              //   onClose: () {
-              //     Modular.to.pop();
-              //   },
-              // );
-            },
-            backgroundColor: accent,
-            title: 'CONFIRMAR',
-            textColor: white,
-            disabled: _store.selectedSchedule == null,
-            loading: _store.loadingStore.isLoading,
-          ),
-          DividerWidget(height: 5.h),
         ]);
       } else {
         return SizedBox(height: 3.h);

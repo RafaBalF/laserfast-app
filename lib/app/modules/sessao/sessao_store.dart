@@ -1,10 +1,10 @@
 import 'package:image_picker/image_picker.dart';
 import 'package:laserfast_app/app/apis/sessao.api.dart';
 import 'package:laserfast_app/app/models/aplicador.model.dart';
-import 'package:laserfast_app/app/models/available_schedule.model.dart';
 import 'package:laserfast_app/app/models/comanda.model.dart';
 import 'package:laserfast_app/app/models/estabelecimento.model.dart';
 import 'package:laserfast_app/app/models/evento_sessao.model.dart';
+import 'package:laserfast_app/app/models/horarios_disponiveis_com_opcoes.model.dart';
 import 'package:laserfast_app/app/models/sessao.model.dart';
 import 'package:laserfast_app/app/models/session_area.model.dart';
 import 'package:laserfast_app/app/shared/interfaces/selectable_card.interface.dart';
@@ -25,27 +25,12 @@ abstract class SessaoStoreBase with Store {
   //==============================================
 
   @observable
-  SessaoModel? currentSession;
+  SessaoModel? sessaoAtual;
 
   @observable
   ObservableList<SelectableCard<ComandaModel>> comandas = ObservableList.of([]);
   @observable
   ComandaModel? comandaSelecionada;
-
-  @observable
-  DateTime? startDate;
-  @observable
-  DateTime? endDate;
-
-  @observable
-  int sessionDuration = 0;
-
-  @observable
-  ObservableList<AvailableSchedulesModel> availableSchedules =
-      ObservableList.of([]);
-
-  @observable
-  AvailableSchedulesModel? selectedSchedule;
 
   @action
   Future<void> initAgendamento(int? id) async {
@@ -59,6 +44,8 @@ abstract class SessaoStoreBase with Store {
     if (!r.success) return;
 
     for (var c in r.list!) {
+      if (!podeSerAgendada(c)) continue;
+
       comandas.add(SelectableCard(
         label: c.item ?? "",
         value: c,
@@ -72,8 +59,26 @@ abstract class SessaoStoreBase with Store {
     }
   }
 
+  bool podeSerAgendada(ComandaModel c) {
+    return c.comandaSemAssinaturas == false ||
+        (c.codigoSessaoEmAberto != null && c.dataSessaoEmAberto != null) ||
+        c.comandaInadimplente == true ||
+        c.comandaTransferida == true;
+  }
+
   @action
   void setComandaSelecionada(ComandaModel? c) => comandaSelecionada = c;
+
+  @observable
+  DateTime? startDate;
+  @observable
+  DateTime? endDate;
+
+  @computed
+  bool get podeBuscarHorarios => startDate != null && endDate != null;
+
+  @observable
+  int duracaoSessao = 0;
 
   @action
   void setStartDate(DateTime date) => startDate = date;
@@ -83,42 +88,89 @@ abstract class SessaoStoreBase with Store {
   void resetDates() => startDate = endDate = null;
 
   @action
-  void incrementSessionDuration(int d) => sessionDuration += d;
+  void incrementDuracaoSessao(int d) => duracaoSessao += d;
   @action
-  void decrementSessionDuration(int d) => sessionDuration -= d;
+  void decrementDuracaoSessao(int d) => duracaoSessao -= d;
 
   @action
   void selectComanda(ComandaModel c) {
     setComandaSelecionada(c);
-    incrementSessionDuration(c.tempoSessao ?? 0);
-    resetSchedules();
+    incrementDuracaoSessao(c.tempoSessao ?? 0);
   }
 
   @action
   void unselectComanda(ComandaModel c) {
     setComandaSelecionada(null);
-    decrementSessionDuration(c.tempoSessao ?? 0);
-    resetSchedules();
+    decrementDuracaoSessao(c.tempoSessao ?? 0);
   }
+
+  @observable
+  HorariosDisponiveisComOpcoesModel? horarios;
+  @observable
+  ObservableList<SelectableCard<DateTime>> horariosDisplay =
+      ObservableList.of([]);
+  @observable
+  DateTime? horarioSelecionado;
+
+  @action
+  Future<void> buscarHorarios() async {
+    loadingStore.show();
+
+    if (comandaSelecionada == null || startDate == null || endDate == null) {
+      return;
+    }
+
+    final r = await _sessaoApi.listarHorariosDisponiveisComOpcoes(
+      comandaSelecionada!.codigoUnidade!,
+      comandaSelecionada!.tempoSessao!,
+      startDate!,
+      endDate!,
+    );
+
+    loadingStore.hide();
+
+    if (!r.success) return;
+
+    horariosDisplay.clear();
+
+    horarios = r.data;
+
+    horarios!.horarios!.length;
+
+    for (var i = 0; i < horarios!.horarios!.length; i++) {
+      final horario = horarios!.horarios![i];
+
+      horariosDisplay.add(SelectableCard(
+        label: horario.toString(),
+        value: horario,
+        onSelect: () {
+          selecionarHorario(horario);
+        },
+        onUnselect: () {
+          desselecionarHorario();
+        },
+      ));
+    }
+  }
+
+  @action
+  void selecionarHorario(DateTime d) => horarioSelecionado = d;
+
+  @action
+  void desselecionarHorario() => horarioSelecionado = null;
 
   @action
   Future<void> salvarAgendamento() async {}
 
   @action
-  void resetSessionArea() {
-    sessionDuration = 0;
-  }
-
-  @action
-  void resetSchedules() {
-    availableSchedules.clear();
+  void resetDuracaoSessao() {
+    duracaoSessao = 0;
   }
 
   @action
   void resetAgendamento() {
     resetDates();
-    resetSessionArea();
-    resetSchedules();
+    resetDuracaoSessao();
   }
 
   //==============================================

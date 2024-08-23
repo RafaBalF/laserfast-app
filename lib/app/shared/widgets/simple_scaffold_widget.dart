@@ -18,6 +18,7 @@ class SimpleScaffoldWidget extends StatelessWidget {
   final EdgeInsetsGeometry? bodyPadding;
   final bool showReturnArrow;
   final Color? returnArrowColor;
+  final ScrollController? controller;
 
   const SimpleScaffoldWidget({
     super.key,
@@ -34,6 +35,7 @@ class SimpleScaffoldWidget extends StatelessWidget {
     this.bodyPadding,
     this.showReturnArrow = true,
     this.returnArrowColor,
+    this.controller,
   });
 
   @override
@@ -72,6 +74,7 @@ class SimpleScaffoldWidget extends StatelessWidget {
         actions: actions,
       ),
       body: SingleChildScrollView(
+        controller: controller,
         child: Container(
           width: 100.w,
           color: finalBodyColor,
