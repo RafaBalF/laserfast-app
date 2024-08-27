@@ -18,6 +18,8 @@ class AuthModel extends FromJsonModel {
   String? email;
   @HiveField(5)
   String? senha;
+  @HiveField(6)
+  String? tokenPush;
 
   AuthModel.cpf({this.cpf});
 
@@ -28,14 +30,17 @@ class AuthModel extends FromJsonModel {
     this.celular,
     this.email,
     this.senha,
+    this.tokenPush,
   });
 
   AuthModel.fromJson(Map<String, dynamic> json) {
     token = json['token'];
     nome = json['cliente']['nome'];
     cpf = json['cliente']['cpf'];
-    celular = json['cliente']['celular'];
+    celular = json['cliente']['telefoneCelular'];
+    email = json['cliente']['email'];
     senha = json['cliente']['senha'];
+    tokenPush = json['cliente']['tokenPush'];
   }
 
   Map<String, dynamic> toJson() {
