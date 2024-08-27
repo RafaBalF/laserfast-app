@@ -147,7 +147,7 @@ class HistoricoPageState extends State<HistoricoPage> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         textWidget(
-                          '${evento.status}',
+                          _getStatus(evento.status),
                           style: label(),
                         ),
                         textWidget(
@@ -179,8 +179,8 @@ class HistoricoPageState extends State<HistoricoPage> {
     );
   }
 
-  Color _getColor(String? statusCode) {
-    switch (statusCode) {
+  Color _getColor(String? status) {
+    switch (status) {
       case "Realizado":
         return realizada;
       case "Falta":
@@ -196,17 +196,27 @@ class HistoricoPageState extends State<HistoricoPage> {
     }
   }
 
-  Widget _getStatusWidget(EventoSessaoModel evento) {
-    switch (evento.status?.toLowerCase()) {
+  String _getStatus(String? status) {
+    switch (status) {
       case "Realizado":
-        return _cardBtn(
-          realizada,
-          'CHECK-IN',
-          () {
-            _store.setSessaoParaCheckIn(evento);
-            Modular.to.pushNamed('/sessao/check_in');
-          },
-        );
+        return "Sessão realizada";
+      case "Falta":
+        return "Falta";
+      case "Agendada":
+        return "Sessão agendada";
+      case "Andamento":
+        return "Sessão em andamento";
+      case "Confirmada":
+        return "Sessão confirmada";
+      default:
+        return "";
+    }
+  }
+
+  Widget _getStatusWidget(EventoSessaoModel evento) {
+    switch (evento.status) {
+      case "Realizado":
+        return _cardBtn(realizada, 'AVALIAR', () => _avaliar(evento));
       case "Falta":
         return const SizedBox();
       case "Agendada":
@@ -221,7 +231,15 @@ class HistoricoPageState extends State<HistoricoPage> {
       case "Andamento":
         return const SizedBox();
       case "Confirmada":
-        return _cardBtn(confirmada, 'AVALIAR', () => _avaliar(evento));
+        return _cardBtn(
+          confirmada,
+          'CHECK-IN',
+          () {
+            _store.setSessaoParaCheckIn(evento);
+            Modular.to.pushNamed('/sessao/check_in');
+          },
+        );
+
       default:
         return const SizedBox();
     }
@@ -319,7 +337,7 @@ class HistoricoPageState extends State<HistoricoPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       textWidget(
-                        '${evento.status}',
+                        _getStatus(evento.status),
                         style: label(),
                       ),
                       textWidget(
@@ -344,6 +362,8 @@ class HistoricoPageState extends State<HistoricoPage> {
               _store.setSessaoSendoAvaliada(evento);
               Modular.to.pop();
               Modular.to.pushNamed('/sessao/avaliar');
+              // Modular.to.pop();
+              // Modular.to.pushNamed('/indicar/');
             },
             title: 'AVALIAR',
           ),
