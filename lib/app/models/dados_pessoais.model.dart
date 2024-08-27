@@ -13,6 +13,13 @@ class DadosPessoaisModel extends FromJsonModel {
     this.celular,
   });
 
+  DadosPessoaisModel.createNew(DadosPessoaisModel model) {
+    nome = model.nome;
+    email = model.email;
+    cpf = model.cpf;
+    celular = model.celular;
+  }
+
   DadosPessoaisModel.fromJson(Map<String, dynamic> json) {
     nome = json['nome'];
     email = json['email'];

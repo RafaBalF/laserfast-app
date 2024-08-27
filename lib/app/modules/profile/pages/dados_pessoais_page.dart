@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:laserfast_app/app/models/dados_pessoais.model.dart';
 import 'package:laserfast_app/app/modules/profile/profile_store.dart';
 import 'package:laserfast_app/app/shared/colors.dart';
-import 'package:laserfast_app/app/shared/formatters.dart';
 import 'package:laserfast_app/app/shared/text_styles.dart';
 import 'package:laserfast_app/app/shared/text_widget.dart';
 import 'package:laserfast_app/app/shared/widgets/divider_widget.dart';
@@ -41,7 +39,9 @@ class DadosPessoaisPageState extends State<DadosPessoaisPage> {
               builder: (_) {
                 if (snapshot.connectionState == ConnectionState.done &&
                     snapshot.hasData) {
-                  return _body();
+                  return (_store.dadosPessoaisModel == null)
+                      ? _emptyBody()
+                      : _body();
                 } else {
                   return _loadingBody();
                 }
@@ -74,18 +74,31 @@ class DadosPessoaisPageState extends State<DadosPessoaisPage> {
     );
   }
 
+  Widget _emptyBody() {
+    return Padding(
+      padding: EdgeInsets.symmetric(
+        horizontal: 2.w,
+        vertical: 1.h,
+      ),
+      child: Container(
+        width: 100.w,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          border: Border.all(color: grey),
+        ),
+        padding: EdgeInsets.symmetric(
+          horizontal: 5.w,
+          vertical: 2.5.h,
+        ),
+        child: textWidget(
+          "Não conseguimos buscar seu usuário, tente novamente mais tarde",
+          style: h2(),
+        ),
+      ),
+    );
+  }
+
   Widget _body() {
-    final model = _store.dadosPessoaisModel ??
-        DadosPessoaisModel(
-          nome: 'Leonardo Polo',
-          email: 'leonardo.polo@gmail.com',
-          celular: '17998982144',
-          cpf: '33365500000',
-        );
-
-    String displayCPf = formatCPF(model.cpf!);
-    String displayCelular = formatPhone(model.celular!);
-
     return Padding(
       padding: EdgeInsets.symmetric(
         horizontal: 2.w,
@@ -104,10 +117,10 @@ class DadosPessoaisPageState extends State<DadosPessoaisPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _info('Nome:', model.nome!),
-            _info('Email:', model.email!),
-            _info('CPF:', displayCPf),
-            _info('Celular:', displayCelular),
+            _info('Nome:', _store.dadosPessoaisModel!.nome!),
+            _info('Email:', _store.dadosPessoaisModel!.email!),
+            _info('CPF:', _store.dadosPessoaisModel!.cpf!),
+            _info('Celular:', _store.dadosPessoaisModel!.celular!),
           ],
         ),
       ),
