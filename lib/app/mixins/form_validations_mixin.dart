@@ -15,8 +15,10 @@ mixin FormValidationsMixin {
     return null;
   }
 
-  String? notEmptyWhen(String? value, bool b, [String? message]) {
-    if (b && value!.isEmpty) return message ?? "Este campo é obrigatório";
+  String? notEmptyWhen(String? value, bool condition, [String? message]) {
+    if (condition && value!.isEmpty) {
+      return message ?? "Este campo é obrigatório";
+    }
 
     return null;
   }
