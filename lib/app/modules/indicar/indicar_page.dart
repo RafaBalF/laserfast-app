@@ -152,10 +152,8 @@ class IndicarPageState extends State<IndicarPage> with FormValidationsMixin {
                     dismissable: false,
                     onClose: () {
                       Modular.to.pop();
-                      Modular.to.pop();
                     },
                     onErrorPressed: () {
-                      Modular.to.pop();
                       Modular.to.pop();
                     },
                     onSuccessPressed: () {
