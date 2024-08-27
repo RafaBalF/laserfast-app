@@ -149,6 +149,7 @@ class IndicarPageState extends State<IndicarPage> with FormValidationsMixin {
                   showBaseModalBottomSheet(
                     context,
                     r,
+                    dismissable: false,
                     onClose: () {
                       Modular.to.pop();
                       Modular.to.pop();
