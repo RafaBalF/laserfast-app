@@ -1,4 +1,4 @@
-import 'package:laserfast_app/app/modules/sessao/agendamento/models/hora_display.model.dart';
+import 'package:laserfast_app/app/modules/sessao/models/hora_display.model.dart';
 
 class HorariosDisplayModel {
   String? dia;

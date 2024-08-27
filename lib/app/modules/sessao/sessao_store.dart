@@ -11,8 +11,8 @@ import 'package:laserfast_app/app/models/evento_sessao.model.dart';
 import 'package:laserfast_app/app/models/horarios_disponiveis_com_opcoes.model.dart';
 import 'package:laserfast_app/app/models/sessao.model.dart';
 import 'package:laserfast_app/app/models/session_area.model.dart';
-import 'package:laserfast_app/app/modules/sessao/agendamento/models/hora_display.model.dart';
-import 'package:laserfast_app/app/modules/sessao/agendamento/models/horarios_display.model.dart';
+import 'package:laserfast_app/app/modules/sessao/models/hora_display.model.dart';
+import 'package:laserfast_app/app/modules/sessao/models/horarios_display.model.dart';
 import 'package:laserfast_app/app/shared/interfaces/selectable_card.interface.dart';
 import 'package:mobx/mobx.dart';
 import 'package:laserfast_app/loading_store.dart';
@@ -243,6 +243,8 @@ abstract class SessaoStoreBase with Store {
   //==============================================
 
   @observable
+  ObservableList<SessaoModel> sessoes = ObservableList.of([]);
+  @observable
   ObservableList<EventoSessaoModel> history = ObservableList.of([]);
 
   @action
@@ -254,7 +256,7 @@ abstract class SessaoStoreBase with Store {
   Future<void> getHistory() async {
     var r = await _sessaoApi.listarHistoricoUltimasSessoes();
 
-    final sessoes = r.list ?? [];
+    sessoes.addAll(r.list ?? []);
 
     final eventos = <EventoSessaoModel>[];
 
@@ -266,14 +268,41 @@ abstract class SessaoStoreBase with Store {
   }
 
   @action
-  Future<void> confirmSession(EventoSessaoModel evento) async {
+  Future<BaseModel<EmptyResponseModel>> confirmarAgendamento(
+    EventoSessaoModel evento,
+  ) async {
+    var r = BaseModel<EmptyResponseModel>();
+
+    final sessao = sessoes
+        .where((sessao) =>
+            sessao.eventos!
+                .where((e) => e.codigoEvento == evento.codigoEvento)
+                .first
+                .codigoEvento ==
+            evento.codigoEvento)
+        .firstOrNull;
+
+    if (sessao == null) {
+      r.message = "Sessão não encontrada";
+      return r;
+    }
+
+    r = await _sessaoApi.confirmarAgendamento(sessao.codigoComanda!);
+
+    // if (r.success) mudarStatusEventoSessao(evento);
+
+    return r;
+  }
+
+  @action
+  void mudarStatusEventoSessao(EventoSessaoModel evento) {
     var s = history.indexWhere((s) => s.codigoEvento == evento.codigoEvento);
 
     if (s == -1) return;
 
     var newSession = EventoSessaoModel.createNew(evento);
 
-    newSession.status = 'Confirmado';
+    newSession.status = 'Confirmada';
 
     history[s] = newSession;
   }

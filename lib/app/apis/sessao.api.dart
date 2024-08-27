@@ -172,4 +172,35 @@ class SessaoApi extends BaseApi {
 
     return b;
   }
+
+  Future<BaseModel<EmptyResponseModel>> confirmarAgendamento(
+    int codigoComanda,
+  ) async {
+    var b = BaseModel<EmptyResponseModel>();
+
+    try {
+      var connectivityResult = await (Connectivity().checkConnectivity());
+
+      if (connectivityResult.contains(ConnectivityResult.none)) {
+        return BaseModel();
+      }
+
+      const url = '/Agendamento/ConfirmarAgendamento';
+
+      var result = (await (await dio).post(url, data: {
+        "cpf": cpf,
+        "dataConfirmacao": DateTime.now().toString(),
+        "codigoComanda": codigoComanda,
+      }))
+          .data;
+
+      b = BaseModel.fromJson(result, tipo: EmptyResponseModel());
+    } on DioException catch (e) {
+      b.message = handleDioException(e);
+    } catch (e) {
+      b = BaseModel();
+    }
+
+    return b;
+  }
 }

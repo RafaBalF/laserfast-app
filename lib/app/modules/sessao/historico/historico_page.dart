@@ -4,6 +4,7 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 import 'package:laserfast_app/app/models/evento_sessao.model.dart';
+import 'package:laserfast_app/app/modules/sessao/models/info_formatada_sessao.model.dart';
 import 'package:laserfast_app/app/modules/sessao/sessao_store.dart';
 import 'package:laserfast_app/app/shared/colors.dart';
 import 'package:laserfast_app/app/shared/modal_bottom_sheet.dart';
@@ -120,6 +121,8 @@ class HistoricoPageState extends State<HistoricoPage> {
   }
 
   Widget _sessionCard(EventoSessaoModel evento) {
+    final info = _getInfoEventoSessao(evento);
+
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 2.h),
       child: Column(
@@ -133,7 +136,7 @@ class HistoricoPageState extends State<HistoricoPage> {
                   height: 30,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: _getColor(evento.status),
+                    color: info.cor,
                   ),
                   child: const SizedBox(),
                 ),
@@ -147,7 +150,7 @@ class HistoricoPageState extends State<HistoricoPage> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         textWidget(
-                          _getStatus(evento.status),
+                          info.status,
                           style: label(),
                         ),
                         textWidget(
@@ -158,7 +161,7 @@ class HistoricoPageState extends State<HistoricoPage> {
                     ),
                     DividerWidget(height: 0.5.h),
                     textWidget(
-                      '${evento.assunto}',
+                      evento.assunto,
                       style: small(),
                     ),
                     DividerWidget(height: 0.5.h),
@@ -171,7 +174,7 @@ class HistoricoPageState extends State<HistoricoPage> {
             width: 100.w,
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.end, children: [
-              _getStatusWidget(evento),
+              info.widget,
             ]),
           ),
         ],
@@ -179,69 +182,58 @@ class HistoricoPageState extends State<HistoricoPage> {
     );
   }
 
-  Color _getColor(String? status) {
-    switch (status) {
-      case "Realizado":
-        return realizada;
-      case "Falta":
-        return falta;
-      case "Agendada":
-        return agendada;
-      case "Andamento":
-        return andamento;
-      case "Confirmada":
-        return confirmada;
-      default:
-        return padrao;
-    }
-  }
-
-  String _getStatus(String? status) {
-    switch (status) {
-      case "Realizado":
-        return "Sessão realizada";
-      case "Falta":
-        return "Falta";
-      case "Agendada":
-        return "Sessão agendada";
-      case "Andamento":
-        return "Sessão em andamento";
-      case "Confirmada":
-        return "Sessão confirmada";
-      default:
-        return "";
-    }
-  }
-
-  Widget _getStatusWidget(EventoSessaoModel evento) {
+  InfoFormatadaSessao _getInfoEventoSessao(EventoSessaoModel evento) {
     switch (evento.status) {
       case "Realizado":
-        return _cardBtn(realizada, 'AVALIAR', () => _avaliar(evento));
+        return InfoFormatadaSessao(
+          cor: realizada,
+          status: "Sessão realizada",
+          widget: _cardBtn(realizada, 'AVALIAR', () => _avaliar(evento)),
+        );
       case "Falta":
-        return const SizedBox();
-      case "Agendada":
-        return GestureDetector(
-          onTap: () => _edit(evento),
-          child: Icon(
-            size: 4.h,
-            Icons.edit_outlined,
-            color: black,
+        return InfoFormatadaSessao(
+          cor: falta,
+          status: "Falta",
+          widget: const SizedBox(),
+        );
+      case "Agendado":
+        return InfoFormatadaSessao(
+          cor: agendada,
+          status: "Sessão agendada",
+          widget: GestureDetector(
+            onTap: () => _edit(evento),
+            child: Icon(
+              size: 4.h,
+              Icons.edit_outlined,
+              color: black,
+            ),
           ),
         );
       case "Andamento":
-        return const SizedBox();
-      case "Confirmada":
-        return _cardBtn(
-          confirmada,
-          'CHECK-IN',
-          () {
-            _store.setSessaoParaCheckIn(evento);
-            Modular.to.pushNamed('/sessao/check_in');
-          },
+        return InfoFormatadaSessao(
+          cor: andamento,
+          status: "Sessão em andamento",
+          widget: const SizedBox(),
         );
-
+      case "Confirmada":
+        return InfoFormatadaSessao(
+          cor: confirmada,
+          status: "Sessão confirmada",
+          widget: _cardBtn(
+            confirmada,
+            'CHECK-IN',
+            () {
+              _store.setSessaoParaCheckIn(evento);
+              Modular.to.pushNamed('/sessao/check_in');
+            },
+          ),
+        );
       default:
-        return const SizedBox();
+        return InfoFormatadaSessao(
+          cor: padrao,
+          status: "",
+          widget: const SizedBox(),
+        );
     }
   }
 
@@ -279,7 +271,7 @@ class HistoricoPageState extends State<HistoricoPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       textWidget(
-                        '${session.status}',
+                        session.status,
                         style: label(),
                       ),
                       textWidget(
@@ -290,7 +282,7 @@ class HistoricoPageState extends State<HistoricoPage> {
                   ),
                   DividerWidget(height: 0.5.h),
                   textWidget(
-                    '${session.assunto}',
+                    session.assunto,
                     style: small(),
                   ),
                   DividerWidget(height: 0.5.h),
@@ -301,8 +293,13 @@ class HistoricoPageState extends State<HistoricoPage> {
           DividerWidget(height: 5.h),
           ButtonWidget.filled(
             onPressed: () async {
-              await _store.confirmSession(session);
               Modular.to.pop();
+
+              final r = await _store.confirmarAgendamento(session);
+
+              if (!mounted) return;
+
+              showBaseModalBottomSheet(context, r);
             },
             title: 'CONFIRMAR',
           ),
@@ -337,7 +334,7 @@ class HistoricoPageState extends State<HistoricoPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       textWidget(
-                        _getStatus(evento.status),
+                        evento.status,
                         style: label(),
                       ),
                       textWidget(
@@ -348,7 +345,7 @@ class HistoricoPageState extends State<HistoricoPage> {
                   ),
                   DividerWidget(height: 0.5.h),
                   textWidget(
-                    '${evento.assunto}',
+                    evento.assunto,
                     style: small(),
                   ),
                   DividerWidget(height: 0.5.h),

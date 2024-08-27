@@ -161,6 +161,22 @@ mixin _$SessaoStore on SessaoStoreBase, Store {
     });
   }
 
+  late final _$sessoesAtom =
+      Atom(name: 'SessaoStoreBase.sessoes', context: context);
+
+  @override
+  ObservableList<SessaoModel> get sessoes {
+    _$sessoesAtom.reportRead();
+    return super.sessoes;
+  }
+
+  @override
+  set sessoes(ObservableList<SessaoModel> value) {
+    _$sessoesAtom.reportWrite(value, super.sessoes, () {
+      super.sessoes = value;
+    });
+  }
+
   late final _$historyAtom =
       Atom(name: 'SessaoStoreBase.history', context: context);
 
@@ -369,12 +385,14 @@ mixin _$SessaoStore on SessaoStoreBase, Store {
     return _$getHistoryAsyncAction.run(() => super.getHistory());
   }
 
-  late final _$confirmSessionAsyncAction =
-      AsyncAction('SessaoStoreBase.confirmSession', context: context);
+  late final _$confirmarAgendamentoAsyncAction =
+      AsyncAction('SessaoStoreBase.confirmarAgendamento', context: context);
 
   @override
-  Future<void> confirmSession(EventoSessaoModel evento) {
-    return _$confirmSessionAsyncAction.run(() => super.confirmSession(evento));
+  Future<BaseModel<EmptyResponseModel>> confirmarAgendamento(
+      EventoSessaoModel evento) {
+    return _$confirmarAgendamentoAsyncAction
+        .run(() => super.confirmarAgendamento(evento));
   }
 
   late final _$initAvaliarAsyncAction =
@@ -605,6 +623,17 @@ mixin _$SessaoStore on SessaoStoreBase, Store {
   }
 
   @override
+  void mudarStatusEventoSessao(EventoSessaoModel evento) {
+    final _$actionInfo = _$SessaoStoreBaseActionController.startAction(
+        name: 'SessaoStoreBase.mudarStatusEventoSessao');
+    try {
+      return super.mudarStatusEventoSessao(evento);
+    } finally {
+      _$SessaoStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void resetHistory() {
     final _$actionInfo = _$SessaoStoreBaseActionController.startAction(
         name: 'SessaoStoreBase.resetHistory');
@@ -715,6 +744,7 @@ duracaoSessao: ${duracaoSessao},
 horariosDisponiveis: ${horariosDisponiveis},
 horariosDisplay: ${horariosDisplay},
 horarioSelecionado: ${horarioSelecionado},
+sessoes: ${sessoes},
 history: ${history},
 sessaoSendoAvaliada: ${sessaoSendoAvaliada},
 aplicador: ${aplicador},
