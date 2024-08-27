@@ -3,7 +3,6 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:intl/intl.dart';
 import 'package:laserfast_app/app/mixins/form_validations_mixin.dart';
-import 'package:laserfast_app/app/models/base.model.dart';
 import 'package:laserfast_app/app/models/indicado.model.dart';
 import 'package:laserfast_app/app/modules/indicar/indicar_store.dart';
 import 'package:laserfast_app/app/shared/colors.dart';
@@ -37,7 +36,6 @@ class IndicarPageState extends State<IndicarPage> with FormValidationsMixin {
   );
 
   final nameController = TextEditingController();
-  final emailController = TextEditingController();
   final phoneController = TextEditingController();
 
   final DateFormat indicadoEmFormatter = DateFormat("dd/MM/yyyy 'as' HH:mm");
@@ -125,15 +123,6 @@ class IndicarPageState extends State<IndicarPage> with FormValidationsMixin {
               ),
               DividerWidget(height: 2.h),
               InputWidget(
-                label: 'Email',
-                validator: (v) => combine([
-                  () => notEmpty(v),
-                  () => validEmail(v),
-                ]),
-                controller: emailController,
-              ),
-              DividerWidget(height: 2.h),
-              InputWidget(
                 label: 'Celular',
                 inputFormatters: [phoneFormatter],
                 validator: (v) => combine([
@@ -147,24 +136,32 @@ class IndicarPageState extends State<IndicarPage> with FormValidationsMixin {
                 onPressed: () async {
                   if (!_formKey.currentState!.validate()) return;
 
-                  final indicado = IndicadoModel(
-                    name: nameController.text,
-                    email: emailController.text.toLowerCase(),
-                    phone: phoneController.text,
+                  final r = await _store.indicar(
+                    nameController.text,
+                    phoneController.text,
                   );
 
-                  BaseModel r = await _store.indicar(indicado);
-
-                  if (!r.success && mounted) {
-                    return showErrorBottomSheet(
-                      context,
-                      message: r.message,
-                    );
-                  }
-
                   nameController.value = TextEditingValue.empty;
-                  emailController.value = TextEditingValue.empty;
                   phoneController.value = TextEditingValue.empty;
+
+                  if (!mounted) return;
+
+                  showBaseModalBottomSheet(
+                    context,
+                    r,
+                    onClose: () {
+                      Modular.to.pop();
+                      Modular.to.pop();
+                    },
+                    onErrorPressed: () {
+                      Modular.to.pop();
+                      Modular.to.pop();
+                    },
+                    onSuccessPressed: () {
+                      Modular.to.pop();
+                      Modular.to.pop();
+                    },
+                  );
                 },
                 backgroundColor: accent,
                 title: 'SALVAR',

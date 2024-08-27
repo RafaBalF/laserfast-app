@@ -37,8 +37,10 @@ mixin _$IndicarStore on IndicarStoreBase, Store {
       AsyncAction('IndicarStoreBase.indicar', context: context);
 
   @override
-  Future<BaseModel<StringResponseModel>> indicar(IndicadoModel indicado) {
-    return _$indicarAsyncAction.run(() => super.indicar(indicado));
+  Future<BaseModel<EmptyResponseModel>> indicar(
+      String nomeIndicou, String telefoneIndicado) {
+    return _$indicarAsyncAction
+        .run(() => super.indicar(nomeIndicou, telefoneIndicado));
   }
 
   late final _$IndicarStoreBaseActionController =
