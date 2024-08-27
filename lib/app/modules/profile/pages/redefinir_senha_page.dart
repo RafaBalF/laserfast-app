@@ -3,7 +3,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:laserfast_app/app/mixins/form_validations_mixin.dart';
 import 'package:laserfast_app/app/modules/profile/profile_store.dart';
-import 'package:laserfast_app/app/shared/colors.dart';
+import 'package:laserfast_app/app/shared/modal_bottom_sheet.dart';
 import 'package:laserfast_app/app/shared/widgets/button_widget.dart';
 import 'package:laserfast_app/app/shared/widgets/divider_widget.dart';
 import 'package:laserfast_app/app/shared/widgets/inputs/password_input_widget.dart';
@@ -24,8 +24,8 @@ class RedefinirSenhaPageState extends State<RedefinirSenhaPage>
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  String password = '';
-  String confirmPassword = '';
+  String senha = '';
+  String confirmarSenha = '';
 
   @override
   void initState() {
@@ -91,7 +91,7 @@ class RedefinirSenhaPageState extends State<RedefinirSenhaPage>
           children: [
             PasswordInputWidget(
               label: 'Senha',
-              onChanged: (s) => password = s,
+              onChanged: (s) => senha = s,
               validator: (v) => combine([
                 () => notEmpty(v),
                 () => atLeastNChars(6, v),
@@ -100,11 +100,11 @@ class RedefinirSenhaPageState extends State<RedefinirSenhaPage>
             DividerWidget(height: 2.h),
             PasswordInputWidget(
               label: 'Confirmar senha',
-              onChanged: (s) => confirmPassword = s,
+              onChanged: (s) => confirmarSenha = s,
               validator: (v) => combine([
                 () => notEmpty(v),
                 () => atLeastNChars(6, v),
-                () => matchValue(v, password, "Senhas não são iguais"),
+                () => matchValue(v, senha, "Senhas não são iguais"),
               ]),
             ),
             DividerWidget(height: 5.h),
@@ -112,13 +112,27 @@ class RedefinirSenhaPageState extends State<RedefinirSenhaPage>
               onPressed: () async {
                 if (!_formKey.currentState!.validate()) return;
 
-                bool r = await _store.redefinirSenha(password, confirmPassword);
+                final r = await _store.redefinirSenha(senha);
 
-                if (r) Modular.to.pop();
+                if (!mounted) return;
+
+                showBaseModalBottomSheet(
+                  context,
+                  r,
+                  dismissable: false,
+                  onClose: () {
+                    Modular.to.pop();
+                  },
+                  onErrorPressed: () {
+                    Modular.to.pop();
+                  },
+                  onSuccessPressed: () {
+                    Modular.to.pop();
+                    Modular.to.pop();
+                  },
+                );
               },
-              backgroundColor: accent,
               title: 'SALVAR',
-              textColor: white,
             ),
           ],
         ),

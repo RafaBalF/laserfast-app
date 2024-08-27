@@ -1,6 +1,9 @@
+import 'package:laserfast_app/app/apis/auth.api.dart';
 import 'package:laserfast_app/app/constants/politica_de_privacidade.dart';
 import 'package:laserfast_app/app/models/auth.model.dart';
+import 'package:laserfast_app/app/models/base.model.dart';
 import 'package:laserfast_app/app/models/dados_pessoais.model.dart';
+import 'package:laserfast_app/app/models/empty.model.dart';
 import 'package:laserfast_app/app/models/hives/login.hive.dart';
 import 'package:mobx/mobx.dart';
 import 'package:laserfast_app/loading_store.dart';
@@ -12,6 +15,8 @@ class ProfileStore = ProfileStoreBase with _$ProfileStore;
 abstract class ProfileStoreBase with Store {
   final LoadingStore loadingStore = LoadingStore();
   final LoginHive _loginHive = LoginHive();
+
+  final AuthApi _authApi = AuthApi();
 
   //==============================================
   //==== PROFILE =================================
@@ -84,12 +89,16 @@ abstract class ProfileStoreBase with Store {
   //==== REDEFINIR-SENHA =========================
   //==============================================
 
-  @action
-  Future<void> initRedefinirSenha() async {}
+  late final String senhaAtual;
 
   @action
-  Future<bool> redefinirSenha(String password, String confirmPassword) async {
-    return true;
+  Future<void> initRedefinirSenha() async {
+    senhaAtual = (_loginHive.getLogin()).senha ?? '';
+  }
+
+  @action
+  Future<BaseModel<EmptyResponseModel>> redefinirSenha(String senhaNova) async {
+    return await _authApi.alterarSenha(senhaAtual, senhaNova);
   }
 
   @action

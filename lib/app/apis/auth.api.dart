@@ -3,6 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:laserfast_app/app/constants/constants.dart';
 import 'package:laserfast_app/app/models/auth.model.dart';
 import 'package:laserfast_app/app/models/base.model.dart';
+import 'package:laserfast_app/app/models/empty.model.dart';
 import 'package:laserfast_app/app/models/hives/login.hive.dart';
 import 'package:laserfast_app/app/models/string_response.model.dart';
 import 'base.api.dart';
@@ -187,6 +188,38 @@ class AuthApi extends BaseApi {
 
       b = BaseModel<StringResponseModel>.fromJson(result,
           tipo: StringResponseModel());
+    } on DioException catch (e) {
+      b.message = handleDioException(e);
+    } catch (e) {
+      b = BaseModel();
+    }
+
+    return b;
+  }
+
+  Future<BaseModel<EmptyResponseModel>> alterarSenha(
+    String senhaAtual,
+    String senhaNova,
+  ) async {
+    var b = BaseModel<EmptyResponseModel>();
+
+    try {
+      var connectivityResult = await (Connectivity().checkConnectivity());
+
+      if (connectivityResult.contains(ConnectivityResult.none)) {
+        return BaseModel();
+      }
+
+      const url = '/Login/AlterarSenha';
+
+      var result = (await (await dio).post(url, data: {
+        "cpf": cpf,
+        "senhaAtual": senhaAtual,
+        "senhaNova": senhaNova,
+      }))
+          .data;
+
+      b = BaseModel.fromJson(result, tipo: EmptyResponseModel());
     } on DioException catch (e) {
       b.message = handleDioException(e);
     } catch (e) {
