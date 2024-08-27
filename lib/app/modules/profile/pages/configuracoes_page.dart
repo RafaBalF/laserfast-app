@@ -190,8 +190,25 @@ class ConfiguracoesPageState extends State<ConfiguracoesPage> {
             DividerWidget(height: 3.h),
             ButtonWidget.filled(
               onPressed: () async {
-                await _store.deleteAccount();
-                Modular.to.navigate('/auth/login');
+                final r = await _store.deleteAccount();
+
+                if (!mounted) return;
+
+                showBaseModalBottomSheet(
+                  context,
+                  r,
+                  onErrorPressed: () {
+                    Modular.to.pop();
+                  },
+                  onClose: () {
+                    Modular.to.pop();
+                    if (r.success) Modular.to.navigate('/auth/login');
+                  },
+                  onSuccessPressed: () {
+                    Modular.to.pop();
+                    Modular.to.navigate('/auth/login');
+                  },
+                );
               },
               backgroundColor: accent,
               title: 'DELETAR',

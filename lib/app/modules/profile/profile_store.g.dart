@@ -94,7 +94,7 @@ mixin _$ProfileStore on ProfileStoreBase, Store {
       AsyncAction('ProfileStoreBase.deleteAccount', context: context);
 
   @override
-  Future<void> deleteAccount() {
+  Future<BaseModel<EmptyResponseModel>> deleteAccount() {
     return _$deleteAccountAsyncAction.run(() => super.deleteAccount());
   }
 

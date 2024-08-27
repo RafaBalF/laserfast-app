@@ -63,8 +63,14 @@ abstract class ProfileStoreBase with Store {
   }
 
   @action
-  Future<void> deleteAccount() async {
-    await _loginHive.logout();
+  Future<BaseModel<EmptyResponseModel>> deleteAccount() async {
+    var b = BaseModel<EmptyResponseModel>();
+
+    b = await _authApi.excluirUsuario();
+
+    if (b.success) _loginHive.logout();
+
+    return b;
   }
 
   @action
