@@ -267,13 +267,8 @@ abstract class SessaoStoreBase with Store {
     history.addAll(eventos);
   }
 
-  @action
-  Future<BaseModel<EmptyResponseModel>> confirmarAgendamento(
-    EventoSessaoModel evento,
-  ) async {
-    var r = BaseModel<EmptyResponseModel>();
-
-    final sessao = sessoes
+  SessaoModel? _encontrarSessaoPorEvento(EventoSessaoModel evento) {
+    return sessoes
         .where((sessao) =>
             sessao.eventos!
                 .where((e) => e.codigoEvento == evento.codigoEvento)
@@ -281,6 +276,15 @@ abstract class SessaoStoreBase with Store {
                 .codigoEvento ==
             evento.codigoEvento)
         .firstOrNull;
+  }
+
+  @action
+  Future<BaseModel<EmptyResponseModel>> confirmarAgendamento(
+    EventoSessaoModel evento,
+  ) async {
+    var r = BaseModel<EmptyResponseModel>();
+
+    final sessao = _encontrarSessaoPorEvento(evento);
 
     if (sessao == null) {
       r.message = "Sessão não encontrada";
