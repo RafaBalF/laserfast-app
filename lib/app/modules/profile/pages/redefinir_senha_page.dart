@@ -89,6 +89,17 @@ class RedefinirSenhaPageState extends State<RedefinirSenhaPage>
         key: _formKey,
         child: Column(
           children: [
+            Observer(builder: (_) {
+              final naoTemSenhaAtual = _store.senhaAtual == null;
+
+              return (naoTemSenhaAtual)
+                  ? PasswordInputWidget(
+                      label: 'Senha Atual',
+                      onChanged: _store.setSenhaAtual,
+                      validator: notEmpty,
+                    )
+                  : const SizedBox();
+            }),
             PasswordInputWidget(
               label: 'Senha',
               onChanged: (s) => senha = s,
@@ -112,7 +123,10 @@ class RedefinirSenhaPageState extends State<RedefinirSenhaPage>
               onPressed: () async {
                 if (!_formKey.currentState!.validate()) return;
 
-                final r = await _store.redefinirSenha(senha);
+                final r = await _store.redefinirSenha(
+                  _store.senhaAtual!,
+                  senha,
+                );
 
                 if (!mounted) return;
 

@@ -89,15 +89,22 @@ abstract class ProfileStoreBase with Store {
   //==== REDEFINIR-SENHA =========================
   //==============================================
 
-  late final String senhaAtual;
+  @observable
+  String? senhaAtual;
 
   @action
   Future<void> initRedefinirSenha() async {
-    senhaAtual = (_loginHive.getLogin()).senha ?? '';
+    senhaAtual = (_loginHive.getLogin()).senha;
   }
 
   @action
-  Future<BaseModel<EmptyResponseModel>> redefinirSenha(String senhaNova) async {
+  void setSenhaAtual(String s) => senhaAtual = s;
+
+  @action
+  Future<BaseModel<EmptyResponseModel>> redefinirSenha(
+    String senhaAtual,
+    String senhaNova,
+  ) async {
     return await _authApi.alterarSenha(senhaAtual, senhaNova);
   }
 

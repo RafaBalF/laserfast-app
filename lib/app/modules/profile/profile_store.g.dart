@@ -42,6 +42,22 @@ mixin _$ProfileStore on ProfileStoreBase, Store {
     });
   }
 
+  late final _$senhaAtualAtom =
+      Atom(name: 'ProfileStoreBase.senhaAtual', context: context);
+
+  @override
+  String? get senhaAtual {
+    _$senhaAtualAtom.reportRead();
+    return super.senhaAtual;
+  }
+
+  @override
+  set senhaAtual(String? value) {
+    _$senhaAtualAtom.reportWrite(value, super.senhaAtual, () {
+      super.senhaAtual = value;
+    });
+  }
+
   late final _$initProfileAsyncAction =
       AsyncAction('ProfileStoreBase.initProfile', context: context);
 
@@ -105,9 +121,10 @@ mixin _$ProfileStore on ProfileStoreBase, Store {
       AsyncAction('ProfileStoreBase.redefinirSenha', context: context);
 
   @override
-  Future<BaseModel<EmptyResponseModel>> redefinirSenha(String senhaNova) {
+  Future<BaseModel<EmptyResponseModel>> redefinirSenha(
+      String senhaAtual, String senhaNova) {
     return _$redefinirSenhaAsyncAction
-        .run(() => super.redefinirSenha(senhaNova));
+        .run(() => super.redefinirSenha(senhaAtual, senhaNova));
   }
 
   late final _$ProfileStoreBaseActionController =
@@ -158,6 +175,17 @@ mixin _$ProfileStore on ProfileStoreBase, Store {
   }
 
   @override
+  void setSenhaAtual(String s) {
+    final _$actionInfo = _$ProfileStoreBaseActionController.startAction(
+        name: 'ProfileStoreBase.setSenhaAtual');
+    try {
+      return super.setSenhaAtual(s);
+    } finally {
+      _$ProfileStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void resetRedefinirSenha() {
     final _$actionInfo = _$ProfileStoreBaseActionController.startAction(
         name: 'ProfileStoreBase.resetRedefinirSenha');
@@ -172,7 +200,8 @@ mixin _$ProfileStore on ProfileStoreBase, Store {
   String toString() {
     return '''
 dadosPessoaisModel: ${dadosPessoaisModel},
-politicaDePrivacidade: ${politicaDePrivacidade}
+politicaDePrivacidade: ${politicaDePrivacidade},
+senhaAtual: ${senhaAtual}
     ''';
   }
 }
