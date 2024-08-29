@@ -8,6 +8,7 @@ import 'package:laserfast_app/app/modules/sessao/models/info_formatada_sessao.mo
 import 'package:laserfast_app/app/modules/sessao/sessao_store.dart';
 import 'package:laserfast_app/app/shared/colors.dart';
 import 'package:laserfast_app/app/shared/modal_bottom_sheet.dart';
+import 'package:laserfast_app/app/shared/services/message.service.dart';
 import 'package:laserfast_app/app/shared/text_styles.dart';
 import 'package:laserfast_app/app/shared/text_widget.dart';
 import 'package:laserfast_app/app/shared/widgets/button_widget.dart';
@@ -27,6 +28,7 @@ class HistoricoPageState extends State<HistoricoPage> {
   final SessaoStore _store = Modular.get<SessaoStore>();
   late final Future<void> _future;
   final ScrollController scrollController = ScrollController();
+  final MessageService _messageService = MessageService();
 
   final DateFormat sessionDateFormatter = DateFormat("dd/MM/yyyy 'as' HH:mm");
 
@@ -52,25 +54,42 @@ class HistoricoPageState extends State<HistoricoPage> {
         return SimpleScaffoldWidget(
             title: 'HISTÓRICO DE SESSÕES',
             bodyPadding: EdgeInsets.symmetric(horizontal: 5.w),
+            actions: [
+              ButtonWidget.outlinedIcon(
+                borderColor: background,
+                onPressed: _reloadHistory,
+                iconData: Icons.refresh,
+              )
+            ],
             body: Observer(
               builder: (_) {
                 if (snapshot.connectionState == ConnectionState.done &&
                     snapshot.hasData) {
-                  return Observer(builder: (_) {
-                    return _store.history.isEmpty
-                        ? _nenhumaSessao()
-                        : Column(
-                            children: _store.history
-                                .map((i) => _sessionCard(i))
-                                .toList(),
-                          );
-                  });
+                  return _store.history.isEmpty
+                      ? _nenhumaSessao()
+                      : Column(
+                          children: _store.history
+                              .map((i) => _sessionCard(i))
+                              .toList(),
+                        );
                 } else {
                   return _loadingBody();
                 }
               },
             ));
       },
+    );
+  }
+
+  void _reloadHistory() async {
+    await _store.getHistory();
+
+    if (!mounted) return;
+
+    _messageService.showMsg(
+      context,
+      "Histórico recarregado com sucesso",
+      duration: 2,
     );
   }
 

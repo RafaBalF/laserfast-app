@@ -254,8 +254,11 @@ abstract class SessaoStoreBase with Store {
 
   @action
   Future<void> getHistory() async {
+    loadingStore.show();
+
     var r = await _sessaoApi.listarHistoricoUltimasSessoes();
 
+    sessoes.clear();
     sessoes.addAll(r.list ?? []);
 
     final eventos = <EventoSessaoModel>[];
@@ -264,7 +267,10 @@ abstract class SessaoStoreBase with Store {
       eventos.addAll(sessao.eventos!);
     }
 
+    history.clear();
     history.addAll(eventos);
+
+    loadingStore.hide();
   }
 
   SessaoModel? _encontrarSessaoPorEvento(EventoSessaoModel evento) {

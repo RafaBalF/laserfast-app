@@ -106,9 +106,9 @@ class ButtonWidget extends StatefulWidget {
 
   factory ButtonWidget.outlinedIcon({
     required Function()? onPressed,
-    required Color? borderColor,
     required IconData? iconData,
-    required Color? iconColor,
+    Color? borderColor = grey,
+    Color? iconColor = darkerGrey,
     double? iconSize = 18,
     bool disabled = false,
     bool loading = false,

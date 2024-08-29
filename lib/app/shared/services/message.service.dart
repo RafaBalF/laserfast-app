@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:laserfast_app/app/shared/colors.dart';
 
 class MessageService {
   showMsg(
     BuildContext context,
-    String message,
-    bool status, {
+    String message, {
     bool closable = false,
     int duration = 5,
+    Color bgColor = accent,
   }) {
     var snackBar = SnackBar(
       content: Text(message, style: const TextStyle(fontSize: 18)),
-      backgroundColor: (status) ? Colors.green : Colors.red,
+      backgroundColor: bgColor,
       behavior: SnackBarBehavior.floating,
       action: (closable)
           ? SnackBarAction(
