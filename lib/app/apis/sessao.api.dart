@@ -2,6 +2,7 @@ import 'package:laserfast_app/app/models/base.model.dart';
 import 'package:laserfast_app/app/models/comanda.model.dart';
 import 'package:laserfast_app/app/models/contrato.model.dart';
 import 'package:laserfast_app/app/models/empty.model.dart';
+import 'package:laserfast_app/app/models/excluir_sessao.model.dart';
 import 'package:laserfast_app/app/models/horarios_disponiveis_com_opcoes.model.dart';
 import 'package:laserfast_app/app/models/sessao.model.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
@@ -191,6 +192,36 @@ class SessaoApi extends BaseApi {
         "cpf": cpf,
         "dataConfirmacao": DateTime.now().toString(),
         "codigoComanda": codigoComanda,
+      }))
+          .data;
+
+      b = BaseModel.fromJson(result, tipo: EmptyResponseModel());
+    } on DioException catch (e) {
+      b.message = handleDioException(e);
+    } catch (e) {
+      b = BaseModel();
+    }
+
+    return b;
+  }
+
+  Future<BaseModel<EmptyResponseModel>> excluirAgendamento(
+      ExcluirSessaoModel sessao) async {
+    var b = BaseModel<EmptyResponseModel>();
+
+    try {
+      var connectivityResult = await (Connectivity().checkConnectivity());
+
+      if (connectivityResult.contains(ConnectivityResult.none)) {
+        return BaseModel();
+      }
+
+      const url = '/Agendamento/ExcluirAgendamento';
+
+      var result = (await (await dio).post(url, data: {
+        "cpf": cpf,
+        "dataCancelamento": sessao.data.toString(),
+        "codigoComanda": sessao.codigoComanda,
       }))
           .data;
 

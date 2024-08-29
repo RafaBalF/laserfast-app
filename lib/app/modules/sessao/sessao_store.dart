@@ -8,6 +8,7 @@ import 'package:laserfast_app/app/models/comanda.model.dart';
 import 'package:laserfast_app/app/models/empty.model.dart';
 import 'package:laserfast_app/app/models/estabelecimento.model.dart';
 import 'package:laserfast_app/app/models/evento_sessao.model.dart';
+import 'package:laserfast_app/app/models/excluir_sessao.model.dart';
 import 'package:laserfast_app/app/models/horarios_disponiveis_com_opcoes.model.dart';
 import 'package:laserfast_app/app/models/sessao.model.dart';
 import 'package:laserfast_app/app/models/session_area.model.dart';
@@ -41,7 +42,11 @@ abstract class SessaoStoreBase with Store {
   }
 
   @observable
-  SessaoModel? sessaoAtual;
+  ExcluirSessaoModel? sessaoSendoReagendada;
+
+  @action
+  void setSessaoSendoReagendada(ExcluirSessaoModel? s) =>
+      sessaoSendoReagendada = s;
 
   @observable
   ObservableList<SelectableCard<ComandaModel>> comandas = ObservableList.of([]);
@@ -49,7 +54,7 @@ abstract class SessaoStoreBase with Store {
   ComandaModel? comandaSelecionada;
 
   @action
-  Future<void> initAgendamento(int? id) async {
+  Future<void> initAgendamento() async {
     await getComandas();
   }
 
@@ -209,6 +214,14 @@ abstract class SessaoStoreBase with Store {
 
     var b = BaseModel<EmptyResponseModel>();
 
+    if (sessaoSendoReagendada != null) {
+      b = await _sessaoApi.excluirAgendamento(sessaoSendoReagendada!);
+
+      if (!b.success) return b;
+
+      setSessaoSendoReagendada(null);
+    }
+
     b = await _sessaoApi.salvarAgendamento(
       comandaSelecionada!.codigoUnidade!,
       horariosDisponiveis!.codigoColaborador!,
@@ -236,6 +249,7 @@ abstract class SessaoStoreBase with Store {
     resetDuracaoSessao();
     horariosDisplay.clear();
     desselecionarHorario();
+    setSessaoSendoReagendada(null);
   }
 
   //==============================================
@@ -273,7 +287,7 @@ abstract class SessaoStoreBase with Store {
     loadingStore.hide();
   }
 
-  SessaoModel? _encontrarSessaoPorEvento(EventoSessaoModel evento) {
+  SessaoModel? encontrarSessaoPorEvento(EventoSessaoModel evento) {
     return sessoes
         .where((sessao) =>
             sessao.eventos!
@@ -290,7 +304,7 @@ abstract class SessaoStoreBase with Store {
   ) async {
     var r = BaseModel<EmptyResponseModel>();
 
-    final sessao = _encontrarSessaoPorEvento(evento);
+    final sessao = encontrarSessaoPorEvento(evento);
 
     if (sessao == null) {
       r.message = "Sessão não encontrada";

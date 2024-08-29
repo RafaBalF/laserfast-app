@@ -17,11 +17,7 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 class AgendamentoPage extends StatefulWidget {
-  final int? sessionId;
-  const AgendamentoPage({
-    super.key,
-    this.sessionId,
-  });
+  const AgendamentoPage({super.key});
   @override
   AgendamentoPageState createState() => AgendamentoPageState();
 }
@@ -37,7 +33,7 @@ class AgendamentoPageState extends State<AgendamentoPage> {
 
   @override
   void initState() {
-    _future = Future.wait([_store.initAgendamento(widget.sessionId)]);
+    _future = Future.wait([_store.initAgendamento()]);
 
     super.initState();
   }
@@ -381,9 +377,9 @@ class AgendamentoPageState extends State<AgendamentoPage> {
                 dismissable: false,
                 onSuccessPressed: () {
                   Modular.to.pop();
-                  Modular.to.pop();
 
-                  Modular.to.pushNamed('/sessao/historico');
+                  Modular.to.pushNamedAndRemoveUntil('/sessao/historico',
+                      (p0) => p0.settings.name == "/home/");
                 },
                 onErrorPressed: () => Modular.to.pop(),
                 onClose: () => Modular.to.pop(),

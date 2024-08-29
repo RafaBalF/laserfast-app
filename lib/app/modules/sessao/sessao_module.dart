@@ -14,15 +14,31 @@ class SessaoModule extends Module {
 
   @override
   void routes(r) {
-    r.child('/', child: (context) => const HistoricoPage());
-    r.child('/historico', child: (context) => const HistoricoPage());
     r.child(
-      '/agendamento',
-      child: (context) => AgendamentoPage(sessionId: r.args.data),
+      '/',
+      child: (context) => const HistoricoPage(),
       transition: defaultTransitonType,
     );
-    r.child('/avaliar', child: (context) => const AvaliarPage());
-    r.child('/check_in', child: (context) => const CheckInPage());
+    r.child(
+      '/historico',
+      child: (context) => const HistoricoPage(),
+      transition: defaultTransitonType,
+    );
+    r.child(
+      '/agendamento',
+      child: (context) => const AgendamentoPage(),
+      transition: defaultTransitonType,
+    );
+    r.child(
+      '/avaliar',
+      child: (context) => const AvaliarPage(),
+      transition: defaultTransitonType,
+    );
+    r.child(
+      '/check_in',
+      child: (context) => const CheckInPage(),
+      transition: defaultTransitonType,
+    );
     // r.child('/contratos', child: (context) => const ContratosPage());
   }
 }

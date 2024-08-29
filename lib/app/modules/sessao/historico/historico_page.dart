@@ -4,6 +4,8 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 import 'package:laserfast_app/app/models/evento_sessao.model.dart';
+import 'package:laserfast_app/app/models/excluir_sessao.model.dart';
+import 'package:laserfast_app/app/models/sessao.model.dart';
 import 'package:laserfast_app/app/modules/sessao/models/info_formatada_sessao.model.dart';
 import 'package:laserfast_app/app/modules/sessao/sessao_store.dart';
 import 'package:laserfast_app/app/shared/colors.dart';
@@ -30,7 +32,7 @@ class HistoricoPageState extends State<HistoricoPage> {
   final ScrollController scrollController = ScrollController();
   final MessageService _messageService = MessageService();
 
-  final DateFormat sessionDateFormatter = DateFormat("dd/MM/yyyy 'as' HH:mm");
+  final DateFormat eventoDateFormatter = DateFormat("dd/MM/yyyy 'as' HH:mm");
 
   final realizada = const Color(0XFF65A491);
   final falta = const Color(0xFFCB91D1);
@@ -173,7 +175,7 @@ class HistoricoPageState extends State<HistoricoPage> {
                           style: label(),
                         ),
                         textWidget(
-                          sessionDateFormatter.format(evento.dataHoraIncio!),
+                          eventoDateFormatter.format(evento.dataHoraIncio!),
                           style: small(),
                         ),
                       ],
@@ -273,7 +275,7 @@ class HistoricoPageState extends State<HistoricoPage> {
     );
   }
 
-  void _edit(EventoSessaoModel session) {
+  void _edit(EventoSessaoModel evento) {
     showCustomBottomSheet(
       context,
       'AGENDA',
@@ -290,18 +292,18 @@ class HistoricoPageState extends State<HistoricoPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       textWidget(
-                        session.status,
+                        evento.status,
                         style: label(),
                       ),
                       textWidget(
-                        sessionDateFormatter.format(session.dataHoraIncio!),
+                        eventoDateFormatter.format(evento.dataHoraIncio!),
                         style: small(),
                       ),
                     ],
                   ),
                   DividerWidget(height: 0.5.h),
                   textWidget(
-                    session.assunto,
+                    evento.assunto,
                     style: small(),
                   ),
                   DividerWidget(height: 0.5.h),
@@ -314,7 +316,7 @@ class HistoricoPageState extends State<HistoricoPage> {
             onPressed: () async {
               Modular.to.pop();
 
-              final r = await _store.confirmarAgendamento(session);
+              final r = await _store.confirmarAgendamento(evento);
 
               if (!mounted) return;
 
@@ -324,10 +326,21 @@ class HistoricoPageState extends State<HistoricoPage> {
           ),
           DividerWidget(height: 2.h),
           ButtonWidget.outlined(
-            onPressed: () => Modular.to.pushNamed(
-              '/sessao/agendamento',
-              arguments: session.codigoEvento,
-            ),
+            onPressed: () {
+              SessaoModel? sessao = _store.encontrarSessaoPorEvento(evento);
+
+              if (sessao == null) return;
+
+              final reagendada = ExcluirSessaoModel(
+                codigoComanda: sessao.codigoComanda,
+                data: evento.dataHoraIncio,
+              );
+
+              _store.setSessaoSendoReagendada(reagendada);
+
+              Modular.to.pop();
+              Modular.to.pushNamed('/sessao/agendamento');
+            },
             title: 'REAGENDAR',
           ),
           DividerWidget(height: 2.h),
@@ -357,7 +370,7 @@ class HistoricoPageState extends State<HistoricoPage> {
                         style: label(),
                       ),
                       textWidget(
-                        sessionDateFormatter.format(evento.dataHoraIncio!),
+                        eventoDateFormatter.format(evento.dataHoraIncio!),
                         style: small(),
                       ),
                     ],

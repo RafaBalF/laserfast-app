@@ -17,19 +17,20 @@ mixin _$SessaoStore on SessaoStoreBase, Store {
               name: 'SessaoStoreBase.podeBuscarHorarios'))
       .value;
 
-  late final _$sessaoAtualAtom =
-      Atom(name: 'SessaoStoreBase.sessaoAtual', context: context);
+  late final _$sessaoSendoReagendadaAtom =
+      Atom(name: 'SessaoStoreBase.sessaoSendoReagendada', context: context);
 
   @override
-  SessaoModel? get sessaoAtual {
-    _$sessaoAtualAtom.reportRead();
-    return super.sessaoAtual;
+  ExcluirSessaoModel? get sessaoSendoReagendada {
+    _$sessaoSendoReagendadaAtom.reportRead();
+    return super.sessaoSendoReagendada;
   }
 
   @override
-  set sessaoAtual(SessaoModel? value) {
-    _$sessaoAtualAtom.reportWrite(value, super.sessaoAtual, () {
-      super.sessaoAtual = value;
+  set sessaoSendoReagendada(ExcluirSessaoModel? value) {
+    _$sessaoSendoReagendadaAtom.reportWrite(value, super.sessaoSendoReagendada,
+        () {
+      super.sessaoSendoReagendada = value;
     });
   }
 
@@ -341,8 +342,8 @@ mixin _$SessaoStore on SessaoStoreBase, Store {
       AsyncAction('SessaoStoreBase.initAgendamento', context: context);
 
   @override
-  Future<void> initAgendamento(int? id) {
-    return _$initAgendamentoAsyncAction.run(() => super.initAgendamento(id));
+  Future<void> initAgendamento() {
+    return _$initAgendamentoAsyncAction.run(() => super.initAgendamento());
   }
 
   late final _$getComandasAsyncAction =
@@ -456,6 +457,17 @@ mixin _$SessaoStore on SessaoStoreBase, Store {
 
   late final _$SessaoStoreBaseActionController =
       ActionController(name: 'SessaoStoreBase', context: context);
+
+  @override
+  void setSessaoSendoReagendada(ExcluirSessaoModel? s) {
+    final _$actionInfo = _$SessaoStoreBaseActionController.startAction(
+        name: 'SessaoStoreBase.setSessaoSendoReagendada');
+    try {
+      return super.setSessaoSendoReagendada(s);
+    } finally {
+      _$SessaoStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
 
   @override
   void setComandaSelecionada(ComandaModel? c) {
@@ -735,7 +747,7 @@ mixin _$SessaoStore on SessaoStoreBase, Store {
   @override
   String toString() {
     return '''
-sessaoAtual: ${sessaoAtual},
+sessaoSendoReagendada: ${sessaoSendoReagendada},
 comandas: ${comandas},
 comandaSelecionada: ${comandaSelecionada},
 startDate: ${startDate},
