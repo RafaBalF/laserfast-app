@@ -1,5 +1,5 @@
+import 'package:laserfast_app/app/apis/cashback.api.dart';
 import 'package:mobx/mobx.dart';
-import 'package:laserfast_app/app/models/hives/login.hive.dart';
 import 'package:laserfast_app/loading_store.dart';
 
 part 'home_store.g.dart';
@@ -7,35 +7,26 @@ part 'home_store.g.dart';
 class HomeStore = HomeStoreBase with _$HomeStore;
 
 abstract class HomeStoreBase with Store {
-  //APIS
-  final LoginHive _loginHive = LoginHive();
+  final CashbackApi _cashbackApi = CashbackApi();
 
-  //STORES
   final LoadingStore loadingStore = LoadingStore();
 
-  //OBSERVABLE
   @observable
-  bool logged = false;
-  @observable
-  String? address;
-  @observable
-  int selectedIndex = 0;
+  double cashback = 0.0;
 
-  // COMPUTED
-
-  //ACTION
   @action
   Future<void> initHome() async {
-    isLogged();
+    await getCashback();
   }
 
   @action
-  void isLogged() {
-    logged = _loginHive.isLogged();
+  Future<void> getCashback() async {
+    final r = await _cashbackApi.recuperarCashbackCliente();
+
+    if (!r.success || r.data == null) return;
+
+    cashback = r.data!.valor ?? 0;
+
+    return;
   }
-
-  @action
-  void setSelectedIndex(int i) => selectedIndex = i;
-
-  //MISC
 }

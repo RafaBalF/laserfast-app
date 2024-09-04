@@ -1,5 +1,6 @@
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:intl/intl.dart';
+import 'package:laserfast_app/app/modules/home/widgets/cashback_widget.dart';
 import 'package:laserfast_app/app/modules/home/widgets/main_scaffold/main_scaffold_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
@@ -127,6 +128,7 @@ class HomePageState extends State<HomePage> {
       children: [
         DividerWidget(height: spacing),
         _cards(),
+        Observer(builder: (_) => CashbackWidget(valor: _store.cashback)),
         DividerWidget(height: spacing),
         _mostAccessed(),
         DividerWidget(height: spacing),
