@@ -148,6 +148,8 @@ class PixPageState extends State<PixPage> {
 
   void _copyCode() async {
     Clipboard.setData(ClipboardData(text: _store.pixCode)).then((_) {
+      if (!mounted) return;
+
       ScaffoldMessenger.of(context).clearSnackBars();
 
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(

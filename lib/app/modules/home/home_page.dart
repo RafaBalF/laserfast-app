@@ -14,8 +14,7 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 class HomePage extends StatefulWidget {
-  final String title;
-  const HomePage({super.key, this.title = 'HomePage'});
+  const HomePage({super.key});
   @override
   HomePageState createState() => HomePageState();
 }
@@ -166,6 +165,7 @@ class HomePageState extends State<HomePage> {
             route: '/pagamentos/',
             labelColor: accent,
             margin: EdgeInsets.only(right: 2.w),
+            maxlines: 1,
           ),
           RedirectCardWidget(
             imgPath: 'assets/icons/svg/blockquote_accent.svg',

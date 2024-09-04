@@ -12,6 +12,7 @@ class RedirectCardWidget extends StatelessWidget {
   final String route;
   final Color? labelColor;
   final EdgeInsets? margin;
+  final int? maxlines;
 
   const RedirectCardWidget({
     super.key,
@@ -20,6 +21,7 @@ class RedirectCardWidget extends StatelessWidget {
     required this.route,
     this.labelColor,
     this.margin,
+    this.maxlines,
   });
 
   @override
@@ -35,6 +37,7 @@ class RedirectCardWidget extends StatelessWidget {
             border: Border.all(color: accent),
           ),
           alignment: Alignment.center,
+          padding: EdgeInsets.symmetric(horizontal: 1.w),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -49,7 +52,8 @@ class RedirectCardWidget extends StatelessWidget {
                 label,
                 textAlign: TextAlign.center,
                 style: profileTile(color: labelColor ?? black),
-                maxLines: 2,
+                maxLines: maxlines ?? 2,
+                minFontSize: 8,
               ),
             ],
           ),

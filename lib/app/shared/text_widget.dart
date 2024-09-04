@@ -14,6 +14,7 @@ Widget textWidget(
   int maxLines = 2,
   TextOverflow overflow = TextOverflow.ellipsis,
   bool autoSize = true,
+  double minFontSize = 10,
 }) {
   return (autoSize)
       ? AutoSizeText(
@@ -21,7 +22,7 @@ Widget textWidget(
           textAlign: textAlign,
           overflow: overflow,
           maxLines: maxLines,
-          minFontSize: 10,
+          minFontSize: minFontSize,
           style: style ??
               GoogleFonts.inter(
                 fontSize: fontSize ?? 16.0.sp,
