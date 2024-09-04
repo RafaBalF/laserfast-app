@@ -350,58 +350,58 @@ class HistoricoPageState extends State<HistoricoPage> {
     );
   }
 
-  void _avaliar(EventoSessaoModel evento) {
-    showCustomBottomSheet(
-      context,
-      'AGENDA',
-      Column(
-        children: [
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 2.5.h),
-            child: DividedCardWidget(
-              header: 'Resumo:',
-              content: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      textWidget(
-                        evento.status,
-                        style: label(),
-                      ),
-                      textWidget(
-                        eventoDateFormatter.format(evento.dataHoraIncio!),
-                        style: small(),
-                      ),
-                    ],
-                  ),
-                  DividerWidget(height: 0.5.h),
-                  textWidget(
-                    evento.assunto,
-                    style: small(),
-                  ),
-                  DividerWidget(height: 0.5.h),
-                ],
-              ),
-            ),
-          ),
-          DividerWidget(height: 5.h),
-          ButtonWidget.filled(
-            onPressed: () {
-              _store.setSessaoSendoAvaliada(evento);
-              Modular.to.pop();
-              Modular.to.pushNamed('/sessao/avaliar');
-              // Modular.to.pop();
-              // Modular.to.pushNamed('/indicar/');
-            },
-            title: 'AVALIAR',
-          ),
-          DividerWidget(height: 2.h),
-        ],
-      ),
-    );
-  }
+  // void _avaliar(EventoSessaoModel evento) {
+  //   showCustomBottomSheet(
+  //     context,
+  //     'AGENDA',
+  //     Column(
+  //       children: [
+  //         Padding(
+  //           padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 2.5.h),
+  //           child: DividedCardWidget(
+  //             header: 'Resumo:',
+  //             content: Column(
+  //               crossAxisAlignment: CrossAxisAlignment.start,
+  //               children: [
+  //                 Row(
+  //                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //                   children: [
+  //                     textWidget(
+  //                       evento.status,
+  //                       style: label(),
+  //                     ),
+  //                     textWidget(
+  //                       eventoDateFormatter.format(evento.dataHoraIncio!),
+  //                       style: small(),
+  //                     ),
+  //                   ],
+  //                 ),
+  //                 DividerWidget(height: 0.5.h),
+  //                 textWidget(
+  //                   evento.assunto,
+  //                   style: small(),
+  //                 ),
+  //                 DividerWidget(height: 0.5.h),
+  //               ],
+  //             ),
+  //           ),
+  //         ),
+  //         DividerWidget(height: 5.h),
+  //         ButtonWidget.filled(
+  //           onPressed: () {
+  //             _store.setSessaoSendoAvaliada(evento);
+  //             Modular.to.pop();
+  //             Modular.to.pushNamed('/sessao/avaliar');
+  //             // Modular.to.pop();
+  //             // Modular.to.pushNamed('/indicar/');
+  //           },
+  //           title: 'AVALIAR',
+  //         ),
+  //         DividerWidget(height: 2.h),
+  //       ],
+  //     ),
+  //   );
+  // }
 
   @override
   void dispose() {
