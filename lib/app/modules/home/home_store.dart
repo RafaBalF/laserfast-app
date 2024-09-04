@@ -25,7 +25,7 @@ abstract class HomeStoreBase with Store {
 
     if (!r.success || r.data == null) return;
 
-    cashback = r.data!.valor ?? 0;
+    cashback = r.data!.saldo ?? 0;
 
     return;
   }

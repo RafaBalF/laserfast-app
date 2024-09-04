@@ -1,14 +1,28 @@
+import 'package:laserfast_app/app/shared/convert.dart';
+
 import 'abstract/from_json.abstract.dart';
 
 class CashbackModel extends FromJsonModel {
-  double? valor;
+  String? nomeCliente;
+  String? cpfCliente;
+  double? valorRecebido;
+  double? valorConsumido;
+  double? saldo;
 
   CashbackModel({
-    this.valor,
+    this.nomeCliente,
+    this.cpfCliente,
+    this.valorRecebido,
+    this.valorConsumido,
+    this.saldo,
   });
 
   CashbackModel.fromJson(Map<String, dynamic> json) {
-    valor = json['valor'];
+    nomeCliente = json['nomeCliente'];
+    cpfCliente = json['cpfCliente'];
+    valorRecebido = convertDouble(json['valorRecebido']);
+    valorConsumido = convertDouble(json['valorConsumido']);
+    saldo = convertDouble(json['saldo']);
   }
 
   Map<String, dynamic> toJson() => <String, dynamic>{};
