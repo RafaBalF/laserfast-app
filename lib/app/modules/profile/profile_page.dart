@@ -66,11 +66,11 @@ class ProfilePageState extends State<ProfilePage> {
         'Indicação',
         () => Modular.to.pushNamed('/indicar/'),
       ),
-      _tileCard(
-        'assets/icons/svg/favorite_accent.svg',
-        'Diário',
-        () => Modular.to.pushNamed('/diario/'),
-      ),
+      // _tileCard(
+      //   'assets/icons/svg/favorite_accent.svg',
+      //   'Diário',
+      //   () => Modular.to.pushNamed('/diario/'),
+      // ),
       _tileCard(
         'assets/icons/svg/cog_accent.svg',
         'Configurações',

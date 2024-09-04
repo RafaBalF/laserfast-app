@@ -204,18 +204,19 @@ class HistoricoPageState extends State<HistoricoPage> {
   }
 
   InfoFormatadaSessao _getInfoEventoSessao(EventoSessaoModel evento) {
+    const emptyWidget = SizedBox();
     switch (evento.status) {
       case "Realizado":
         return InfoFormatadaSessao(
           cor: realizada,
           status: "Sessão realizada",
-          widget: _cardBtn(realizada, 'AVALIAR', () => _avaliar(evento)),
+          widget: emptyWidget,
         );
       case "Falta":
         return InfoFormatadaSessao(
           cor: falta,
           status: "Falta",
-          widget: const SizedBox(),
+          widget: emptyWidget,
         );
       case "Agendado":
         return InfoFormatadaSessao(
@@ -234,7 +235,7 @@ class HistoricoPageState extends State<HistoricoPage> {
         return InfoFormatadaSessao(
           cor: andamento,
           status: "Sessão em andamento",
-          widget: const SizedBox(),
+          widget: emptyWidget,
         );
       case "Confirmado":
         return InfoFormatadaSessao(
