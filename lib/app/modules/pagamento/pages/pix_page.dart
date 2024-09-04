@@ -154,7 +154,7 @@ class PixPageState extends State<PixPage> {
 
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: textWidget("CÓDIGO COPIADO COM SUCESSO", color: white),
-        backgroundColor: accent,
+        backgroundColor: primary,
         behavior: SnackBarBehavior.floating,
         showCloseIcon: true,
       ));

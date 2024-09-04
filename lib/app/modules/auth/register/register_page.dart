@@ -135,7 +135,7 @@ class RegisterPageState extends State<RegisterPage> with FormValidationsMixin {
                   }
                 },
                 loading: _store.loadingStore.isLoading,
-                backgroundColor: accent,
+                backgroundColor: primary,
                 textColor: white,
               );
             }),
@@ -227,7 +227,7 @@ class RegisterPageState extends State<RegisterPage> with FormValidationsMixin {
                 }
               },
               disabled: !_store.validCode,
-              backgroundColor: accent,
+              backgroundColor: primary,
               textColor: primaryDark,
             );
           }),

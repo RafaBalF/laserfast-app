@@ -47,8 +47,8 @@ class BooleanChoiceWidget extends StatelessWidget {
     late Color textColor;
 
     if (b == item) {
-      borderColor = accent;
-      bgColor = accent;
+      borderColor = primary;
+      bgColor = primary;
       textColor = white;
     } else {
       borderColor = grey;

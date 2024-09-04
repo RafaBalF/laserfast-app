@@ -128,7 +128,7 @@ class LoginPageState extends State<LoginPage> with FormValidationsMixin {
                   }
                 }
               },
-              backgroundColor: accent,
+              backgroundColor: primary,
               textColor: white,
               loading: _store.loadingStore.isLoading,
             );

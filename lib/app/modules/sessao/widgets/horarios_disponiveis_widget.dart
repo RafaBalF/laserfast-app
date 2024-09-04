@@ -47,7 +47,7 @@ class _AvailableSchedulesState extends State<HorariosDisponiveisWidget> {
       width: 100.w,
       color: grey,
       child: RawScrollbar(
-        thumbColor: accent,
+        thumbColor: primary,
         trackColor: grey,
         trackBorderColor: grey,
         thumbVisibility: true,
@@ -83,8 +83,8 @@ class _AvailableSchedulesState extends State<HorariosDisponiveisWidget> {
     if (hasSchedule) sameDate = h.valor == _store.horarioSelecionado;
 
     if (sameDate) {
-      borderColor = accent;
-      bgColor = accent;
+      borderColor = primary;
+      bgColor = primary;
       textColor = white;
     } else {
       borderColor = grey;

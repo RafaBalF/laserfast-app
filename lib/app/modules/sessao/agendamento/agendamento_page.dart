@@ -432,7 +432,7 @@ class AgendamentoPageState extends State<AgendamentoPage> {
           textWidget(
             formattedDate,
             textAlign: TextAlign.center,
-            style: label(color: accent),
+            style: label(color: primary),
           ),
         ],
       ),

@@ -121,7 +121,7 @@ class _MainScaffoldWidgetState extends State<MainScaffoldWidget> {
           ),
           textWidget(
             'Você tem pendência',
-            style: headTitle(color: accent),
+            style: headTitle(color: primary),
           ),
         ],
       ),

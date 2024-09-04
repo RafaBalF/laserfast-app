@@ -97,6 +97,12 @@ class ProfilePageState extends State<ProfilePage> {
         'Seja um franqueado',
         () => launchUrlString('https://laserfast.com.br/franquia'),
       ),
+      _tileCard(
+        '',
+        'Contratos',
+        () => Modular.to.pushNamed('/profile/contratos'),
+        icon: Icons.format_list_bulleted,
+      ),
     ];
   }
 
@@ -104,7 +110,6 @@ class ProfilePageState extends State<ProfilePage> {
     String imgPath,
     String title,
     Function()? onTap, {
-    bool isSvg = true,
     IconData? icon,
     int maxLines = 2,
   }) {
@@ -124,7 +129,7 @@ class ProfilePageState extends State<ProfilePage> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              (isSvg)
+              (icon == null)
                   ? SvgPicture.asset(imgPath, height: 40)
                   : Icon(icon, color: primary, size: 40),
               SizedBox(height: 2.h),

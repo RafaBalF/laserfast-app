@@ -34,7 +34,7 @@ class RedirectCardWidget extends StatelessWidget {
         child: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
-            border: Border.all(color: accent),
+            border: Border.all(color: primary),
           ),
           alignment: Alignment.center,
           padding: EdgeInsets.symmetric(horizontal: 1.w),

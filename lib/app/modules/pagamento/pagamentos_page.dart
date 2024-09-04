@@ -104,7 +104,7 @@ class PagamentosPageState extends State<PagamentosPage> {
             onPressed: () {
               Modular.to.pushNamed('/pagamentos/pagamento');
             },
-            backgroundColor: accent,
+            backgroundColor: primary,
             title: 'PAGAR',
             textColor: white,
             disabled: _store.selectedPayments.isEmpty,

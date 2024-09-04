@@ -110,7 +110,7 @@ Graças ao nosso laser super moderno, a área de aplicação é amplamente ating
         padding: EdgeInsets.symmetric(horizontal: 5.w),
         child: Text(details),
       ),
-      titleStyle: h2(color: accent),
+      titleStyle: h2(color: primary),
       initiallyExpanded: true,
     );
   }

@@ -33,7 +33,7 @@ class _SelectableCardsWidgetState<T> extends State<SelectableCardsWidget<T>> {
       width: 100.w,
       color: grey,
       child: RawScrollbar(
-        thumbColor: accent,
+        thumbColor: primary,
         trackColor: grey,
         trackBorderColor: grey,
         thumbVisibility: true,
@@ -61,8 +61,8 @@ class _SelectableCardsWidgetState<T> extends State<SelectableCardsWidget<T>> {
     late Color textColor;
 
     if (v.selected) {
-      borderColor = accent;
-      bgColor = accent;
+      borderColor = primary;
+      bgColor = primary;
       textColor = white;
     } else {
       borderColor = grey;

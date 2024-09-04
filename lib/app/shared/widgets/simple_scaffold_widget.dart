@@ -42,7 +42,7 @@ class SimpleScaffoldWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final Color finalBodyColor = bodyColor ?? background;
     final Color finalHeaderColor = headerColor ?? finalBodyColor;
-    final Color finalReturnArrowColor = returnArrowColor ?? accent;
+    final Color finalReturnArrowColor = returnArrowColor ?? primary;
 
     return Scaffold(
       backgroundColor: finalHeaderColor,

@@ -20,6 +20,7 @@ class ButtonWidget extends StatefulWidget {
   final double? iconSize;
   final Color? iconColor;
   final double? width;
+  final double? fontSize;
 
   const ButtonWidget({
     super.key,
@@ -36,17 +37,19 @@ class ButtonWidget extends StatefulWidget {
     this.iconSize,
     this.iconColor,
     this.width,
+    this.fontSize,
   });
 
   factory ButtonWidget.filled({
     required Function()? onPressed,
     required String title,
-    Color? backgroundColor = accent,
+    Color? backgroundColor = primary,
     Color? textColor = white,
     bool disabled = false,
     bool loading = false,
     ButtonSize buttonSize = ButtonSize.large,
     double? width,
+    double? fontSize,
   }) =>
       ButtonWidget(
         onPressed: onPressed,
@@ -58,6 +61,7 @@ class ButtonWidget extends StatefulWidget {
         buttonSize: buttonSize,
         buttonType: ButtonType.filled,
         width: width,
+        fontSize: fontSize,
       );
 
   factory ButtonWidget.outlined({
@@ -69,6 +73,7 @@ class ButtonWidget extends StatefulWidget {
     bool disabled = false,
     ButtonSize buttonSize = ButtonSize.large,
     double? width,
+    double? fontSize,
   }) =>
       ButtonWidget(
         onPressed: onPressed,
@@ -80,6 +85,7 @@ class ButtonWidget extends StatefulWidget {
         buttonSize: buttonSize,
         buttonType: ButtonType.outlined,
         width: width,
+        fontSize: fontSize,
       );
 
   factory ButtonWidget.filledIcon({
@@ -170,7 +176,7 @@ class _ButtonWidgetState extends State<ButtonWidget> {
       child: Center(
         child: Container(
             padding: const EdgeInsets.all(10),
-            child: const CircularProgressIndicator(color: accent)),
+            child: const CircularProgressIndicator(color: primary)),
       ),
     );
   }
@@ -277,6 +283,7 @@ class _ButtonWidgetState extends State<ButtonWidget> {
         break;
       case ButtonSize.small:
         height = 3.h;
+        radius = 5;
         break;
       default:
         break;
@@ -298,7 +305,14 @@ class _ButtonWidgetState extends State<ButtonWidget> {
   Widget _getText(Color? textColor) {
     return textWidget(
       widget.title,
-      style: headTitle(color: textColor),
+      style: (widget.fontSize == null)
+          ? headTitle(color: textColor)
+          : TextStyle(
+              fontSize: widget.fontSize!.sp,
+              fontWeight: FontWeight.bold,
+              color: textColor,
+              height: 1.5,
+            ),
     );
   }
 }

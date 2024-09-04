@@ -101,7 +101,7 @@ class CheckInPageState extends State<CheckInPage> {
         DividerWidget(height: 5.h),
         ButtonWidget.filled(
           onPressed: () => Modular.to.pop(),
-          backgroundColor: accent,
+          backgroundColor: primary,
           title: 'VOLTAR',
           textColor: white,
         ),
@@ -159,7 +159,7 @@ class CheckInPageState extends State<CheckInPage> {
 
                 _store.setfotoCheckIn(await _cameraService.takePhoto());
               },
-              backgroundColor: accent,
+              backgroundColor: primary,
               title: 'TIRAR FOTO',
               textColor: white,
             )
@@ -206,7 +206,7 @@ class CheckInPageState extends State<CheckInPage> {
                               (_store.atendidoPor!.foto == null)
                                   ? CircleAvatar(
                                       maxRadius: 30.sp,
-                                      backgroundColor: accent,
+                                      backgroundColor: primary,
                                       child: Icon(
                                         Icons.person,
                                         color: white,
@@ -228,7 +228,7 @@ class CheckInPageState extends State<CheckInPage> {
                               DividerWidget(height: 2.5.h),
                               ButtonWidget.filled(
                                 onPressed: () => Modular.to.pop(),
-                                backgroundColor: accent,
+                                backgroundColor: primary,
                                 title: 'FECHAR',
                                 textColor: white,
                               ),
@@ -239,7 +239,7 @@ class CheckInPageState extends State<CheckInPage> {
                       );
                     }
                   },
-                  backgroundColor: accent,
+                  backgroundColor: primary,
                   title: 'FAZER CHECK-IN',
                   textColor: white,
                 ),

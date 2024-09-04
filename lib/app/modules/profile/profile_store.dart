@@ -1,7 +1,9 @@
 import 'package:laserfast_app/app/apis/auth.api.dart';
+import 'package:laserfast_app/app/apis/contrato.api.dart';
 import 'package:laserfast_app/app/constants/politica_de_privacidade.dart';
 import 'package:laserfast_app/app/models/auth.model.dart';
 import 'package:laserfast_app/app/models/base.model.dart';
+import 'package:laserfast_app/app/models/contrato.model.dart';
 import 'package:laserfast_app/app/models/dados_pessoais.model.dart';
 import 'package:laserfast_app/app/models/empty.model.dart';
 import 'package:laserfast_app/app/models/hives/login.hive.dart';
@@ -15,6 +17,7 @@ class ProfileStore = ProfileStoreBase with _$ProfileStore;
 abstract class ProfileStoreBase with Store {
   final LoadingStore loadingStore = LoadingStore();
   final LoginHive _loginHive = LoginHive();
+  final ContratoApi _contratoApi = ContratoApi();
 
   final AuthApi _authApi = AuthApi();
 
@@ -77,7 +80,7 @@ abstract class ProfileStoreBase with Store {
   void resetConfiguracoes() {}
 
   //==============================================
-  //==== ENDERECOS ===============================
+  //==== POLÍTICA DE PRIVACIDADE =================
   //==============================================
 
   @observable
@@ -116,4 +119,26 @@ abstract class ProfileStoreBase with Store {
 
   @action
   void resetRedefinirSenha() {}
+
+  //==============================================
+  //==== CONTRATOS ===============================
+  //==============================================
+
+  @observable
+  ObservableList<ContratoModel> contratos = ObservableList.of([]);
+
+  @action
+  Future<void> initContratos() async {
+    final r = await _contratoApi.listarContratos();
+
+    if (!r.success) return;
+
+    contratos.clear();
+    contratos.addAll(r.list!);
+  }
+
+  @action
+  void resetContratos() {
+    contratos.clear();
+  }
 }

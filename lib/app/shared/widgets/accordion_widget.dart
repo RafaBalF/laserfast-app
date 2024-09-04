@@ -23,7 +23,7 @@ class AccordionWidget extends StatelessWidget {
     return ExpansionTile(
       initiallyExpanded: initiallyExpanded,
       shape: const Border(),
-      collapsedIconColor: accent,
+      collapsedIconColor: primary,
       title: textWidget(
         label,
         style: titleStyle ?? GoogleFonts.inter(fontSize: 16.sp),

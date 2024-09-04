@@ -105,7 +105,7 @@ class ConfiguracoesPageState extends State<ConfiguracoesPage> {
               onTap: onTap,
               child: Icon(
                 Icons.chevron_right,
-                color: accent,
+                color: primary,
                 size: 24.sp,
               ),
             ),
@@ -142,7 +142,7 @@ class ConfiguracoesPageState extends State<ConfiguracoesPage> {
                 await _store.logout();
                 Modular.to.navigate('/auth/login');
               },
-              backgroundColor: accent,
+              backgroundColor: primary,
               title: 'SAIR',
               textColor: white,
             ),
@@ -210,7 +210,7 @@ class ConfiguracoesPageState extends State<ConfiguracoesPage> {
                   },
                 );
               },
-              backgroundColor: accent,
+              backgroundColor: primary,
               title: 'DELETAR',
               textColor: white,
             ),

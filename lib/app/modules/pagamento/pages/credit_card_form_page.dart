@@ -224,7 +224,7 @@ class CreditCardFormPageState extends State<CreditCardFormPage>
                   );
                 }
               },
-              backgroundColor: accent,
+              backgroundColor: primary,
               title: 'SALVAR',
               textColor: white,
             ),

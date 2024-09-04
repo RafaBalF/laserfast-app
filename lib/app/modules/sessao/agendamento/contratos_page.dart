@@ -94,7 +94,7 @@
 //         DividerWidget(height: 5.h),
 //         ButtonWidget.filled(
 //           onPressed: () => Modular.to.pop(),
-//           backgroundColor: accent,
+//           backgroundColor: primary,
 //           title: 'VOLTAR',
 //           textColor: white,
 //         ),

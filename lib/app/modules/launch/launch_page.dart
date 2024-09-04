@@ -98,7 +98,7 @@ class LaunchPageState extends State<LaunchPage> with TickerProviderStateMixin {
             onPressed: () {
               Modular.to.navigate('/auth/login');
             },
-            backgroundColor: accent,
+            backgroundColor: primary,
             iconData: Icons.arrow_forward_ios,
             iconSize: 20.sp,
             iconColor: white,

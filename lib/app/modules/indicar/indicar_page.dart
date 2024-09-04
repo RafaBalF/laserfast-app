@@ -62,7 +62,7 @@ class IndicarPageState extends State<IndicarPage> with FormValidationsMixin {
                   padding: EdgeInsets.only(right: 5.w),
                   child: Icon(
                     Icons.close,
-                    color: accent,
+                    color: primary,
                     size: 22.sp,
                   ),
                 ),
@@ -162,7 +162,7 @@ class IndicarPageState extends State<IndicarPage> with FormValidationsMixin {
                     },
                   );
                 },
-                backgroundColor: accent,
+                backgroundColor: primary,
                 title: 'SALVAR',
                 textColor: white,
               ),

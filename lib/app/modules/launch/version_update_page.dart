@@ -52,7 +52,7 @@ class VersionUpdatePageState extends State<VersionUpdatePage> {
                   DividerWidget(height: 2.h),
                   ButtonWidget.filled(
                       title: 'Atualizar',
-                      backgroundColor: accent,
+                      backgroundColor: primary,
                       textColor: white,
                       onPressed: () async {
                         String targetURL = "";

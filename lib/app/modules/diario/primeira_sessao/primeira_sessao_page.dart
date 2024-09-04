@@ -288,7 +288,7 @@ class PrimeiraSessaoPageState extends State<PrimeiraSessaoPage>
         width: 100.w,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5),
-          border: Border.all(color: accent),
+          border: Border.all(color: primary),
         ),
         child: Observer(builder: (_) {
           return (_store.fotoPS != null)
@@ -298,7 +298,7 @@ class PrimeiraSessaoPageState extends State<PrimeiraSessaoPage>
                   children: [
                     Icon(
                       Icons.photo_camera_back,
-                      color: accent,
+                      color: primary,
                       size: 32.sp,
                     ),
                     textWidget("Selecione a foto", style: label()),

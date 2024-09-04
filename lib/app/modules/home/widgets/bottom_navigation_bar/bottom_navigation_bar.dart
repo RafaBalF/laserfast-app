@@ -52,7 +52,7 @@ class _BottomNavigationBarWidgetState extends State<BottomNavigationBarWidget> {
           ],
           backgroundColor: background,
           selectedItemColor: darkerGrey,
-          selectedIconTheme: const IconThemeData(color: accent),
+          selectedIconTheme: const IconThemeData(color: primary),
           showSelectedLabels: true,
           showUnselectedLabels: true,
           unselectedItemColor: darkerGrey,
@@ -80,7 +80,7 @@ class _BottomNavigationBarWidgetState extends State<BottomNavigationBarWidget> {
         child: SvgPicture.asset(
           path,
           height: 24.sp,
-          colorFilter: const ColorFilter.mode(accent, BlendMode.srcIn),
+          colorFilter: const ColorFilter.mode(primary, BlendMode.srcIn),
         ),
       ),
       label: label,

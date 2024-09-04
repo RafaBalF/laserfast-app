@@ -58,6 +58,22 @@ mixin _$ProfileStore on ProfileStoreBase, Store {
     });
   }
 
+  late final _$contratosAtom =
+      Atom(name: 'ProfileStoreBase.contratos', context: context);
+
+  @override
+  ObservableList<ContratoModel> get contratos {
+    _$contratosAtom.reportRead();
+    return super.contratos;
+  }
+
+  @override
+  set contratos(ObservableList<ContratoModel> value) {
+    _$contratosAtom.reportWrite(value, super.contratos, () {
+      super.contratos = value;
+    });
+  }
+
   late final _$initProfileAsyncAction =
       AsyncAction('ProfileStoreBase.initProfile', context: context);
 
@@ -125,6 +141,14 @@ mixin _$ProfileStore on ProfileStoreBase, Store {
       String senhaAtual, String senhaNova) {
     return _$redefinirSenhaAsyncAction
         .run(() => super.redefinirSenha(senhaAtual, senhaNova));
+  }
+
+  late final _$initContratosAsyncAction =
+      AsyncAction('ProfileStoreBase.initContratos', context: context);
+
+  @override
+  Future<void> initContratos() {
+    return _$initContratosAsyncAction.run(() => super.initContratos());
   }
 
   late final _$ProfileStoreBaseActionController =
@@ -197,11 +221,23 @@ mixin _$ProfileStore on ProfileStoreBase, Store {
   }
 
   @override
+  void resetContratos() {
+    final _$actionInfo = _$ProfileStoreBaseActionController.startAction(
+        name: 'ProfileStoreBase.resetContratos');
+    try {
+      return super.resetContratos();
+    } finally {
+      _$ProfileStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 dadosPessoaisModel: ${dadosPessoaisModel},
 politicaDePrivacidade: ${politicaDePrivacidade},
-senhaAtual: ${senhaAtual}
+senhaAtual: ${senhaAtual},
+contratos: ${contratos}
     ''';
   }
 }

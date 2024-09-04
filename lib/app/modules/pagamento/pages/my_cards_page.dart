@@ -99,7 +99,7 @@ class MyCardsPageState extends State<MyCardsPage> {
           onPressed: () {
             Modular.to.pushNamed('/pagamentos/credit-card-form');
           },
-          backgroundColor: accent,
+          backgroundColor: primary,
           title: 'CADASTRAR NOVO CARTÃO',
           textColor: white,
         ),
@@ -162,7 +162,7 @@ class MyCardsPageState extends State<MyCardsPage> {
                 );
               }
             },
-            backgroundColor: accent,
+            backgroundColor: primary,
             title: 'SELECIONAR CARTÃO',
             textColor: white,
           )
@@ -181,7 +181,7 @@ class MyCardsPageState extends State<MyCardsPage> {
     Color iconColor = darkerGrey;
 
     if (_store.selectedCard == card) {
-      borderColor = iconColor = accent;
+      borderColor = iconColor = primary;
     }
 
     return Padding(
@@ -211,7 +211,7 @@ class MyCardsPageState extends State<MyCardsPage> {
                   child: textWidget(
                     'Excluir',
                     style: text(
-                      color: accent,
+                      color: primary,
                       textDecoration: TextDecoration.underline,
                     ),
                   ),
@@ -245,7 +245,7 @@ class MyCardsPageState extends State<MyCardsPage> {
               padding: EdgeInsets.symmetric(vertical: 2.5.h, horizontal: 5.w),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
-                border: Border.all(color: accent),
+                border: Border.all(color: primary),
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -253,7 +253,7 @@ class MyCardsPageState extends State<MyCardsPage> {
                   Icon(
                     Icons.credit_card,
                     size: 30.sp,
-                    color: accent,
+                    color: primary,
                   ),
                   SizedBox(width: 10.w),
                   textWidget(displayNumber, style: large()),
@@ -278,7 +278,7 @@ class MyCardsPageState extends State<MyCardsPage> {
                 SizedBox(
                   width: 40.w,
                   child: ButtonWidget.filled(
-                    backgroundColor: accent,
+                    backgroundColor: primary,
                     onPressed: () async {
                       final bool r = await _store.deleteCard(cardId);
 

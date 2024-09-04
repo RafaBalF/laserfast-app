@@ -151,21 +151,21 @@ class HomePageState extends State<HomePage> {
             imgPath: 'assets/icons/svg/calendar_accent.svg',
             label: 'Agenda',
             route: '/sessao/agendamento',
-            labelColor: accent,
+            labelColor: primary,
             margin: EdgeInsets.only(right: 2.w),
           ),
           RedirectCardWidget(
             imgPath: 'assets/icons/svg/document_accent.svg',
             label: 'Sessões realizadas',
             route: '/sessao/historico',
-            labelColor: accent,
+            labelColor: primary,
             margin: EdgeInsets.only(right: 2.w),
           ),
           RedirectCardWidget(
             imgPath: 'assets/icons/svg/money_accent.svg',
             label: 'Pagamentos',
             route: '/pagamentos/',
-            labelColor: accent,
+            labelColor: primary,
             margin: EdgeInsets.only(right: 2.w),
             maxlines: 1,
           ),
@@ -173,21 +173,21 @@ class HomePageState extends State<HomePage> {
           //   imgPath: 'assets/icons/svg/blockquote_accent.svg',
           //   label: 'Diário',
           //   route: '/diario/',
-          //   labelColor: accent,
+          //   labelColor: primary,
           //   margin: EdgeInsets.only(right: 2.w),
           // ),
           RedirectCardWidget(
             imgPath: 'assets/icons/svg/list-details_accent.svg',
             label: 'Perguntas frequentes',
             route: '/faq',
-            labelColor: accent,
+            labelColor: primary,
             margin: EdgeInsets.only(right: 2.w),
           ),
           // RedirectCardWidget(
           //   imgPath: 'assets/icons/svg/chat_accent.svg',
           //   label: 'Chat',
           //   route: '',
-          //   labelColor: accent,
+          //   labelColor: primary,
           //   margin: EdgeInsets.only(right: 2.w),
           // ),
         ],
@@ -201,7 +201,7 @@ class HomePageState extends State<HomePage> {
       children: [
         textWidget(
           'Mais acessados',
-          style: h2(color: accent),
+          style: h2(color: primary),
           textAlign: TextAlign.start,
         ),
         DividerWidget(height: 2.h),
@@ -321,11 +321,11 @@ class HomePageState extends State<HomePage> {
                 children: [
                   textWidget(
                     'Ver todos',
-                    style: text(color: accent),
+                    style: text(color: primary),
                   ),
                   const Icon(
                     Icons.chevron_right,
-                    color: accent,
+                    color: primary,
                   )
                 ],
               ),

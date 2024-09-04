@@ -351,7 +351,7 @@ class DiarioPageState extends State<DiarioPage> {
   Widget _avancar(Function()? onPressed) {
     return ButtonWidget.filled(
       onPressed: onPressed,
-      backgroundColor: accent,
+      backgroundColor: primary,
       title: 'AVANÇAR >',
       textColor: white,
       buttonSize: ButtonSize.medium,

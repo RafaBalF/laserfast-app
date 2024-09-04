@@ -39,7 +39,7 @@ Future showCustomBottomSheet(
                         },
                     icon: const Icon(
                       Icons.close,
-                      color: accent,
+                      color: primary,
                       size: 32,
                     ),
                   )
@@ -99,7 +99,7 @@ Future showErrorBottomSheet(
               () {
                 Modular.to.pop();
               },
-          backgroundColor: accent,
+          backgroundColor: primary,
           textColor: white,
         ),
       )
@@ -159,7 +159,7 @@ Future showSuccessBottomSheet(
               () {
                 Modular.to.pop();
               },
-          backgroundColor: accent,
+          backgroundColor: primary,
           textColor: white,
         ),
       )

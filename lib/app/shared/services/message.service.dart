@@ -7,7 +7,7 @@ class MessageService {
     String message, {
     bool closable = false,
     int duration = 5,
-    Color bgColor = accent,
+    Color bgColor = primary,
   }) {
     var snackBar = SnackBar(
       content: Text(message, style: const TextStyle(fontSize: 18)),

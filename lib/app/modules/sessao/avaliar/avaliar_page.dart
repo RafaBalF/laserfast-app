@@ -93,7 +93,7 @@ class AvaliarPageState extends State<AvaliarPage> {
         DividerWidget(height: 5.h),
         ButtonWidget.filled(
           onPressed: () => Modular.to.pop(),
-          backgroundColor: accent,
+          backgroundColor: primary,
           title: 'VOLTAR',
           textColor: white,
         ),
@@ -148,7 +148,7 @@ class AvaliarPageState extends State<AvaliarPage> {
                   Modular.to.pop();
                 });
               },
-              backgroundColor: accent,
+              backgroundColor: primary,
               title: 'CONFIRMAR',
               textColor: white,
               width: 40.w,
@@ -167,7 +167,7 @@ class AvaliarPageState extends State<AvaliarPage> {
         (_store.aplicador!.foto == null)
             ? CircleAvatar(
                 maxRadius: 30.sp,
-                backgroundColor: accent,
+                backgroundColor: primary,
                 child: Icon(
                   Icons.person,
                   color: white,
@@ -193,7 +193,7 @@ class AvaliarPageState extends State<AvaliarPage> {
           direction: Axis.horizontal,
           itemCount: 5,
           itemPadding: EdgeInsets.symmetric(horizontal: 1.w),
-          itemBuilder: (context, _) => const Icon(Icons.star, color: accent),
+          itemBuilder: (context, _) => const Icon(Icons.star, color: primary),
           onRatingUpdate: _store.setNotaSessao,
         ),
       ],
@@ -231,7 +231,7 @@ class AvaliarPageState extends State<AvaliarPage> {
           direction: Axis.horizontal,
           itemCount: 5,
           itemPadding: EdgeInsets.symmetric(horizontal: 1.w),
-          itemBuilder: (context, _) => const Icon(Icons.star, color: accent),
+          itemBuilder: (context, _) => const Icon(Icons.star, color: primary),
           onRatingUpdate: _store.setNotaSessao,
         ),
       ],

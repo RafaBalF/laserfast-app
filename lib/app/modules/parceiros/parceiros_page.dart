@@ -105,7 +105,7 @@ class ParceirosPageState extends State<ParceirosPage> {
                       child: ElevatedButton(
                         onPressed: onTap,
                         style: ButtonStyle(
-                          backgroundColor: WidgetStateProperty.all(accent),
+                          backgroundColor: WidgetStateProperty.all(primary),
                           shape:
                               WidgetStateProperty.all<RoundedRectangleBorder>(
                             RoundedRectangleBorder(
