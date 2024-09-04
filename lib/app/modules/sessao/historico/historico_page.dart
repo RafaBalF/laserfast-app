@@ -143,6 +143,9 @@ class HistoricoPageState extends State<HistoricoPage> {
 
   Widget _sessionCard(EventoSessaoModel evento) {
     final info = _getInfoEventoSessao(evento);
+    final assunto = evento.assunto != null
+        ? evento.assunto!.replaceAll("APP LF- ", "")
+        : "";
 
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 2.h),
@@ -181,10 +184,7 @@ class HistoricoPageState extends State<HistoricoPage> {
                       ],
                     ),
                     DividerWidget(height: 0.5.h),
-                    textWidget(
-                      evento.assunto,
-                      style: small(),
-                    ),
+                    textWidget(assunto, style: small()),
                     DividerWidget(height: 0.5.h),
                   ],
                 ),
