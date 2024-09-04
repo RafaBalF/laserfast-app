@@ -1,3 +1,4 @@
+import 'package:laserfast_app/app/constants/telefone_contato.dart';
 import 'package:laserfast_app/app/mixins/form_validations_mixin.dart';
 import 'package:laserfast_app/app/shared/colors.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +14,7 @@ import 'package:laserfast_app/app/shared/widgets/inputs/password_input_widget.da
 import 'package:laserfast_app/app/shared/widgets/simple_scaffold_widget.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -141,8 +143,13 @@ class LoginPageState extends State<LoginPage> with FormValidationsMixin {
                 style: text(color: white),
               ),
               GestureDetector(
-                onTap: () {
-                  Modular.to.pushNamed('/auth/register');
+                onTap: () async {
+                  const text =
+                      "Olá, vim do App Laserfast e gostaria de me tornar cliente";
+                  const whatsappUrl =
+                      "https://wa.me/$telefoneContato?text=$text";
+
+                  await launchUrlString(whatsappUrl);
                 },
                 child: Container(
                   decoration: const BoxDecoration(
