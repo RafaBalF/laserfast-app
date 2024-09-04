@@ -176,6 +176,7 @@ class SessaoApi extends BaseApi {
 
   Future<BaseModel<EmptyResponseModel>> confirmarAgendamento(
     int codigoComanda,
+    DateTime dataConfirmacao,
   ) async {
     var b = BaseModel<EmptyResponseModel>();
 
@@ -190,7 +191,7 @@ class SessaoApi extends BaseApi {
 
       var result = (await (await dio).post(url, data: {
         "cpf": cpf,
-        "dataConfirmacao": DateTime.now().toString(),
+        "dataConfirmacao": dataConfirmacao.toString(),
         "codigoComanda": codigoComanda,
       }))
           .data;

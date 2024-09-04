@@ -137,7 +137,7 @@ class LoginPageState extends State<LoginPage> with FormValidationsMixin {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
-                'Ainda não tem uma conta? ',
+                'Ainda não é cliente? ',
                 style: text(color: white),
               ),
               GestureDetector(
@@ -150,7 +150,7 @@ class LoginPageState extends State<LoginPage> with FormValidationsMixin {
                     bottom: BorderSide(color: white),
                   )),
                   child: Text(
-                    'Crie uma conta',
+                    'Se tornar cliente',
                     style: label(color: white),
                   ),
                 ),

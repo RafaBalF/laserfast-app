@@ -236,7 +236,7 @@ class HistoricoPageState extends State<HistoricoPage> {
           status: "Sessão em andamento",
           widget: const SizedBox(),
         );
-      case "Confirmada":
+      case "Confirmado":
         return InfoFormatadaSessao(
           cor: confirmada,
           status: "Sessão confirmada",

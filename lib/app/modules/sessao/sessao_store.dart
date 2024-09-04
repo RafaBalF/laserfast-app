@@ -311,7 +311,10 @@ abstract class SessaoStoreBase with Store {
       return r;
     }
 
-    r = await _sessaoApi.confirmarAgendamento(sessao.codigoComanda!);
+    r = await _sessaoApi.confirmarAgendamento(
+      sessao.codigoComanda!,
+      evento.dataHoraIncio!,
+    );
 
     // if (r.success) mudarStatusEventoSessao(evento);
 

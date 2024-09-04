@@ -9,7 +9,7 @@ class BottomNavigationBarStore = BottomNavigationBarStoreBase
 abstract class BottomNavigationBarStoreBase with Store {
   final List<String> routes = [
     '/home/',
-    '/agenda/',
+    '/sessao/historico',
     '/pagamentos/',
     // '/chats/',
   ];
