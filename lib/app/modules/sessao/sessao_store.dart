@@ -316,20 +316,20 @@ abstract class SessaoStoreBase with Store {
       evento.dataHoraIncio!,
     );
 
-    // if (r.success) mudarStatusEventoSessao(evento);
+    if (r.success) mudarStatusEventoSessao(evento, 'Confirmado');
 
     return r;
   }
 
   @action
-  void mudarStatusEventoSessao(EventoSessaoModel evento) {
+  void mudarStatusEventoSessao(EventoSessaoModel evento, String status) {
     var s = history.indexWhere((s) => s.codigoEvento == evento.codigoEvento);
 
     if (s == -1) return;
 
     var newSession = EventoSessaoModel.createNew(evento);
 
-    newSession.status = 'Confirmada';
+    newSession.status = status;
 
     history[s] = newSession;
   }

@@ -241,14 +241,15 @@ class HistoricoPageState extends State<HistoricoPage> {
         return InfoFormatadaSessao(
           cor: confirmada,
           status: "Sessão confirmada",
-          widget: _cardBtn(
-            confirmada,
-            'CHECK-IN',
-            () {
-              _store.setSessaoParaCheckIn(evento);
-              Modular.to.pushNamed('/sessao/check_in');
-            },
-          ),
+          widget: emptyWidget,
+          // widget: _cardBtn(
+          //   confirmada,
+          //   'CHECK-IN',
+          //   () {
+          //     _store.setSessaoParaCheckIn(evento);
+          //     Modular.to.pushNamed('/sessao/check_in');
+          //   },
+          // ),
         );
       default:
         return InfoFormatadaSessao(
@@ -259,22 +260,22 @@ class HistoricoPageState extends State<HistoricoPage> {
     }
   }
 
-  Widget _cardBtn(Color color, String label, void Function()? onTap) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        height: 2.5.h,
-        decoration: BoxDecoration(
-          color: color,
-          borderRadius: BorderRadius.circular(50),
-        ),
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 2.5.w),
-          child: textWidget(label, color: white),
-        ),
-      ),
-    );
-  }
+  // Widget _cardBtn(Color color, String label, void Function()? onTap) {
+  //   return GestureDetector(
+  //     onTap: onTap,
+  //     child: Container(
+  //       height: 2.5.h,
+  //       decoration: BoxDecoration(
+  //         color: color,
+  //         borderRadius: BorderRadius.circular(50),
+  //       ),
+  //       child: Padding(
+  //         padding: EdgeInsets.symmetric(horizontal: 2.5.w),
+  //         child: textWidget(label, color: white),
+  //       ),
+  //     ),
+  //   );
+  // }
 
   void _edit(EventoSessaoModel evento) {
     showCustomBottomSheet(

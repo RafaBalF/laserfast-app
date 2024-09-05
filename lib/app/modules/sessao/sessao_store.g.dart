@@ -635,11 +635,11 @@ mixin _$SessaoStore on SessaoStoreBase, Store {
   }
 
   @override
-  void mudarStatusEventoSessao(EventoSessaoModel evento) {
+  void mudarStatusEventoSessao(EventoSessaoModel evento, String status) {
     final _$actionInfo = _$SessaoStoreBaseActionController.startAction(
         name: 'SessaoStoreBase.mudarStatusEventoSessao');
     try {
-      return super.mudarStatusEventoSessao(evento);
+      return super.mudarStatusEventoSessao(evento, status);
     } finally {
       _$SessaoStoreBaseActionController.endAction(_$actionInfo);
     }
