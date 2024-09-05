@@ -44,6 +44,7 @@ class _NotificacaoCardState extends State<NotificacaoCard> {
         onTap: () => _detalhes(context, widget.notificacao),
         child: Container(
           width: 100.w,
+          height: 9.h,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
             border: const Border(
