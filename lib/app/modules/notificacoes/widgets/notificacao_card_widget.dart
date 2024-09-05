@@ -75,7 +75,6 @@ class _NotificacaoCardState extends State<NotificacaoCard> {
                       autoSize: false,
                       overflow: TextOverflow.ellipsis,
                     ),
-                    DividerWidget(height: 0.5.h),
                   ],
                 ),
               ),
