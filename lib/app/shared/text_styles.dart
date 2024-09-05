@@ -92,6 +92,16 @@ TextStyle label({Color? color, TextDecoration? textDecoration}) {
   );
 }
 
+TextStyle medium({Color? color, TextDecoration? textDecoration}) {
+  return defaultStyle(
+    fontSize: 15.sp,
+    fontWeight: FontWeight.w600,
+    color: color,
+    height: 1.5,
+    textDecoration: textDecoration,
+  );
+}
+
 TextStyle text({Color? color, TextDecoration? textDecoration}) {
   return defaultStyle(
     fontSize: 16.sp,

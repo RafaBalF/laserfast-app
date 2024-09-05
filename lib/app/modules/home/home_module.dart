@@ -2,7 +2,6 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:laserfast_app/app/constants/transition_type.dart';
 import 'package:laserfast_app/app/modules/home/home_page.dart';
 import 'package:laserfast_app/app/modules/home/home_store.dart';
-import 'package:laserfast_app/app/modules/home/pages/notificacoes_page.dart';
 
 class HomeModule extends Module {
   @override
@@ -15,11 +14,6 @@ class HomeModule extends Module {
     r.child(
       '/',
       child: (context) => const HomePage(),
-      transition: defaultTransitonType,
-    );
-    r.child(
-      '/notificacoes',
-      child: (context) => const NotificacoesPage(),
       transition: defaultTransitonType,
     );
   }

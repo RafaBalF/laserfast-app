@@ -19,7 +19,7 @@ abstract class HomeStoreBase with Store {
   final List<String> routes = [
     '/home/',
     '/sessao/historico',
-    '/home/notificacoes',
+    '/notificacoes/',
     // '/pagamentos/',
     // '/chats/',
   ];

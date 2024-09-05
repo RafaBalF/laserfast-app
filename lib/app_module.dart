@@ -7,6 +7,7 @@ import 'package:laserfast_app/app/modules/faq/faq_module.dart';
 import 'package:laserfast_app/app/modules/home/home_module.dart';
 import 'package:laserfast_app/app/modules/indicar/indicar_module.dart';
 import 'package:laserfast_app/app/modules/launch/launch_module.dart';
+import 'package:laserfast_app/app/modules/notificacoes/notificacoes_module.dart';
 import 'package:laserfast_app/app/modules/pagamento/pagamentos_module.dart';
 import 'package:laserfast_app/app/modules/parceiros/parceiros_module.dart';
 import 'package:laserfast_app/app/modules/profile/profile_module.dart';
@@ -75,6 +76,12 @@ class AppModule extends Module {
     r.module(
       '/diario',
       module: DiarioModule(),
+      transition: defaultTransitonType,
+      guards: [AuthGuard()],
+    );
+    r.module(
+      '/notificacoes',
+      module: NotificacoesModule(),
       transition: defaultTransitonType,
       guards: [AuthGuard()],
     );
