@@ -89,13 +89,13 @@ class ContratosPageState extends State<ContratosPage> {
         : "";
 
     return Container(
-      height: 15.h,
+      height: 16.h,
       width: 100.w,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(2),
         border: Border.all(color: grey),
       ),
-      padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 0.5.h),
+      padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 0.25.h),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -109,18 +109,25 @@ class ContratosPageState extends State<ContratosPage> {
           ),
           _detalhesContrato(contrato.itens!),
           Row(
+            crossAxisAlignment: CrossAxisAlignment.end,
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               ButtonWidget.filled(
                 width: 40.w,
-                onPressed: () {},
+                onPressed: () => Modular.to.pushNamed(
+                  '/profile/contrato',
+                  arguments: contrato,
+                ),
                 title: "CONTRATO",
                 buttonSize: ButtonSize.small,
                 fontSize: 15,
               ),
               ButtonWidget.filled(
                 width: 40.w,
-                onPressed: () {},
+                onPressed: () => Modular.to.pushNamed(
+                  '/profile/termos-contrato',
+                  arguments: contrato,
+                ),
                 title: "TERMOS",
                 buttonSize: ButtonSize.small,
                 fontSize: 15,
@@ -155,7 +162,7 @@ class ContratosPageState extends State<ContratosPage> {
       children: [
         textWidget(categoriaItem),
         textWidget("$tipoItem - $item", style: small()),
-        textWidget("e mais $qtdExtra items", style: small()),
+        textWidget("e mais $qtdExtra item(s)", style: small()),
       ],
     );
   }

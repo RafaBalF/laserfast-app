@@ -19,6 +19,7 @@ class SimpleScaffoldWidget extends StatelessWidget {
   final bool showReturnArrow;
   final Color? returnArrowColor;
   final ScrollController? controller;
+  final Function()? onBack;
 
   const SimpleScaffoldWidget({
     super.key,
@@ -36,6 +37,7 @@ class SimpleScaffoldWidget extends StatelessWidget {
     this.showReturnArrow = true,
     this.returnArrowColor,
     this.controller,
+    this.onBack,
   });
 
   @override
@@ -55,11 +57,13 @@ class SimpleScaffoldWidget extends StatelessWidget {
                     Icons.arrow_back_ios,
                     color: finalReturnArrowColor,
                   ),
-                  onPressed: () {
-                    if (Modular.to.canPop()) {
-                      Modular.to.pop();
-                    }
-                  },
+                  onPressed: (onBack != null)
+                      ? onBack
+                      : () {
+                          if (Modular.to.canPop()) {
+                            Modular.to.pop();
+                          }
+                        },
                 ),
               )
             : const SizedBox(),
