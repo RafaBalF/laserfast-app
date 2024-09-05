@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:laserfast_app/app/modules/home/home_store.dart';
 import 'package:laserfast_app/app/modules/home/widgets/bottom_navigation_bar.dart';
 import 'package:laserfast_app/app/shared/colors.dart';
 import 'package:laserfast_app/app/shared/widgets/divider_widget.dart';
@@ -17,7 +16,7 @@ class MainScaffoldWidget extends StatefulWidget {
 }
 
 class _MainScaffoldWidgetState extends State<MainScaffoldWidget> {
-  final HomeStore _store = Modular.get<HomeStore>();
+  // final HomeStore _store = Modular.get<HomeStore>();
 
   @override
   Widget build(BuildContext context) {
