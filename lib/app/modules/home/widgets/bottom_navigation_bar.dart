@@ -40,6 +40,10 @@ class _BottomNavigationBarWidgetState extends State<BottomNavigationBarWidget> {
               'assets/icons/svg/calendar.svg',
               'Agenda',
             ),
+            _bottomNavigationBarIconItem(
+              Icons.notifications_none_outlined,
+              "Notificações",
+            ),
             // _bottomNavigationBarItem(
             //   'assets/icons/svg/ticket.svg',
             //   'Pagamento',
@@ -80,6 +84,29 @@ class _BottomNavigationBarWidgetState extends State<BottomNavigationBarWidget> {
           path,
           height: 24.sp,
           colorFilter: const ColorFilter.mode(primary, BlendMode.srcIn),
+        ),
+      ),
+      label: label,
+    );
+  }
+
+  BottomNavigationBarItem _bottomNavigationBarIconItem(
+      IconData icon, String label) {
+    return BottomNavigationBarItem(
+      icon: Padding(
+        padding: const EdgeInsets.only(top: 10),
+        child: Icon(
+          icon,
+          size: 24.sp,
+          color: darkGrey,
+        ),
+      ),
+      activeIcon: Padding(
+        padding: const EdgeInsets.only(top: 10),
+        child: Icon(
+          icon,
+          size: 24.sp,
+          color: primary,
         ),
       ),
       label: label,
