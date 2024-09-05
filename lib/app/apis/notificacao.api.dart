@@ -28,4 +28,28 @@ class NotificacaoApi extends BaseApi {
 
     return b;
   }
+
+  Future<BaseModel<NotificacaoModel>> notificacaoLida(int codigo) async {
+    var b = BaseModel<NotificacaoModel>();
+
+    try {
+      var connectivityResult = await (Connectivity().checkConnectivity());
+
+      if (connectivityResult.contains(ConnectivityResult.none)) {
+        return BaseModel();
+      }
+
+      final url = '/Notificacao/NotificacaoLida/$codigo';
+
+      var result = (await (await dio).post(url)).data;
+
+      b = BaseModel.fromJson(result, tipo: NotificacaoModel());
+    } on DioException catch (e) {
+      b.message = handleDioException(e);
+    } catch (e) {
+      b = BaseModel();
+    }
+
+    return b;
+  }
 }

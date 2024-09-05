@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:laserfast_app/app/models/notificacao.model.dart';
 import 'package:laserfast_app/app/modules/notificacoes/notificacoes_store.dart';
 import 'package:laserfast_app/app/modules/notificacoes/widgets/notificacao_card_widget.dart';
 import 'package:laserfast_app/app/shared/widgets/divider_widget.dart';
@@ -40,7 +41,11 @@ class NotificacoesPageState extends State<NotificacoesPage> {
                   return Observer(builder: (_) {
                     return Column(
                       children: _store.notificacoes
-                          .map((i) => NotificacaoCard(notificacao: i))
+                          .map((i) => NotificacaoCard(
+                                notificacao: i,
+                                onClick: (notificacao) =>
+                                    _clickNotificacao(notificacao),
+                              ))
                           .toList(),
                     );
                   });
@@ -51,6 +56,10 @@ class NotificacoesPageState extends State<NotificacoesPage> {
             ));
       },
     );
+  }
+
+  Future<void> _clickNotificacao(NotificacaoModel notificacao) async {
+    if (!notificacao.lido!) _store.lerNotificacao(notificacao);
   }
 
   Widget _loadingBody() {

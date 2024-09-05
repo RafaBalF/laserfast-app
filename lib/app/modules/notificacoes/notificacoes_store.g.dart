@@ -41,6 +41,15 @@ mixin _$NotificacoesStore on NotificacoesStoreBase, Store {
     return _$getNotificacoesAsyncAction.run(() => super.getNotificacoes());
   }
 
+  late final _$lerNotificacaoAsyncAction =
+      AsyncAction('NotificacoesStoreBase.lerNotificacao', context: context);
+
+  @override
+  Future<void> lerNotificacao(NotificacaoModel notificacao) {
+    return _$lerNotificacaoAsyncAction
+        .run(() => super.lerNotificacao(notificacao));
+  }
+
   late final _$NotificacoesStoreBaseActionController =
       ActionController(name: 'NotificacoesStoreBase', context: context);
 

@@ -11,10 +11,12 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 
 class NotificacaoCard extends StatefulWidget {
   final NotificacaoModel notificacao;
+  final Function(NotificacaoModel notificacao) onClick;
 
   const NotificacaoCard({
     super.key,
     required this.notificacao,
+    required this.onClick,
   });
 
   @override
@@ -41,7 +43,10 @@ class _NotificacaoCardState extends State<NotificacaoCard> {
     return Padding(
       padding: EdgeInsets.only(bottom: 1.h),
       child: GestureDetector(
-        onTap: () => _detalhes(context, widget.notificacao),
+        onTap: () {
+          widget.onClick.call(widget.notificacao);
+          _detalhes(context, widget.notificacao);
+        },
         child: Container(
           width: 100.w,
           height: 9.h,

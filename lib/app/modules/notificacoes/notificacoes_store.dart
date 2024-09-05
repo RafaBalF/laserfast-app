@@ -30,6 +30,21 @@ abstract class NotificacoesStoreBase with Store {
   }
 
   @action
+  Future<void> lerNotificacao(NotificacaoModel notificacao) async {
+    final r = await _notificacaoApi.notificacaoLida(notificacao.codigo!);
+
+    if (!r.success) return;
+
+    final index =
+        notificacoes.indexWhere((n) => n.codigo == notificacao.codigo);
+
+    var n = NotificacaoModel.createNew(notificacao);
+    n.lido = true;
+
+    notificacoes[index] = n;
+  }
+
+  @action
   void reset() {
     notificacoes.clear();
   }

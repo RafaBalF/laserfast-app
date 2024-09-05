@@ -10,6 +10,14 @@ class NotificacaoModel extends FromJsonModel {
   String? mensagemNotificacao;
   bool? lido;
   DateTime? dataEnvio;
+  String? notificacao;
+  String? cliente;
+  bool? statusEnvio;
+  String? descricao;
+  DateTime? dataInsert;
+  DateTime? dataUpdate;
+  DateTime? dataDelete;
+  bool? ativo;
 
   NotificacaoModel({
     this.codigo,
@@ -19,6 +27,14 @@ class NotificacaoModel extends FromJsonModel {
     this.mensagemNotificacao,
     this.lido,
     this.dataEnvio,
+    this.notificacao,
+    this.cliente,
+    this.statusEnvio,
+    this.descricao,
+    this.dataInsert,
+    this.dataUpdate,
+    this.dataDelete,
+    this.ativo,
   });
 
   NotificacaoModel.createNew(NotificacaoModel model) {
@@ -29,6 +45,14 @@ class NotificacaoModel extends FromJsonModel {
     mensagemNotificacao = model.mensagemNotificacao;
     lido = model.lido;
     dataEnvio = model.dataEnvio;
+    notificacao = model.notificacao;
+    cliente = model.cliente;
+    statusEnvio = model.statusEnvio;
+    descricao = model.descricao;
+    dataInsert = model.dataInsert;
+    dataUpdate = model.dataUpdate;
+    dataDelete = model.dataDelete;
+    ativo = model.ativo;
   }
 
   NotificacaoModel.fromJson(Map<String, dynamic> json) {
@@ -39,6 +63,14 @@ class NotificacaoModel extends FromJsonModel {
     mensagemNotificacao = json["mensagemNotificacao"];
     lido = convertBool(json["lido"], returnNull: false);
     dataEnvio = convertDateTime(json["dataEnvio"]);
+    notificacao = json["notificacao"];
+    cliente = json["cliente"];
+    statusEnvio = convertBool(json["statusEnvio"]);
+    descricao = json["descricao"];
+    dataInsert = convertDateTime(json["dataInsert"]);
+    dataUpdate = convertDateTime(json["dataUpdate"]);
+    dataDelete = convertDateTime(json["dataDelete"]);
+    ativo = convertBool(json["ativo"]);
   }
 
   Map<String, dynamic> toJson() {
