@@ -66,13 +66,15 @@ class _NotificacaoCardState extends State<NotificacaoCard> {
                       style: medium(color: primary),
                       maxLines: 1,
                     ),
+                    DividerWidget(height: 0.5.h),
                     textWidget(
                       widget.notificacao.mensagemNotificacao,
                       style: small(),
                       maxLines: 2,
                       autoSize: false,
                       overflow: TextOverflow.ellipsis,
-                    )
+                    ),
+                    DividerWidget(height: 0.5.h),
                   ],
                 ),
               ),

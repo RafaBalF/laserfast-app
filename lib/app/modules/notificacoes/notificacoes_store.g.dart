@@ -33,6 +33,14 @@ mixin _$NotificacoesStore on NotificacoesStoreBase, Store {
     return _$initAsyncAction.run(() => super.init());
   }
 
+  late final _$getNotificacoesAsyncAction =
+      AsyncAction('NotificacoesStoreBase.getNotificacoes', context: context);
+
+  @override
+  Future<void> getNotificacoes() {
+    return _$getNotificacoesAsyncAction.run(() => super.getNotificacoes());
+  }
+
   late final _$NotificacoesStoreBaseActionController =
       ActionController(name: 'NotificacoesStoreBase', context: context);
 
