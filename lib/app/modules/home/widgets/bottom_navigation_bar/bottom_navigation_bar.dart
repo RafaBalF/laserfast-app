@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:laserfast_app/app/modules/home/widgets/bottom_navigation_bar/bottom_navigation_bar_store.dart';
+import 'package:laserfast_app/app/modules/home/home_store.dart';
 import 'package:laserfast_app/app/shared/colors.dart';
 import 'package:laserfast_app/app/shared/text_styles.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -16,8 +16,7 @@ class BottomNavigationBarWidget extends StatefulWidget {
 }
 
 class _BottomNavigationBarWidgetState extends State<BottomNavigationBarWidget> {
-  final BottomNavigationBarStore _store =
-      Modular.get<BottomNavigationBarStore>();
+  final HomeStore _store = Modular.get<HomeStore>();
 
   @override
   Widget build(BuildContext context) {
@@ -41,10 +40,10 @@ class _BottomNavigationBarWidgetState extends State<BottomNavigationBarWidget> {
               'assets/icons/svg/calendar.svg',
               'Agenda',
             ),
-            _bottomNavigationBarItem(
-              'assets/icons/svg/ticket.svg',
-              'Pagamento',
-            ),
+            // _bottomNavigationBarItem(
+            //   'assets/icons/svg/ticket.svg',
+            //   'Pagamento',
+            // ),
             // _bottomNavigationBarItem(
             //   'assets/icons/svg/chat.svg',
             //   'Chat',

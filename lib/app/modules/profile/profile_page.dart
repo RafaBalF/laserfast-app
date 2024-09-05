@@ -46,11 +46,11 @@ class ProfilePageState extends State<ProfilePage> {
         'Dados pessoais',
         () => Modular.to.pushNamed('/profile/dados-pessoais'),
       ),
-      _tileCard(
-        'assets/icons/svg/payment_accent.svg',
-        'Dados de pagamento',
-        () => Modular.to.pushNamed('/pagamentos/my-cards'),
-      ),
+      // _tileCard(
+      //   'assets/icons/svg/payment_accent.svg',
+      //   'Dados de pagamento',
+      //   () => Modular.to.pushNamed('/pagamentos/my-cards'),
+      // ),
       // _tileCard(
       //   'assets/icons/svg/chat_accent.svg',
       //   'Conversas',

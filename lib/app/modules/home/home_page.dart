@@ -161,14 +161,14 @@ class HomePageState extends State<HomePage> {
             labelColor: primary,
             margin: EdgeInsets.only(right: 2.w),
           ),
-          RedirectCardWidget(
-            imgPath: 'assets/icons/svg/money_accent.svg',
-            label: 'Pagamentos',
-            route: '/pagamentos/',
-            labelColor: primary,
-            margin: EdgeInsets.only(right: 2.w),
-            maxlines: 1,
-          ),
+          // RedirectCardWidget(
+          //   imgPath: 'assets/icons/svg/money_accent.svg',
+          //   label: 'Pagamentos',
+          //   route: '/pagamentos/',
+          //   labelColor: primary,
+          //   margin: EdgeInsets.only(right: 2.w),
+          //   maxlines: 1,
+          // ),
           // RedirectCardWidget(
           //   imgPath: 'assets/icons/svg/blockquote_accent.svg',
           //   label: 'Diário',
@@ -212,7 +212,7 @@ class HomePageState extends State<HomePage> {
             children: [
               // _mostAccessedCard('MEU DIÁRIO', '/diario/'),
               _mostAccessedCard('MEU TRATAMENTO', '/sessao/historico'),
-              _mostAccessedCard('FINANCEIRO', '/pagamentos/'),
+              // _mostAccessedCard('FINANCEIRO', '/pagamentos/'),
             ],
           ),
         )
