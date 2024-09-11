@@ -54,7 +54,7 @@ class LoginPageState extends State<LoginPage> with FormValidationsMixin {
       Modular.to.navigate('/home/');
     }
     return SimpleScaffoldWidget(
-        bodyColor: primary,
+        bodyColor: primaryDark,
         showReturnArrow: false,
         bodyPadding: EdgeInsets.symmetric(horizontal: 5.w),
         body: Column(

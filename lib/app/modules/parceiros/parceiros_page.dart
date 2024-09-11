@@ -70,10 +70,11 @@ class ParceirosPageState extends State<ParceirosPage> {
       padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 1.h),
       child: Container(
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            border: Border.all(
-              color: grey,
-            )),
+          borderRadius: BorderRadius.circular(10),
+          border: Border.all(
+            color: grey,
+          ),
+        ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -91,7 +92,7 @@ class ParceirosPageState extends State<ParceirosPage> {
                 maxLines: maxLines,
               ),
             ),
-            SizedBox(height: 2.h),
+            // SizedBox(height: 1.h),
             Flexible(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.end,

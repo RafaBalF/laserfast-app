@@ -190,6 +190,27 @@ class HomePageState extends State<HomePage> {
           //   labelColor: primary,
           //   margin: EdgeInsets.only(right: 2.w),
           // ),
+          RedirectCardWidget(
+            imgPath: 'assets/icons/svg/calendar_accent.svg',
+            label: 'Agenda',
+            route: '/sessao/agendamento',
+            labelColor: primary,
+            margin: EdgeInsets.only(right: 2.w),
+          ),
+          RedirectCardWidget(
+            imgPath: 'assets/icons/svg/calendar_accent.svg',
+            label: 'Agenda',
+            route: '/sessao/agendamento',
+            labelColor: primary,
+            margin: EdgeInsets.only(right: 2.w),
+          ),
+          RedirectCardWidget(
+            imgPath: 'assets/icons/svg/calendar_accent.svg',
+            label: 'Agenda',
+            route: '/sessao/agendamento',
+            labelColor: primary,
+            margin: EdgeInsets.only(right: 2.w),
+          ),
         ],
       ),
     );
@@ -255,7 +276,10 @@ class HomePageState extends State<HomePage> {
           () => Modular.to.pushNamed('/parceiros/'),
         ),
         DividerWidget(height: 1.h),
-        _horizontalBanner('assets/images/banners/your-sessions.png', () {}),
+        _horizontalBanner(
+          'assets/images/banners/your-sessions.png',
+          () => Modular.to.pushNamed("/sessao/historico"),
+        ),
       ],
     );
   }
