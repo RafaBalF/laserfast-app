@@ -41,12 +41,20 @@ mixin _$HomeStore on HomeStoreBase, Store {
     });
   }
 
-  late final _$initHomeAsyncAction =
-      AsyncAction('HomeStoreBase.initHome', context: context);
+  late final _$bannersAtom =
+      Atom(name: 'HomeStoreBase.banners', context: context);
 
   @override
-  Future<void> initHome() {
-    return _$initHomeAsyncAction.run(() => super.initHome());
+  ObservableList<BannerModel> get banners {
+    _$bannersAtom.reportRead();
+    return super.banners;
+  }
+
+  @override
+  set banners(ObservableList<BannerModel> value) {
+    _$bannersAtom.reportWrite(value, super.banners, () {
+      super.banners = value;
+    });
   }
 
   late final _$getCashbackAsyncAction =
@@ -55,6 +63,14 @@ mixin _$HomeStore on HomeStoreBase, Store {
   @override
   Future<void> getCashback() {
     return _$getCashbackAsyncAction.run(() => super.getCashback());
+  }
+
+  late final _$getBannersAsyncAction =
+      AsyncAction('HomeStoreBase.getBanners', context: context);
+
+  @override
+  Future<void> getBanners() {
+    return _$getBannersAsyncAction.run(() => super.getBanners());
   }
 
   late final _$HomeStoreBaseActionController =
@@ -75,7 +91,8 @@ mixin _$HomeStore on HomeStoreBase, Store {
   String toString() {
     return '''
 selectedIndex: ${selectedIndex},
-cashback: ${cashback}
+cashback: ${cashback},
+banners: ${banners}
     ''';
   }
 }

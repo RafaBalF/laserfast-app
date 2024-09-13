@@ -33,7 +33,10 @@ class HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    _future = Future.wait([_store.initHome()]);
+    _future = Future.wait([
+      _store.getCashback(),
+      _store.getBanners(),
+    ]);
 
     super.initState();
   }
@@ -190,6 +193,7 @@ class HomePageState extends State<HomePage> {
           //   labelColor: primary,
           //   margin: EdgeInsets.only(right: 2.w),
           // ),
+          // TODO: REMOVER CARDS INÚTEIS
           RedirectCardWidget(
             imgPath: 'assets/icons/svg/calendar_accent.svg',
             label: 'Agenda',

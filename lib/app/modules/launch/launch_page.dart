@@ -23,7 +23,7 @@ class LaunchPageState extends State<LaunchPage> with TickerProviderStateMixin {
 
   late final Future<void> _future;
 
-  Widget container = Container(color: primary);
+  Widget container = Container(color: primaryDark);
 
   @override
   void initState() {
@@ -114,7 +114,7 @@ class LaunchPageState extends State<LaunchPage> with TickerProviderStateMixin {
     Widget widget,
   ) {
     return Container(
-      decoration: const BoxDecoration(color: primary),
+      decoration: const BoxDecoration(color: primaryDark),
       child: Column(
           mainAxisAlignment: MainAxisAlignment.end,
           crossAxisAlignment: CrossAxisAlignment.center,
