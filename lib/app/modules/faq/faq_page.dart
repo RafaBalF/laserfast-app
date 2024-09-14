@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:laserfast_app/app/models/perguntas_respostas.model.dart';
 import 'package:laserfast_app/app/modules/faq/faq_store.dart';
 import 'package:laserfast_app/app/shared/colors.dart';
 import 'package:laserfast_app/app/shared/text_styles.dart';
@@ -23,7 +24,7 @@ class FAQPageState extends State<FAQPage> {
 
   @override
   void initState() {
-    _future = Future.wait([_store.init()]);
+    _future = Future.wait([_store.getPerguntasRespostas()]);
 
     super.initState();
   }
@@ -80,35 +81,19 @@ class FAQPageState extends State<FAQPage> {
       children: [
         textWidget('Tire suas dúvidas sobre os procedimentos'),
         DividerWidget(height: 2.h),
-        _tile(
-          'É muito caro o tratamento?',
-          """Foi-se a época que depilação de laser era cara. A LaserFast veio tornar acessível este tratamento à todas as clientes, fornecendo preço justo e condição de pagamento facilitada.
-
-Além disso, o custo é super compensatório uma vez que lâminas, ceras e outros métodos requerem mensalmente uma manutenção, diferentemente do laser que tem durabilidade muito maior.""",
-        ),
-        DividerWidget(height: 2.h),
-        _tile(
-          'Depilação a laser dói?',
-          """
-A LaserFast possui o laser mais moderno e tecnológico do mercado, que garante uma depilação muito mais confortável e praticamente indolor em algumas áreas.""",
-        ),
-        DividerWidget(height: 2.h),
-        _tile(
-          'Quanto tempo leva uma sessão?',
-          """
-Graças ao nosso laser super moderno, a área de aplicação é amplamente atingida a cada disparo. Uma sessão pode durar entre 5 minutos (como é o caso das axilas) até 30 minutos (aplicação de pernas inteiras).
-""",
-        ),
+        Column(
+          children: _store.perguntasRespostas.map((p) => _tile(p)).toList(),
+        )
       ],
     );
   }
 
-  Widget _tile(String title, String details) {
+  Widget _tile(PerguntasRespostasModel p) {
     return AccordionWidget(
-      label: title,
+      label: p.pergunta ?? "",
       content: Padding(
         padding: EdgeInsets.symmetric(horizontal: 5.w),
-        child: Text(details),
+        child: Text(p.resposta ?? ""),
       ),
       titleStyle: h2(color: primary),
       initiallyExpanded: true,

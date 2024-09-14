@@ -1,12 +1,12 @@
 import 'package:laserfast_app/app/models/base.model.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dio/dio.dart';
-import 'package:laserfast_app/app/models/parceiro.model.dart';
+import 'package:laserfast_app/app/models/perguntas_respostas.model.dart';
 import 'base.api.dart';
 
 class PerguntasRespostasApi extends BaseApi {
-  Future<BaseModel<ParceiroModel>> perguntasRespostas() async {
-    var b = BaseModel<ParceiroModel>();
+  Future<BaseModel<PerguntasRespostasModel>> perguntasRespostas() async {
+    var b = BaseModel<PerguntasRespostasModel>();
 
     try {
       var connectivityResult = await (Connectivity().checkConnectivity());
@@ -19,7 +19,11 @@ class PerguntasRespostasApi extends BaseApi {
 
       var result = (await (await dio).get(url)).data;
 
-      b = BaseModel.fromJson(result, tipo: ParceiroModel(), isList: true);
+      b = BaseModel.fromJson(
+        result,
+        tipo: PerguntasRespostasModel(),
+        isList: true,
+      );
     } on DioException catch (e) {
       b.message = handleDioException(e);
     } catch (e) {
