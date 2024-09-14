@@ -1,5 +1,7 @@
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:intl/intl.dart';
+import 'package:laserfast_app/app/models/banner_vertical.model.dart';
+import 'package:laserfast_app/app/models/mais_desejado.model.dart';
 import 'package:laserfast_app/app/modules/home/widgets/cashback_widget.dart';
 import 'package:laserfast_app/app/modules/home/widgets/main_scaffold_widget.dart';
 import 'package:flutter/material.dart';
@@ -35,7 +37,6 @@ class HomePageState extends State<HomePage> {
   void initState() {
     _future = Future.wait([
       _store.getCashback(),
-      _store.getBanners(),
       _store.getBannersVerticais(),
       _store.getMaisDesejados(),
     ]);
@@ -308,30 +309,27 @@ class HomePageState extends State<HomePage> {
       scrollDirection: Axis.horizontal,
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          _verticalBanner('assets/images/banners/duckbill.png', ''),
-          SizedBox(width: 2.w),
-          _verticalBanner(
-            'assets/images/banners/fastmassagem.png',
-            'https://www.instagram.com/fastmassagem_/',
-          ),
-        ],
+        children:
+            _store.bannersVerticais.map((b) => _verticalBanner(b)).toList(),
       ),
     );
   }
 
-  Widget _verticalBanner(String imgPath, String route) {
-    return SizedBox(
+  Widget _verticalBanner(BannerVerticalModel b) {
+    return Padding(
+      padding: EdgeInsets.only(right: 2.w),
       child: GestureDetector(
         onTap: () {
-          launchUrlString(route);
+          launchUrlString(b.link ?? "");
         },
-        child: Image.asset(imgPath),
+        child: Image.network(b.imagem ?? ""),
       ),
     );
   }
 
   Widget _mostWished() {
+    if (_store.maisDesejados.isEmpty) return const SizedBox();
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -367,99 +365,28 @@ class HomePageState extends State<HomePage> {
           scrollDirection: Axis.horizontal,
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _mostWishedCard(
-                'Pernas inteiras 12 vezes',
-                'assets/images/home/most-wished-1.png',
-                'https://www.loja.laserfast.com.br/Produto/Detalhe/pernas-inteiras-feminino',
-                1349.85,
-                oldPrice: 2229.90,
-                duration: '25 min',
-                review: 4.5,
-              ),
-              _mostWishedCard(
-                'Desodorante L.F Care 50ML',
-                'assets/images/home/most-wished-2.png',
-                'https://lfcare.laserfast.com.br/Produto/Detalhe/desodorante-lf-Care',
-                9.90,
-                oldPrice: 19.90,
-              ),
-            ],
+            children:
+                _store.maisDesejados.map((m) => _mostWishedCard(m)).toList(),
           ),
         ),
       ],
     );
   }
 
-  Widget _mostWishedCard(
-    String title,
-    String photo,
-    String route,
-    double price, {
-    double? oldPrice,
-    String? duration,
-    double? review,
-  }) {
-    String formattedPrice = "R\$ ${currencyFormatter.format(price)}";
+  Widget _mostWishedCard(MaisDesejadoModel m) {
+    String formattedPrice = "R\$ ${currencyFormatter.format(m.por)}";
 
-    Widget reviewBadge = (review != null)
-        ? Positioned(
-            height: 5.h,
-            child: Container(
-                margin: const EdgeInsets.all(7.5),
-                padding: EdgeInsets.symmetric(horizontal: 2.w),
-                decoration: BoxDecoration(
-                  color: background,
-                  borderRadius: BorderRadius.circular(25),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    textWidget(review.toString(), style: small()),
-                    SizedBox(width: 1.w),
-                    Icon(
-                      Icons.star,
-                      color: Colors.yellow[700],
-                      size: 15,
-                    )
-                  ],
-                )),
-          )
-        : const SizedBox();
-
-    Widget oldPriceWidget = (oldPrice != null)
+    Widget oldPriceWidget = (m.de != null)
         ? textWidget(
-            "R\$ ${currencyFormatter.format(oldPrice)}",
+            "R\$ ${currencyFormatter.format(m.de)}",
             style: verySmall(textDecoration: TextDecoration.lineThrough),
             textAlign: TextAlign.start,
           )
         : const SizedBox();
 
-    Widget durationWidget = (duration != null)
-        ? Container(
-            width: 20.w,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(50),
-              border: Border.all(color: grey),
-            ),
-            padding: EdgeInsets.symmetric(horizontal: 2.w),
-            // margin: EdgeInsets.only(bottom: 1.h),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                const Icon(Icons.schedule, color: darkGrey, size: 15),
-                SizedBox(width: 1.w),
-                textWidget(duration, style: small()),
-              ],
-            ),
-          )
-        : const SizedBox();
-
     return GestureDetector(
       onTap: () {
-        launchUrlString(route);
+        launchUrlString(m.link ?? "");
       },
       child: Container(
         width: mostWishedCardWidth,
@@ -474,72 +401,63 @@ class HomePageState extends State<HomePage> {
           borderRadius: BorderRadius.circular(mostWishedCardRadius),
         ),
         margin: EdgeInsets.only(right: 5.w, bottom: 1.h),
-        child: Stack(
+        child: Column(
           children: [
-            Column(
-              children: [
-                Container(
-                  width: mostWishedCardWidth,
-                  height: mostWishedPhotoHeight,
-                  decoration: const BoxDecoration(
-                    color: background,
-                  ),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(mostWishedCardRadius),
-                      topRight: Radius.circular(mostWishedCardRadius),
-                    ),
-                    child: Image.asset(
-                      photo,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
+            Container(
+              width: mostWishedCardWidth,
+              height: mostWishedPhotoHeight,
+              decoration: const BoxDecoration(
+                color: background,
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(mostWishedCardRadius),
+                  topRight: Radius.circular(mostWishedCardRadius),
                 ),
-                Container(
-                  height: mostWishedDetailsHeight,
-                  width: mostWishedCardWidth,
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 2.w,
-                    vertical: 1.h,
+                child: Image.network(m.imagem ?? "", fit: BoxFit.cover),
+              ),
+            ),
+            Container(
+              height: mostWishedDetailsHeight,
+              width: mostWishedCardWidth,
+              padding: EdgeInsets.symmetric(
+                horizontal: 2.w,
+                vertical: 1.h,
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  textWidget(
+                    m.descricao,
+                    textAlign: TextAlign.start,
+                    style: mostWished(color: darkerGrey),
                   ),
-                  child: Column(
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.end,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      textWidget(
-                        title,
-                        textAlign: TextAlign.start,
-                        style: mostWished(color: darkerGrey),
-                      ),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          SizedBox(
-                            width: 25.w,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                oldPriceWidget,
-                                textWidget(
-                                  formattedPrice,
-                                  style: headTitle(
-                                    color: success,
-                                  ),
-                                  maxLines: 1,
-                                ),
-                              ],
+                      SizedBox(
+                        width: 25.w,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            oldPriceWidget,
+                            textWidget(
+                              formattedPrice,
+                              style: headTitle(
+                                color: success,
+                              ),
+                              maxLines: 1,
                             ),
-                          ),
-                          durationWidget,
-                        ],
-                      )
+                          ],
+                        ),
+                      ),
                     ],
-                  ),
-                ),
-              ],
+                  )
+                ],
+              ),
             ),
-            reviewBadge,
           ],
         ),
       ),

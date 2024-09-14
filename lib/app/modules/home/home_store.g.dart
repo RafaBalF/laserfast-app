@@ -41,22 +41,6 @@ mixin _$HomeStore on HomeStoreBase, Store {
     });
   }
 
-  late final _$bannersAtom =
-      Atom(name: 'HomeStoreBase.banners', context: context);
-
-  @override
-  ObservableList<BannerModel> get banners {
-    _$bannersAtom.reportRead();
-    return super.banners;
-  }
-
-  @override
-  set banners(ObservableList<BannerModel> value) {
-    _$bannersAtom.reportWrite(value, super.banners, () {
-      super.banners = value;
-    });
-  }
-
   late final _$bannersVerticaisAtom =
       Atom(name: 'HomeStoreBase.bannersVerticais', context: context);
 
@@ -97,14 +81,6 @@ mixin _$HomeStore on HomeStoreBase, Store {
     return _$getCashbackAsyncAction.run(() => super.getCashback());
   }
 
-  late final _$getBannersAsyncAction =
-      AsyncAction('HomeStoreBase.getBanners', context: context);
-
-  @override
-  Future<void> getBanners() {
-    return _$getBannersAsyncAction.run(() => super.getBanners());
-  }
-
   late final _$getBannersVerticaisAsyncAction =
       AsyncAction('HomeStoreBase.getBannersVerticais', context: context);
 
@@ -141,7 +117,6 @@ mixin _$HomeStore on HomeStoreBase, Store {
     return '''
 selectedIndex: ${selectedIndex},
 cashback: ${cashback},
-banners: ${banners},
 bannersVerticais: ${bannersVerticais},
 maisDesejados: ${maisDesejados}
     ''';

@@ -2,7 +2,6 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:laserfast_app/app/apis/banner.api.dart';
 import 'package:laserfast_app/app/apis/cashback.api.dart';
 import 'package:laserfast_app/app/apis/mais_desejados.api.dart';
-import 'package:laserfast_app/app/models/banner.model.dart';
 import 'package:laserfast_app/app/models/banner_vertical.model.dart';
 import 'package:laserfast_app/app/models/mais_desejado.model.dart';
 import 'package:mobx/mobx.dart';
@@ -52,8 +51,6 @@ abstract class HomeStoreBase with Store {
   @observable
   double cashback = 0.0;
   @observable
-  ObservableList<BannerModel> banners = ObservableList.of([]);
-  @observable
   ObservableList<BannerVerticalModel> bannersVerticais = ObservableList.of([]);
   @observable
   ObservableList<MaisDesejadoModel> maisDesejados = ObservableList.of([]);
@@ -65,17 +62,6 @@ abstract class HomeStoreBase with Store {
     if (!r.success || r.data == null) return;
 
     cashback = r.data!.saldo ?? 0;
-  }
-
-  @action
-  Future<void> getBanners() async {
-    final r = await _bannerApi.listarBannersAplicativo();
-
-    if (!r.success) return;
-
-    // TODO: implementar banners quando tiver algum
-
-    banners.addAll(r.list!);
   }
 
   @action
