@@ -1,17 +1,17 @@
 import 'abstract/from_json.abstract.dart';
 
-class BannerModel extends FromJsonModel {
+class ParceiroModel extends FromJsonModel {
   String? descricao;
   String? imagem;
   String? link;
 
-  BannerModel({
+  ParceiroModel({
     this.descricao,
     this.imagem,
     this.link,
   });
 
-  BannerModel.fromJson(Map<String, dynamic> json) {
+  ParceiroModel.fromJson(Map<String, dynamic> json) {
     descricao = json["descricao"];
     imagem = json["imagem"];
     link = json["link"];
@@ -20,5 +20,5 @@ class BannerModel extends FromJsonModel {
   Map<String, dynamic> toJson() => <String, dynamic>{};
 
   @override
-  fromJson(Map<String, dynamic> json) => BannerModel.fromJson(json);
+  fromJson(Map<String, dynamic> json) => ParceiroModel.fromJson(json);
 }

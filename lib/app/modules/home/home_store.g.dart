@@ -57,6 +57,54 @@ mixin _$HomeStore on HomeStoreBase, Store {
     });
   }
 
+  late final _$bannersVerticaisAtom =
+      Atom(name: 'HomeStoreBase.bannersVerticais', context: context);
+
+  @override
+  ObservableList<BannerVerticalModel> get bannersVerticais {
+    _$bannersVerticaisAtom.reportRead();
+    return super.bannersVerticais;
+  }
+
+  @override
+  set bannersVerticais(ObservableList<BannerVerticalModel> value) {
+    _$bannersVerticaisAtom.reportWrite(value, super.bannersVerticais, () {
+      super.bannersVerticais = value;
+    });
+  }
+
+  late final _$parceirosAtom =
+      Atom(name: 'HomeStoreBase.parceiros', context: context);
+
+  @override
+  ObservableList<ParceiroModel> get parceiros {
+    _$parceirosAtom.reportRead();
+    return super.parceiros;
+  }
+
+  @override
+  set parceiros(ObservableList<ParceiroModel> value) {
+    _$parceirosAtom.reportWrite(value, super.parceiros, () {
+      super.parceiros = value;
+    });
+  }
+
+  late final _$maisDesejadosAtom =
+      Atom(name: 'HomeStoreBase.maisDesejados', context: context);
+
+  @override
+  ObservableList<MaisDesejadoModel> get maisDesejados {
+    _$maisDesejadosAtom.reportRead();
+    return super.maisDesejados;
+  }
+
+  @override
+  set maisDesejados(ObservableList<MaisDesejadoModel> value) {
+    _$maisDesejadosAtom.reportWrite(value, super.maisDesejados, () {
+      super.maisDesejados = value;
+    });
+  }
+
   late final _$getCashbackAsyncAction =
       AsyncAction('HomeStoreBase.getCashback', context: context);
 
@@ -71,6 +119,31 @@ mixin _$HomeStore on HomeStoreBase, Store {
   @override
   Future<void> getBanners() {
     return _$getBannersAsyncAction.run(() => super.getBanners());
+  }
+
+  late final _$getBannersVerticaisAsyncAction =
+      AsyncAction('HomeStoreBase.getBannersVerticais', context: context);
+
+  @override
+  Future<void> getBannersVerticais() {
+    return _$getBannersVerticaisAsyncAction
+        .run(() => super.getBannersVerticais());
+  }
+
+  late final _$getParceirosAsyncAction =
+      AsyncAction('HomeStoreBase.getParceiros', context: context);
+
+  @override
+  Future<void> getParceiros() {
+    return _$getParceirosAsyncAction.run(() => super.getParceiros());
+  }
+
+  late final _$getMaisDesejadosAsyncAction =
+      AsyncAction('HomeStoreBase.getMaisDesejados', context: context);
+
+  @override
+  Future<void> getMaisDesejados() {
+    return _$getMaisDesejadosAsyncAction.run(() => super.getMaisDesejados());
   }
 
   late final _$HomeStoreBaseActionController =
@@ -92,7 +165,10 @@ mixin _$HomeStore on HomeStoreBase, Store {
     return '''
 selectedIndex: ${selectedIndex},
 cashback: ${cashback},
-banners: ${banners}
+banners: ${banners},
+bannersVerticais: ${bannersVerticais},
+parceiros: ${parceiros},
+maisDesejados: ${maisDesejados}
     ''';
   }
 }

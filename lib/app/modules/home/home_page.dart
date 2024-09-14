@@ -36,6 +36,9 @@ class HomePageState extends State<HomePage> {
     _future = Future.wait([
       _store.getCashback(),
       _store.getBanners(),
+      _store.getBannersVerticais(),
+      _store.getParceiros(),
+      _store.getMaisDesejados(),
     ]);
 
     super.initState();
