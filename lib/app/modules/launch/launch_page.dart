@@ -30,6 +30,7 @@ class LaunchPageState extends State<LaunchPage> with TickerProviderStateMixin {
     _future = Future.wait([
       _store.checkShowPresentation(),
       _store.getAppVersion(),
+      _store.getPresentationImage(),
     ]);
 
     super.initState();
@@ -42,28 +43,24 @@ class LaunchPageState extends State<LaunchPage> with TickerProviderStateMixin {
       builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
         if (snapshot.connectionState == ConnectionState.done &&
             snapshot.hasData) {
-          return _body();
+          if (_store.checkForUpdates && _store.shouldUpdate) {
+            Modular.to.navigate('/version-update');
+
+            return container;
+          }
+
+          if (!_store.usingAppForFirstTime) {
+            Modular.to.navigate('/auth/');
+
+            return container;
+          }
+
+          return mainBody();
         } else {
           return container;
         }
       },
     );
-  }
-
-  Widget _body() {
-    if (_store.checkForUpdates && _store.shouldUpdate) {
-      Modular.to.navigate('/version-update');
-
-      return container;
-    }
-
-    if (!_store.usingAppForFirstTime) {
-      Modular.to.navigate('/auth/');
-
-      return container;
-    }
-
-    return mainBody();
   }
 
   Widget mainBody() {
@@ -89,22 +86,23 @@ class LaunchPageState extends State<LaunchPage> with TickerProviderStateMixin {
 
   Widget _firstPage() {
     return _presentationTemplate(
-        'assets/images/app_presentation/first.png',
-        'Descontos Exclusivos',
-        'Inúmeros cupons e promoções para você se dar bem',
-        Padding(
-          padding: EdgeInsets.only(top: 10.h),
-          child: ButtonWidget.filledIcon(
-            onPressed: () {
-              Modular.to.navigate('/auth/login');
-            },
-            backgroundColor: primaryDark,
-            iconData: Icons.arrow_forward_ios,
-            iconSize: 20.sp,
-            iconColor: white,
-            buttonSize: ButtonSize.large,
-          ),
-        ));
+      _store.presentationImage ?? 'assets/images/app_presentation/first.png',
+      'Descontos Exclusivos',
+      'Inúmeros cupons e promoções para você se dar bem',
+      Padding(
+        padding: EdgeInsets.only(top: 10.h),
+        child: ButtonWidget.filledIcon(
+          onPressed: () {
+            Modular.to.navigate('/auth/login');
+          },
+          backgroundColor: primaryDark,
+          iconData: Icons.arrow_forward_ios,
+          iconSize: 20.sp,
+          iconColor: white,
+          buttonSize: ButtonSize.large,
+        ),
+      ),
+    );
   }
 
   Widget _presentationTemplate(

@@ -1,3 +1,4 @@
+import 'package:laserfast_app/app/apis/apresentacao.api.dart';
 import 'package:mobx/mobx.dart';
 import 'package:laserfast_app/app/models/hives/app_presentation.hive.dart';
 import 'package:laserfast_app/app/models/hives/login.hive.dart';
@@ -15,6 +16,7 @@ abstract class LaunchStoreBase with Store {
   //SERVICES
   final LoginHive _loginHive = LoginHive();
   final AppPresentationHive _appPresentationHive = AppPresentationHive();
+  final ApresentacaoApi _apresentacaoApi = ApresentacaoApi();
 
   //STORES
 
@@ -23,6 +25,8 @@ abstract class LaunchStoreBase with Store {
   bool usingAppForFirstTime = true;
   @observable
   int presentationIndex = 0;
+  @observable
+  String? presentationImage;
 
   @observable
   bool checkForUpdates = true;
@@ -55,6 +59,15 @@ abstract class LaunchStoreBase with Store {
     int newVersion = int.parse(version.replaceAll('.', ''));
 
     shouldUpdate = (currentVersion < newVersion);
+  }
+
+  @action
+  Future<void> getPresentationImage() async {
+    final r = await _apresentacaoApi.apresentacao();
+
+    if (!r.success) return;
+
+    presentationImage = r.list?.first.imagem;
   }
 
   @action

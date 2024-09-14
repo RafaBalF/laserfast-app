@@ -42,6 +42,22 @@ mixin _$LaunchStore on LaunchStoreBase, Store {
     });
   }
 
+  late final _$presentationImageAtom =
+      Atom(name: 'LaunchStoreBase.presentationImage', context: context);
+
+  @override
+  String? get presentationImage {
+    _$presentationImageAtom.reportRead();
+    return super.presentationImage;
+  }
+
+  @override
+  set presentationImage(String? value) {
+    _$presentationImageAtom.reportWrite(value, super.presentationImage, () {
+      super.presentationImage = value;
+    });
+  }
+
   late final _$checkForUpdatesAtom =
       Atom(name: 'LaunchStoreBase.checkForUpdates', context: context);
 
@@ -130,6 +146,15 @@ mixin _$LaunchStore on LaunchStoreBase, Store {
     return _$getAppVersionAsyncAction.run(() => super.getAppVersion());
   }
 
+  late final _$getPresentationImageAsyncAction =
+      AsyncAction('LaunchStoreBase.getPresentationImage', context: context);
+
+  @override
+  Future<void> getPresentationImage() {
+    return _$getPresentationImageAsyncAction
+        .run(() => super.getPresentationImage());
+  }
+
   late final _$checkShowPresentationAsyncAction =
       AsyncAction('LaunchStoreBase.checkShowPresentation', context: context);
 
@@ -179,6 +204,7 @@ mixin _$LaunchStore on LaunchStoreBase, Store {
     return '''
 usingAppForFirstTime: ${usingAppForFirstTime},
 presentationIndex: ${presentationIndex},
+presentationImage: ${presentationImage},
 checkForUpdates: ${checkForUpdates},
 packageInfo: ${packageInfo},
 shouldUpdate: ${shouldUpdate},
