@@ -2,11 +2,9 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:laserfast_app/app/apis/banner.api.dart';
 import 'package:laserfast_app/app/apis/cashback.api.dart';
 import 'package:laserfast_app/app/apis/mais_desejados.api.dart';
-import 'package:laserfast_app/app/apis/parceiro.api.dart';
 import 'package:laserfast_app/app/models/banner.model.dart';
 import 'package:laserfast_app/app/models/banner_vertical.model.dart';
 import 'package:laserfast_app/app/models/mais_desejado.model.dart';
-import 'package:laserfast_app/app/models/parceiro.model.dart';
 import 'package:mobx/mobx.dart';
 import 'package:laserfast_app/loading_store.dart';
 
@@ -17,7 +15,6 @@ class HomeStore = HomeStoreBase with _$HomeStore;
 abstract class HomeStoreBase with Store {
   final CashbackApi _cashbackApi = CashbackApi();
   final BannerApi _bannerApi = BannerApi();
-  final ParceiroApi _parceiroApi = ParceiroApi();
   final MaisDesejadosApi _maisDesejadosApi = MaisDesejadosApi();
 
   final LoadingStore loadingStore = LoadingStore();
@@ -59,8 +56,6 @@ abstract class HomeStoreBase with Store {
   @observable
   ObservableList<BannerVerticalModel> bannersVerticais = ObservableList.of([]);
   @observable
-  ObservableList<ParceiroModel> parceiros = ObservableList.of([]);
-  @observable
   ObservableList<MaisDesejadoModel> maisDesejados = ObservableList.of([]);
 
   @action
@@ -90,15 +85,6 @@ abstract class HomeStoreBase with Store {
     if (!r.success) return;
 
     bannersVerticais.addAll(r.list!);
-  }
-
-  @action
-  Future<void> getParceiros() async {
-    final r = await _parceiroApi.parceiros();
-
-    if (!r.success) return;
-
-    parceiros.addAll(r.list!);
   }
 
   @action

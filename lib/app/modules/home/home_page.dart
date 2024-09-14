@@ -37,7 +37,6 @@ class HomePageState extends State<HomePage> {
       _store.getCashback(),
       _store.getBanners(),
       _store.getBannersVerticais(),
-      _store.getParceiros(),
       _store.getMaisDesejados(),
     ]);
 
