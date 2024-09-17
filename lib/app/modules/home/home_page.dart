@@ -322,7 +322,15 @@ class HomePageState extends State<HomePage> {
         onTap: () {
           launchUrlString(b.link ?? "");
         },
-        child: Image.network(b.imagem ?? ""),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(8.0),
+          child: Image.network(
+            b.imagem ?? "",
+            height: 30.h,
+            width: 40.w,
+            fit: BoxFit.fitHeight,
+          ),
+        ),
       ),
     );
   }
