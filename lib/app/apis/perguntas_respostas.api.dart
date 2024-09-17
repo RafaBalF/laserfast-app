@@ -19,8 +19,6 @@ class PerguntasRespostasApi extends BaseApi {
 
       var result = (await (await dio).get(url)).data;
 
-      // TODO: ESPERAR O MALUCO ARRUMAR O RETORNA DA API PRA TESTAR ESSA TELA
-
       b = BaseModel.fromJson(
         result,
         tipo: PerguntasRespostasModel(),
