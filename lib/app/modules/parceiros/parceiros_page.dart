@@ -86,6 +86,7 @@ class ParceirosPageState extends State<ParceirosPage> {
         children: [
           SizedBox(
             width: 100.w,
+            height: 12.5.h,
             child: Image.network(p.imagem ?? "", fit: BoxFit.cover),
           ),
           SizedBox(height: 1.h),
