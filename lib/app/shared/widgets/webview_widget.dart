@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:laserfast_app/app/shared/colors.dart';
@@ -69,6 +70,11 @@ class WebviewWidgetState extends State<WebviewWidget> {
             width: 100.w,
             child: InAppWebView(
               key: webViewKey,
+              gestureRecognizers: {
+                Factory<VerticalDragGestureRecognizer>(
+                  () => VerticalDragGestureRecognizer(),
+                ),
+              },
               initialUrlRequest: URLRequest(url: WebUri(widget.url)),
               initialSettings: settings,
               pullToRefreshController: pullToRefreshController,
