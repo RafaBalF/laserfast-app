@@ -481,6 +481,17 @@ mixin _$SessaoStore on SessaoStoreBase, Store {
   }
 
   @override
+  void resetComandas() {
+    final _$actionInfo = _$SessaoStoreBaseActionController.startAction(
+        name: 'SessaoStoreBase.resetComandas');
+    try {
+      return super.resetComandas();
+    } finally {
+      _$SessaoStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void setStartDate(DateTime date) {
     final _$actionInfo = _$SessaoStoreBaseActionController.startAction(
         name: 'SessaoStoreBase.setStartDate');

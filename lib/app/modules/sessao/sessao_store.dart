@@ -81,14 +81,27 @@ abstract class SessaoStoreBase with Store {
   }
 
   bool podeSerAgendada(ComandaModel c) {
-    return c.comandaSemAssinaturas == false ||
-        (c.codigoSessaoEmAberto != null && c.dataSessaoEmAberto != null) ||
+    if (sessaoSendoReagendada != null) return true;
+
+    if (c.comandaSemAssinaturas == true ||
         c.comandaInadimplente == true ||
-        c.comandaTransferida == true;
+        c.comandaTransferida == true) return false;
+
+    if (c.codigoSessaoEmAberto != null && c.dataSessaoEmAberto != null) {
+      return false;
+    }
+
+    return true;
   }
 
   @action
   void setComandaSelecionada(ComandaModel? c) => comandaSelecionada = c;
+
+  @action
+  void resetComandas() {
+    comandaSelecionada = null;
+    comandas.clear();
+  }
 
   @observable
   DateTime? startDate;
@@ -245,6 +258,7 @@ abstract class SessaoStoreBase with Store {
 
   @action
   void resetAgendamento() {
+    resetComandas();
     resetDates();
     resetDuracaoSessao();
     horariosDisplay.clear();

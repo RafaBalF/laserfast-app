@@ -114,6 +114,7 @@ class AgendamentoPageState extends State<AgendamentoPage> {
                 'Parece que você não tem comandas que possam ser agendadas, entre em contato com nosso time para consultar suas opções.',
                 style: h2(),
                 maxLines: 5,
+                textAlign: TextAlign.center,
               ),
               DividerWidget(height: 5.h),
               ButtonWidget.filled(
