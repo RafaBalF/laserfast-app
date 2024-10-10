@@ -206,6 +206,15 @@ class AgendamentoPageState extends State<AgendamentoPage> {
                       );
                     }
 
+                    if (_store.horariosDisplay.isEmpty) {
+                      _store.resetDates();
+                      return showErrorBottomSheet(
+                        context,
+                        message:
+                            "Não foram encontrados horários nessa(s) data(s)",
+                      );
+                    }
+
                     _store.scrollToBottom();
                   },
                   title: 'BUSCAR HORÁRIOS',
