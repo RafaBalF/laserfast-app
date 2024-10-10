@@ -418,32 +418,35 @@ class AgendamentoPageState extends State<AgendamentoPage> {
     String formattedDate =
         (date != null) ? ddmmmyyyyFormatter.format(date) : 'Data início';
 
-    return Container(
-      width: 30.w,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(2),
-        border: Border.all(color: grey),
-      ),
-      padding: EdgeInsets.symmetric(
-        horizontal: 2.w,
-        vertical: 1.h,
-      ),
-      margin: EdgeInsets.symmetric(horizontal: 2.w),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          textWidget(
-            header,
-            textAlign: TextAlign.start,
-            style: profileTile(color: darkGrey),
-          ),
-          DividerWidget(height: 0.5.h),
-          textWidget(
-            formattedDate,
-            textAlign: TextAlign.center,
-            style: label(color: primary),
-          ),
-        ],
+    return GestureDetector(
+      onTap: _onSelectDateRange,
+      child: Container(
+        width: 30.w,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(2),
+          border: Border.all(color: grey),
+        ),
+        padding: EdgeInsets.symmetric(
+          horizontal: 2.w,
+          vertical: 1.h,
+        ),
+        margin: EdgeInsets.symmetric(horizontal: 2.w),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            textWidget(
+              header,
+              textAlign: TextAlign.start,
+              style: profileTile(color: darkGrey),
+            ),
+            DividerWidget(height: 0.5.h),
+            textWidget(
+              formattedDate,
+              textAlign: TextAlign.center,
+              style: label(color: primary),
+            ),
+          ],
+        ),
       ),
     );
   }
